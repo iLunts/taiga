@@ -8,7 +8,7 @@ import {
     TuiSvgModule,
     TuiCalendarModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
 
 
 @NgModule({
@@ -16,6 +16,7 @@ import { TuiAvatarModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-
   imports: [
     CommonModule,
     TuiAvatarModule,
+    TuiBadgedContentModule,
     TuiButtonModule,
     TuiCalendarModule,
     TuiDialogModule,
@@ -27,6 +28,7 @@ import { TuiAvatarModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-
   ],
   exports: [
     TuiAvatarModule,
+    TuiBadgedContentModule,
     TuiButtonModule,
     TuiCalendarModule,
     TuiDialogModule,

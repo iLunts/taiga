@@ -5,14 +5,34 @@
   justify-content: space-between;
   height: 100vh;
 
+  & &__logo {
+    display: block;
+    border-bottom: 1px solid rgba(209,213,219);
+    margin: 15px;
+    padding-bottom: 15px;
+    font-weight: 600;
+  }
+
+  & &__menu {
+    padding: 15px;
+
+    &-item{
+      width: 100%;
+    }
+  }
+
   & &__account {
     display: flex;
     align-items: center;
     width: 100%;
     padding: 20px 10px;
-    background: rgba(229,231,235);
+    background: var(--color-graphite);
     font-weight: 600;
   }
+}
+
+::ng-deep tui-wrapper[data-appearance='menuButton'] {
+  width: 100%;
 }
 
 :host {
