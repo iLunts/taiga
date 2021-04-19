@@ -7,8 +7,9 @@ import {
     TuiButtonModule,
     TuiSvgModule,
     TuiCalendarModule,
+    TuiDataListModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswordModule } from '@taiga-ui/kit';
+import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswordModule, TuiIslandModule } from '@taiga-ui/kit';
 
 
 @NgModule({
@@ -19,9 +20,11 @@ import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswo
     TuiBadgedContentModule,
     TuiButtonModule,
     TuiCalendarModule,
+    TuiDataListModule,
     TuiDialogModule,
     TuiInputModule,
     TuiInputPasswordModule,
+    TuiIslandModule,
     TuiNotificationsModule,
     TuiRootModule,
     TuiSvgModule,
@@ -31,9 +34,11 @@ import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswo
     TuiBadgedContentModule,
     TuiButtonModule,
     TuiCalendarModule,
+    TuiDataListModule,
     TuiDialogModule,
     TuiInputModule,
     TuiInputPasswordModule,
+    TuiIslandModule,
     TuiNotificationsModule,
     TuiRootModule,
     TuiSvgModule,

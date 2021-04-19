@@ -29,6 +29,7 @@ export class AuthService {
     this._fa.authState.subscribe((user) => {
       if (user) {
         this.setUserData(user);
+        this.authStateChanged();
       } else {
         localStorage.removeItem('user');
       }
@@ -64,6 +65,16 @@ export class AuthService {
       .catch((error) => {
         window.alert(error);
       });
+  }
+
+  authStateChanged(): void {
+    this._fa.onAuthStateChanged((user) => {
+      if (user) {
+        this.setUserData(user);
+      } else {
+        this._fa.signOut();
+      }
+    });
   }
 
   // Returns true when user is looged in

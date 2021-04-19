@@ -18,11 +18,14 @@
     padding: 15px;
     height: calc(100vh - 152px);
 
-    &-item{
-      width: 100%;
+    &-item {
+      button {
+        display: flex;
+        width: 100%;
+      }
     }
 
-    &-divider{
+    &-divider {
       display: block;
       width: 70%;
       margin: 15px auto;
@@ -42,7 +45,7 @@
 ::ng-deep tui-wrapper[data-appearance='menuButton'] {
   width: 100%;
   color: #2B3F57;
-  padding: 0 15px;
+  padding: 0 15px !important;
 
   .content {
     text-align: left;
@@ -65,6 +68,10 @@
   &[data-state='pressed'] {
     background: #3558C7;
     color: #FFF;
+
+    .icon {
+      color: #fff;
+    }
   }
 
   &[data-state='disabled'] {
