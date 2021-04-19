@@ -1,28 +1,22 @@
 <section class="left-menu">
   <div class="left-menu__logo">Logo</div>
   <nav class="left-menu__menu">
-    <button
-      class="left-menu__menu-item"
-      tuiButton
-      appearance="flat"
-      type="button"
-      class="tui-space_bottom-2"
-      icon="tuiIconDesktopLarge"
-      [routerLink]="['/home']" 
-      routerLinkActive="active">
-      Home
-    </button>
-    <button
-      class="left-menu__menu-item"
-      tuiButton
-      appearance="flat"
-      type="button"
-      class="tui-space_bottom-2"
-      icon="tuiIconFileLarge"
-      [routerLink]="['/invoices']" 
-      routerLinkActive="active">
-      Invoices
-    </button>
+    <ng-container *ngFor="let item of menu">
+      <button
+        class="left-menu__menu-item"
+        tuiButton
+        appearance="menuButton"
+        type="button"
+        class="tui-space_bottom-2"
+        [icon]="item.icon"
+        [routerLink]="[item.url]" 
+        routerLinkActive="active"
+        *ngIf="item.type === 'menu'">
+        {{item.name}}
+      </button>
+
+      <hr class="left-menu__menu-divider" *ngIf="item.type === 'divider'">
+    </ng-container>
   </nav>
   <div class="left-menu__account">
       <tui-badged-content

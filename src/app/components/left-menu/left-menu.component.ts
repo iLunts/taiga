@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Menu, MenuType } from 'src/app/models/menu';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -9,6 +10,27 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LeftMenuComponent implements OnInit {
   user: User;
+  menu: Menu[] = [
+    {
+      name: 'Home',
+      url: 'home',
+      icon: 'tuiIconDesktopLarge',
+      type: 'menu',
+    },
+    {
+      name: 'Invoices',
+      url: 'invoices',
+      icon: 'tuiIconFileLarge',
+      type: 'menu',
+    },
+    {
+      name: '',
+      url: '',
+      icon: '',
+      type: 'divider',
+    },
+  ];
+  MENU_TYPE: MenuType;
 
   constructor(
     private _auth: AuthService,
