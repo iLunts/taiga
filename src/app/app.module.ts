@@ -7,23 +7,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TaigaModule } from './shared/taiga.module';
 import { SharedModule } from './shared/shared.module';
+import { AuthGuard } from './guards/auth.guard';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    BrowserModule,
+    ComponentsModule,
     SharedModule,
     TaigaModule,
   ],
   providers: [
-      {
-          provide: TUI_ICONS_PATH,
-          useValue: iconsPathFactory('assets/taiga-ui/icons/'),
-      },
+    AuthGuard,
+    {
+        provide: TUI_ICONS_PATH,
+        useValue: iconsPathFactory('assets/taiga-ui/icons/'),
+    },
   ],
   bootstrap: [AppComponent]
 })

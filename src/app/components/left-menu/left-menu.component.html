@@ -1,0 +1,14 @@
+<section class="left-menu">
+  <div class="left-menu__logo">Logo</div>
+  <nav class="left-menu__menu">Menu</nav>
+  <div class="left-menu__account">
+    <tui-avatar
+      class="tui-space_right-2"
+      [text]="getUserDisplayName"
+      size="s"
+      [autoColor]="true"
+      [rounded]="true">
+    </tui-avatar>
+    {{ getUserDisplayName }}
+  </div>
+</section>
