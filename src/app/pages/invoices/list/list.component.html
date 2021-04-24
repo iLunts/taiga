@@ -15,14 +15,23 @@
     <div class="header__action">
       <div class="header__action-balance">
         <p class="tui-space_bottom-0 tui-space_top-0">Активный баланс:</p>
-        <p class="tui-space_top-0 tui-space_bottom-0 tui-text_h6">$2,794.00</p>
+        <tui-money [value]="2750" [colored]="true" class="tui-text_h6"> </tui-money>
       </div>
+      <button
+        class="tui-space_left-10"
+        tuiIconButton
+        size="m"
+        icon="tuiIconPlusLarge"
+        title="Add new invoice"
+        shape="rounded"
+        [routerLink]="['/invoices/create']">
+      </button>
     </div>
   </div>
   
 </div>
 
-<ng-container *ngIf="invoices$ | async; let invoices">
+<!-- <ng-container *ngIf="invoices$ | async; let invoices">
   <tui-island *ngFor="let item of invoices" class="tui-space_bottom-2">
     <p class="tui-island__category">
       № {{ item?.number || 'Б.н.' }} от
@@ -38,53 +47,69 @@
       <a href="/" tuiLink>Link</a>
     </p>
   </tui-island>
-</ng-container>
+</ng-container> -->
 
 
-<table tuiTable [columns]="columns">
+<ng-container *ngIf="invoices$ | async; let invoices">
+
+  <table tuiTable [columns]="columns">
     <thead>
-        <tr tuiThGroup>
-            <th *tuiHead="'name'" tuiTh>Name</th>
-            <th *tuiHead="'email'" tuiTh>E-mail</th>
-            <th *tuiHead="'status'" tuiTh>Status</th>
-            <th *tuiHead="'tags'" tuiTh [sorter]="null">Tags</th>
-            <th *tuiHead="'actions'" tuiTh [sorter]="null"></th>
-        </tr>
+      <tr tuiThGroup>
+        <th *tuiHead="'number'" tuiTh [resizable]="true">#</th>
+        <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
+        <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
+        <th *tuiHead="'price'" tuiTh [resizable]="true">Сумма</th>
+        <th *tuiHead="'action'" tuiTh [resizable]="true"></th>
+        <!-- <th *tuiHead="'actions'" tuiTh [sorter]="null"></th> -->
+      </tr>
     </thead>
-    <tbody tuiTbody [data]="users">
-        <tr *tuiRow="let item of users; let index = index" tuiTr>
-            <td *tuiCell="'name'" tuiTd>{{index + 1}}. {{item.name}}</td>
-            <td *tuiCell="'email'" tuiTd>
-                <a *ngIf="item.email" tuiLink [href]="'mailto:' + item.email">
-                    {{item.email}}
-                </a>
-            </td>
-            <td *tuiCell="'status'" tuiTd>
-                <div [class]="item.status">{{item.status}}</div>
-            </td>
-            <td *tuiCell="'tags'" tuiTd>
-                <tui-tag
-                    *ngFor="let tag of item.tags"
-                    class="tui-space_right-1"
-                    [value]="tag"
-                    [autoColor]="true"
-                ></tui-tag>
-            </td>
-            <td *tuiCell="'actions'" tuiTd>
-                <button
-                    tuiIconButton
-                    class="remove"
-                    appearance="flat"
-                    size="s"
-                    icon="tuiIconTrash"
-                    title="Remove"
-                    shape="rounded"
-                    (click)="remove(item)"
-                ></button>
-            </td>
-        </tr>
+    <tbody tuiTbody [data]="invoices">
+      <tr *tuiRow="let item of invoices; let index = index" tuiTr>
+        <td *tuiCell="'number'" tuiTd>
+          <!-- {{item?.number}} -->
+        </td>
+        <td *tuiCell="'unp'" tuiTd>
+          {{item?.contractor?.info?.unp}}
+        </td>
+        <td *tuiCell="'status'" tuiTd>
+          {{item?.status?.name}}
+        </td>
+        <td *tuiCell="'price'" tuiTd>
+          {{item?.total?.totalSum?.amount}}
+        </td>
+        <!-- <td *tuiCell="'email'" tuiTd>
+            <a *ngIf="item.email" tuiLink [href]="'mailto:' + item.email">
+                {{item.email}}
+            </a>
+        </td> -->
+        <!-- <td *tuiCell="'status'" tuiTd>
+            <div [class]="item.status">{{item.status}}</div>
+        </td> -->
+        <!-- <td *tuiCell="'tags'" tuiTd>
+            <tui-tag
+                *ngFor="let tag of item.tags"
+                class="tui-space_right-1"
+                [value]="tag"
+                [autoColor]="true"
+            ></tui-tag>
+        </td> -->
+        <td *tuiCell="'action'" tuiTd>
+            <button
+                tuiIconButton
+                class="remove"
+                appearance="flat"
+                size="s"
+                icon="tuiIconTrash"
+                title="Remove"
+                shape="rounded"
+                (click)="remove(item)"
+            ></button>
+        </td>
+      </tr>
     </tbody>
-</table>
+  </table>
+
+</ng-container>
 
 
 <!-- <div class="invoice" *ngIf="selectedInvoice">

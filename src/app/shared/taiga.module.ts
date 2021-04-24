@@ -8,14 +8,20 @@ import {
     TuiSvgModule,
     TuiCalendarModule,
     TuiDataListModule,
+    TuiThemeNightModule,
+    TuiModeModule,
 } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswordModule, TuiIslandModule } from '@taiga-ui/kit';
+import { TuiAccordionModule, TuiAvatarModule, TuiBadgedContentModule, TuiComboBoxModule, TuiDataListWrapperModule, TuiInputModule, TuiInputPasswordModule, TuiIslandModule, TuiMarkerIconModule } from '@taiga-ui/kit';
+import { TuiMoneyModule } from '@taiga-ui/addon-commerce';
+import { TuiTableModule } from '@taiga-ui/addon-table';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    TuiAccordionModule,
     TuiAvatarModule,
     TuiBadgedContentModule,
     TuiButtonModule,
@@ -25,11 +31,20 @@ import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswo
     TuiInputModule,
     TuiInputPasswordModule,
     TuiIslandModule,
+    TuiModeModule,
+    TuiMoneyModule,
     TuiNotificationsModule,
     TuiRootModule,
     TuiSvgModule,
+    TuiTableModule,
+    TuiThemeNightModule,
+    TuiMarkerIconModule,
+    TuiComboBoxModule,
+    TuiDataListWrapperModule,
+    DragDropModule,
   ],
   exports: [
+    TuiAccordionModule,
     TuiAvatarModule,
     TuiBadgedContentModule,
     TuiButtonModule,
@@ -39,9 +54,17 @@ import { TuiAvatarModule, TuiBadgedContentModule, TuiInputModule, TuiInputPasswo
     TuiInputModule,
     TuiInputPasswordModule,
     TuiIslandModule,
+    TuiModeModule,
+    TuiMoneyModule,
     TuiNotificationsModule,
     TuiRootModule,
     TuiSvgModule,
+    TuiTableModule,
+    TuiThemeNightModule,
+    TuiMarkerIconModule,
+    TuiComboBoxModule,
+    TuiDataListWrapperModule,
+    DragDropModule,
   ]
 })
 export class TaigaModule { }

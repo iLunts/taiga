@@ -12,13 +12,11 @@ export class InvoicesListComponent implements OnInit {
   invoices$: Observable<Invoice[]>;
   invoiceStatuses$: Observable<any[]>;
   isLoaded: boolean;
-  readonly columns = ['name', 'email', 'status', 'tags', 'actions'];
+  readonly columns = ['number', 'unp', 'status', 'price', 'action'];
 
 
   constructor(
-    private _invoice: InvoiceService,
-    // public _db: AngularFireDatabase,
-    // private _notification: NotificationService,
+    private invoiceService: InvoiceService,
   ) { }
 
   ngOnInit(): void {
@@ -27,10 +25,13 @@ export class InvoicesListComponent implements OnInit {
   }
 
   fetchStatuses(): void {
-    this.invoiceStatuses$ = this._invoice.getAllStatus();
+    this.invoiceStatuses$ = this.invoiceService.getAllStatus$();
   }
 
   fetch(): void {
-    this.invoices$ = this._invoice.getAll();
+    this.invoices$ = this.invoiceService.getAll$();
+  }
+
+  remove(item): void {
   }
 }

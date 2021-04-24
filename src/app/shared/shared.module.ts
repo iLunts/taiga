@@ -9,6 +9,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [],
@@ -18,12 +19,14 @@ import { environment } from 'src/environments/environment';
     AngularFireStorageModule,
     AngularFirestoreModule,
     CommonModule,
+    ComponentsModule,
     FormsModule,
     ReactiveFormsModule,
     TaigaModule,
   ],
   exports: [
     CommonModule,
+    ComponentsModule,
     FormsModule,
     ReactiveFormsModule,
     TaigaModule,

@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LeftMenuComponent } from './left-menu/left-menu.component';
-import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 
+import { LeftMenuModule } from './left-menu/left-menu.module';
+import { CustomerModule } from './customer/customer.module';
+
 @NgModule({
-  declarations: [
-    LeftMenuComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule,
+    CustomerModule,
+    LeftMenuModule,
   ],
   exports: [
-    LeftMenuComponent,
+    CustomerModule,
+    LeftMenuModule,
   ]
 })
 export class ComponentsModule { }

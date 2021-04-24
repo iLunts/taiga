@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
-import { Invoice } from '../models/invoice.model';
+import { Invoice, InvoiceStatus } from '../models/invoice.model';
 import { AuthService } from './auth.service';
 import { from, Observable } from 'rxjs';
 import { ContractorService } from './contractor.service';
@@ -32,30 +32,30 @@ export class InvoiceService {
     }
   }
 
-  getAll(): Observable<any[]> {
+  getAll$(): Observable<any[]> {
     return this.invoicesRef.valueChanges();
   }
 
-  getById(id: string): AngularFirestoreCollection<any> {
+  getByI$d(id: string): AngularFirestoreCollection<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>
       q.where('_userId', '==', this._auth.getUserId()).where('_id', '==', id)
     );
     return collection;
   }
 
-  get(id: string): Observable<any> {
+  get$(id: string): Observable<any> {
     return this._fs
       .collection(this.dbPath, (q) => q.where('_id', '==', id))
       .valueChanges();
   }
 
-  getAllStatus(): Observable<any> {
+  getAllStatus$(): Observable<any> {
     return this._fs
       .collection(this.dbPathStatuses, (q) => q.orderBy('order'))
       .valueChanges();
   }
 
-  getAllByStatus(statusId: string): Observable<any> {
+  getAllByStatus$(statusId: string): Observable<any> {
     return this._fs
       .collection(this.dbPathStatuses, (q) =>
         q
@@ -65,7 +65,7 @@ export class InvoiceService {
       .valueChanges();
   }
 
-  getAllByContractor(): Observable<any[]> {
+  getAllByContractor$(): Observable<any[]> {
     this.invoicesForContractorsRef = this._fs.collection(this.dbPath, (q) =>
       q
         .where('_userId', '==', this._auth.getUserId())
@@ -79,7 +79,7 @@ export class InvoiceService {
     return this.invoicesForContractorsRef.valueChanges();
   }
 
-  add(invoice: Invoice) {
+  add(invoice: Invoice): any {
     invoice._userId = this._auth.getUserId();
     invoice._createdDate = new Date();
     return from(
