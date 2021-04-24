@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
 import { InvoicesCreateComponent } from './create/create.component';
 import { InvoicesListComponent } from './list/list.component';
 import { InvoicesRoutingModule } from './invoices-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CustomerModule } from 'src/app/shared/components/customer/customer.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { CustomerModule } from 'src/app/shared/components/customer/customer.modu
     CommonModule,
     InvoicesRoutingModule,
     SharedModule,
-    CustomerModule
+    ContractorModule,
   ]
 })
 export class InvoicesModule { }

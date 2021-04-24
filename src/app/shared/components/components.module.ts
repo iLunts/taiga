@@ -3,19 +3,29 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { LeftMenuModule } from './left-menu/left-menu.module';
-import { CustomerModule } from './customer/customer.module';
+import { ContractorModule } from './contractor/contractor.module';
+import { InvoiceModule } from './invoice/invoice.module';
+import { ServiceModule } from './service/service.module';
+import { StatusModule } from './status/status.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule,
-    CustomerModule,
+    ContractorModule,
+    InvoiceModule,
     LeftMenuModule,
+    RouterModule,
+    ServiceModule,
+    StatusModule,
   ],
   exports: [
-    CustomerModule,
+    ContractorModule,
+    InvoiceModule,
     LeftMenuModule,
+    RouterModule,
+    ServiceModule,
+    StatusModule,
   ]
 })
 export class ComponentsModule { }

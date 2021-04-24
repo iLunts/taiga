@@ -26,15 +26,17 @@ export class ContractorService {
     }
   }
 
-  getAll(): AngularFirestoreCollection<Contractor> {
-    return this.customersRef;
+  // getAll$(): AngularFirestoreCollection<Contractor> {
+  getAll$(): Observable<Contractor[]> {
+    return this.customersRef.valueChanges();
   }
 
-  getById(id: string): AngularFirestoreCollection<any> {
+  // getById(id: string): AngularFirestoreCollection<any> {
+  getById$(id: string): Observable<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>
       q.where('_userId', '==', this._auth.getUserId()).where('_id', '==', id)
     );
-    return collection;
+    return collection.valueChanges();
   }
 
   checkExistContactorByUNP(unp): Observable<any> {

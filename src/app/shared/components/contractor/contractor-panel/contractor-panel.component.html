@@ -1,0 +1,7 @@
+<p>contractor-panel works!</p>
+
+<tui-loader [showLoader]="!(contractors$ | async)" [overlay]="true" [inheritColor]="true">
+  <ng-container *tuiLet="contractors$ | async as contractors">
+    <h4>{{ contractors | json }}</h4>
+  </ng-container>
+</tui-loader>

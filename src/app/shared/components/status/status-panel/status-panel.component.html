@@ -1,0 +1,8 @@
+<p>status-panel works!</p>
+
+<tui-loader [showLoader]="!(statuses$ | async)" [overlay]="true" [inheritColor]="true">
+  <ng-container *tuiLet="statuses$ | async as statuses">
+    <h4>{{ statuses | json }}</h4>
+  </ng-container>
+</tui-loader>
+

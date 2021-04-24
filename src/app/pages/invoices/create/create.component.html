@@ -1,12 +1,17 @@
 <h1>
   Статусы
 </h1>
-<h3>{{ (statuses$ | async) | json }}</h3>
+<app-status-panel></app-status-panel>
 
 <h1>
   Контрагент
 </h1>
-<app-customer-panel></app-customer-panel>
+<app-contractor-panel></app-contractor-panel>
+
+<h1>
+  Услуги
+</h1>
+<app-service-panel></app-service-panel>
 
 <!-- <tui-accordion class="container">
     <tui-accordion-item>
@@ -92,6 +97,6 @@
   Профиль компании (если более 1 компании)
 </h1>
 
-<h1>
-  Услуги
-</h1>
+<h4>
+    Пока не создан компонент
+</h4>
