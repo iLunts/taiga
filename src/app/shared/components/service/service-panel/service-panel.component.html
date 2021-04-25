@@ -1,5 +1,3 @@
-<p>service-panel works!</p>
-
 <tui-loader [showLoader]="!(services$ | async)" [overlay]="true" [inheritColor]="true">
   <ng-container *tuiLet="services$ | async as services">
     <h4>{{ services | json }}</h4>

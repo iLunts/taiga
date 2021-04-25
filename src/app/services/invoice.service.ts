@@ -32,7 +32,7 @@ export class InvoiceService {
     }
   }
 
-  getAll$(): Observable<any[]> {
+  getAll$(): Observable<any> {
     return this.invoicesRef.valueChanges();
   }
 

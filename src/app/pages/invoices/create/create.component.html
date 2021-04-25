@@ -1,96 +1,44 @@
-<h1>
-  Статусы
-</h1>
-<app-status-panel></app-status-panel>
-
-<h1>
-  Контрагент
-</h1>
-<app-contractor-panel></app-contractor-panel>
-
-<h1>
-  Услуги
-</h1>
-<app-service-panel></app-service-panel>
-
-<!-- <tui-accordion class="container">
-    <tui-accordion-item>
-        Профиль компании
-        <ng-template tuiAccordionItemContent>
-            Development kit consisting of the low level tools and abstractions
-            used to develop Taiga UI Angular entities
-        </ng-template>
-    </tui-accordion-item>
-    <tui-accordion-item>
-        Контрагент
-        <ng-template tuiAccordionItemContent>
-            <div #content>
-                Basic elements needed to develop components, directives and more
-                using Taiga UI design system
-            </div>
-        </ng-template>
-    </tui-accordion-item>
-    <tui-accordion-item>
-        Услуги
-        <ng-template tuiAccordionItemContent>
-            The main set of components used to build Taiga UI based Angular
-            applications
-        </ng-template>
-    </tui-accordion-item>
-</tui-accordion> -->
-
-<!-- <tui-combo-box
-    *tuiLet="service.request(search) | async as filtered"
-    class="b-form"
-    tuiTextfieldExampleText="Type a name"
-    [formControl]="control"
-    [valueContent]="value"
-    [(search)]="search"
->
-    Find the best employees
-    <ng-template #value let-item>
-        <tui-avatar
-            class="avatar"
-            size="xs"
-            [avatarUrl]="item.avatarUrl || null"
-            [text]="item.toString()"
-        ></tui-avatar>
-        <span class="name"> {{item}} </span>
-    </ng-template>
-    <ng-template tuiDataList>
-        <tui-data-list *ngIf="filtered; else loading">
-            <button
-                *ngFor="let item of filtered"
-                tuiOption
-                [value]="item"
-                [disabled]="item.disabled"
-            >
-                <tui-avatar
-                    class="avatar"
-                    size="xs"
-                    [avatarUrl]="item.avatarUrl || null"
-                    [text]="item.toString()"
-                ></tui-avatar>
-                <span class="name"> {{item}} </span>
-            </button>
-        </tui-data-list>
-        <ng-template #loading>
-            <tui-loader class="tui-space_vertical-4"></tui-loader>
-        </ng-template>
-    </ng-template>
-</tui-combo-box> -->
-
-<!-- <tui-island size="s">
-  <div class="tui-island__content">
-    <div class="tui-island__figure">
-			<tui-marker-icon size="s" src="tuiIconBookmarkLarge"></tui-marker-icon>
-    </div>
-    <div>
-      <p class="tui-island__category">Статус</p>
-      <h3 class="tui-island__title tui-space_bottom-0">Черновик</h3>
-    </div>
+<section class="tui-container">
+  <div class="stepper">
+    <tui-stepper [activeItemIndex]="0">
+      <button tuiStep>Реквизиты</button>
+      <button tuiStep [disabled]="true">Услуги</button>
+      <button tuiStep [disabled]="true">Счет</button>
+    </tui-stepper>
   </div>
-</tui-island> -->
+
+  <form>
+    <div class="tui-row tui-row_sme">
+      <div class="tui-col_12">
+
+        <h3 class="tui-form__header">
+          Информация
+        </h3>
+        <div class="tui-form__row tui-form__row_multi-fields">
+          <div class="tui-form__multi-field">
+            <app-status-panel></app-status-panel>
+          </div>
+          <div class="tui-form__multi-field">
+            <app-contractor-panel></app-contractor-panel>
+          </div>
+        </div>
+
+        <h3 class="tui-form__header">
+          Услуги
+        </h3>
+        <div class="tui-form__row">
+          <div class="tui-form__field">
+            <app-service-panel></app-service-panel>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</section>
+
+
+
 
 
 <h1>
@@ -98,5 +46,5 @@
 </h1>
 
 <h4>
-    Пока не создан компонент
+  Пока не создан компонент
 </h4>

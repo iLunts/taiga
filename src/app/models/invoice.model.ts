@@ -71,6 +71,13 @@ export class InvoiceStatus {
   name: string;
   color: string;
   order: number;
+
+  constructor(
+    _id: string,
+    name: string,
+    color: string,
+    order: number
+  ) {}
 }
 
 export class Price {

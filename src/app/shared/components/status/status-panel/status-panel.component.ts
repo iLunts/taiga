@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { InvoiceStatus } from 'src/app/models/invoice.model';
@@ -11,9 +12,14 @@ import { InvoiceService } from 'src/app/services/invoice.service';
 })
 export class StatusPanelComponent implements OnInit {
   statuses$: Observable<InvoiceStatus[]>;
+  form = new FormGroup({
+      status: new FormControl(null, [Validators.required])
+  });
+
+  readonly status = new FormControl(null);
 
   constructor(
-    private invoiceStatuses: InvoiceService,
+    private invoiceStatusesService: InvoiceService,
   ) { }
 
   ngOnInit(): void {
@@ -21,6 +27,6 @@ export class StatusPanelComponent implements OnInit {
   }
 
   fetch(): void {
-    this.statuses$ = this.invoiceStatuses.getAllStatus$();
+    this.statuses$ = this.invoiceStatusesService.getAllStatus$();
   }
 }

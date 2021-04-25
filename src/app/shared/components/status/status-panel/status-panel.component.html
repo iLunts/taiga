@@ -1,8 +1,18 @@
-<p>status-panel works!</p>
+<tui-loader [showLoader]="!(statuses$ | async) && !(statuses$ | async) !== null" [overlay]="true" [inheritColor]="true">
+  <form *tuiLet="statuses$ | async as statuses" class="b-form" [formGroup]="form">
 
-<tui-loader [showLoader]="!(statuses$ | async)" [overlay]="true" [inheritColor]="true">
-  <ng-container *tuiLet="statuses$ | async as statuses">
-    <h4>{{ statuses | json }}</h4>
-  </ng-container>
+    <tui-select class="b-form" formControlName="status" [valueContent]="itemContent">
+      Выбрать статус
+      <tui-data-list-wrapper *tuiDataList size="l" [items]="statuses" [itemContent]="itemContent"
+        [disabledItemHandler]="disabledItemHandler"></tui-data-list-wrapper>
+    </tui-select>
+
+  </form>
 </tui-loader>
 
+<ng-template #itemContent let-data>
+  <div class="itemContent">
+    <span class="itemContent__badge" [style.background-color]="data?.color"></span>
+    <div class="itemContent__name">{{ data?.name }}</div>
+  </div>
+</ng-template>

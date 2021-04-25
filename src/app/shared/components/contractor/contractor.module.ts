@@ -1,9 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TuiDataListModule, TuiLoaderModule } from '@taiga-ui/core';
+import { TuiAvatarModule, TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 import { ContractorPanelComponent } from './contractor-panel/contractor-panel.component';
-import { TuiLetModule } from '@taiga-ui/cdk';
-import { TuiLoaderModule } from '@taiga-ui/core';
 
 @NgModule({
   declarations: [
@@ -11,8 +13,13 @@ import { TuiLoaderModule } from '@taiga-ui/core';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    TuiAvatarModule,
     TuiLetModule,
     TuiLoaderModule,
+    TuiSelectModule,
+    TuiDataListModule,
+    TuiDataListWrapperModule,
   ],
   exports: [
     ContractorPanelComponent
