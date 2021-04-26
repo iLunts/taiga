@@ -1,4 +1,8 @@
-<form tuiTableMode [formGroup]="form">
+<form tuiTableMode [formGroup]="form" *tuiLet="services$ | async as services">
+
+  <h3>
+    {{ services | json }}
+  </h3>
 
   <!-- <table class="tui-table table">
     <thead>
@@ -13,16 +17,24 @@
   
   <div class="table" formArrayName="tableRowArray">
     <div tuiGroup class="row" [collapsed]="true" *ngFor="let itemRow of form.get('tableRowArray')['controls']; let i=index;let l=last" [formGroupName]="i">
-      <tui-input class="cell cell_name" tuiTextfieldSize="m" formControlName="name">
-        Название
-      </tui-input>
       <tui-input-date class="cell cell_date" tuiTextfieldSize="m" formControlName="date">
         Дата
       </tui-input-date>
+      <tui-input class="cell cell_name" tuiTextfieldSize="m" formControlName="name">
+        Название
+      </tui-input>
+      <!-- <tui-select class="cell cell_name" formControlName="name">
+        Название
+        <tui-data-list *tuiDataList>
+          <button *ngFor="let item of services" tuiOption [value]="item">
+            {{item | json}}
+          </button>
+        </tui-data-list>
+      </tui-select> -->
       <tui-input-count class="cell cell_quantity" tuiTextfieldSize="m" formControlName="quantity">
         Кол-во
       </tui-input-count>
-      <tui-input-number class="cell cell_sum" tuiTextfieldSize="m" formControlName="price" [readOnly]="true">
+      <tui-input-number class="cell cell_price" tuiTextfieldSize="m" formControlName="price" [readOnly]="true">
         Цена
       </tui-input-number>
     </div>

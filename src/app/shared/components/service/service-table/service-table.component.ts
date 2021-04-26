@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TuiDay } from '@taiga-ui/cdk';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { Service } from 'src/app/models/service.model';
+import { ServicesService } from 'src/app/services/services.service';
 
 @Component({
   selector: 'app-service-table',
@@ -9,11 +14,20 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 export class ServiceTableComponent implements OnInit {
   form: FormGroup;
   columns: ['name', 'date', 'quantity', 'price'];
+  services$: Observable<Service[]>;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private serviceService: ServicesService,  
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.fetch();
+  }
+
+  fetch(): void{
+    this.services$ = this.serviceService.getAll$();
   }
 
   private createForm(): void {
@@ -27,7 +41,7 @@ export class ServiceTableComponent implements OnInit {
       name: new FormControl(null, {
         validators: [Validators.required],
       }),
-      date: new FormControl(null, {
+      date: new FormControl(this.initDate(), {
         validators: [Validators.required],
       }),
       quantity: new FormControl(1, {
@@ -49,5 +63,16 @@ export class ServiceTableComponent implements OnInit {
 
   deleteRow(rowIndex: number): void {
     this.tableRowArray.removeAt(rowIndex);
+  }
+
+  initDate(): any {
+    let format = 'DD.MM.YYYY';
+    if(this.form) {
+      let lastIndex = this.form.get('tableRowArray')['controls'].length - 1;
+      let date = this.form.get('tableRowArray')['controls'][lastIndex].controls.date.value;
+      return TuiDay.normalizeParse(moment(date).add(1, 'day').format(format));
+    } else {
+      return TuiDay.normalizeParse(moment().format(format));
+    }
   }
 }
