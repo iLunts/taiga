@@ -50,6 +50,4 @@ export class ServiceTableComponent implements OnInit {
   deleteRow(rowIndex: number): void {
     this.tableRowArray.removeAt(rowIndex);
   }
-
-
 }
