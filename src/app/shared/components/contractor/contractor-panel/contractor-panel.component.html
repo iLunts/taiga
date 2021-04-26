@@ -1,14 +1,8 @@
-<!-- <tui-loader [showLoader]="!(contractors$ | async)" [overlay]="true" [inheritColor]="true">
-  <ng-container *tuiLet="contractors$ | async as contractors">
-    <h4>{{ contractors | json }}</h4>
-  </ng-container>
-</tui-loader> -->
-
 <tui-loader [showLoader]="!(contractors$ | async) && !(contractors$ | async) !== null" [overlay]="true"
   [inheritColor]="true">
   <form *tuiLet="contractors$ | async as contractors" class="b-form" [formGroup]="form">
 
-    <tui-select class="b-form" formControlName="contractor" [valueContent]="valueContent">
+    <tui-select class="b-form" formControlName="contractor" [valueContent]="valueContent" tuiHintContent="A tooltip">
       Выбрать контрагента
       <tui-data-list-wrapper *tuiDataList size="l" [items]="contractors" [itemContent]="itemContent"
         [disabledItemHandler]="disabledItemHandler">

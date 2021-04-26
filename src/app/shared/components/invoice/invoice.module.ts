@@ -1,19 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TuiLetModule } from '@taiga-ui/cdk';
+import { TuiInputModule } from '@taiga-ui/kit';
 
 import { InvoicePanelComponent } from './invoice-panel/invoice-panel.component';
-import { TuiLetModule } from '@taiga-ui/cdk';
 
 @NgModule({
   declarations: [
-    InvoicePanelComponent
+    InvoicePanelComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     TuiLetModule,
+    TuiInputModule,
   ],
   exports: [
-    InvoicePanelComponent
+    InvoicePanelComponent,
   ],
 })
 export class InvoiceModule { }
