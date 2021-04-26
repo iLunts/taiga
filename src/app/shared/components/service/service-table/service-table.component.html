@@ -1,5 +1,6 @@
 <form tuiTableMode [formGroup]="form">
-  <table class="tui-table table">
+
+  <!-- <table class="tui-table table">
     <thead>
       <tr>
         <th class="tui-table__th cell_name">Название</th>
@@ -8,48 +9,37 @@
         <th class="tui-table__th cell_sum">Сумма, руб.</th>
       </tr>
     </thead>
-  </table>
-  <div class="table">
-    <div tuiGroup class="row" [collapsed]="true">
+  </table> -->
+  
+  <div class="table" formArrayName="tableRowArray">
+    <div tuiGroup class="row" [collapsed]="true" *ngFor="let itemRow of form.controls.tableRowArray.controls; let i=index;let l=last" [formGroupName]="i">
       <tui-input class="cell cell_name" tuiTextfieldSize="m" tuiTextfieldExampleText="Ivan Ivanov"
-        formControlName="name" [tuiTextfieldLabelOutside]="true">
+        formControlName="name">
         Название
       </tui-input>
-      <tui-input-date class="cell cell_date" tuiTextfieldSize="m" formControlName="date"
-        [tuiTextfieldLabelOutside]="true">
+      <tui-input-date class="cell cell_date" tuiTextfieldSize="m" formControlName="date">
         Дата
       </tui-input-date>
-      <tui-input-count class="cell cell_quantity" tuiTextfieldSize="m" formControlName="quantity"
-        [tuiTextfieldLabelOutside]="true">
+      <tui-input-count class="cell cell_quantity" tuiTextfieldSize="m" formControlName="quantity">
         Кол-во
       </tui-input-count>
-      <tui-input-number class="cell cell_sum" tuiTextfieldSize="m" formControlName="sum"
-        [tuiTextfieldLabelOutside]="true" [readOnly]="true">
+      <tui-input-number class="cell cell_sum" tuiTextfieldSize="m" formControlName="price" [readOnly]="true">
         Цена
       </tui-input-number>
     </div>
-    <!-- <div tuiGroup class="row" [collapsed]="true">
-      <tui-input class="cell cell_name" tuiTextfieldSize="m" tuiTextfieldExampleText="Ivan Ivanov"
-        formControlName="name" [tuiTextfieldLabelOutside]="true">
-        Название
-      </tui-input>
-      <tui-input-date class="cell cell_date" tuiTextfieldSize="m" formControlName="date"
-        [tuiTextfieldLabelOutside]="true">
-        Date
-      </tui-input-date>
-      <tui-select class="cell cell_color" formControlName="color" tuiTextfieldSize="m"
-        [tuiTextfieldLabelOutside]="true">
-        Color
-        <tui-data-list-wrapper *tuiDataList [items]="items"></tui-data-list-wrapper>
-      </tui-select>
-      <tui-input-count class="cell cell_quantity" tuiTextfieldSize="m" formControlName="quantity"
-        [tuiTextfieldLabelOutside]="true">
-        Quantity
-      </tui-input-count>
-      <tui-input-number class="cell cell_sum" tuiTextfieldSize="m" formControlName="sum"
-        [tuiTextfieldLabelOutside]="true" [readOnly]="true">
-        Sum
-      </tui-input-number>
-    </div> -->
   </div>
 </form>
+
+<button
+  tuiButton
+  type="button"
+  size="m"
+  class="tui-space_right-3 tui-space_bottom-3 tui-space_top-3"
+  icon="tuiIconPlusLarge"
+  (click)="addNewRow()">
+  Добавить
+</button>
+
+<h3 *ngIf="form">
+  Valid : {{form.valid | json}}
+</h3>
