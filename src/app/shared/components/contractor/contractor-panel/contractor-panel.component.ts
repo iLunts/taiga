@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Contractor } from 'src/app/models/contractor.model';
@@ -10,6 +10,8 @@ import { ContractorService } from 'src/app/services/contractor.service';
   styleUrls: ['./contractor-panel.component.less']
 })
 export class ContractorPanelComponent implements OnInit {
+  @Output() selected = new EventEmitter<Contractor>();
+
   contractors$: Observable<Contractor[]>;
   form = new FormGroup({
       contractor: new FormControl(null, [Validators.required])
@@ -23,7 +25,7 @@ export class ContractorPanelComponent implements OnInit {
     this.fetch();
   }
 
-  fetch() {
+  fetch(): void {
     this.contractors$ = this.contractorService.getAll$();
   }
 

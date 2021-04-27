@@ -20,7 +20,10 @@
         Название
         <tui-data-list-wrapper *tuiDataList size="l" [items]="services" [itemContent]="itemContent"></tui-data-list-wrapper>
       </tui-select>
-      <tui-input-count class="cell cell_quantity" tuiTextfieldSize="m" formControlName="quantity" (ngModelChange)="calculateSum(itemRow, i)">
+      <tui-input class="cell cell_count" tuiTextfieldSize="m" [value]="getUnit()" [readOnly]="true">
+        Ед. изм.
+      </tui-input>
+      <tui-input-count class="cell cell_count" tuiTextfieldSize="m" formControlName="count" (ngModelChange)="calculateSum(itemRow, i)">
         Кол-во
       </tui-input-count>
       <tui-input-number class="cell cell_price" tuiTextfieldSize="m" formControlName="price" [readOnly]="true">

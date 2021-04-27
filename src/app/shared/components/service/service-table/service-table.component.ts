@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { TuiDay } from '@taiga-ui/cdk';
-import * as moment from 'moment';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { Observable } from 'rxjs';
 import { Service } from 'src/app/models/service.model';
 import { ServicesService } from 'src/app/services/services.service';
+import { takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-service-table',
   templateUrl: './service-table.component.html',
   styleUrls: ['./service-table.component.less'],
+  providers: [TuiDestroyService],
 })
 export class ServiceTableComponent implements OnInit {
+  @Output() selected = new EventEmitter<Service[]>();
+
   form: FormGroup;
-  columns: ['name', 'date', 'quantity', 'price'];
+  columns: ['name', 'date', 'w', 'price'];
   services$: Observable<Service[]>;
 
   constructor(
     private formBuilder: FormBuilder,
-    private serviceService: ServicesService
+    private serviceService: ServicesService,
+    private destroy$: TuiDestroyService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +39,8 @@ export class ServiceTableComponent implements OnInit {
     this.form = this.formBuilder.group({
       tableRowArray: this.formBuilder.array([this.createTableRow()]),
     });
+
+    this.onChanges();
   }
 
   private createTableRow(): FormGroup {
@@ -44,7 +51,10 @@ export class ServiceTableComponent implements OnInit {
       date: new FormControl(this.initDate(), {
         validators: [Validators.required],
       }),
-      quantity: new FormControl(null, {
+      unit: new FormControl('', {
+        validators: [Validators.required],
+      }),
+      count: new FormControl(null, {
         validators: [Validators.required],
       }),
       price: new FormControl(null, {
@@ -81,14 +91,36 @@ export class ServiceTableComponent implements OnInit {
   }
 
   selectedService(event: Service, index: number): void {
-    let control = this.form.get('tableRowArray')['controls'][index].controls;
-    control.quantity.setValue(event.count);
+    const control = this.form.get('tableRowArray')['controls'][index].controls;
+
+    control.count.setValue(event.count);
     control.price.setValue(event.price);
     control.amount.setValue(event.count * event.price);
+    control.unit.setValue(event.unit);
   }
-  
+
   calculateSum(event: FormGroup, index: number): void {
-    let control = this.form.get('tableRowArray')['controls'][index].controls;
-    control.amount.setValue(event.controls.quantity.value * event.controls.price.value);
+    const control = this.form.get('tableRowArray')['controls'][index].controls;
+    control.amount.setValue(
+      event.controls.count.value * event.controls.price.value
+    );
+  }
+
+  getUnit(): string {
+    return 'test';
+  }
+
+  doEmit(): void {
+    if (this.form.valid) {
+      this.selected.emit(this.form.value);
+    } else {
+      this.selected.emit([]);
+    }
+  }
+
+  onChanges(): void {
+    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val) => {
+      this.doEmit();
+    });
   }
 }

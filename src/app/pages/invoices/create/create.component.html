@@ -16,10 +16,10 @@
         </h3>
         <div class="tui-form__row tui-form__row_multi-fields">
           <div class="tui-form__multi-field">
-            <app-status-panel></app-status-panel>
+            <app-status-panel (selected)="setStatus($event)"></app-status-panel>
           </div>
           <div class="tui-form__multi-field">
-            <app-contractor-panel></app-contractor-panel>
+            <app-contractor-panel (selected)="setContractor($event)"></app-contractor-panel>
           </div>
         </div>
 
@@ -28,7 +28,7 @@
         </h3>
         <div class="tui-form__row">
           <div class="tui-form__field">
-            <app-service-table></app-service-table>
+            <app-service-table (selected)="setService($event)"></app-service-table>
           </div>
         </div>
         
@@ -46,7 +46,9 @@
 
 </section>
 
-
+<h3>
+  {{invoice | json}}
+</h3>
 
 
 

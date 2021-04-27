@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -11,6 +11,8 @@ import { InvoiceService } from 'src/app/services/invoice.service';
   styleUrls: ['./status-panel.component.less']
 })
 export class StatusPanelComponent implements OnInit {
+  @Output() selected = new EventEmitter<InvoiceStatus>();
+
   statuses$: Observable<InvoiceStatus[]>;
   form = new FormGroup({
       status: new FormControl(null, [Validators.required])

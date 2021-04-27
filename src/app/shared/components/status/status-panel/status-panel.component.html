@@ -1,7 +1,7 @@
 <tui-loader [showLoader]="!(statuses$ | async) && !(statuses$ | async) !== null" [overlay]="true" [inheritColor]="true">
   <form *tuiLet="statuses$ | async as statuses" class="b-form" [formGroup]="form">
 
-    <tui-select class="b-form" formControlName="status" [valueContent]="itemContent">
+    <tui-select class="b-form" formControlName="status" [valueContent]="itemContent" (ngModelChange)="selected.emit($event)">
       Выбрать статус
       <tui-data-list-wrapper *tuiDataList size="l" [items]="statuses" [itemContent]="itemContent"
         [disabledItemHandler]="disabledItemHandler"></tui-data-list-wrapper>
