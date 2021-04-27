@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ export class ServiceTableComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private serviceService: ServicesService,  
+    private serviceService: ServicesService
   ) {}
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class ServiceTableComponent implements OnInit {
     this.fetch();
   }
 
-  fetch(): void{
+  fetch(): void {
     this.services$ = this.serviceService.getAll$();
   }
 
@@ -44,10 +44,13 @@ export class ServiceTableComponent implements OnInit {
       date: new FormControl(this.initDate(), {
         validators: [Validators.required],
       }),
-      quantity: new FormControl(1, {
+      quantity: new FormControl(null, {
         validators: [Validators.required],
       }),
-      price: new FormControl(0, {
+      price: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+      amount: new FormControl(null, {
         validators: [Validators.required],
       }),
     });
@@ -67,12 +70,25 @@ export class ServiceTableComponent implements OnInit {
 
   initDate(): any {
     let format = 'DD.MM.YYYY';
-    if(this.form) {
+    if (this.form) {
       let lastIndex = this.form.get('tableRowArray')['controls'].length - 1;
-      let date = this.form.get('tableRowArray')['controls'][lastIndex].controls.date.value;
+      let date = this.form.get('tableRowArray')['controls'][lastIndex].controls
+        .date.value;
       return TuiDay.normalizeParse(moment(date).add(1, 'day').format(format));
     } else {
       return TuiDay.normalizeParse(moment().format(format));
     }
+  }
+
+  selectedService(event: Service, index: number): void {
+    let control = this.form.get('tableRowArray')['controls'][index].controls;
+    control.quantity.setValue(event.count);
+    control.price.setValue(event.price);
+    control.amount.setValue(event.count * event.price);
+  }
+  
+  calculateSum(event: FormGroup, index: number): void {
+    let control = this.form.get('tableRowArray')['controls'][index].controls;
+    control.amount.setValue(event.controls.quantity.value * event.controls.price.value);
   }
 }

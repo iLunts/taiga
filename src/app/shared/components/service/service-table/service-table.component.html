@@ -1,9 +1,5 @@
 <form tuiTableMode [formGroup]="form" *tuiLet="services$ | async as services">
 
-  <h3>
-    {{ services | json }}
-  </h3>
-
   <!-- <table class="tui-table table">
     <thead>
       <tr>
@@ -20,22 +16,18 @@
       <tui-input-date class="cell cell_date" tuiTextfieldSize="m" formControlName="date">
         Дата
       </tui-input-date>
-      <tui-input class="cell cell_name" tuiTextfieldSize="m" formControlName="name">
+      <tui-select formControlName="name" [valueContent]="valueContent" (ngModelChange)="selectedService($event, i)">
         Название
-      </tui-input>
-      <!-- <tui-select class="cell cell_name" formControlName="name">
-        Название
-        <tui-data-list *tuiDataList>
-          <button *ngFor="let item of services" tuiOption [value]="item">
-            {{item | json}}
-          </button>
-        </tui-data-list>
-      </tui-select> -->
-      <tui-input-count class="cell cell_quantity" tuiTextfieldSize="m" formControlName="quantity">
+        <tui-data-list-wrapper *tuiDataList size="l" [items]="services" [itemContent]="itemContent"></tui-data-list-wrapper>
+      </tui-select>
+      <tui-input-count class="cell cell_quantity" tuiTextfieldSize="m" formControlName="quantity" (ngModelChange)="calculateSum(itemRow, i)">
         Кол-во
       </tui-input-count>
       <tui-input-number class="cell cell_price" tuiTextfieldSize="m" formControlName="price" [readOnly]="true">
         Цена
+      </tui-input-number>
+      <tui-input-number class="cell cell_price" tuiTextfieldSize="m" formControlName="amount" [readOnly]="true">
+        Сумма
       </tui-input-number>
     </div>
   </div>
@@ -46,14 +38,20 @@
   type="button"
   size="s"
   class="tui-space_right-3 tui-space_bottom-3 tui-space_top-3"
-  (click)="addNewRow()">
+  (click)="addNewRow()"
+  [disabled]="form.invalid">
   Добавить строку
 </button>
 
-<h3 *ngIf="form">
-  Valid : {{form.valid | json}}
-</h3>
+<ng-template #valueContent let-data>
+  <div class="itemContent">
+    <div class="itemContent__name">{{ data?.name }}</div>
+  </div>
+</ng-template>
 
-<!-- <h3 *ngIf="form">
-  tableRowArray : {{tableRowArray | json}}
-</h3> -->
+<ng-template #itemContent let-data>
+  <div class="itemContent">
+    <div class="itemContent__name">{{ data?.name }}</div>
+    <tui-money class="itemContent__amount" [value]="data.price"></tui-money>
+  </div>
+</ng-template>
