@@ -112,7 +112,7 @@ export class ServiceTableComponent implements OnInit {
 
   doEmit(): void {
     if (this.form.valid) {
-      this.selected.emit(this.form.value);
+      this.selected.emit(this.form.get('tableRowArray').value);
     } else {
       this.selected.emit([]);
     }

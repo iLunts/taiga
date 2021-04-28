@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Contractor } from 'src/app/models/contractor.model';
 import { Invoice, InvoiceStatus } from 'src/app/models/invoice.model';
 import { Service } from 'src/app/models/service.model';
+import { InvoiceService } from 'src/app/services/invoice.service';
 
 @Component({
   selector: 'app-invoices-create',
@@ -9,9 +11,14 @@ import { Service } from 'src/app/models/service.model';
   styleUrls: ['./create.component.less'],
 })
 export class InvoicesCreateComponent implements OnInit {
-  invoice: Invoice = new Invoice();
+  @ViewChild('qrBlock') qrBlock: any;
 
-  constructor() {}
+  invoice: Invoice = new Invoice(this.afs.createId());
+
+  constructor(
+    private afs: AngularFirestore,
+    private invoiceService: InvoiceService,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -31,5 +38,13 @@ export class InvoicesCreateComponent implements OnInit {
     if (this.invoice) {
       this.invoice.services = data;
     }
+  }
+
+  save(): void {
+    if (this.qrBlock) {
+      this.invoice.qrCode = this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
+    }
+
+    this.invoiceService.add$(this.invoice);
   }
 }

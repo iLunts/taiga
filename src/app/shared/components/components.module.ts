@@ -7,6 +7,7 @@ import { ContractorModule } from './contractor/contractor.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { ServiceModule } from './service/service.module';
 import { StatusModule } from './status/status.module';
+import { UploadImageModule } from './upload-image/upload-image.module';
 
 @NgModule({
   declarations: [],
@@ -18,6 +19,7 @@ import { StatusModule } from './status/status.module';
     RouterModule,
     ServiceModule,
     StatusModule,
+    UploadImageModule,
   ],
   exports: [
     ContractorModule,
@@ -26,6 +28,7 @@ import { StatusModule } from './status/status.module';
     RouterModule,
     ServiceModule,
     StatusModule,
+    UploadImageModule,
   ]
 })
 export class ComponentsModule { }

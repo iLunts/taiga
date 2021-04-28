@@ -7,6 +7,9 @@ import { Invoice, InvoiceStatus } from '../models/invoice.model';
 import { AuthService } from './auth.service';
 import { from, Observable } from 'rxjs';
 import { ContractorService } from './contractor.service';
+import { NotificationService } from './notification.service';
+import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +24,9 @@ export class InvoiceService {
   constructor(
     private _fs: AngularFirestore,
     private _auth: AuthService,
-    private _contractor: ContractorService
+    private _contractor: ContractorService,
+    private _notification: NotificationService,
+    private _route: Router,
   ) {
     if (this._auth.isLoggedIn) {
       this.invoicesRef = _fs.collection(this.dbPath, (q) =>
@@ -79,22 +84,32 @@ export class InvoiceService {
     return this.invoicesForContractorsRef.valueChanges();
   }
 
-  add(invoice: Invoice): any {
+  add$(invoice: Invoice): Observable<any> {
     invoice._userId = this._auth.getUserId();
     invoice._createdDate = new Date();
+    invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);
     return from(
       this._fs
-        .collection(this.dbPath)
-        .doc(invoice._id)
-        .set(JSON.parse(JSON.stringify(invoice)))
-    );
+      .collection(this.dbPath)
+      .doc(invoice._id)
+      .set(JSON.parse(JSON.stringify(invoice))).then(() => {
+          this._notification.success('Счет успешно создан');
+          this._route.navigate(['invoices']);
+        })
+      );
   }
 
-  delete(_id: string): Promise<void> {
-    return this.invoicesRef.doc(_id).delete();
+  delete$(_id: string): Observable<void> {
+    return from(this.invoicesRef.doc(_id).delete().then(() => {
+      this._notification.success('Счет успешно удален');
+    }));
   }
 
-  update(_id: string, value: any): Promise<void> {
-    return this.invoicesRef.doc(_id).update(value);
+  update$(_id: string, value: any): Observable<void> {
+    return from(this.invoicesRef.doc(_id).update(value));
+  }
+
+  calculateTotalAmount(invoice: Invoice): number{
+    return _.sumBy(invoice.services, (o) => o.count * o.price);
   }
 }

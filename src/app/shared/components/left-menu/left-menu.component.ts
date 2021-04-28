@@ -6,19 +6,19 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
-  styleUrls: ['./left-menu.component.less']
+  styleUrls: ['./left-menu.component.less'],
 })
 export class LeftMenuComponent implements OnInit {
   user: User;
   menu: Menu[] = [
     {
-      name: 'Home',
+      name: 'Главная',
       url: 'home',
       icon: 'tuiIconDesktopLarge',
       type: 'menu',
     },
     {
-      name: 'Invoices',
+      name: 'Счета',
       url: 'invoices',
       icon: 'tuiIconFileLarge',
       type: 'menu',
@@ -29,12 +29,16 @@ export class LeftMenuComponent implements OnInit {
       icon: '',
       type: 'divider',
     },
+    {
+      name: 'Настройки',
+      url: 'settings',
+      icon: 'tuiIconSettingsLarge',
+      type: 'menu',
+    },
   ];
   MENU_TYPE: MenuType;
 
-  constructor(
-    private _auth: AuthService,
-  ) { }
+  constructor(private _auth: AuthService) {}
 
   ngOnInit(): void {
     this.user = this._auth.getUser();

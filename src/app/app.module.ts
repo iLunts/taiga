@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { TaigaModule } from './shared/taiga.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './guards/auth.guard';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
     BrowserModule,
     SharedModule,
     TaigaModule,
+    HttpClientModule,
   ],
   providers: [
     AuthGuard,

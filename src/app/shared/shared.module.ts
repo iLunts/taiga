@@ -2,12 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaigaModule } from './taiga.module';
+import { QRCodeModule } from 'angularx-qrcode';
 
 // Angular Firebase lib
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+
 import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
 
@@ -16,13 +19,15 @@ import { ComponentsModule } from './components/components.module';
   imports: [
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireStorageModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     CommonModule,
     ComponentsModule,
     FormsModule,
     ReactiveFormsModule,
     TaigaModule,
+    QRCodeModule,
   ],
   exports: [
     CommonModule,
@@ -30,6 +35,7 @@ import { ComponentsModule } from './components/components.module';
     FormsModule,
     ReactiveFormsModule,
     TaigaModule,
+    QRCodeModule,
   ]
 })
 export class SharedModule { }

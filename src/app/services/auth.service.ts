@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 
 //
 // Firebase
-// import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { TuiHideSelectedPipe } from '@taiga-ui/kit';
+// import { AngularFirestore } from '@angular/fire/firestore';
 // import { AngularFireAuth } from 'angularfire2/auth';
 // import { AngularFirestoreDocument } from 'angularfire2/firestore';
 // import { auth } from 'firebase/app';

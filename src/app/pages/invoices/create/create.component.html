@@ -16,10 +16,18 @@
         </h3>
         <div class="tui-form__row tui-form__row_multi-fields">
           <div class="tui-form__multi-field">
-            <app-status-panel (selected)="setStatus($event)"></app-status-panel>
+            <div class="tui-space_bottom-3">
+              <app-status-panel class="tui-space_bottom-3" (selected)="setStatus($event)"></app-status-panel>
+            </div>
+            <app-contractor-panel (selected)="setContractor($event)"></app-contractor-panel>
           </div>
           <div class="tui-form__multi-field">
-            <app-contractor-panel (selected)="setContractor($event)"></app-contractor-panel>
+            <qrcode 
+              #qrBlock 
+              [qrdata]="invoice?._id" 
+              [width]="125"
+              [errorCorrectionLevel]="'H'"
+              [elementType]="'img'"></qrcode>
           </div>
         </div>
 
@@ -44,7 +52,17 @@
     </div>
   </form>
 
+  <div>
+        <button
+          tuiButton
+          type="button"
+          class="tui-space_right-3 tui-space_bottom-3"
+          (click)="save()">
+          Save
+      </button>
+  </div>
 </section>
+
 
 <h3>
   {{invoice | json}}

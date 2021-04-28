@@ -10,7 +10,7 @@
       </tr>
     </thead>
   </table> -->
-  
+
   <div class="table" formArrayName="tableRowArray">
     <div tuiGroup class="row" [collapsed]="true" *ngFor="let itemRow of form.get('tableRowArray')['controls']; let i=index;let l=last" [formGroupName]="i">
       <tui-input-date class="cell cell_date" tuiTextfieldSize="m" formControlName="date">
@@ -32,6 +32,15 @@
       <tui-input-number class="cell cell_price" tuiTextfieldSize="m" formControlName="amount" [readOnly]="true">
         Сумма
       </tui-input-number>
+      <button
+        class="cell cell_delete"
+        appearance="buttonDeleteRow"
+        tuiIconButton
+        [icon]="form.get('tableRowArray').length === 1 ? 'tuiIconHrLarge' : 'tuiIconTrashLarge'"
+        type="button"
+        (click)="deleteRow(i)"
+        [disabled]="form.get('tableRowArray').length === 1">
+      </button>
     </div>
   </div>
 </form>

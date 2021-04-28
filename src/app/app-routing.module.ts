@@ -11,16 +11,25 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
+    loadChildren: () =>
+      import('./pages/home/home.module').then((m) => m.HomeModule),
     canActivate: [AuthGuard],
   },
   {
     path: 'invoices',
-    loadChildren: () => import('./pages/invoices/invoices.module').then(m => m.InvoicesModule),
+    loadChildren: () =>
+      import('./pages/invoices/invoices.module').then((m) => m.InvoicesModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./pages/settings/settings.module').then((m) => m.SettingsModule),
     canActivate: [AuthGuard],
   },
 ];

@@ -43,6 +43,20 @@
         flex: 0 0 150px;
         text-align: right;
     }
+
+    &_delete{
+			max-width: 56px;
+			border: 1px solid var(--tui-base-04);
+			border-radius: 0 !important;
+			color: var(--tui-base-05);
+
+			&._hovered {
+				color: var(--tui-base-03);
+			}
+			&._pressed{
+				color: var(--tui-accent-active);
+			}
+    }
 }
 
 .itemContent{
@@ -50,11 +64,15 @@
 	align-items: center;
 	justify-content: space-between;
 
-    & &__name{
-        font-weight: 600;
-    }
+	& &__name{
+		font-weight: 600;
+	}
 
-    & &__amount{
-        color: var(--tui-text-03);
-    }
+	& &__amount{
+		color: var(--tui-text-03);
+	}
 }
+
+// :host ::ng-deep tui-wwrapper[data-appearance='buttonDeleteRow'] {
+// 	color: var(--tui-base-05);
+// }

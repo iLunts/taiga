@@ -1,0 +1,50 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+ 
+.header {
+  position: sticky;
+  height: 80px;
+  margin: -15px -15px 15px;
+  padding: 15px;
+  border-bottom: 1px solid var(--color-graphite);
+}
+
+.accordion {
+
+  & &__header {
+      font: var(--tui-font-text-l);
+      display: flex;
+      align-items: center;
+      
+      &-icon {
+        flex-shrink: 0;
+        margin: 0 15px 0 0;
+      }
+  }
+
+  & &__title {
+      .text-overflow();
+      margin-right: 24px;
+      flex-grow: 1;
+  }
+
+  & &__info {
+      color: var(--tui-text-02);
+      text-align: right;
+  }
+
+  & &__status {
+      font: var(--tui-font-text-s);
+      
+      &--success {
+          color: var(--tui-success-fill);
+      }
+    
+      &--error {
+          color: var(--tui-error-fill);
+      }
+  }  
+}
+ 
+:host ::ng-deep .tui-group_orientation_vertical.tui-group_collapsed > *:not(:last-child){
+  margin-bottom: 20px;
+}

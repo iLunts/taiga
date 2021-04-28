@@ -16,7 +16,7 @@ export class InvoicesListComponent implements OnInit {
 
 
   constructor(
-    private invoiceService: InvoiceService,
+    private _invoice: InvoiceService,
   ) { }
 
   ngOnInit(): void {
@@ -25,13 +25,16 @@ export class InvoicesListComponent implements OnInit {
   }
 
   fetchStatuses(): void {
-    this.invoiceStatuses$ = this.invoiceService.getAllStatus$();
+    this.invoiceStatuses$ = this._invoice.getAllStatus$();
   }
 
   fetch(): void {
-    this.invoices$ = this.invoiceService.getAll$();
+    this.invoices$ = this._invoice.getAll$();
   }
 
-  remove(item): void {
+  remove(item: Invoice): void {
+    if (item) {
+      this._invoice.delete$(item._id);
+    }
   }
 }
