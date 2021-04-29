@@ -1,3 +1,11 @@
+
+<div class="upload">
+  <span class="upload__icon" *ngIf="!selectedFiles">ICON</span>
+  <img src="selectedFiles" alt="" *ngIf="selectedFiles">
+  <h4>Выберите файл</h4>
+  <p>Размер файла не должен привышать размер в 1мб и должен быть не больше размера 1000px на 1000px</p>
+</div>
+
 <label>
   <input
     type="file"

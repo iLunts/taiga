@@ -26,6 +26,24 @@ export class CompanyComponent implements OnInit {
   }
 
   getUNP(): void {
-    this.company = this._egr.getContractorByUnp(this.unp);
+    // this.company = this._egr.getContractorByUnp(this.unp);
+    this.company = this._egr.getAllByUnp(this.unp);
+  }
+
+  getBlockStatus(mode: string): boolean {
+    switch (mode) {
+      case 'logotype': {
+        return true;
+      }
+      case 'legalInformation': {
+        return false;
+      }
+      case 'signature': {
+        return false;
+      }
+      default: {
+        return false;
+      }
+    }
   }
 }

@@ -12,6 +12,7 @@ export class Contractor {
   juridicalAddress: ContractorAddress;
   bankAccount: BankAccount;
   person: Person;
+  ved: VEDInfo[];
 
   constructor(
     _id?: string,
@@ -41,35 +42,47 @@ export class ContractorAddress {
   country: string;
   countryType: string;
   city: string;
+  cityType: string;
   street: string;
+  streetType: string;
   houseNumber: string;
   office: string;
+  officeType: string;
   email: string;
   phone: string;
   fax: string;
+  vnsfull: string;
 
   constructor(
     zipCode?: string,
     country?: string,
     countryType?: string,
     city?: string,
+    cityType?: string,
     street?: string,
+    streetType?: string,
     houseNumber?: string,
     office?: string,
+    officeType?: string,
     email?: string,
     phone?: string,
-    fax?: string
+    fax?: string,
+    vnsfull?: string
   ) {
     this.zipCode = zipCode || null;
     this.country = country || null;
     this.countryType = countryType || null;
     this.city = city || null;
+    this.cityType = cityType || null;
     this.street = street || null;
+    this.streetType = streetType || null;
     this.houseNumber = houseNumber || null;
     this.office = office || null;
+    this.officeType = officeType || null;
     this.email = email || null;
     this.phone = phone || null;
     this.fax = fax || null;
+    this.vnsfull = vnsfull || null;
   }
 
   // getAddressFromEGR(data: any) {
@@ -116,5 +129,28 @@ export class Person {
   constructor(responsiblePerson?: string, basis?: string) {
     this.responsiblePerson = responsiblePerson || null;
     this.basis = basis || null;
+  }
+}
+
+export class VEDInfo {
+  ngrn?: string;
+  dfrom?: string;
+  cact?: string;
+  nsi00114?: {
+    vkvdn: string;
+    vnvdnp: string;
+    nsi00114: string;
+  };
+
+  constructor(
+    ngrn?: string,
+    dfrom?: string,
+    cact?: string,
+    nsi00114?: { vkvdn: string; vnvdnp: string; nsi00114: string}
+  ) {
+    this.ngrn = ngrn || null;
+    this.dfrom = dfrom || null;
+    this.cact = cact || null;
+    this.nsi00114 = nsi00114;
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 // import { HTTP } from '@ionic-native/http/ngx';
 // import { Platform } from '@ionic/angular';
-import { from, Observable } from 'rxjs';
+import { forkJoin, from, Observable } from 'rxjs';
 import {
   Contractor,
   ContractorInfo,
@@ -13,89 +13,83 @@ import {
   providedIn: 'root',
 })
 export class EgrService {
+  constructor(
+    private _http: HttpClient // private _httpNative: HTTP,
+  ) {}
 
-  constructor(private _http: HttpClient) // private _httpNative: HTTP,
-  {}
+  getBaseInfoByRegNum(UNP: string): any {
+    return from(this._http.get(`/api/v2/egr/getBaseInfoByRegNum/${UNP}`));
+  }
 
-  getContractorByUnp(UNP: string): Contractor {
+  getAddressByRegNum(UNP: string): any {
+    return from(this._http.get(`/api/v2/egr/getAddressByRegNum/${UNP}`));
+  }
+
+  getJurNamesByRegNum(UNP: string): any {
+    return from(this._http.get(`/api/v2/egr/getJurNamesByRegNum/${UNP}`));
+  }
+
+  getVEDByRegNum(UNP: string): any {
+    return from(this._http.get(`/api/v2/egr/getVEDByRegNum/${UNP}`));
+  }
+
+  getIPFIOByRegNum(UNP: string): any {
+    return from(this._http.get(`/api/v2/egr/getIPFIOByRegNum/${UNP}`));
+  }
+
+  getAllByUnp(UNP: string): Contractor {
     let tempContractor: Contractor = new Contractor();
 
-    this.getJurNames(UNP).subscribe(
-      (responseInfo: any) => {
-        if (responseInfo) {
-          tempContractor.info = this.mappingJurNames(responseInfo);
-          tempContractor.info.unp = UNP;
-          tempContractor._type = 1;
+    const observable = forkJoin([
+      this.getBaseInfoByRegNum(UNP),
+      this.getAddressByRegNum(UNP),
+      this.getJurNamesByRegNum(UNP),
+      this.getVEDByRegNum(UNP),
+      this.getIPFIOByRegNum(UNP),
+    ]);
 
-          this.getAddressByRegNum(UNP).subscribe((responseAddress: any) => {
-            if (responseAddress) {
-              tempContractor.juridicalAddress = this.mappingJurAddress(
-                responseAddress
-              );
-              return tempContractor;
-            }
-          });
-        }
-      },
-      (error: any) => {
-        if (error.status === 404) {
-          this.getIPFIOByRegNum(UNP).subscribe((responseInfo: any) => {
-            if (responseInfo) {
-              tempContractor.info = this.mappingIPFIOByRegNum(responseInfo);
-              tempContractor.info.unp = UNP;
-              tempContractor._type = 2;
+    observable.subscribe({
+      next: (response) => {
+        let baseInfoByRegNum = response[0];
+        let addressByRegNum = response[1];
+        let jurNamesByRegNum = response[2];
+        let VEDByRegNum = response[3];
+        let IPFIOByRegNum = response[4];
 
-              this.getAddressByRegNum(UNP).subscribe((responseAddress: any) => {
-                if (responseAddress) {
-                  tempContractor.juridicalAddress = this.mappingJurAddress(
-                    responseAddress
-                  );
-                  return tempContractor;
-                }
-              });
-            }
-          });
+        tempContractor._type = baseInfoByRegNum[0].nsi00211.nkvob;
+        tempContractor.info.unp = UNP;
+
+        // 1 - Юр. лицо ; 2 - ИП
+        if (tempContractor._type === 1) {
+          tempContractor.info = this.mappingJurNames(jurNamesByRegNum[0]);
+        } else {
+          tempContractor.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
         }
+
+        tempContractor.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
+        tempContractor.ved = VEDByRegNum[0];
       }
-    );
+    });
+
     return tempContractor;
-  }
-
-  private getJurNames(UNP: string): Observable<any> {
-    if (UNP) {
-      return from(
-        this._http.get(
-          `/api/v2/egr/getJurNamesByRegNum/${UNP}`
-        )
-      );
-    }
-  }
-
-  private getIPFIOByRegNum(UNP: string): Observable<any> {
-    if (UNP) {
-      return from(this._http.get(`/api/v2/egr/getIPFIOByRegNum/${UNP}`));
-    }
-  }
-
-  private getAddressByRegNum(UNP): Observable<any> {
-    if (!UNP) {
-      return;
-    }
-    return from(this._http.get(`/api/v2/egr/getAddressByRegNum/${UNP}`));
   }
 
   private mappingJurAddress(data: any): ContractorAddress {
     let juridicalAddress = new ContractorAddress();
 
-    juridicalAddress.city = data[0].vnp;
-    juridicalAddress.country = data[0].nsi00201.vnstranp;
-    juridicalAddress.houseNumber = data[0].vdom;
-    juridicalAddress.office = data[0].vpom;
-    juridicalAddress.street = data[0].vulitsa;
-    juridicalAddress.zipCode = data[0].nindex;
-    juridicalAddress.phone = data[0].vtels;
-    juridicalAddress.email = data[0].vemail;
-    juridicalAddress.fax = data[0].vfax;
+    juridicalAddress.city = data.vnp;
+    juridicalAddress.cityType = data.nsi00239.vntnpk;
+    juridicalAddress.country = data.nsi00201.vnstranp;
+    juridicalAddress.houseNumber = data.vdom;
+    juridicalAddress.office = data.vpom;
+    juridicalAddress.officeType = data.nsi00227.vntpomk;
+    juridicalAddress.street = data.vulitsa;
+    juridicalAddress.streetType = data.nsi00226.vntulk;
+    juridicalAddress.zipCode = data.nindex;
+    juridicalAddress.phone = data.vtels?.replace(/\s/g, '') || null;
+    juridicalAddress.email = data.vemail;
+    juridicalAddress.fax = data.vfax;
+    juridicalAddress.vnsfull = data.nsi00202.vnsfull;
 
     return juridicalAddress;
   }
@@ -103,15 +97,15 @@ export class EgrService {
   private mappingJurNames(data: any): ContractorInfo {
     let info = new ContractorInfo();
 
-    info.fullName = data[0].vnaim;
-    info.shortName = data[0].vn;
-    info.name = data[0].vfn;
+    info.fullName = data.vnaim;
+    info.shortName = data.vn;
+    info.name = data.vfn;
 
-    info.fullNameBel = data[0].vnaimb;
-    info.shortNameBel = data[0].vnb;
-    info.nameBel = data[0].vfnb;
+    info.fullNameBel = data.vnaimb;
+    info.shortNameBel = data.vnb;
+    info.nameBel = data.vfnb;
 
-    info.registrationDate = data[0].dcrta;
+    info.registrationDate = data.dcrta;
 
     return info;
   }
@@ -119,15 +113,16 @@ export class EgrService {
   private mappingIPFIOByRegNum(data: any): ContractorInfo {
     let info = new ContractorInfo();
 
-    info.fullName = 'Индивидуальный предприниматель ' + data[0].vfio;
-    info.shortName = 'ИП ' + data[0].vfio;
-    info.name = 'ИП ' + data[0].vfio;
+    info.fullName = 'Индивидуальный предприниматель ' + data.vfio;
+    info.shortName = 'ИП ' + data.vfio;
+    info.name = 'ИП ' + data.vfio;
 
-    info.fullNameBel = 'Iндывідуальны прадпрымальнік' + data[0].vfio;
-    info.shortNameBel = 'IП ' + data[0].vfio;
-    info.nameBel = 'IП ' + data[0].vfio;
+    info.fullNameBel = 'Iндывідуальны прадпрымальнік ' + data.vfio;
+    info.shortNameBel = 'IП ' + data.vfio;
+    info.nameBel = 'IП ' + data.vfio;
 
-    info.registrationDate = data[0].dcrta;
+    info.registrationDate = data.dcrta;
+    info.unp = data.ngrn;
 
     return info;
   }

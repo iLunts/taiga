@@ -10,13 +10,15 @@
             <div class="accordion__header-icon">
                 <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
             </div>
-            <div class="accordion__title">Логотип рабочего пространства</div>
+            <div class="accordion__title">Логотип компании</div>
             <div class="accordion__info">
-                <div class="accordion__status">Waiting for approve</div>
+                <div class="accordion__status" [class._success]="getBlockStatus('logotype')">
+                  {{getBlockStatus('logotype') ? 'Approved' : 'Waiting for approve'}}
+                </div>
             </div>
         </div>
         <ng-template tuiAccordionItemContent>
-          <ng-container *ngIf="!(uploadedFiles$ | async).length">
+          <ng-container *ngIf="!(uploadedFiles$ | async)?.length">
             <app-upload-image></app-upload-image>
           </ng-container>
           <img [src]="item.url" alt="" *ngFor="let item of uploadedFiles$ | async">
@@ -28,10 +30,10 @@
             <div class="accordion__header-icon">
               <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
             </div>
-            <div class="accordion__title">Реквизиты рабочего пространства</div>
+            <div class="accordion__title">Информация о компании</div>
             <div class="accordion__info">
-                <div class="accordion__status accordion__status--success">
-                    Approved
+                <div class="accordion__status" [class._success]="getBlockStatus('legalInformation')">
+                  {{getBlockStatus('legalInformation') ? 'Approved' : 'Waiting for approve'}}
                 </div>
             </div>
         </div>
@@ -55,10 +57,10 @@
             <div class="accordion__header-icon">
               <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
             </div>
-            <div class="accordion__title">Изображения на документы</div>
+            <div class="accordion__title">Банк</div>
             <div class="accordion__info">
-                <div class="accordion__status accordion__status--success">
-                    Approved
+                <div class="accordion__status" [class._success]="getBlockStatus('signature')">
+                  {{getBlockStatus('signature') ? 'Approved' : 'Waiting for approve'}}
                 </div>
             </div>
         </div>
@@ -66,6 +68,23 @@
             <h3>Content</h3>
         </ng-template>
     </tui-accordion-item>
+
+    <!-- <tui-accordion-item borders="all" [showArrow]="true">
+        <div class="accordion__header">
+            <div class="accordion__header-icon">
+              <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
+            </div>
+            <div class="accordion__title">Изображения на документы</div>
+            <div class="accordion__info">
+                <div class="accordion__status" [class._success]="getBlockStatus('signature')">
+                  {{getBlockStatus('signature') ? 'Approved' : 'Waiting for approve'}}
+                </div>
+            </div>
+        </div>
+        <ng-template tuiAccordionItemContent>
+            <h3>Content</h3>
+        </ng-template>
+    </tui-accordion-item> -->
   </tui-accordion>
 
     </div>

@@ -21,6 +21,10 @@ export class UploadImageComponent implements OnInit {
     this.selectedFiles = event.target.files;
   }
 
+  clearFile(): void {
+    this.selectedFiles = null;
+  }
+
   upload(): void {
     const file = this.selectedFiles.item(0);
     this.selectedFiles = undefined;

@@ -5,7 +5,7 @@ import { UploadImageComponent } from './upload-image.component';
 @NgModule({
   declarations: [UploadImageComponent],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [UploadImageComponent],
 })
