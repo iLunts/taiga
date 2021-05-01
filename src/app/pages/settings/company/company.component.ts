@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Contractor } from 'src/app/models/contractor.model';
+import { Company, Contractor } from 'src/app/models/company.model';
 import { FileUpload } from 'src/app/models/fileUpload.model';
 import { EgrService } from 'src/app/services/egr.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -13,7 +13,8 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 export class CompanyComponent implements OnInit {
   uploadedFiles$: Observable<FileUpload[]>;
   unp: string;
-  company: Contractor = new Contractor();
+  company: Company = new Company();
+  isCompanySelected: boolean;
 
   constructor(private _upload: FileUploadService, private _egr: EgrService) {}
 
@@ -26,8 +27,10 @@ export class CompanyComponent implements OnInit {
   }
 
   getUNP(): void {
-    // this.company = this._egr.getContractorByUnp(this.unp);
-    this.company = this._egr.getAllByUnp(this.unp);
+    if (this.unp) {
+      this.company = this._egr.getAllByUnp(this.unp);
+      this.isCompanySelected = true;
+    }
   }
 
   getBlockStatus(mode: string): boolean {
@@ -45,5 +48,10 @@ export class CompanyComponent implements OnInit {
         return false;
       }
     }
+  }
+
+  changeCompany(): void {
+    this.company = new Company();
+    this.isCompanySelected = false;
   }
 }

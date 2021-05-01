@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Contractor, } from '../models/contractor.model';
+import { Contractor, } from '../models/company.model';
 import { Observable, from } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 

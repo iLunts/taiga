@@ -1,5 +1,5 @@
 import { Service } from './service.model';
-import { Contractor } from './contractor.model';
+import { Contractor } from './company.model';
 import * as moment from 'moment';
 import { Profile } from './profile.model';
 

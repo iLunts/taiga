@@ -7,7 +7,8 @@ import {
   Contractor,
   ContractorInfo,
   ContractorAddress,
-} from '../models/contractor.model';
+  Company,
+} from '../models/company.model';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -39,8 +40,8 @@ export class EgrService {
     return from(this._http.get(`/api/v2/egr/getIPFIOByRegNum/${UNP}`));
   }
 
-  getAllByUnp(UNP: string): Contractor {
-    let tempContractor: Contractor = new Contractor();
+  getAllByUnp(UNP: string): Company {
+    let tempContractor: Company = new Company();
 
     const observable = forkJoin([
       this.getBaseInfoByRegNum(UNP),
@@ -56,7 +57,7 @@ export class EgrService {
           this._notification.warning('Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных')
           return;
         }
-        debugger;
+
         let baseInfoByRegNum = response[0];
         let addressByRegNum = response[1];
         let jurNamesByRegNum = response[2];
@@ -64,7 +65,6 @@ export class EgrService {
         let IPFIOByRegNum = response[4];
 
         tempContractor._type = baseInfoByRegNum[0].nsi00211.nkvob;
-        tempContractor.info.unp = UNP;
 
         // 1 - Юр. лицо ; 2 - ИП
         if (tempContractor._type === 1) {
@@ -75,6 +75,7 @@ export class EgrService {
 
         tempContractor.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
         tempContractor.ved = VEDByRegNum[0];
+        tempContractor.info.unp = UNP;
       },
       error: (error) => {
         switch (error.status) {
@@ -101,7 +102,7 @@ export class EgrService {
     juridicalAddress.country = data.nsi00201.vnstranp;
     juridicalAddress.houseNumber = data.vdom;
     juridicalAddress.office = data.vpom;
-    juridicalAddress.officeType = data.nsi00227.vntpomk;
+    juridicalAddress.officeType = data.nsi00227?.vntpomk || null;
     juridicalAddress.street = data.vulitsa;
     juridicalAddress.streetType = data.nsi00226.vntulk;
     juridicalAddress.zipCode = data.nindex;

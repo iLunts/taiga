@@ -8,11 +8,13 @@ import { InvoiceModule } from './invoice/invoice.module';
 import { ServiceModule } from './service/service.module';
 import { StatusModule } from './status/status.module';
 import { UploadImageModule } from './upload-image/upload-image.module';
+import { CompanyModule } from './company/company.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    CompanyModule,
     ContractorModule,
     InvoiceModule,
     LeftMenuModule,
@@ -22,6 +24,7 @@ import { UploadImageModule } from './upload-image/upload-image.module';
     UploadImageModule,
   ],
   exports: [
+    CompanyModule,
     ContractorModule,
     InvoiceModule,
     LeftMenuModule,

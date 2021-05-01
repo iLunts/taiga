@@ -1,3 +1,6 @@
+<h3>{{contractor | json}}</h3>
+
+
 <tui-loader [showLoader]="!(contractors$ | async) && !(contractors$ | async) !== null" [overlay]="true"
   [inheritColor]="true">
   <form *tuiLet="contractors$ | async as contractors" class="b-form" [formGroup]="form">

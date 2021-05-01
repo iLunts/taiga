@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Contractor } from 'src/app/models/contractor.model';
+import { Contractor } from 'src/app/models/company.model';
 import { Invoice, InvoiceStatus } from 'src/app/models/invoice.model';
 import { Service } from 'src/app/models/service.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
