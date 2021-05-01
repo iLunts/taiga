@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BankAccount } from 'src/app/models/bank.model';
 import { Company, Contractor } from 'src/app/models/company.model';
 import { FileUpload } from 'src/app/models/fileUpload.model';
+import { BankService } from 'src/app/services/bank.service';
 import { EgrService } from 'src/app/services/egr.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 
@@ -12,11 +14,18 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 })
 export class CompanyComponent implements OnInit {
   uploadedFiles$: Observable<FileUpload[]>;
+  companyInfo: Company = new Company();
+  bankInfo: BankAccount = new BankAccount();
   unp: string;
-  company: Company = new Company();
+  bic: string;
   isCompanySelected: boolean;
+  isBankSelected: boolean;
 
-  constructor(private _upload: FileUploadService, private _egr: EgrService) {}
+  constructor(
+    private _upload: FileUploadService,
+    private _egr: EgrService,
+    private _bank: BankService
+  ) {}
 
   ngOnInit(): void {
     this.getFiles();
@@ -26,10 +35,17 @@ export class CompanyComponent implements OnInit {
     this.uploadedFiles$ = this._upload.getFiles(10).valueChanges();
   }
 
-  getUNP(): void {
+  getCompanyInformation(): void {
     if (this.unp) {
-      this.company = this._egr.getAllByUnp(this.unp);
+      this.companyInfo = this._egr.getAllByUnp(this.unp);
       this.isCompanySelected = true;
+    }
+  }
+
+  getBankInformation(): void {
+    if (this.bic) {
+      this.bankInfo.bank = this._bank.getBankByBIC(this.bic);
+      this.isBankSelected = true;
     }
   }
 
@@ -51,7 +67,7 @@ export class CompanyComponent implements OnInit {
   }
 
   changeCompany(): void {
-    this.company = new Company();
+    this.companyInfo = new Company();
     this.isCompanySelected = false;
   }
 }
