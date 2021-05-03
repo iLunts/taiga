@@ -15,6 +15,12 @@ export const environment = {
     appId: '1:281478247600:web:4bce50f58c2357d55ab775',
     measurementId: 'G-YDRP5ST41Z',
   },
+
+  routing: {
+    home: '/home',
+    login: '/auth/login',
+    registration: '/auth/registration',
+  }
 };
 
 /*
