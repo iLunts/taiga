@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this._auth.isLoggedIn) {
+      this._router.navigate(['']);
+    }
   }
 
   async send(): Promise<any>{
@@ -35,14 +38,7 @@ export class LoginComponent implements OnInit {
     this._auth.signIn(this.f.email.value, this.f.password.value).then((response) => {
       if (response.user) {
         this._auth.setUserData(response.user);
-        // this._router.navigate([environment.startPageAfterLogin], {
-        //   replaceUrl: true,
-        // });
-
-        // TODO: Check if email not verified
-        // if (!res.user.emailVerified) {
-        //   this._auth.SendVerificationMail().then((res: any) => {});
-        // }
+        this._router.navigate(['']);
       }
     });
   }

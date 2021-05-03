@@ -43,6 +43,22 @@ export class Bank {
     this.NrBank = NrBank || null;
     this.typ = typ || null;
   }
+
+  isBankValid(bank: Bank): boolean {
+    let status = true;
+
+    if (
+      !bank.CDBank ||
+      !bank.NmBankShort ||
+      !bank.CDHeadBank ||
+      !bank.AdrBank ||
+      bank.CdControl === 'ЗАКР'
+    ) {
+      status = false;
+    }
+
+    return status;
+  }
 }
 
 export class BankAccount {

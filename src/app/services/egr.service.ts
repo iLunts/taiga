@@ -41,7 +41,7 @@ export class EgrService {
   }
 
   getAllByUnp(UNP: string): Company {
-    let tempContractor: Company = new Company();
+    let contractorInfo: Company = new Company();
 
     const observable = forkJoin([
       this.getBaseInfoByRegNum(UNP),
@@ -64,18 +64,18 @@ export class EgrService {
         let VEDByRegNum = response[3];
         let IPFIOByRegNum = response[4];
 
-        tempContractor._type = baseInfoByRegNum[0].nsi00211.nkvob;
+        contractorInfo._type = baseInfoByRegNum[0].nsi00211.nkvob;
 
         // 1 - Юр. лицо ; 2 - ИП
-        if (tempContractor._type === 1) {
-          tempContractor.info = this.mappingJurNames(jurNamesByRegNum[0]);
+        if (contractorInfo._type === 1) {
+          contractorInfo.info = this.mappingJurNames(jurNamesByRegNum[0]);
         } else {
-          tempContractor.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
+          contractorInfo.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
         }
 
-        tempContractor.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
-        tempContractor.ved = VEDByRegNum[0];
-        tempContractor.info.unp = UNP;
+        contractorInfo.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
+        contractorInfo.ved = VEDByRegNum[0];
+        contractorInfo.info.unp = UNP;
       },
       error: (error) => {
         switch (error.status) {
@@ -91,7 +91,7 @@ export class EgrService {
       }
     });
 
-    return tempContractor;
+    return contractorInfo;
   }
 
   private mappingJurAddress(data: any): ContractorAddress {
