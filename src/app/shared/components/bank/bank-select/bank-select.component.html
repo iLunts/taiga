@@ -1,0 +1,37 @@
+
+<form [formGroup]="form">
+  <tui-input
+      *tuiLet="banksSort$ | async as banks"
+      formControlName="bank"
+      tuiTextfieldExampleText="Type your bank"
+      [tuiTextfieldCustomContent]="content">
+    Bank
+    <ng-container *ngIf="banks?.length">
+      <tui-data-list *tuiDataList>
+        <button
+            *ngFor="let bank of banks"
+            tuiOption
+            [value]="bank"
+            (click)="onSelected(bank)"
+            class="banl-item">
+
+            <p class="bank-item__title">
+              {{bank.NmBankShort}}
+            </p>
+            <p class="bank-item__bic">
+              {{bank.CDBank}}
+            </p>
+            <!-- <tui-avatar
+                size="xs"
+                [avatarUrl]="user.avatarUrl || null"
+                [text]="user.toString()"
+            ></tui-avatar> -->
+        </button>
+      </tui-data-list>
+    </ng-container>
+  </tui-input>
+</form>
+
+<p>
+  {{(banksSort$ | async ) | json}}
+</p>
