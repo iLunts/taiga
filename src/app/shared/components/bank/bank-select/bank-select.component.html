@@ -3,7 +3,7 @@
   <tui-input
       *tuiLet="banksSort$ | async as banks"
       formControlName="bank"
-      tuiTextfieldExampleText="Type your bank"
+      tuiTextfieldExampleText="Введите название банка или его BIC"
       [tuiTextfieldCustomContent]="content">
     Bank
     <ng-container *ngIf="banks?.length">
@@ -22,9 +22,8 @@
               {{bank.CDBank}}
             </p>
             <!-- <tui-avatar
-                size="xs"
-                [avatarUrl]="user.avatarUrl || null"
-                [text]="user.toString()"
+                size="s"
+                [text]="bank.NmBankShort"
             ></tui-avatar> -->
         </button>
       </tui-data-list>
@@ -33,5 +32,5 @@
 </form>
 
 <p>
-  {{(banksSort$ | async ) | json}}
+  {{form.controls.bank.value | json}}
 </p>

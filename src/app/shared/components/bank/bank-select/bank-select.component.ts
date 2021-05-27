@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tuiReplayedValueChangesFrom, TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
 import { Observable } from 'rxjs';
@@ -12,6 +12,8 @@ import { BankService } from 'src/app/services/bank.service';
   styleUrls: ['./bank-select.component.less'],
 })
 export class BankSelectComponent implements OnInit {
+  @Output() change = new EventEmitter<Bank>();
+
   constructor(private _bank: BankService) {
     this._bank.getAllBank$().subscribe({
       next: (response) => {
@@ -60,5 +62,6 @@ export class BankSelectComponent implements OnInit {
   onSelected(bank: Bank) {
     // this.lastUser = user;
     this.form.get('bank')!.setValue(bank);
+    this.change.emit(this.form.controls.bank.value);
   }
 }

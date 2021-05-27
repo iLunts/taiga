@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 //
 // Firebase
 import { AngularFireAuth } from '@angular/fire/auth';
+import { environment } from 'src/environments/environment';
+
+// import { auth } from 'firebase/app';
 // import { AngularFirestore } from '@angular/fire/firestore';
 // import { AngularFireAuth } from 'angularfire2/auth';
 // import { AngularFirestoreDocument } from 'angularfire2/firestore';
@@ -23,7 +26,7 @@ export class AuthService {
     private _fa: AngularFireAuth,
     // private _fs: AngularFirestore,
     private _router: Router,
-    public _ngZone: NgZone,
+    public _ngZone: NgZone
   ) {
     this._fa.authState.subscribe((user) => {
       if (user) {
@@ -180,5 +183,16 @@ export class AuthService {
       return null;
     }
     return this.userData.displayName || this.userData.email;
+  }
+
+  // async loginWithGoogle() {
+  //   await this._fa.signInWithPopup(new auth.GoogleAuthProvider());
+  //   this._router.navigate([environment.routing.home]);
+  // }
+
+  async logout() {
+    await this._fa.signOut();
+    localStorage.removeItem('user');
+    this._router.navigate([environment.routing.login]);
   }
 }

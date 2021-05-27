@@ -34,7 +34,18 @@ export class Company {
   }
 
   isCompanyValid(company: Company): boolean {
-    return Object.values(company).every(c => c !== null);
+    return (
+      Object.values(company.info).every((c) => c !== null) &&
+      Object.values(company.bankAccount.bank).every((c) => c !== null)
+    );
+  }
+
+  isCompanyInfoValid(company: Company): boolean {
+    return Object.values(company.info).every((c) => c !== null);
+  }
+
+  isCompanyBankValid(company: Company): boolean {
+    return Object.values(company.bankAccount.bank).every((c) => c !== null);
   }
 }
 

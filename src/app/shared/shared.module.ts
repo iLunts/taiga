@@ -13,6 +13,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 
 import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 @NgModule({
   declarations: [],
@@ -22,6 +23,7 @@ import { ComponentsModule } from './components/components.module';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
+    AngularFireMessagingModule,
     CommonModule,
     ComponentsModule,
     FormsModule,

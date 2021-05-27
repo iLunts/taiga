@@ -1,5 +1,5 @@
 export class Bank {
-  _doc: string;
+  // _doc: string;
 
   AdrBank: string;
   BICStatus: string;
@@ -15,7 +15,7 @@ export class Bank {
   typ: string;
 
   constructor(
-    _doc?: string,
+    // _doc?: string,
     AdrBank?: string,
     BICStatus?: string,
     CDBank?: string,
@@ -29,7 +29,7 @@ export class Bank {
     NrBank?: string,
     typ?: string
   ) {
-    this._doc = _doc || null;
+    // this._doc = _doc || null;
     this.AdrBank = AdrBank || null;
     this.BICStatus = BICStatus || null;
     this.CDBank = CDBank || null;

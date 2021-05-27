@@ -6,6 +6,7 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 import { CompanyComponent } from './company/company.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TuiButtonModule } from '@taiga-ui/core';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     SharedModule,
     SettingsRoutingModule,
+    TuiButtonModule,
     TuiAccordionModule,
     TuiInputNumberModule,
     TuiIslandModule,

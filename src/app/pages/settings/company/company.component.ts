@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BankAccount } from 'src/app/models/bank.model';
+import { Bank, BankAccount } from 'src/app/models/bank.model';
 import { Company } from 'src/app/models/company.model';
 import { FileUpload } from 'src/app/models/fileUpload.model';
 import { EgrService } from 'src/app/services/egr.service';
@@ -21,10 +21,7 @@ export class CompanyComponent implements OnInit {
   isCompanySelected: boolean;
   isBankSelected: boolean;
 
-  constructor(
-    private _upload: FileUploadService,
-    private _egr: EgrService,
-  ) {}
+  constructor(private _upload: FileUploadService, private _egr: EgrService) {}
 
   ngOnInit(): void {
     this.getFiles();
@@ -47,7 +44,10 @@ export class CompanyComponent implements OnInit {
         return true;
       }
       case 'legalInformation': {
-        return false;
+        return this.companyInfo.isCompanyInfoValid(this.companyInfo);
+      }
+      case 'bank': {
+        return this.companyInfo.isCompanyBankValid(this.companyInfo);
       }
       case 'signature': {
         return false;
@@ -61,5 +61,14 @@ export class CompanyComponent implements OnInit {
   changeCompany(): void {
     this.companyInfo = new Company();
     this.isCompanySelected = false;
+  }
+
+  changeBank(data: Bank): void {
+    this.companyInfo.bankAccount.bank = data;
+  }
+
+  get isCompanyValid(): boolean {
+    return this.companyInfo.isCompanyValid(this.companyInfo);
+    // return false;
   }
 }

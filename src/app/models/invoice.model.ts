@@ -1,7 +1,8 @@
 import { Service } from './service.model';
 import { Contractor } from './company.model';
-import * as moment from 'moment';
 import { Profile } from './profile.model';
+import * as moment from 'moment';
+import * as _ from 'lodash';
 
 export class Invoice {
   _id: string;
@@ -64,6 +65,17 @@ export class Invoice {
     this.total = total || new TotalSum();
     this.qrCode = qrCode || null;
   }
+
+  isValid(invoice: Invoice): boolean {
+    let valid = false;
+
+    // console.warn('WARN: ', _.isEmpty(null));
+
+    valid = invoice?.services?.length && invoice?.status && invoice?.contractor ? true : false;
+    // valid = !_.values(invoice.status).every(_.isEmpty);
+    // return invoice?.status ? invoice?.status?.isValid(invoice.status) : false;
+    return valid;
+  }
 }
 
 export class InvoiceStatus {
@@ -72,12 +84,20 @@ export class InvoiceStatus {
   color: string;
   order: number;
 
-  constructor(
-    _id: string,
-    name: string,
-    color: string,
-    order: number
-  ) {}
+  constructor(_id: string, name: string, color: string, order: number) {
+    this._id = _id;
+    this.name = name;
+    this.color = color;
+    this.order = order;
+  }
+
+  isValid(status: InvoiceStatus): boolean {
+    if (status) {
+      return status ? _.some(status, _.isEmpty) : false;
+    } else {
+      return false;
+    }
+  }
 }
 
 export class Price {

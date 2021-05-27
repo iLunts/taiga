@@ -6,6 +6,7 @@
       <app-left-menu></app-left-menu>
     </nav>
     <main class="root__main">
+      <h1>{{ message | async | json }}</h1>
       <router-outlet></router-outlet>
     </main>
   </section>

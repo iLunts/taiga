@@ -9,6 +9,8 @@ import { TaigaModule } from './shared/taiga.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './guards/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
+import { MessagingService } from './services/messaging.service';
+import { AsyncPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     AuthGuard,
+    MessagingService,
+    AsyncPipe,
     {
         provide: TUI_ICONS_PATH,
         useValue: iconsPathFactory('assets/taiga-ui/icons/'),

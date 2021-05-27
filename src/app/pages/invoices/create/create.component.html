@@ -57,8 +57,17 @@
           tuiButton
           type="button"
           class="tui-space_right-3 tui-space_bottom-3"
-          (click)="save()">
-          Save
+          appearance="outline"
+          (click)="cancel()">
+          Отменить
+      </button>
+        <button
+          tuiButton
+          type="button"
+          class="tui-space_right-3 tui-space_bottom-3"
+          (click)="save()"
+          [disabled]="!isInvoiceValid">
+          Создать
       </button>
   </div>
 </section>
@@ -67,6 +76,3 @@
 <h3>
   {{invoice | json}}
 </h3>
-
-
-

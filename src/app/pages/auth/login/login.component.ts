@@ -42,4 +42,8 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  // authGoogle(): void {
+  //   this._auth.
+  // }
 }

@@ -20,6 +20,7 @@ export const environment = {
     home: '/home',
     login: '/auth/login',
     registration: '/auth/registration',
+    invoiceList: '/invoices',
   }
 };
 

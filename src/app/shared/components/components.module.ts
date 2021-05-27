@@ -10,6 +10,7 @@ import { LeftMenuModule } from './left-menu/left-menu.module';
 import { ServiceModule } from './service/service.module';
 import { StatusModule } from './status/status.module';
 import { UploadImageModule } from './upload-image/upload-image.module';
+import { UploaderModule } from './uploader/uploader.module';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { UploadImageModule } from './upload-image/upload-image.module';
     ServiceModule,
     StatusModule,
     UploadImageModule,
+    UploaderModule,
   ],
   exports: [
     BankModule,
@@ -35,6 +37,7 @@ import { UploadImageModule } from './upload-image/upload-image.module';
     ServiceModule,
     StatusModule,
     UploadImageModule,
+    UploaderModule,
   ]
 })
 export class ComponentsModule { }
