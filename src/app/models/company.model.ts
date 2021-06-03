@@ -36,7 +36,7 @@ export class Company {
   isCompanyValid(company: Company): boolean {
     return (
       Object.values(company.info).every((c) => c !== null) &&
-      Object.values(company.bankAccount.bank).every((c) => c !== null)
+      this.isCompanyBankValid(company)
     );
   }
 
@@ -45,7 +45,20 @@ export class Company {
   }
 
   isCompanyBankValid(company: Company): boolean {
-    return Object.values(company.bankAccount.bank).every((c) => c !== null);
+    const bank = company.bankAccount.bank;
+    let status = true;
+
+    if (
+      !bank.CDBank ||
+      !bank.NmBankShort ||
+      !bank.CDHeadBank ||
+      !bank.AdrBank ||
+      bank.CdControl === 'ЗАКР'
+    ) {
+      status = false;
+    }
+
+    return status;
   }
 }
 

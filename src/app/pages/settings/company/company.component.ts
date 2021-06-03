@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Bank, BankAccount } from 'src/app/models/bank.model';
-import { Company } from 'src/app/models/company.model';
+import { Company, CompanyInfo } from 'src/app/models/company.model';
 import { FileUpload } from 'src/app/models/fileUpload.model';
 import { EgrService } from 'src/app/services/egr.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -59,7 +59,7 @@ export class CompanyComponent implements OnInit {
   }
 
   changeCompany(): void {
-    this.companyInfo = new Company();
+    this.companyInfo.info = new CompanyInfo();
     this.isCompanySelected = false;
   }
 
