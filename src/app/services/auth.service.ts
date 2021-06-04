@@ -106,10 +106,6 @@ export class AuthService {
     }
   }
 
-  // googleAuth(): any {
-  //   return this.authLogin(new auth.GoogleAuthProvider());
-  // }
-
   authLogin(provider): any {
     return this._fa
       .signInWithPopup(provider)

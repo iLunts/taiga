@@ -11,10 +11,14 @@ import { AuthGuard } from './guards/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { MessagingService } from './services/messaging.service';
 import { AsyncPipe } from '@angular/common';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AdminLayoutComponent,
+    DashboardLayoutComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -29,8 +33,8 @@ import { AsyncPipe } from '@angular/common';
     MessagingService,
     AsyncPipe,
     {
-        provide: TUI_ICONS_PATH,
-        useValue: iconsPathFactory('assets/taiga-ui/icons/'),
+      provide: TUI_ICONS_PATH,
+      useValue: iconsPathFactory('assets/taiga-ui/icons/'),
     },
   ],
   bootstrap: [AppComponent]
