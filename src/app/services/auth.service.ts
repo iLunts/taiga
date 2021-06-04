@@ -193,6 +193,6 @@ export class AuthService {
   async logout() {
     await this._fa.signOut();
     localStorage.removeItem('user');
-    this._router.navigate([environment.routing.login]);
+    this._router.navigate([environment.routing.admin.login]);
   }
 }
