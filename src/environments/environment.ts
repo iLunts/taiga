@@ -17,11 +17,23 @@ export const environment = {
   },
 
   routing: {
-    home: '/home',
-    login: '/auth/login',
-    registration: '/auth/registration',
-    invoiceList: '/invoices',
-  }
+    default: {
+      home: '/home',
+    },
+    admin: {
+      login: '/admin/auth/login',
+      registration: '/admin/auth/registration',
+      dashboard: '/admin/dashboard',
+      invoice: {
+        list: '/admin/invoices',
+        create: '/admin/invoices/create',
+      },
+      settings: {
+        main: '/admin/settings',
+        company: '/admin/settings/company',
+      },
+    }
+  },
 };
 
 /*

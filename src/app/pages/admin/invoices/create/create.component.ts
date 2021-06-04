@@ -53,7 +53,7 @@ export class InvoicesCreateComponent implements OnInit, AfterViewInit {
   }
 
   cancel(): void {
-    this.router.navigate([environment.routing.invoiceList]);
+    this.router.navigate([environment.routing.admin.invoice.list]);
   }
 
   get isInvoiceValid(): boolean {

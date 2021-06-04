@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Invoice } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-invoices-list',
@@ -13,7 +14,7 @@ export class InvoicesListComponent implements OnInit {
   invoiceStatuses$: Observable<any[]>;
   isLoaded: boolean;
   readonly columns = ['number', 'unp', 'status', 'price', 'action'];
-
+  routing = environment.routing;
 
   constructor(
     private _invoice: InvoiceService,

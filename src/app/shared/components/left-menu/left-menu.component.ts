@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Menu, MenuType } from 'src/app/models/menu';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-left-menu',
@@ -13,13 +14,13 @@ export class LeftMenuComponent implements OnInit {
   menu: Menu[] = [
     {
       name: 'Главная',
-      url: 'home',
+      url: environment.routing.admin.dashboard,
       icon: 'tuiIconDesktopLarge',
       type: 'menu',
     },
     {
       name: 'Счета',
-      url: 'invoices',
+      url: environment.routing.admin.invoice.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
     },
@@ -31,7 +32,7 @@ export class LeftMenuComponent implements OnInit {
     },
     {
       name: 'Настройки',
-      url: 'settings',
+      url: environment.routing.admin.settings.main,
       icon: 'tuiIconSettingsLarge',
       type: 'menu',
     },

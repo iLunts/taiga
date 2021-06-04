@@ -14,7 +14,15 @@ export const environment = {
 
   routing: {
     home: '/home',
-    login: '/auth/login',
-    registration: '/auth/registration',
+    login: '/admin/auth/login',
+    registration: '/admin/auth/registration',
+    invoice: {
+      list: '/admin/invoices',
+      create: '/admin/invoices/create',
+    },
+    settings: {
+      main: '/admin/settings',
+      company: '/admin/settings/company',
+    },
   },
 };
