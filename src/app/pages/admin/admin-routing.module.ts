@@ -15,7 +15,8 @@ const routes: Routes = [
     children: [
       {
         path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+        loadChildren: () =>
+          import('./auth/auth.module').then((m) => m.AuthModule),
       },
       {
         path: 'dashboard',
@@ -30,12 +31,20 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'contractor',
+        loadChildren: () =>
+          import('./contractor/contractor.module').then(
+            (m) => m.ContractorModule
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),
         canActivate: [AuthGuard],
       },
-    ]
+    ],
   },
 ];
 

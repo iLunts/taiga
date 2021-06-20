@@ -1,0 +1,39 @@
+<p>create works!</p>
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <input type="file" (change)="fileChangeEvent($event)" *ngIf="!imageChangedEvent"/>
+      <div class="row" *ngIf="imageChangedEvent">
+          <div class="text-center col-md-8">
+              <h5>Crop Image</h5>
+              <image-cropper 
+              [imageChangedEvent]="imageChangedEvent" 
+              [maintainAspectRatio]="false" 
+              [aspectRatio]="4 / 4"
+              [resizeToWidth]="256" 
+              format="png" 
+              (imageCropped)="imageCropped($event)" 
+              (imageLoaded)="imageLoaded()"
+              (cropperReady)="cropperReady()" 
+              (loadImageFailed)="loadImageFailed()"></image-cropper>
+          </div>
+          <div class="text-center col-md-4">
+              <h5>Preview</h5>
+              <img [src]="croppedImage" />
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div>
+  <h1>OCR</h1>
+  <img src="assets/image/test.png" width="50%" />
+  <button (click)="testOCR()">Test OCR</button>
+  <h2>Result: </h2>
+  <p>
+    {{ result | json }}
+  </p>
+</div>

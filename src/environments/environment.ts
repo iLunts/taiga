@@ -28,11 +28,15 @@ export const environment = {
         list: '/admin/invoices',
         create: '/admin/invoices/create',
       },
+      contractor: {
+        list: '/admin/contractor',
+        create: '/admin/contractor/create',
+      },
       settings: {
         main: '/admin/settings',
         company: '/admin/settings/company',
       },
-    }
+    },
   },
 };
 

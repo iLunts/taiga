@@ -1,11 +1,51 @@
+<form class="tui-container tui-container_adaptive" [formGroup]="form">
+  <div class="tui-row tui-row_adaptive">
+      <tui-input-number
+        formControlName="number"
+        class="tui-col_md-3">
+        Номер счета
+    </tui-input-number>
+    <tui-input-date-range
+      class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-5 tui-col_lg-5 tui-col-offset_md-4 tui-col-offset_lg-4"
+      tuiUnfinishedValidator="Finish filling the field"
+      formControlName="date"
+      [min]="initDate(0)"
+      [minLength]="{day: 3}"
+      [maxLength]="{month: 1}"
+      tuiHintContent="минимальный диапазон 3 дня, максимальный диапазон: 1 месяц"
+    >
+        Дата действия счёта
+    </tui-input-date-range>
+  </div>
+
+  <div class="tui-row tui-row_adaptive">
+    <div class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6">
+      <h1>Счет-фактура</h1>
+    </div>
+    <div class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6">
+      <!-- <tui-input-file
+        class="container"
+        link="Выберите файл с логотипом"
+        accept="image/*"
+        [formControl]="logotype"
+        [loadingFiles]="loading$ | async"
+        [rejectedFiles]="rejected$ | async"
+    ></tui-input-file> -->
+    <h2>Логотип</h2>
+    </div>
+  </div>
+</form>
+
+
+
 <section class="tui-container">
-  <div class="stepper">
+  <!-- <div class="stepper">
     <tui-stepper [activeItemIndex]="0">
       <button tuiStep>Реквизиты</button>
       <button tuiStep [disabled]="true">Услуги</button>
       <button tuiStep [disabled]="true">Счет</button>
     </tui-stepper>
-  </div>
+  </div> -->
 
   <form>
     <div class="tui-row tui-row_sme">

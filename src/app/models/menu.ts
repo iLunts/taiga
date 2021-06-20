@@ -4,6 +4,7 @@ export class Menu {
   url: string;
   icon: string;
   type: MenuType;
+  disabled?: boolean;
 }
 
 export type MenuType = 'divider' | 'menu';

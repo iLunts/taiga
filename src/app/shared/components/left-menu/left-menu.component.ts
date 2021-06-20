@@ -13,16 +13,56 @@ export class LeftMenuComponent implements OnInit {
   user: User;
   menu: Menu[] = [
     {
-      name: 'Главная',
+      name: 'Домашняя',
       url: environment.routing.admin.dashboard,
       icon: 'tuiIconDesktopLarge',
       type: 'menu',
+    },
+    {
+      name: 'Контрагенты',
+      url: environment.routing.admin.contractor.list,
+      icon: 'tuiIconFileLarge',
+      type: 'menu',
+    },
+    {
+      name: 'Услуги',
+      url: environment.routing.admin.contractor.list,
+      icon: 'tuiIconFileLarge',
+      type: 'menu',
+      disabled: true
+    },
+    {
+      name: 'Профиль',
+      url: environment.routing.admin.contractor.list,
+      icon: 'tuiIconFileLarge',
+      type: 'menu',
+      disabled: true
+    },
+    {
+      name: '',
+      url: '',
+      icon: '',
+      type: 'divider',
     },
     {
       name: 'Счета',
       url: environment.routing.admin.invoice.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
+    },
+    {
+      name: 'Договора',
+      url: environment.routing.admin.invoice.list,
+      icon: 'tuiIconFileLarge',
+      type: 'menu',
+      disabled: true
+    },
+    {
+      name: 'Акты',
+      url: environment.routing.admin.invoice.list,
+      icon: 'tuiIconFileLarge',
+      type: 'menu',
+      disabled: true
     },
     {
       name: '',

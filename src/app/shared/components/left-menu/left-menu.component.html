@@ -12,7 +12,8 @@
           [icon]="item.icon"
           [routerLink]="[item.url]" 
           routerLinkActive="active"
-          *ngIf="item.type === 'menu'">
+          *ngIf="item.type === 'menu'"
+          [disabled]="item.disabled">
           {{item.name}}
         </button>
   
