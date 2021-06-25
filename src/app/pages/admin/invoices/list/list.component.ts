@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-invoices-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less']
+  styleUrls: ['./list.component.less'],
 })
 export class InvoicesListComponent implements OnInit {
   invoices$: Observable<Invoice[]>;
@@ -16,9 +16,7 @@ export class InvoicesListComponent implements OnInit {
   readonly columns = ['number', 'unp', 'status', 'price', 'action'];
   routing = environment.routing;
 
-  constructor(
-    private _invoice: InvoiceService,
-  ) { }
+  constructor(private _invoice: InvoiceService) {}
 
   ngOnInit(): void {
     this.fetchStatuses();
@@ -33,7 +31,7 @@ export class InvoicesListComponent implements OnInit {
     this.invoices$ = this._invoice.getAll$();
   }
 
-  remove(item: Invoice): void {
+  delete(item: Invoice): void {
     if (item) {
       this._invoice.delete$(item._id);
     }

@@ -29,14 +29,14 @@ export class LeftMenuComponent implements OnInit {
       url: environment.routing.admin.contractor.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true
+      disabled: true,
     },
     {
       name: 'Профиль',
       url: environment.routing.admin.contractor.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true
+      disabled: true,
     },
     {
       name: '',
@@ -52,17 +52,16 @@ export class LeftMenuComponent implements OnInit {
     },
     {
       name: 'Договора',
-      url: environment.routing.admin.invoice.list,
+      url: environment.routing.admin.contract.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true
     },
     {
       name: 'Акты',
       url: environment.routing.admin.invoice.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true
+      disabled: true,
     },
     {
       name: '',

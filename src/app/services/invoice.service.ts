@@ -26,7 +26,7 @@ export class InvoiceService {
     private _auth: AuthService,
     private _contractor: ContractorService,
     private _notification: NotificationService,
-    private _route: Router,
+    private _route: Router
   ) {
     if (this._auth.isLoggedIn) {
       this.invoicesRef = _fs.collection(this.dbPath, (q) =>
@@ -85,31 +85,38 @@ export class InvoiceService {
   }
 
   add$(invoice: Invoice): Observable<any> {
+    invoice._id = this._fs.createId();
     invoice._userId = this._auth.getUserId();
     invoice._createdDate = new Date();
     invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);
     return from(
       this._fs
-      .collection(this.dbPath)
-      .doc(invoice._id)
-      .set(JSON.parse(JSON.stringify(invoice))).then(() => {
+        .collection(this.dbPath)
+        .doc(invoice._id)
+        .set(JSON.parse(JSON.stringify(invoice)))
+        .then(() => {
           this._notification.success('Счет успешно создан');
           this._route.navigate(['invoices']);
         })
-      );
+    );
   }
 
   delete$(_id: string): Observable<void> {
-    return from(this.invoicesRef.doc(_id).delete().then(() => {
-      this._notification.success('Счет успешно удален');
-    }));
+    return from(
+      this.invoicesRef
+        .doc(_id)
+        .delete()
+        .then(() => {
+          this._notification.success('Счет успешно удален');
+        })
+    );
   }
 
   update$(_id: string, value: any): Observable<void> {
     return from(this.invoicesRef.doc(_id).update(value));
   }
 
-  calculateTotalAmount(invoice: Invoice): number{
+  calculateTotalAmount(invoice: Invoice): number {
     return _.sumBy(invoice.services, (o) => o.count * o.price);
   }
 }

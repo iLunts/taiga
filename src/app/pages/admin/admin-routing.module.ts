@@ -31,6 +31,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'contract',
+        loadChildren: () =>
+          import('./contract/contract.module').then((m) => m.ContractModule),
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'contractor',
         loadChildren: () =>
           import('./contractor/contractor.module').then(
@@ -50,6 +56,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

@@ -1,11 +1,21 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Contractor } from 'src/app/models/company.model';
 import { environment } from 'src/environments/environment';
-import { Invoice, InvoiceStatus } from 'src/app/models/invoice.model';
+import { Invoice, InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
 import * as moment from 'moment';
@@ -17,11 +27,13 @@ import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
   styleUrls: ['./create.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InvoicesCreateComponent implements OnInit, AfterViewInit {
+export class InvoicesCreateComponent implements OnInit {
   @ViewChild('qrBlock') qrBlock: any;
+  @ViewChild('inputNumber') inputNumber: any;
 
   invoice: Invoice = new Invoice(this.afs.createId());
   form: FormGroup;
+  isEditingNumber: boolean;
 
   constructor(
     private afs: AngularFirestore,
@@ -36,47 +48,64 @@ export class InvoicesCreateComponent implements OnInit, AfterViewInit {
 
   setupForm(): void {
     this.form = this.formBuilder.group({
-      number: new FormControl(1, [Validators.required]),
-      date: new FormControl(
+      contractor: new FormControl(null, [Validators.required]),
+      dateRange: new FormControl(
         new TuiDayRange(this.initDate(0), this.initDate(6))
       ),
-      logotype: new FormControl(null, [Validators.required]),
+      description: new FormControl(null),
+      number: new FormControl(1, [Validators.required]),
+      profile: new FormControl(null, [Validators.required]),
+      qrCode: new FormControl(null, [Validators.required]),
+      services: new FormControl(null, [Validators.required]),
+      signature: new FormControl(null, [Validators.required]),
+      status: new FormControl(null, [Validators.required]),
+      total: new FormControl(new TotalSum(), [Validators.required]),
+      type: new FormControl(1, [Validators.required]),
     });
   }
 
-  get f(): any{
+  get f(): any {
     return this.form.controls;
   }
 
   initDate(increment: number): TuiDay {
-    return TuiDay.normalizeParse(moment().add(increment, 'day').format('DD.MM.YYYY'));
+    return TuiDay.normalizeParse(
+      moment().add(increment, 'day').format('DD.MM.YYYY')
+    );
   }
 
   setStatus(data: InvoiceStatus): void {
     if (this.invoice) {
       this.invoice.status = data;
+      this.form.controls.status.setValue(data);
     }
   }
 
   setContractor(data: Contractor): void {
     if (this.invoice) {
       this.invoice.contractor = data;
+      this.form.controls.contractor.setValue(data);
     }
   }
 
   setService(data: Service[]): void {
     if (this.invoice) {
       this.invoice.services = data;
+      this.form.controls.services.setValue(data);
     }
   }
 
   save(): void {
-    if (this.qrBlock) {
-      this.invoice.qrCode =
-        this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
+    if (this.isQrCodeValid) {
+      this.form.controls.qrCode.setValue(this.getQrCode);
+      // this.invoice.qrCode =
+      //   this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
     }
 
-    this.invoiceService.add$(this.invoice).subscribe((response) => {
+    // this.invoiceService.add$(this.invoice).subscribe((response) => {
+    //   this.router.navigate([environment.routing.admin.invoice.list]);
+    // });
+    this.invoiceService.add$(this.form.value).subscribe((response) => {
       this.router.navigate([environment.routing.admin.invoice.list]);
     });
   }
@@ -93,10 +122,28 @@ export class InvoicesCreateComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    // if (this.qrBlock) {
-    //   debugger;
-    //   this.invoice.qrCode = this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
-    // }
+  toggleInvoiceNumber(): void {
+    this.isEditingNumber = !this.isEditingNumber;
+  }
+
+  onFocusedChange(focused: boolean): void {
+    if (!focused) {
+      this.isEditingNumber = false;
+    }
+  }
+
+  get getQrCode(): void {
+    if (this.isQrCodeValid) {
+      this.invoice.qrCode =
+        this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
+    } else {
+      return null;
+    }
+  }
+
+  get isQrCodeValid(): boolean {
+    return (
+      this.qrBlock && this.qrBlock.qrcElement.nativeElement.childNodes.length
+    );
   }
 }

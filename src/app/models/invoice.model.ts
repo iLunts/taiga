@@ -3,64 +3,59 @@ import { Contractor } from './company.model';
 import { Profile } from './profile.model';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { TuiDay } from '@taiga-ui/cdk';
 
 export class Invoice {
   _id: string;
-  _userId: string;
-  _contractId: string;
   _actId: string;
+  _contractId: string;
   _createdDate: Date;
-  number: string;
-  createDate: string;
-  expiredDate: string;
-  contractId: string;
-
-  // TODO: Need change to model
-  billTo: object;
-  billFrom: object;
-
+  _userId: string;
   contractor: Contractor;
+  dateRange: TuiDay;
+  description: string;
+  number: string;
   profile: Profile;
-  services: Service[];
-  status: InvoiceStatus;
-  type: string;
-  signature: Signature;
-  total: TotalSum;
   qrCode: string;
+  services: Service[];
+  signature: Signature;
+  status: InvoiceStatus;
+  total: TotalSum;
+  type: string;
 
   constructor(
     _id?: string,
-    _userId?: string,
-    _contractId?: string,
     _actId?: string,
+    _contractId?: string,
     _createdDate?: Date,
+    _userId?: string,
     contractor?: Contractor,
-    profile?: Profile,
-    services?: Service[],
+    dateRange?: TuiDay,
+    description?: string,
     number?: string,
-    createDate?: string,
-    expiredDate?: string,
-    status?: InvoiceStatus,
-    type?: string,
-    contractId?: string,
+    profile?: Profile,
+    qrCode?: string,
+    services?: Service[],
     signature?: Signature,
+    status?: InvoiceStatus,
     total?: TotalSum,
-    qrCode?: string
+    type?: string
   ) {
     this._id = _id || null;
     this._userId = _userId || null;
     this._contractId = _contractId || null;
-    this._actId = _contractId || null;
+    this._actId = _actId || null;
     this._createdDate = _createdDate || new Date();
     this.number = number || null;
     this.contractor = contractor || new Contractor();
     this.profile = profile || new Profile();
     this.services = services || [];
-    this.createDate = createDate || moment().toString();
-    this.expiredDate = expiredDate || moment().add(7, 'days').toString();
+    this.dateRange =
+      dateRange ||
+      TuiDay.normalizeParse(moment().add(7, 'day').format('DD.MM.YYYY'));
     this.status = status || null;
+    this.description = description || null;
     this.type = type || null;
-    this.contractId = contractId || null;
     this.signature = signature || new Signature();
     this.total = total || new TotalSum();
     this.qrCode = qrCode || null;
@@ -71,7 +66,10 @@ export class Invoice {
 
     // console.warn('WARN: ', _.isEmpty(null));
 
-    valid = invoice?.services?.length && invoice?.status && invoice?.contractor ? true : false;
+    valid =
+      invoice?.services?.length && invoice?.status && invoice?.contractor
+        ? true
+        : false;
     // valid = !_.values(invoice.status).every(_.isEmpty);
     // return invoice?.status ? invoice?.status?.isValid(invoice.status) : false;
     return valid;

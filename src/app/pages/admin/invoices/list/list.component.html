@@ -1,21 +1,23 @@
 <div class="header">
   <div class="header__top">
     <div class="header__account">
-      	<tui-avatar
-          class="tui-space_right-3"
-          text="Роман Лунцевич"
-          size="m"
-          [rounded]="true">
-        </tui-avatar>
-        <div class="header__account-name">
-          <span class="tui-text_h6">ИП Лунцевич Р.В.</span>
-          <span class="tui-text_body-s">УНП: 123 123 123</span>
-        </div>
+      <tui-avatar
+        class="tui-space_right-3"
+        text="Роман Лунцевич"
+        size="m"
+        [rounded]="true"
+      >
+      </tui-avatar>
+      <div class="header__account-name">
+        <span class="tui-text_h6">ИП Лунцевич Р.В.</span>
+        <span class="tui-text_body-s">УНП: 123 123 123</span>
+      </div>
     </div>
     <div class="header__action">
       <div class="header__action-balance">
         <p class="tui-space_bottom-0 tui-space_top-0">Активный баланс:</p>
-        <tui-money [value]="2750" [colored]="true" class="tui-text_h6"> </tui-money>
+        <tui-money [value]="2750" [colored]="true" class="tui-text_h6">
+        </tui-money>
       </div>
       <button
         class="tui-space_left-10"
@@ -24,11 +26,10 @@
         icon="tuiIconPlusLarge"
         title="Add new invoice"
         shape="rounded"
-        [routerLink]="[routing.admin.invoice.create]">
-      </button>
+        [routerLink]="[routing.admin.invoice.create]"
+      ></button>
     </div>
   </div>
-  
 </div>
 
 <!-- <ng-container *ngIf="invoices$ | async; let invoices">
@@ -49,13 +50,11 @@
   </tui-island>
 </ng-container> -->
 
-
-<ng-container *ngIf="invoices$ | async; let invoices">
-
+<ng-container *ngIf="invoices$ | async as invoices">
   <table tuiTable [columns]="columns">
     <thead>
       <tr tuiThGroup>
-        <th *tuiHead="'number'" tuiTh [resizable]="true">#</th>
+        <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
         <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
         <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
         <th *tuiHead="'price'" tuiTh [resizable]="true">Сумма</th>
@@ -65,17 +64,15 @@
     </thead>
     <tbody tuiTbody [data]="invoices">
       <tr *tuiRow="let item of invoices; let index = index" tuiTr>
-        <td *tuiCell="'number'" tuiTd>
-          <!-- {{item?.number}} -->
-        </td>
+        <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
         <td *tuiCell="'unp'" tuiTd>
-          {{item?.contractor?.info?.unp}}
+          {{ item?.contractor?.info?.unp }}
         </td>
         <td *tuiCell="'status'" tuiTd>
-          {{item?.status?.name}}
+          {{ item?.status?.name }}
         </td>
         <td *tuiCell="'price'" tuiTd>
-          {{item?.total?.totalSum?.amount}}
+          {{ item?.total?.totalSum?.amount }}
         </td>
         <!-- <td *tuiCell="'email'" tuiTd>
             <a *ngIf="item.email" tuiLink [href]="'mailto:' + item.email">
@@ -94,23 +91,30 @@
             ></tui-tag>
         </td> -->
         <td *tuiCell="'action'" tuiTd>
-            <button
-                tuiIconButton
-                class="remove"
-                appearance="flat"
-                size="s"
-                icon="tuiIconTrash"
-                title="Remove"
-                shape="rounded"
-                (click)="remove(item)"
-            ></button>
+          <button
+            tuiIconButton
+            appearance="flat"
+            size="s"
+            icon="tuiIconCopy"
+            title="Act"
+            shape="rounded"
+            (click)="create(item)"
+          ></button>
+          <button
+            tuiIconButton
+            class="remove"
+            appearance="flat"
+            size="s"
+            icon="tuiIconTrash"
+            title="Remove"
+            shape="rounded"
+            (click)="delete(item)"
+          ></button>
         </td>
       </tr>
     </tbody>
   </table>
-
 </ng-container>
-
 
 <!-- <div class="invoice" *ngIf="selectedInvoice">
   <div class="invoice__info">
