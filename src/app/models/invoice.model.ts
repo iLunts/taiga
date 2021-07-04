@@ -22,6 +22,7 @@ export class Invoice {
   status: InvoiceStatus;
   total: TotalSum;
   type: string;
+  template: string;
 
   constructor(
     _id?: string,
@@ -39,7 +40,8 @@ export class Invoice {
     signature?: Signature,
     status?: InvoiceStatus,
     total?: TotalSum,
-    type?: string
+    type?: string,
+    template?: string
   ) {
     this._id = _id || null;
     this._userId = _userId || null;
@@ -59,6 +61,7 @@ export class Invoice {
     this.signature = signature || new Signature();
     this.total = total || new TotalSum();
     this.qrCode = qrCode || null;
+    this.template = template || null;
   }
 
   isValid(invoice: Invoice): boolean {

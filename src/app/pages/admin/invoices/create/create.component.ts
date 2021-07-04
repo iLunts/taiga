@@ -20,6 +20,7 @@ import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
 import * as moment from 'moment';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
+import { DateHelper } from 'src/app/utils/date.helper';
 
 @Component({
   selector: 'app-invoices-create',
@@ -48,9 +49,10 @@ export class InvoicesCreateComponent implements OnInit {
 
   setupForm(): void {
     this.form = this.formBuilder.group({
+      _id: new FormControl(this.afs.createId(), [Validators.required]),
       contractor: new FormControl(null, [Validators.required]),
       dateRange: new FormControl(
-        new TuiDayRange(this.initDate(0), this.initDate(6))
+        new TuiDayRange(DateHelper.initDate(), DateHelper.initDate(6))
       ),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),

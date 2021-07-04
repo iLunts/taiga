@@ -14,6 +14,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 @NgModule({
   declarations: [],
@@ -30,6 +31,8 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
     ReactiveFormsModule,
     TaigaModule,
     QRCodeModule,
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
   ],
   exports: [
     CommonModule,
@@ -38,6 +41,8 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
     ReactiveFormsModule,
     TaigaModule,
     QRCodeModule,
-  ]
+    FroalaEditorModule,
+    FroalaViewModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

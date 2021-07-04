@@ -6,7 +6,13 @@ import { InvoicesCreateComponent } from './create/create.component';
 import { InvoicesListComponent } from './list/list.component';
 import { InvoicesRoutingModule } from './invoices-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { TuiInputDateRangeModule, TuiInputFileModule, TuiInputInlineModule, TuiInputNumberModule, TuiTextAreaModule } from '@taiga-ui/kit';
+import {
+  TuiInputDateRangeModule,
+  TuiInputFileModule,
+  TuiInputInlineModule,
+  TuiInputNumberModule,
+  TuiTextAreaModule,
+} from '@taiga-ui/kit';
 import { TuiButtonModule, TuiHintControllerModule } from '@taiga-ui/core';
 
 @NgModule({

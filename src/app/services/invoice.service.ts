@@ -85,7 +85,8 @@ export class InvoiceService {
   }
 
   add$(invoice: Invoice): Observable<any> {
-    invoice._id = this._fs.createId();
+    // const pushkey = this._fs.createId();
+    // invoice._id = pushkey;
     invoice._userId = this._auth.getUserId();
     invoice._createdDate = new Date();
     invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);

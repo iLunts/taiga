@@ -10,10 +10,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./list.component.less'],
 })
 export class InvoicesListComponent implements OnInit {
+  readonly columns = ['number', 'unp', 'status', 'price', 'action'];
   invoices$: Observable<Invoice[]>;
   invoiceStatuses$: Observable<any[]>;
   isLoaded: boolean;
-  readonly columns = ['number', 'unp', 'status', 'price', 'action'];
   routing = environment.routing;
 
   constructor(private _invoice: InvoiceService) {}
