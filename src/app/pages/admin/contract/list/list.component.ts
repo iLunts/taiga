@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Contract } from 'src/app/models/contract.model';
 import { Invoice } from 'src/app/models/invoice.model';
@@ -19,7 +20,8 @@ export class ContractListComponent implements OnInit {
 
   constructor(
     private contractService: ContractService,
-    private templatePdfService: TemplatePdfService
+    private templatePdfService: TemplatePdfService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,4 +41,15 @@ export class ContractListComponent implements OnInit {
   downloadPdf(data: Contract): void {
     this.templatePdfService.downloadPdf('contract', data);
   }
+
+  createBaseOnInvoice(data): void {
+    this.router.navigate([this.routing.admin.invoice.create]);
+    // this.router.navigate([this.routing.admin.invoice.create], {
+    //   state: { contract: data },
+    // });
+  }
+
+  createBaseOnAct(data): void {}
+
+  createBaseOnReference(data): void {}
 }

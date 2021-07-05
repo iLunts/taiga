@@ -56,14 +56,13 @@
             tuiIconButton
             appearance="flat"
             size="s"
-            icon="tuiIconDownloadLarge"
-            title="Download PDF"
+            icon="tuiIconDownload"
+            title="Скачать PDF"
             shape="rounded"
             (click)="downloadPdf(item)"
           ></button>
           <button
             tuiIconButton
-            class="remove"
             appearance="flat"
             size="s"
             icon="tuiIconTrash"
@@ -71,6 +70,32 @@
             shape="rounded"
             (click)="delete(item)"
           ></button>
+
+          <tui-hosted-dropdown #dropdown [content]="content">
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconMoreVer"
+              type="button"
+              shape="rounded"
+              [pseudoHovered]="dropdown.open || null"
+            ></button>
+          </tui-hosted-dropdown>
+          <ng-template #content let-activeZone>
+            <tui-data-list
+              tuiDataListDropdownManager
+              [tuiActiveZoneParent]="activeZone"
+            >
+              <button tuiOption (click)="createBaseOnInvoice(item)">
+                Счёт
+              </button>
+              <button tuiOption (click)="createBaseOnAct(item)">Акт</button>
+              <button tuiOption (click)="createBaseOnReference(item)">
+                Справка
+              </button>
+            </tui-data-list>
+          </ng-template>
         </td>
       </tr>
     </tbody>

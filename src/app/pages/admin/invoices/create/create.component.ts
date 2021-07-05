@@ -11,7 +11,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Contractor } from 'src/app/models/company.model';
 import { environment } from 'src/environments/environment';
@@ -40,7 +40,8 @@ export class InvoicesCreateComponent implements OnInit {
     private afs: AngularFirestore,
     private invoiceService: InvoiceService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

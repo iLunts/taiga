@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TuiButtonModule, TuiHintControllerModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiHintControllerModule,
+  TuiHostedDropdownModule,
+} from '@taiga-ui/core';
 import {
   TuiInputDateModule,
   TuiInputDateRangeModule,
@@ -23,6 +28,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiInputDateRangeModule,
     TuiInputNumberModule,
     TuiInputDateModule,
+    TuiDataListModule,
+    TuiHostedDropdownModule,
   ],
 })
 export class ContractModule {}

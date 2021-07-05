@@ -6,16 +6,19 @@ import { InvoicesListComponent } from './list/list.component';
 const routes: Routes = [
   {
     path: '',
-    component: InvoicesListComponent
+    component: InvoicesListComponent,
   },
   {
     path: 'create',
-    component: InvoicesCreateComponent
+    component: InvoicesCreateComponent,
+    data: {
+      contract: 'test data contract',
+    },
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class InvoicesRoutingModule { }
+export class InvoicesRoutingModule {}

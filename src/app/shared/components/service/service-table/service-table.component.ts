@@ -1,5 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { Observable } from 'rxjs';
 import { Service } from 'src/app/models/service.model';
@@ -82,8 +88,9 @@ export class ServiceTableComponent implements OnInit {
     let format = 'DD.MM.YYYY';
     if (this.form) {
       let lastIndex = this.form.get('tableRowArray')['controls'].length - 1;
-      let date = this.form.get('tableRowArray')['controls'][lastIndex].controls
-        .date.value;
+      let date =
+        this.form.get('tableRowArray')['controls'][lastIndex].controls.date
+          .value;
       return TuiDay.normalizeParse(moment(date).add(1, 'day').format(format));
     } else {
       return TuiDay.normalizeParse(moment().format(format));
@@ -95,14 +102,14 @@ export class ServiceTableComponent implements OnInit {
 
     control.count.setValue(event.count);
     control.price.setValue(event.price);
-    control.amount.setValue(event.count * event.price);
+    control.amount.setValue((event.count * event.price).toFixed(2));
     control.unit.setValue(event.unit);
   }
 
   calculateSum(event: FormGroup, index: number): void {
     const control = this.form.get('tableRowArray')['controls'][index].controls;
     control.amount.setValue(
-      event.controls.count.value * event.controls.price.value
+      (event.controls.count.value * event.controls.price.value).toFixed(2)
     );
   }
 

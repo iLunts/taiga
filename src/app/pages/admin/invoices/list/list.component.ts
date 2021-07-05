@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Invoice } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
+import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,7 +17,10 @@ export class InvoicesListComponent implements OnInit {
   isLoaded: boolean;
   routing = environment.routing;
 
-  constructor(private _invoice: InvoiceService) {}
+  constructor(
+    private invoiceService: InvoiceService,
+    private templatePdfService: TemplatePdfService
+  ) {}
 
   ngOnInit(): void {
     this.fetchStatuses();
@@ -24,16 +28,20 @@ export class InvoicesListComponent implements OnInit {
   }
 
   fetchStatuses(): void {
-    this.invoiceStatuses$ = this._invoice.getAllStatus$();
+    this.invoiceStatuses$ = this.invoiceService.getAllStatus$();
   }
 
   fetch(): void {
-    this.invoices$ = this._invoice.getAll$();
+    this.invoices$ = this.invoiceService.getAll$();
   }
 
   delete(item: Invoice): void {
     if (item) {
-      this._invoice.delete$(item._id);
+      this.invoiceService.delete$(item._id);
     }
+  }
+
+  downloadPdf(data: Invoice): void {
+    this.templatePdfService.downloadPdf('invoice', data);
   }
 }

@@ -208,8 +208,8 @@ export const INVOICE_TEMPLATE_ALL = `
           Счет # {{invoiceNumber invoice.number}}
         </p>
         <p style="font-size: 12px; color: #5b5b5b; text-align: right">
-          <small>Дата создания: </small> {{formatDate invoice.createDate "DD.MM.YYYY"}}<br />
-          <small>Счет действителен до: {{formatDate invoice.expiredDate "DD.MM.YYYY"}}</small>
+          <small>Дата создания: </small> {{formatDate invoice.dateRange.from "DD.MM.YYYY"}}<br />
+          <small>Счет действителен до: {{formatDate invoice.dateRange.to "DD.MM.YYYY"}}</small>
         </p>
       </td>
     </tr>
@@ -335,12 +335,12 @@ export const INVOICE_TEMPLATE_ALL = `
         {{#each invoice.services}}
         <tr style="vertical-align: middle; border-bottom: 1px solid #333;">
           <td valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px; text-align: center;">{{getIndex @index}}</td>
-          <td valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px;">{{this.name}}</td>
+          <td valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px;">{{this.name.name}}</td>
           <td valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px; text-align: center;">{{this.unit.shortName}}</td>
           <td class="cell--bold" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px;"><strong>{{this.count}}</strong></td>
           <td class="cell--bold" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px;">{{this.price}}</td>
           <td class="cell--bold" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px;">{{this.tax}}</td>
-          <td class="cell--bold" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px; width: 20%;">{{getSum this.this.count this.this.price}}</td>
+          <td class="cell--bold" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA; line-height: 1.9px; width: 20%;">{{this.amount}}</td>
         </tr>
         {{/each}}
         <tr>
@@ -363,10 +363,8 @@ export const INVOICE_TEMPLATE_ALL = `
 <p class="invoice-note">Всего наименований 2(два), на сумму {{getTotalSumDigs}} ({{getTotalSum}})</p>
 
 <p class="invoice-sign">
-  {{invoice.profile.info.fullName}}
-  <img src="{{invoice.signature.sign}}" style="display: inline-block; vertical-align: middle; width: 130px;"/> (подпись)
+  {{invoice.profile.info.fullName}} (подпись)
 </p>
 
-<p class="invoice-sign">Отсканируйте код из мобильного приложения invoices.by чтобы открыть документ
-<img src="{{invoice.qrCode}}" style="display: inline-block; vertical-align: middle; width: 100px; margin-left: 15px;"/></p>
+<p class="invoice-sign">Отсканируйте код из мобильного приложения invoices.by чтобы открыть документ</p>
 `;

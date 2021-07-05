@@ -95,14 +95,22 @@
             tuiIconButton
             appearance="flat"
             size="s"
+            icon="tuiIconDownload"
+            title="Скачать PDF"
+            shape="rounded"
+            (click)="downloadPdf(item)"
+          ></button>
+          <button
+            tuiIconButton
+            appearance="flat"
+            size="s"
             icon="tuiIconCopy"
-            title="Act"
+            title="Создать Акт на основании..."
             shape="rounded"
             (click)="create(item)"
           ></button>
           <button
             tuiIconButton
-            class="remove"
             appearance="flat"
             size="s"
             icon="tuiIconTrash"

@@ -7,6 +7,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import * as Handlebars from 'handlebars/dist/cjs/handlebars';
 import * as moment from 'moment';
 import { Invoice } from '../models/invoice.model';
+import { INVOICE_TEMPLATE_ALL } from '../templates/invoices/invoice.template';
+import { TuiDay } from '@taiga-ui/cdk';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +38,11 @@ export class TemplatePdfService {
       }
     }
 
-    this.pdfObj.download();
+    this.pdfObj.download(
+      `${type}-#${data.number || 'б.н.'}-${data.date}-${
+        data.contractor.info.name
+      }.pdf`
+    );
   }
 
   createContractPdf(data?: any): void {
@@ -81,7 +87,7 @@ export class TemplatePdfService {
     Handlebars.registerHelper('formatDate', function (datetime, format) {
       if (moment) {
         // can use other formats like 'lll' too
-        format = format || 'DD.MM.YYYY HH:mm';
+        format = format || 'DD.MM.YYYY';
         return moment(datetime).format(format);
       } else {
         return datetime;
@@ -143,13 +149,8 @@ export class TemplatePdfService {
     };
 
     let template = Handlebars.compile(
-      data.template
-      // INVOICE_TEMPLATE_LOGO +
-      //   INVOICE_TEMPLATE_HEADER +
-      //   INVOICE_TEMPLATE_TABLE +
-      //   INVOICE_TEMPLATE_NOTE +
-      //   INVOICE_TEMPLATE_SIGN +
-      //   INVOICE_TEMPLATE_QR_CODE
+      // data.template || INVOICE_TEMPLATE_ALL
+      INVOICE_TEMPLATE_ALL
     );
     let html = template({
       invoice: data,
