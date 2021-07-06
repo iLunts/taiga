@@ -101,14 +101,8 @@ export class InvoicesCreateComponent implements OnInit {
   save(): void {
     if (this.isQrCodeValid) {
       this.form.controls.qrCode.setValue(this.getQrCode);
-      // this.invoice.qrCode =
-      //   this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
     }
-
-    // this.invoiceService.add$(this.invoice).subscribe((response) => {
-    //   this.router.navigate([environment.routing.admin.invoice.list]);
-    // });
-    this.invoiceService.add$(this.form.value).subscribe((response) => {
+    this.invoiceService.add$(this.form.value).subscribe(() => {
       this.router.navigate([environment.routing.admin.invoice.list]);
     });
   }
@@ -135,10 +129,9 @@ export class InvoicesCreateComponent implements OnInit {
     }
   }
 
-  get getQrCode(): void {
+  get getQrCode(): any {
     if (this.isQrCodeValid) {
-      this.invoice.qrCode =
-        this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
+      return this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
     } else {
       return null;
     }

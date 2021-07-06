@@ -8,7 +8,6 @@ import * as Handlebars from 'handlebars/dist/cjs/handlebars';
 import * as moment from 'moment';
 import { Invoice } from '../models/invoice.model';
 import { INVOICE_TEMPLATE_ALL } from '../templates/invoices/invoice.template';
-import { TuiDay } from '@taiga-ui/cdk';
 
 @Injectable({
   providedIn: 'root',
@@ -148,10 +147,7 @@ export class TemplatePdfService {
       margin: [0, 0, 0, 0];
     };
 
-    let template = Handlebars.compile(
-      // data.template || INVOICE_TEMPLATE_ALL
-      INVOICE_TEMPLATE_ALL
-    );
+    let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
     let html = template({
       invoice: data,
     });

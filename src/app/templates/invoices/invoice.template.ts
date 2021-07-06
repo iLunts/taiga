@@ -367,4 +367,5 @@ export const INVOICE_TEMPLATE_ALL = `
 </p>
 
 <p class="invoice-sign">Отсканируйте код из мобильного приложения invoices.by чтобы открыть документ</p>
+<img src="{{invoice.qrCode}}" style="display: inline-block; vertical-align: middle; width: 100px; margin-left: 15px;"/>
 `;
