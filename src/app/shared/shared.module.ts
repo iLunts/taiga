@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [],
@@ -30,6 +31,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     FormsModule,
     ReactiveFormsModule,
     TaigaModule,
+    TextMaskModule,
     QRCodeModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
@@ -40,6 +42,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     FormsModule,
     ReactiveFormsModule,
     TaigaModule,
+    TextMaskModule,
     QRCodeModule,
     FroalaEditorModule,
     FroalaViewModule,

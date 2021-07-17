@@ -1,39 +1,62 @@
-<p>create works!</p>
+<form [formGroup]="form">
+  <h2>Создание контрагента</h2>
 
-<div class="container">
-  <div class="card">
-    <div class="card-body">
-      <input type="file" (change)="fileChangeEvent($event)" *ngIf="!imageChangedEvent"/>
-      <div class="row" *ngIf="imageChangedEvent">
-          <div class="text-center col-md-8">
-              <h5>Crop Image</h5>
-              <image-cropper 
-              [imageChangedEvent]="imageChangedEvent" 
-              [maintainAspectRatio]="false" 
-              [aspectRatio]="4 / 4"
-              [resizeToWidth]="256" 
-              format="png" 
-              (imageCropped)="imageCropped($event)" 
-              (imageLoaded)="imageLoaded()"
-              (cropperReady)="cropperReady()" 
-              (loadImageFailed)="loadImageFailed()"></image-cropper>
-          </div>
-          <div class="text-center col-md-4">
-              <h5>Preview</h5>
-              <img [src]="croppedImage" />
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
+  <section formGroupName="info">
+    <h3 class="tui-space_top-10">Информация</h3>
+    <p>
+      <tui-input [textMask]="maskUNP" formControlName="unp"> УНП </tui-input>
+    </p>
+    <p>
+      <tui-input formControlName="fullName"> Полное название </tui-input>
+    </p>
+    <p>
+      <tui-input formControlName="shortName"> Короткое название </tui-input>
+    </p>
+    <p>
+      <tui-input formControlName="name"> Название </tui-input>
+    </p>
+  </section>
 
+  <section formGroupName="juridicalAddress">
+    <h3 class="tui-space_top-10">Юридические данные</h3>
+    <p>123123123</p>
+  </section>
 
-<div>
-  <h1>OCR</h1>
-  <img src="assets/image/test.png" width="50%" />
-  <button (click)="testOCR()">Test OCR</button>
-  <h2>Result: </h2>
-  <p>
-    {{ result | json }}
-  </p>
-</div>
+  <section formGroupName="mailingAddress">
+    <h3 class="tui-space_top-10">Почтовые данные</h3>
+    <p>
+      Идентичные юридическим данным
+      <tui-toggle
+        class="tui-space_left-1"
+        size="l"
+        [showIcons]="true"
+      ></tui-toggle>
+    </p>
+
+    <p>123123123</p>
+  </section>
+
+  <section>
+    <button
+      class="tui-space_right-3"
+      tuiButton
+      type="button"
+      [showLoader]="false"
+      [size]="'m'"
+      appearance="secondary"
+      (click)="cancel()"
+    >
+      Отменить
+    </button>
+    <button
+      tuiButton
+      type="button"
+      [showLoader]="false"
+      [size]="'m'"
+      [disabled]="form.invalid"
+      (click)="save()"
+    >
+      Добавить
+    </button>
+  </section>
+</form>

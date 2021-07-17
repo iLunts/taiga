@@ -1,10 +1,67 @@
-<p>Contractor list works!</p>
+<div class="header">
+  <div class="header__top">
+    <div class="header__account">
+      <tui-avatar
+        class="tui-space_right-3"
+        text="Роман Лунцевич"
+        size="m"
+        [rounded]="true"
+      >
+      </tui-avatar>
+      <div class="header__account-name">
+        <span class="tui-text_h6">ИП Лунцевич Р.В.</span>
+        <span class="tui-text_body-s">УНП: 123 123 123</span>
+      </div>
+    </div>
+    <div class="header__action">
+      <button
+        class="tui-space_left-10"
+        tuiIconButton
+        size="m"
+        icon="tuiIconPlusLarge"
+        title="Add new invoice"
+        shape="rounded"
+        (click)="toggleAsideContractorCreate()"
+      ></button>
+    </div>
+  </div>
+</div>
 
-<button
-    tuiButton
-    type="button"
-    class="tui-space_right-3 tui-space_bottom-3"
-    appearance="outline"
-    [routerLink]="[routing.admin.contractor.create]">
-    Новый контрагент
-</button>
+<ng-container *ngIf="contractors$ | async as contractors">
+  <table tuiTable [columns]="columns">
+    <thead>
+      <tr tuiThGroup>
+        <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
+        <th *tuiHead="'name'" tuiTh [resizable]="true">Наименование</th>
+        <th *tuiHead="'action'" tuiTh [resizable]="false"></th>
+      </tr>
+    </thead>
+    <tbody tuiTbody [data]="contractors">
+      <tr *tuiRow="let item of contractors; let index = index" tuiTr>
+        <td *tuiCell="'unp'" tuiTd>
+          {{ item?.info?.unp }}
+        </td>
+        <td *tuiCell="'name'" tuiTd>
+          {{ item?.info?.shortName }}
+        </td>
+        <td *tuiCell="'action'" tuiTd>
+          <button
+            tuiIconButton
+            appearance="flat"
+            size="s"
+            icon="tuiIconTrash"
+            title="Удалить"
+            shape="rounded"
+            (click)="delete(item)"
+          ></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+
+<aside class="aside _right _close" *ngIf="isOpenAsideContractorCreate">
+  <app-contractor-create
+    (close)="toggleAsideContractorCreate()"
+  ></app-contractor-create>
+</aside>

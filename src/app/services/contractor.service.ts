@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Contractor, } from '../models/company.model';
+import { Contractor } from '../models/company.model';
 import { Observable, from } from 'rxjs';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +22,7 @@ export class ContractorService {
   constructor(
     private _fs: AngularFirestore,
     private _auth: AuthService,
+    private _notification: NotificationService
   ) {
     if (this._auth.isLoggedIn) {
       this.customersRef = this._fs.collection(this.dbPath, (q) =>
@@ -49,7 +54,7 @@ export class ContractorService {
       .valueChanges();
   }
 
-  add(contractor: any): Observable<any> {
+  add$(contractor: any): Observable<any> {
     const pushkey = this._fs.createId();
     contractor._id = pushkey;
     contractor._userId = this._auth.getUserId();
@@ -58,11 +63,21 @@ export class ContractorService {
         .collection(this.dbPath)
         .doc(pushkey)
         .set(JSON.parse(JSON.stringify(contractor)))
+        .then(() => {
+          this._notification.success('Контрагент успешно создан');
+        })
     );
   }
 
-  delete(_id: string): Promise<void> {
-    return this.customersRef.doc(_id).delete();
+  delete$(_id: string): Observable<void> {
+    return from(
+      this.customersRef
+        .doc(_id)
+        .delete()
+        .then(() => {
+          this._notification.success('Контрагент успешно удалён');
+        })
+    );
   }
 
   update(_id: string, value: any): Promise<void> {
