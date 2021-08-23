@@ -1,8 +1,0 @@
-{
-  "/api/v2/egr/*": {
-    "target": "http://egr.gov.by/api/v2/egr/",
-    "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
-  }
-}

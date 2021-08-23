@@ -21,23 +21,33 @@ export class EgrService {
   ) {}
 
   getBaseInfoByRegNum(UNP: string): any {
-    return from(this._http.get(`/api/v2/egr/getBaseInfoByRegNum/${UNP}`));
+    return from(
+      this._http.get(`http://egr.gov.by/api/v2/egr/getBaseInfoByRegNum/${UNP}`)
+    );
   }
 
   getAddressByRegNum(UNP: string): any {
-    return from(this._http.get(`/api/v2/egr/getAddressByRegNum/${UNP}`));
+    return from(
+      this._http.get(`http://egr.gov.by/api/v2/egr/getAddressByRegNum/${UNP}`)
+    );
   }
 
   getJurNamesByRegNum(UNP: string): any {
-    return from(this._http.get(`/api/v2/egr/getJurNamesByRegNum/${UNP}`));
+    return from(
+      this._http.get(`http://egr.gov.by/api/v2/egr/getJurNamesByRegNum/${UNP}`)
+    );
   }
 
   getVEDByRegNum(UNP: string): any {
-    return from(this._http.get(`/api/v2/egr/getVEDByRegNum/${UNP}`));
+    return from(
+      this._http.get(`http://egr.gov.by/api/v2/egr/getVEDByRegNum/${UNP}`)
+    );
   }
 
   getIPFIOByRegNum(UNP: string): any {
-    return from(this._http.get(`/api/v2/egr/getIPFIOByRegNum/${UNP}`));
+    return from(
+      this._http.get(`http://egr.gov.by/api/v2/egr/getIPFIOByRegNum/${UNP}`)
+    );
   }
 
   getAllByUnp(UNP: string): Company {

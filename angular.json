@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "invoices",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -28,6 +28,7 @@
               "src/assets",
               "src/firebase-messaging-sw.js",
               "src/manifest.json",
+              "src/.htaccess",
               {
                 "glob": "**/*",
                 "input": "node_modules/@taiga-ui/icons/src",
@@ -77,8 +78,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "taiga:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "taiga:build"
           },
           "configurations": {
             "production": {
