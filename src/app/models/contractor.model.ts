@@ -146,7 +146,7 @@ export class VEDInfo {
     ngrn?: string,
     dfrom?: string,
     cact?: string,
-    nsi00114?: { vkvdn: string; vnvdnp: string; nsi00114: string}
+    nsi00114?: { vkvdn: string; vnvdnp: string; nsi00114: string }
   ) {
     this.ngrn = ngrn || null;
     this.dfrom = dfrom || null;

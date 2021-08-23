@@ -13,24 +13,29 @@ export const environment = {
   },
 
   routing: {
-    home: '/home',
-    login: '/admin/auth/login',
-    registration: '/admin/auth/registration',
-    invoice: {
-      list: '/admin/invoices',
-      create: '/admin/invoices/create',
+    default: {
+      home: '/home',
     },
-    contractor: {
-      list: '/admin/contractor',
-      create: '/admin/contractor/create',
-    },
-    contract: {
-      list: '/admin/contract',
-      create: '/admin/contract/create',
-    },
-    settings: {
-      main: '/admin/settings',
-      company: '/admin/settings/company',
+    admin: {
+      login: '/admin/auth/login',
+      registration: '/admin/auth/registration',
+      dashboard: '/admin/dashboard',
+      invoice: {
+        list: '/admin/invoices',
+        create: '/admin/invoices/create',
+      },
+      contractor: {
+        list: '/admin/contractor',
+        create: '/admin/contractor/create',
+      },
+      contract: {
+        list: '/admin/contract',
+        create: '/admin/contract/create',
+      },
+      settings: {
+        main: '/admin/settings',
+        company: '/admin/settings/company',
+      },
     },
   },
 };

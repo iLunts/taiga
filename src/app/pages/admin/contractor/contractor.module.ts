@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import {
   TuiAvatarModule,
+  TuiFieldErrorModule,
   TuiInputModule,
   TuiToggleModule,
 } from '@taiga-ui/kit';
@@ -23,14 +24,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     ContractorRoutingModule,
-    // ImageCropperModule,
     TuiAvatarModule,
     TuiButtonModule,
     TuiButtonModule,
+    TuiFieldErrorModule,
     TuiHintControllerModule,
     TuiInputModule,
     TuiLetModule,
     TuiToggleModule,
+    // ImageCropperModule,
     // TuiInputDateRangeModule,
     // TuiInputNumberModule,
     // TuiInputDateModule,

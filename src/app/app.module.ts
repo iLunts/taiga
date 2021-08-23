@@ -10,16 +10,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './guards/auth.guard';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
-import { MessagingService } from './services/messaging.service';
+// import { MessagingService } from './services/messaging.service';
 import { SharedModule } from './shared/shared.module';
 import { TaigaModule } from './shared/taiga.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-    DefaultLayoutComponent,
-  ],
+  declarations: [AppComponent, AdminLayoutComponent, DefaultLayoutComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -30,13 +26,13 @@ import { TaigaModule } from './shared/taiga.module';
   ],
   providers: [
     AuthGuard,
-    MessagingService,
+    // MessagingService,
     AsyncPipe,
     {
       provide: TUI_ICONS_PATH,
       useValue: iconsPathFactory('assets/taiga-ui/icons/'),
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

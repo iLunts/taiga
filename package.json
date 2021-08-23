@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json --open",
-    "build": "ng build",
+    "start": "ng serve --open --proxy-config src/proxy.conf.json",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -53,6 +53,7 @@
     "@types/lodash": "^4.14.168",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "ftp-deploy": "^2.4.1",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",

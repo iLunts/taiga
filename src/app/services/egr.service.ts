@@ -17,7 +17,7 @@ import { NotificationService } from './notification.service';
 export class EgrService {
   constructor(
     private _http: HttpClient,
-    private _notification: NotificationService,
+    private _notification: NotificationService
   ) {}
 
   getBaseInfoByRegNum(UNP: string): any {
@@ -53,8 +53,10 @@ export class EgrService {
 
     observable.subscribe({
       next: (response) => {
-        if (response.every((element) => element === null)){
-          this._notification.warning('Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных')
+        if (response.every((element) => element === null)) {
+          this._notification.warning(
+            'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
+          );
           return;
         }
 
@@ -73,14 +75,19 @@ export class EgrService {
           contractorInfo.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
         }
 
-        contractorInfo.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
+        contractorInfo.juridicalAddress = this.mappingJurAddress(
+          addressByRegNum[0]
+        );
         contractorInfo.ved = VEDByRegNum[0];
         contractorInfo.info.unp = UNP;
       },
       error: (error) => {
         switch (error.status) {
           case 400: {
-            this._notification.error('Плохой запрос, проверьте вводимые данные', 'Плохой запрос');
+            this._notification.error(
+              'Плохой запрос, проверьте вводимые данные',
+              'Плохой запрос'
+            );
             break;
           }
           default: {
@@ -88,7 +95,7 @@ export class EgrService {
             break;
           }
         }
-      }
+      },
     });
 
     return contractorInfo;

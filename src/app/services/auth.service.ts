@@ -140,7 +140,7 @@ export class AuthService {
   signOut(): any {
     return this._fa.signOut().then(() => {
       localStorage.removeItem('user');
-      this._router.navigate(['/auth/login']);
+      this._router.navigate([environment.routing.admin.login]);
     });
   }
 
