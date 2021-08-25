@@ -22,31 +22,39 @@ export class EgrService {
 
   getBaseInfoByRegNum(UNP: string): any {
     return from(
-      this._http.get(`http://egr.gov.by/api/v2/egr/getBaseInfoByRegNum/${UNP}`)
+      this._http.get(
+        `https://solidexcrm.com/api/v2/egr/getBaseInfoByRegNum/${UNP}`
+      )
     );
   }
 
   getAddressByRegNum(UNP: string): any {
     return from(
-      this._http.get(`http://egr.gov.by/api/v2/egr/getAddressByRegNum/${UNP}`)
+      this._http.get(
+        `https://solidexcrm.com/api/v2/egr/getAddressByRegNum/${UNP}`
+      )
     );
   }
 
   getJurNamesByRegNum(UNP: string): any {
     return from(
-      this._http.get(`http://egr.gov.by/api/v2/egr/getJurNamesByRegNum/${UNP}`)
+      this._http.get(
+        `https://solidexcrm.com/api/v2/egr/getJurNamesByRegNum/${UNP}`
+      )
     );
   }
 
   getVEDByRegNum(UNP: string): any {
     return from(
-      this._http.get(`http://egr.gov.by/api/v2/egr/getVEDByRegNum/${UNP}`)
+      this._http.get(`https://solidexcrm.com/api/v2/egr/getVEDByRegNum/${UNP}`)
     );
   }
 
   getIPFIOByRegNum(UNP: string): any {
     return from(
-      this._http.get(`http://egr.gov.by/api/v2/egr/getIPFIOByRegNum/${UNP}`)
+      this._http.get(
+        `https://solidexcrm.com/api/v2/egr/getIPFIOByRegNum/${UNP}`
+      )
     );
   }
 
