@@ -33,33 +33,34 @@ export class Company {
     this.person = person || new Person();
   }
 
-  isCompanyValid(company: Company): boolean {
-    return (
-      Object.values(company.info).every((c) => c !== null) &&
-      this.isCompanyBankValid(company)
-    );
-  }
+  // isCompanyValid(company: Company): boolean {
+  //   return (
+  //     Object.values(company.info).every((c) => c !== null) &&
+  //     this.isCompanyBankValid(company)
+  //   );
+  // }
 
-  isCompanyInfoValid(company: Company): boolean {
-    return Object.values(company.info).every((c) => c !== null);
-  }
+  // isCompanyInfoValid(company: Company): boolean {
+  //   console.log('Check info: ', company.info);
+  //   return Object.values(company.info).every((c) => c !== null);
+  // }
 
-  isCompanyBankValid(company: Company): boolean {
-    const bank = company.bankAccount.bank;
-    let status = true;
+  // isCompanyBankValid(company: Company): boolean {
+  //   const bank = company.bankAccount.bank;
+  //   let status = true;
 
-    if (
-      !bank.CDBank ||
-      !bank.NmBankShort ||
-      !bank.CDHeadBank ||
-      !bank.AdrBank ||
-      bank.CdControl === 'ЗАКР'
-    ) {
-      status = false;
-    }
+  //   if (
+  //     !bank.CDBank ||
+  //     !bank.NmBankShort ||
+  //     !bank.CDHeadBank ||
+  //     !bank.AdrBank ||
+  //     bank.CdControl === 'ЗАКР'
+  //   ) {
+  //     status = false;
+  //   }
 
-    return status;
-  }
+  //   return status;
+  // }
 }
 
 export class CompanyAddress {
@@ -166,7 +167,7 @@ export class CompanyVEDInfo {
     ngrn?: string,
     dfrom?: string,
     cact?: string,
-    nsi00114?: { vkvdn: string; vnvdnp: string; nsi00114: string}
+    nsi00114?: { vkvdn: string; vnvdnp: string; nsi00114: string }
   ) {
     this.ngrn = ngrn || null;
     this.dfrom = dfrom || null;
@@ -174,10 +175,6 @@ export class CompanyVEDInfo {
     this.nsi00114 = nsi00114;
   }
 }
-
-
-
-
 
 import { BankAccount } from './bank.model';
 import * as moment from 'moment';
@@ -291,7 +288,7 @@ export class ContractorInfo {
     name?: string,
     nameBel?: string,
     registrationDate?: string,
-    unp?: string,
+    unp?: string
   ) {
     this.fullName = fullName || null;
     this.fullNameBel = fullNameBel || null;

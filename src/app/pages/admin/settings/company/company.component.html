@@ -3,114 +3,37 @@
 <section class="tui-container">
   <div class="tui-row tui-row_sme">
     <div class="tui-col_12">
+      <app-company-settings-logotype
+        [company]="company"
+      ></app-company-settings-logotype>
 
-  <tui-accordion class="accordion" [rounded]="false" [closeOthers]="false">
-    <tui-accordion-item class="accordion" borders="all" [showArrow]="true">
-        <div class="accordion__header">
-            <div class="accordion__header-icon">
-                <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
-            </div>
-            <div class="accordion__title">Логотип компании</div>
-            <div class="accordion__info">
-                <div class="accordion__status" [class._success]="getBlockStatus('logotype')">
-                  {{getBlockStatus('logotype') ? 'Approved' : 'Waiting for approve'}}
-                </div>
-            </div>
-        </div>
-        <ng-template tuiAccordionItemContent>
-          <ng-container *ngIf="!(uploadedFiles$ | async)?.length">
-            <!-- <app-upload-image></app-upload-image> -->
-          </ng-container>
-          <app-uploader></app-uploader>
-          <img [src]="item.url" alt="" *ngFor="let item of uploadedFiles$ | async">
-        </ng-template>
-    </tui-accordion-item>
+      <app-company-settings-information
+        [company]="company"
+        (returnCompany)="setCompanyInfo($event)"
+      ></app-company-settings-information>
 
-    <tui-accordion-item borders="all" [showArrow]="true">
-        <div class="accordion__header">
-            <div class="accordion__header-icon">
-              <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
-            </div>
-            <div class="accordion__title">Информация о компании</div>
-            <div class="accordion__info">
-                <div class="accordion__status" [class._success]="getBlockStatus('legalInformation')">
-                  {{getBlockStatus('legalInformation') ? 'Approved' : 'Waiting for approve'}}
-                </div>
-            </div>
-        </div>
-        <ng-template tuiAccordionItemContent>
-            <tui-input-number
-              *ngIf="!isCompanySelected"
-              class="tui-space_top-2"
-              [(ngModel)]="unp"
-              min="100000000"
-              max="999999999"
-              (change)="getCompanyInformation()"
-              >
-              УНП
-          </tui-input-number>
-          <app-company-panel *ngIf="isCompanySelected" [data]="companyInfo" [isLoaded]="selectedCompany" (change)="changeCompany()"></app-company-panel>
-        </ng-template>
-    </tui-accordion-item>
+      <app-company-settings-banks
+        [company]="company"
+        (returnCompany)="setCompanyBank($event)"
+      ></app-company-settings-banks>
 
-    <tui-accordion-item borders="all" [showArrow]="true">
-        <div class="accordion__header">
-            <div class="accordion__header-icon">
-              <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
-            </div>
-            <div class="accordion__title">Банк</div>
-            <div class="accordion__info">
-                <div class="accordion__status" [class._success]="getBlockStatus('bank')">
-                  {{getBlockStatus('bank') ? 'Approved' : 'Waiting for approve'}}
-                </div>
-            </div>
-        </div>
-        <ng-template tuiAccordionItemContent>
-            <!-- <tui-input
-              class="tui-space_top-2"
-              [(ngModel)]="bic"
-              (change)="getBankInformation()"
-              >
-              BIC номер банка
-          </tui-input> -->
-
-          <app-bank-select (change)="changeBank($event)"></app-bank-select>
-
-        </ng-template>
-    </tui-accordion-item>
-
-    <!-- <tui-accordion-item borders="all" [showArrow]="true">
-        <div class="accordion__header">
-            <div class="accordion__header-icon">
-              <tui-marker-icon class="operation-icon" src="tuiIconAlertCircleLarge" size="s" mode="primary"></tui-marker-icon>
-            </div>
-            <div class="accordion__title">Изображения на документы</div>
-            <div class="accordion__info">
-                <div class="accordion__status" [class._success]="getBlockStatus('signature')">
-                  {{getBlockStatus('signature') ? 'Approved' : 'Waiting for approve'}}
-                </div>
-            </div>
-        </div>
-        <ng-template tuiAccordionItemContent>
-            <h3>Content</h3>
-        </ng-template>
-    </tui-accordion-item> -->
-    </tui-accordion>
-
-    <button
-      tuiButton
-      type="button"
-      class="tui-space_right-3 tui-space_bottom-3"
-      appearance="primary"
-      [disabled]="!isCompanyValid">
+      <!-- <button
+        tuiButton
+        type="button"
+        class="tui-space_right-3 tui-space_bottom-3"
+        appearance="primary"
+        [disabled]="!isCompanyValid"
+      >
         Сохранить
-      </button>
+      </button> -->
 
-      <h3>{{companyInfo | json}}</h3>
+      <h3>{{ company.info | json }}</h3>
+      <hr />
+      <h3>{{ company.bankAccount | json }}</h3>
+
+      <hr />
+
+      <h3>{{ company | json }}</h3>
     </div>
   </div>
 </section>
-
-
-
-

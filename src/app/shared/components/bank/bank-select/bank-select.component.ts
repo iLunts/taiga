@@ -1,6 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { tuiReplayedValueChangesFrom, TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
+import {
+  tuiReplayedValueChangesFrom,
+  TUI_DEFAULT_MATCHER,
+} from '@taiga-ui/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Bank } from 'src/app/models/bank.model';
@@ -25,12 +28,12 @@ export class BankSelectComponent implements OnInit {
   banks: Bank[] = [];
   banks$: Observable<Bank[]>;
 
-  private readonly bankVal = new FormControl(null, Validators.required);
-  readonly form = new FormGroup({
+  bankVal = new FormControl(null, Validators.required);
+  form = new FormGroup({
     bank: this.bankVal,
   });
 
-  readonly banksSort$ = tuiReplayedValueChangesFrom<string>(this.bankVal).pipe(
+  banksSort$ = tuiReplayedValueChangesFrom<string>(this.bankVal).pipe(
     map((value) => {
       const filtered = this.banks.filter(
         (data) =>
@@ -45,7 +48,7 @@ export class BankSelectComponent implements OnInit {
         return filtered;
       }
 
-      this.onSelected(filtered[0]);
+      this.select(filtered[0]);
 
       return [];
     })
@@ -59,9 +62,10 @@ export class BankSelectComponent implements OnInit {
     return this._bank.getAllBank$();
   }
 
-  onSelected(bank: Bank) {
+  select(bank: Bank): void {
     // this.lastUser = user;
-    this.form.get('bank')!.setValue(bank);
+    // this.form.get('bank')!.setValue(bank);
+    this.form.get('bank').setValue(bank);
     this.change.emit(this.form.controls.bank.value);
   }
 }

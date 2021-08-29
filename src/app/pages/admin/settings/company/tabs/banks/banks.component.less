@@ -1,14 +1,8 @@
 @import "~@taiga-ui/core/styles/taiga-ui-local";
 
-.header {
-  position: sticky;
-  height: 80px;
-  margin: -15px -15px 15px;
-  padding: 15px;
-  border-bottom: 1px solid var(--color-graphite);
-}
-
 .accordion {
+  margin-bottom: 20px;
+
   & &__header {
     font: var(--tui-font-text-l);
     display: flex;
@@ -43,10 +37,3 @@
     }
   }
 }
-
-// :host
-//   ::ng-deep
-//   .tui-group_orientation_vertical.tui-group_collapsed
-//   > *:not(:last-child) {
-//   margin-bottom: 20px;
-// }

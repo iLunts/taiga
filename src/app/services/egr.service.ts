@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-// import { HTTP } from '@ionic-native/http/ngx';
-// import { Platform } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 import { forkJoin, from, Observable } from 'rxjs';
-import {
-  Contractor,
-  ContractorInfo,
-  ContractorAddress,
-  Company,
-} from '../models/company.model';
+import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
 import { NotificationService } from './notification.service';
+import { CompanyService } from './company.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +11,11 @@ import { NotificationService } from './notification.service';
 export class EgrService {
   constructor(
     private _http: HttpClient,
-    private _notification: NotificationService
+    private _notification: NotificationService,
+    private companyService: CompanyService
   ) {}
 
-  getBaseInfoByRegNum(UNP: string): any {
+  getBaseInfoByRegNum$(UNP: string): Observable<any> {
     return from(
       this._http.get(
         `https://solidexcrm.com/api/v2/egr/getBaseInfoByRegNum/${UNP}`
@@ -28,7 +23,7 @@ export class EgrService {
     );
   }
 
-  getAddressByRegNum(UNP: string): any {
+  getAddressByRegNum$(UNP: string): Observable<any> {
     return from(
       this._http.get(
         `https://solidexcrm.com/api/v2/egr/getAddressByRegNum/${UNP}`
@@ -36,7 +31,7 @@ export class EgrService {
     );
   }
 
-  getJurNamesByRegNum(UNP: string): any {
+  getJurNamesByRegNum$(UNP: string): Observable<any> {
     return from(
       this._http.get(
         `https://solidexcrm.com/api/v2/egr/getJurNamesByRegNum/${UNP}`
@@ -44,13 +39,13 @@ export class EgrService {
     );
   }
 
-  getVEDByRegNum(UNP: string): any {
+  getVEDByRegNum$(UNP: string): Observable<any> {
     return from(
       this._http.get(`https://solidexcrm.com/api/v2/egr/getVEDByRegNum/${UNP}`)
     );
   }
 
-  getIPFIOByRegNum(UNP: string): any {
+  getIPFIOByRegNum$(UNP: string): Observable<any> {
     return from(
       this._http.get(
         `https://solidexcrm.com/api/v2/egr/getIPFIOByRegNum/${UNP}`
@@ -59,17 +54,17 @@ export class EgrService {
   }
 
   getAllByUnp(UNP: string): Company {
-    let contractorInfo: Company = new Company();
+    let company: Company = new Company();
 
-    const observable = forkJoin([
-      this.getBaseInfoByRegNum(UNP),
-      this.getAddressByRegNum(UNP),
-      this.getJurNamesByRegNum(UNP),
-      this.getVEDByRegNum(UNP),
-      this.getIPFIOByRegNum(UNP),
-    ]);
-
-    observable.subscribe({
+    // const observable = forkJoin([
+    forkJoin([
+      this.getBaseInfoByRegNum$(UNP),
+      this.getAddressByRegNum$(UNP),
+      this.getJurNamesByRegNum$(UNP),
+      this.getVEDByRegNum$(UNP),
+      this.getIPFIOByRegNum$(UNP),
+    ]).subscribe({
+      // observable.subscribe({
       next: (response) => {
         if (response.every((element) => element === null)) {
           this._notification.warning(
@@ -84,20 +79,21 @@ export class EgrService {
         let VEDByRegNum = response[3];
         let IPFIOByRegNum = response[4];
 
-        contractorInfo._type = baseInfoByRegNum[0].nsi00211.nkvob;
+        company._type = baseInfoByRegNum[0].nsi00211.nkvob;
 
         // 1 - Юр. лицо ; 2 - ИП
-        if (contractorInfo._type === 1) {
-          contractorInfo.info = this.mappingJurNames(jurNamesByRegNum[0]);
+        if (company._type === 1) {
+          company.info = this.mappingJurNames(jurNamesByRegNum[0]);
         } else {
-          contractorInfo.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
+          company.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
         }
 
-        contractorInfo.juridicalAddress = this.mappingJurAddress(
-          addressByRegNum[0]
-        );
-        contractorInfo.ved = VEDByRegNum[0];
-        contractorInfo.info.unp = UNP;
+        company.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
+        company.ved = VEDByRegNum[0];
+        company.info.unp = UNP;
+
+        this.companyService.setCompany(company);
+        return company;
       },
       error: (error) => {
         switch (error.status) {
@@ -113,14 +109,16 @@ export class EgrService {
             break;
           }
         }
+
+        return null;
       },
     });
 
-    return contractorInfo;
+    return company;
   }
 
-  private mappingJurAddress(data: any): ContractorAddress {
-    let juridicalAddress = new ContractorAddress();
+  private mappingJurAddress(data: any): CompanyAddress {
+    let juridicalAddress = new CompanyAddress();
 
     juridicalAddress.city = data.vnp;
     juridicalAddress.cityType = data.nsi00239.vntnpk;
@@ -139,8 +137,8 @@ export class EgrService {
     return juridicalAddress;
   }
 
-  private mappingJurNames(data: any): ContractorInfo {
-    let info = new ContractorInfo();
+  private mappingJurNames(data: any): CompanyInfo {
+    let info = new CompanyInfo();
 
     info.fullName = data.vnaim;
     info.shortName = data.vn;
@@ -155,8 +153,8 @@ export class EgrService {
     return info;
   }
 
-  private mappingIPFIOByRegNum(data: any): ContractorInfo {
-    let info = new ContractorInfo();
+  private mappingIPFIOByRegNum(data: any): CompanyInfo {
+    let info = new CompanyInfo();
 
     info.fullName = 'Индивидуальный предприниматель ' + data.vfio;
     info.shortName = 'ИП ' + data.vfio;

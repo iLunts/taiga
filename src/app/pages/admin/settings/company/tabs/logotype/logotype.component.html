@@ -1,0 +1,38 @@
+<tui-accordion class="accordion" [rounded]="false" [closeOthers]="false">
+  <tui-accordion-item borders="all" [showArrow]="true">
+    <div class="accordion__header">
+      <div class="accordion__header-icon">
+        <tui-marker-icon
+          class="operation-icon"
+          src="tuiIconAlertCircleLarge"
+          size="s"
+          mode="primary"
+        ></tui-marker-icon>
+      </div>
+      <div class="accordion__title">Логотип компании</div>
+      <div class="accordion__info">
+        <div
+          class="accordion__status"
+          [class._success]="(uploadedFiles$ | async)?.length"
+        >
+          {{
+            (uploadedFiles$ | async)?.length
+              ? "Approved"
+              : "Waiting for approve"
+          }}
+        </div>
+      </div>
+    </div>
+    <ng-template tuiAccordionItemContent>
+      <ng-container *ngIf="!(uploadedFiles$ | async)?.length">
+        <!-- <app-upload-image></app-upload-image> -->
+      </ng-container>
+      <app-uploader></app-uploader>
+      <img
+        [src]="item.url"
+        alt=""
+        *ngFor="let item of uploadedFiles$ | async"
+      />
+    </ng-template>
+  </tui-accordion-item>
+</tui-accordion>

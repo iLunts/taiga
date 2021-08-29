@@ -1,0 +1,38 @@
+<tui-accordion class="accordion" [rounded]="false" [closeOthers]="false">
+  <tui-accordion-item borders="all" [showArrow]="true">
+    <div class="accordion__header">
+      <div class="accordion__header-icon">
+        <tui-marker-icon
+          class="operation-icon"
+          src="tuiIconAlertCircleLarge"
+          size="s"
+          mode="primary"
+        ></tui-marker-icon>
+      </div>
+      <div class="accordion__title">Информация о компании</div>
+      <div class="accordion__info">
+        <div class="accordion__status" [class._success]="isValid">
+          {{ isValid ? "Approved" : "Waiting for approve" }}
+        </div>
+      </div>
+    </div>
+    <ng-template tuiAccordionItemContent>
+      <tui-input-number
+        *ngIf="!isCompanySelected"
+        class="tui-space_top-2"
+        [formControl]="unp"
+        min="100000000"
+        max="999999999"
+        (change)="getCompanyInformation()"
+      >
+        УНП
+      </tui-input-number>
+      <app-company-panel
+        *ngIf="isCompanySelected"
+        [data]="company"
+        [isLoaded]="isCompanySelected"
+        (change)="changeCompany()"
+      ></app-company-panel>
+    </ng-template>
+  </tui-accordion-item>
+</tui-accordion>

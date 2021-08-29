@@ -15,7 +15,7 @@ export class FileUploadService {
   constructor(
     private _afStorage: AngularFireStorage,
     private _afDB: AngularFireDatabase,
-    private _auth: AuthService,
+    private _auth: AuthService
   ) {}
 
   pushFileToStorage(fileUpload: FileUpload): Observable<number> {

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 import { Bank, BankAccount } from 'src/app/models/bank.model';
 import { Company, CompanyInfo } from 'src/app/models/company.model';
-import { FileUpload } from 'src/app/models/fileUpload.model';
-import { EgrService } from 'src/app/services/egr.service';
-import { FileUploadService } from 'src/app/services/file-upload.service';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-company',
@@ -13,62 +12,25 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompanyComponent implements OnInit {
-  uploadedFiles$: Observable<FileUpload[]>;
-  companyInfo: Company = new Company();
-  bankInfo: BankAccount = new BankAccount();
-  unp: string;
-  bic: string;
-  isCompanySelected: boolean;
-  isBankSelected: boolean;
+  company: Company;
 
-  constructor(private _upload: FileUploadService, private _egr: EgrService) {}
+  constructor(private companyService: CompanyService) {}
 
   ngOnInit(): void {
-    this.getFiles();
+    this.companyService.getCompanyState$().subscribe((company: Company) => {
+      this.company = company;
+    });
   }
 
-  getFiles(): any {
-    this.uploadedFiles$ = this._upload.getFiles(10).valueChanges();
+  setCompanyInfo(company: Company): void {
+    this.company.info = company.info;
   }
 
-  getCompanyInformation(): void {
-    if (this.unp) {
-      this.companyInfo = this._egr.getAllByUnp(this.unp);
-      this.isCompanySelected = true;
-    }
+  setCompanyBank(company: Company): void {
+    this.company.bankAccount = company.bankAccount;
   }
 
-  getBlockStatus(mode: string): boolean {
-    switch (mode) {
-      case 'logotype': {
-        return true;
-      }
-      case 'legalInformation': {
-        return this.companyInfo.isCompanyInfoValid(this.companyInfo);
-      }
-      case 'bank': {
-        return this.companyInfo.isCompanyBankValid(this.companyInfo);
-      }
-      case 'signature': {
-        return false;
-      }
-      default: {
-        return false;
-      }
-    }
-  }
-
-  changeCompany(): void {
-    this.companyInfo.info = new CompanyInfo();
-    this.isCompanySelected = false;
-  }
-
-  changeBank(data: Bank): void {
-    this.companyInfo.bankAccount.bank = data;
-  }
-
-  get isCompanyValid(): boolean {
-    return this.companyInfo.isCompanyValid(this.companyInfo);
-    // return false;
+  setCompany(company: Company): void {
+    this.company = company;
   }
 }

@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CompanyComponent } from './company/company.component';
 import { SettingsComponent } from './settings.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: SettingsComponent
+    component: SettingsComponent,
   },
   {
     path: 'company',
-    component: CompanyComponent
+    loadChildren: () =>
+      import('./company/company.module').then((m) => m.CompanyModule),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SettingsRoutingModule { }
+export class SettingsRoutingModule {}

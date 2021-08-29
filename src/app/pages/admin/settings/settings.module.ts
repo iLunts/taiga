@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TuiAccordionModule, TuiInputNumberModule, TuiIslandModule, TuiMarkerIconModule } from '@taiga-ui/kit';
+import {
+  TuiAccordionModule,
+  TuiInputNumberModule,
+  TuiIslandModule,
+  TuiMarkerIconModule,
+} from '@taiga-ui/kit';
 
-import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
-import { CompanyComponent } from './company/company.component';
+import { SettingsRoutingModule } from './settings-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TuiButtonModule } from '@taiga-ui/core';
-
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
-  declarations: [SettingsComponent, CompanyComponent],
+  declarations: [SettingsComponent],
   imports: [
     CommonModule,
+    ComponentsModule,
     SharedModule,
     SettingsRoutingModule,
     TuiButtonModule,
@@ -21,6 +26,6 @@ import { TuiButtonModule } from '@taiga-ui/core';
     TuiIslandModule,
     TuiMarkerIconModule,
   ],
-  exports: [SettingsComponent, CompanyComponent],
+  exports: [SettingsComponent],
 })
 export class SettingsModule {}
