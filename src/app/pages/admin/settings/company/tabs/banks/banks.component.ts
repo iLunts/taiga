@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Company } from 'src/app/models/company.model';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-company-settings-banks',
@@ -15,19 +16,24 @@ export class BanksComponent implements OnInit {
   }
   private _company: Company;
 
-  @Output() returnCompany = new EventEmitter<Company>();
-
   isBankSelected: boolean;
   isValid: boolean;
 
-  constructor() {}
+  constructor(private companyService: CompanyService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.companyService.getCompanyState$().subscribe((company: Company) => {
+      this.company = company;
+      this.checkCompanyValid();
+    });
+  }
 
   changeBank(bankInfo): void {
-    console.log('Bank: ', bankInfo);
+    this.company.bankAccount.bank = bankInfo;
+    this.companyService.setCompany(this.company);
+  }
 
-    this.company.bankAccount = bankInfo;
-    this.returnCompany.emit(this.company);
+  checkCompanyValid(): void {
+    this.isValid = this.companyService.isCompanyBankValid(this.company);
   }
 }

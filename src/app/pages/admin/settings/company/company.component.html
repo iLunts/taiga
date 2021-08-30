@@ -9,15 +9,13 @@
 
       <app-company-settings-information
         [company]="company"
-        (returnCompany)="setCompanyInfo($event)"
       ></app-company-settings-information>
 
       <app-company-settings-banks
         [company]="company"
-        (returnCompany)="setCompanyBank($event)"
       ></app-company-settings-banks>
 
-      <!-- <button
+      <button
         tuiButton
         type="button"
         class="tui-space_right-3 tui-space_bottom-3"
@@ -25,14 +23,9 @@
         [disabled]="!isCompanyValid"
       >
         Сохранить
-      </button> -->
-
-      <h3>{{ company.info | json }}</h3>
-      <hr />
-      <h3>{{ company.bankAccount | json }}</h3>
+      </button>
 
       <hr />
-
       <h3>{{ company | json }}</h3>
     </div>
   </div>

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, from, Observable } from 'rxjs';
+import { forkJoin, from, Observable, of } from 'rxjs';
 import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { CompanyService } from './company.service';
+import { map } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +56,14 @@ export class EgrService {
 
   getAllByUnp(UNP: string): Company {
     let company: Company = new Company();
+    // let company = {
+    //   _type: null,
+    //   ved: null,
+    //   juridicalAddress: {},
+    //   info: {
+    //     unp: null
+    //   },
+    // };
 
     // const observable = forkJoin([
     forkJoin([
@@ -91,6 +100,11 @@ export class EgrService {
         company.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
         company.ved = VEDByRegNum[0];
         company.info.unp = UNP;
+
+        const prevCompany = this.companyService.getCompany();
+        company.bankAccount = prevCompany.bankAccount;
+        company.mailingAddress = prevCompany.mailingAddress;
+        company.person = prevCompany.person;
 
         this.companyService.setCompany(company);
         return company;

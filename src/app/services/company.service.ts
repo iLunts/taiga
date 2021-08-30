@@ -10,31 +10,23 @@ export class CompanyService {
 
   constructor() {}
 
-  // isCompanyValid(company: Company): boolean {
-  //   return Object.values(company).every((c) => c !== null);
-  // }
-
   isCompanyValid(company: Company): boolean {
-    return (
-      Object.values(company.info).every((c) => c !== null) &&
-      this.isCompanyBankValid(company)
-    );
+    console.log('Info: ', this.isCompanyInfoValid(company));
+    console.log('Bank: ', this.isCompanyBankValid(company));
+
+    return this.isCompanyInfoValid(company) && this.isCompanyBankValid(company);
   }
 
   isCompanyInfoValid(company: Company): boolean {
-    console.log(
-      'isCompanyInfoValid: ',
-      Object.values(company.info).every((c) => c !== null)
-    );
-
-    return Object.values(company.info).every((c) => c !== null);
+    return Object.values(company.info).every((info) => info !== null);
   }
 
   isCompanyBankValid(company: Company): boolean {
-    const bank = company.bankAccount.bank;
+    const bank = company.bankAccount?.bank;
     let status = true;
 
     if (
+      !bank ||
       !bank.CDBank ||
       !bank.NmBankShort ||
       !bank.CDHeadBank ||
@@ -60,7 +52,7 @@ export class CompanyService {
   }
 
   clearCompanyInfo(): void {
-    const company = this.getCompany();
+    let company = this.getCompany();
 
     company.info = new CompanyInfo();
     company.juridicalAddress = new CompanyAddress();

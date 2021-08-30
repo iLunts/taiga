@@ -13,24 +13,26 @@ import { CompanyService } from 'src/app/services/company.service';
 })
 export class CompanyComponent implements OnInit {
   company: Company;
+  isCompanyValid: boolean;
 
   constructor(private companyService: CompanyService) {}
 
   ngOnInit(): void {
     this.companyService.getCompanyState$().subscribe((company: Company) => {
       this.company = company;
+      this.isCompanyValid = this.companyService.isCompanyValid(this.company);
     });
   }
 
-  setCompanyInfo(company: Company): void {
-    this.company.info = company.info;
-  }
+  // setCompanyInfo(company: Company): void {
+  //   this.company.info = company.info;
+  // }
 
-  setCompanyBank(company: Company): void {
-    this.company.bankAccount = company.bankAccount;
-  }
+  // setCompanyBank(company: Company): void {
+  //   this.company.bankAccount = company.bankAccount;
+  // }
 
-  setCompany(company: Company): void {
-    this.company = company;
-  }
+  // setCompany(company: Company): void {
+  //   this.company = company;
+  // }
 }

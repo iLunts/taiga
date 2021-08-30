@@ -17,14 +17,6 @@
       </div>
     </div>
     <ng-template tuiAccordionItemContent>
-      <!-- <tui-input
-              class="tui-space_top-2"
-              [(ngModel)]="bic"
-              (change)="getBankInformation()"
-              >
-              BIC номер банка
-          </tui-input> -->
-
       <app-bank-select (change)="changeBank($event)"></app-bank-select>
     </ng-template>
   </tui-accordion-item>

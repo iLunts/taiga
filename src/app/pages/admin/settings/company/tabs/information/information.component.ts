@@ -24,8 +24,6 @@ export class InformationComponent implements OnInit {
   }
   private _company: Company;
 
-  @Output() returnCompany = new EventEmitter<Company>();
-
   isCompanySelected: boolean;
   isValid: boolean;
   unp = new FormControl(null);
@@ -38,6 +36,7 @@ export class InformationComponent implements OnInit {
   ngOnInit(): void {
     this.companyService.getCompanyState$().subscribe((company: Company) => {
       this.isCompanySelected = this.companyService.isCompanyInfoValid(company);
+      this.checkCompanyValid();
     });
   }
 
@@ -49,7 +48,6 @@ export class InformationComponent implements OnInit {
         this.isCompanySelected = true;
       }
     }
-    this.returnCompany.emit(this.company);
     return this.company;
   }
 
@@ -59,8 +57,8 @@ export class InformationComponent implements OnInit {
     this.isCompanySelected = false;
   }
 
-  checkCompanyValid(company: Company): void {
-    this.isValid = this.companyService.isCompanyInfoValid(company);
+  checkCompanyValid(): void {
+    this.isValid = this.companyService.isCompanyInfoValid(this.company);
     if (this.isValid) {
       this.isCompanySelected = true;
     }
