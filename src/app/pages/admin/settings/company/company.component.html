@@ -4,16 +4,20 @@
   <div class="tui-row tui-row_sme">
     <div class="tui-col_12">
       <app-company-settings-logotype
-        [company]="company"
+        [company]="company$ | async"
       ></app-company-settings-logotype>
 
       <app-company-settings-information
-        [company]="company"
+        [company]="company$ | async"
       ></app-company-settings-information>
 
       <app-company-settings-banks
-        [company]="company"
+        [company]="company$ | async"
       ></app-company-settings-banks>
+
+      <!-- <h2>
+        {{ company$ | async | json }}
+      </h2> -->
 
       <button
         tuiButton
@@ -21,12 +25,10 @@
         class="tui-space_right-3 tui-space_bottom-3"
         appearance="primary"
         [disabled]="!isCompanyValid"
+        (click)="save()"
       >
         Сохранить
       </button>
-
-      <hr />
-      <h3>{{ company | json }}</h3>
     </div>
   </div>
 </section>

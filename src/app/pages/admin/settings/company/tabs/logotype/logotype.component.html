@@ -16,9 +16,7 @@
           [class._success]="(uploadedFiles$ | async)?.length"
         >
           {{
-            (uploadedFiles$ | async)?.length
-              ? "Approved"
-              : "Waiting for approve"
+            (uploadedFiles$ | async)?.length ? "Проверено" : "Не хватает данных"
           }}
         </div>
       </div>

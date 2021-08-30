@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-// import { Observable } from 'rxjs';
-import { Bank, BankAccount } from 'src/app/models/bank.model';
-import { Company, CompanyInfo } from 'src/app/models/company.model';
+
+import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-company',
@@ -13,9 +14,12 @@ import { CompanyService } from 'src/app/services/company.service';
 })
 export class CompanyComponent implements OnInit {
   company: Company;
+  company$: Observable<Company[]>;
   isCompanyValid: boolean;
 
-  constructor(private companyService: CompanyService) {}
+  constructor(private companyService: CompanyService, private router: Router) {
+    this.getProfileCompany$();
+  }
 
   ngOnInit(): void {
     this.companyService.getCompanyState$().subscribe((company: Company) => {
@@ -24,15 +28,13 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  // setCompanyInfo(company: Company): void {
-  //   this.company.info = company.info;
-  // }
+  save(): void {
+    this.companyService.add$(this.company).subscribe((response) => {
+      this.router.navigate([environment.routing.admin.settings.main]);
+    });
+  }
 
-  // setCompanyBank(company: Company): void {
-  //   this.company.bankAccount = company.bankAccount;
-  // }
-
-  // setCompany(company: Company): void {
-  //   this.company = company;
-  // }
+  getProfileCompany$(): void {
+    this.company$ = this.companyService.getProfileCompany$();
+  }
 }

@@ -17,28 +17,23 @@ import { BankService } from 'src/app/services/bank.service';
 export class BankSelectComponent implements OnInit {
   @Output() change = new EventEmitter<Bank>();
 
-  constructor(private _bank: BankService) {
-    this._bank.getAllBank$().subscribe({
-      next: (response) => {
-        this.banks = response;
+  constructor(private bankService: BankService) {
+    this.bankService.getAllBank$().subscribe({
+      next: (bank: Bank[]) => {
+        this.banks = bank;
       },
     });
   }
 
   banks: Bank[] = [];
   banks$: Observable<Bank[]>;
-
-  bankVal = new FormControl(null, Validators.required);
-  form = new FormGroup({
-    bank: this.bankVal,
-  });
-
-  banksSort$ = tuiReplayedValueChangesFrom<string>(this.bankVal).pipe(
-    map((value) => {
+  bankControl = new FormControl(null, Validators.required);
+  banksSort$ = tuiReplayedValueChangesFrom<string>(this.bankControl).pipe(
+    map((value: string) => {
       const filtered = this.banks.filter(
-        (data) =>
-          TUI_DEFAULT_MATCHER(data.CDBank, value) ||
-          (TUI_DEFAULT_MATCHER(data.NmBankShort, value) && data.DtEnd === null)
+        (bank: Bank) =>
+          TUI_DEFAULT_MATCHER(bank.CDBank, value) ||
+          (TUI_DEFAULT_MATCHER(bank.NmBankShort, value) && bank.DtEnd === null)
       );
 
       if (
@@ -59,13 +54,11 @@ export class BankSelectComponent implements OnInit {
   }
 
   getAllBank(): Observable<Bank[]> {
-    return this._bank.getAllBank$();
+    return this.bankService.getAllBank$();
   }
 
   select(bank: Bank): void {
-    // this.lastUser = user;
-    // this.form.get('bank')!.setValue(bank);
-    this.form.get('bank').setValue(bank);
-    this.change.emit(this.form.controls.bank.value);
+    this.change.emit(bank);
+    this.bankControl.setValue(bank.NmBankShort + ' (' + bank.CDBank + ')');
   }
 }

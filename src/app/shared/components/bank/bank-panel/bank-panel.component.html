@@ -1,0 +1,30 @@
+<div class="bank" *ngIf="data">
+  <tui-avatar
+    class="bank__avatar"
+    class="tui-space_right-3"
+    [text]="data?.NmBankShort"
+    [autoColor]="true"
+  >
+  </tui-avatar>
+
+  <div class="bank__content">
+    <p class="bank__subtitle tui-text_body-s">
+      БИК номер: <b>{{ data?.CDBank }}</b>
+    </p>
+    <h4 class="bank__title tui-text_body-m tui-space_top-0 tui-space_bottom-0">
+      {{ data?.NmBankShort }}
+    </h4>
+  </div>
+
+  <button
+    class="bank__btn bank__btn--change"
+    tuiButton
+    type="button"
+    class="tui-space_left-3"
+    appearance="outline"
+    size="m"
+    (click)="change.emit(true)"
+  >
+    Изменить
+  </button>
+</div>

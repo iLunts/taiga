@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
 
@@ -8,10 +9,15 @@ import { CompanyService } from 'src/app/services/company.service';
   styleUrls: ['./banks.component.less'],
 })
 export class BanksComponent implements OnInit {
-  @Input() set company(value: Company) {
-    this._company = value;
+  @Input() set company(value: any) {
+    if (value?.length) {
+      this._company = value[0];
+      this.checkCompanyValid();
+    } else {
+      this._company = null;
+    }
   }
-  get company(): Company {
+  get company(): any {
     return this._company;
   }
   private _company: Company;
@@ -35,5 +41,8 @@ export class BanksComponent implements OnInit {
 
   checkCompanyValid(): void {
     this.isValid = this.companyService.isCompanyBankValid(this.company);
+    if (this.isValid) {
+      this.isBankSelected = true;
+    }
   }
 }

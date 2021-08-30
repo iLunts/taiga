@@ -1,12 +1,7 @@
-import { ThrowStmt } from '@angular/compiler';
-import { EventEmitter } from '@angular/core';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  Company,
-  CompanyAddress,
-  CompanyInfo,
-} from 'src/app/models/company.model';
+
+import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
 import { EgrService } from 'src/app/services/egr.service';
 
@@ -16,10 +11,15 @@ import { EgrService } from 'src/app/services/egr.service';
   styleUrls: ['./information.component.less'],
 })
 export class InformationComponent implements OnInit {
-  @Input() set company(value: Company) {
-    this._company = value;
+  @Input() set company(value: any) {
+    if (value?.length) {
+      this._company = value[0];
+      this.checkCompanyValid();
+    } else {
+      this._company = null;
+    }
   }
-  get company(): Company {
+  get company(): any {
     return this._company;
   }
   private _company: Company;

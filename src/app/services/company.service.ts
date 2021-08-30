@@ -1,28 +1,49 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
+import { BehaviorSubject, from, Observable } from 'rxjs';
+
+import { AuthService } from './auth.service';
 import { Company, CompanyAddress, CompanyInfo } from '../models/company.model';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyService {
   private company$ = new BehaviorSubject<Company>(new Company());
+  private dbPath = '/companies';
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private afs: AngularFirestore,
+    private notificationService: NotificationService
+  ) {}
 
   isCompanyValid(company: Company): boolean {
-    console.log('Info: ', this.isCompanyInfoValid(company));
-    console.log('Bank: ', this.isCompanyBankValid(company));
-
-    return this.isCompanyInfoValid(company) && this.isCompanyBankValid(company);
+    if (company) {
+      return (
+        this.isCompanyInfoValid(company) && this.isCompanyBankValid(company)
+      );
+    } else {
+      return false;
+    }
   }
 
   isCompanyInfoValid(company: Company): boolean {
-    return Object.values(company.info).every((info) => info !== null);
+    if (company) {
+      return Object.values(company.info).every(
+        (info: CompanyInfo) => info !== null
+      );
+    } else {
+      return false;
+    }
   }
 
   isCompanyBankValid(company: Company): boolean {
-    const bank = company.bankAccount?.bank;
+    const bank = company?.bankAccount?.bank;
     let status = true;
 
     if (
@@ -44,7 +65,18 @@ export class CompanyService {
   }
 
   getCompany(): Company {
-    return this.company$.getValue();
+    if (this.company$.getValue()) {
+      return this.company$.getValue();
+    } else {
+    }
+  }
+
+  getProfileCompany$(): Observable<Company[]> {
+    const companyRef: AngularFirestoreCollection<Company> = this.afs.collection(
+      this.dbPath,
+      (q) => q.where('_userId', '==', this.authService.getUserId())
+    );
+    return companyRef.valueChanges();
   }
 
   getCompanyState$(): Observable<Company> {
@@ -60,5 +92,21 @@ export class CompanyService {
     company._type = null;
 
     this.setCompany(company);
+  }
+
+  add$(company: Company): Observable<any> {
+    company._id = this.afs.createId();
+    company._userId = this.authService.getUserId();
+    company._createdDate = new Date().toString();
+
+    return from(
+      this.afs
+        .collection(this.dbPath)
+        .doc(company._id)
+        .set(JSON.parse(JSON.stringify(company)))
+        .then(() => {
+          this.notificationService.success('Компания успешно добавлена');
+        })
+    );
   }
 }

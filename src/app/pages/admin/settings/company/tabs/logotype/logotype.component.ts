@@ -10,10 +10,14 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
   styleUrls: ['./logotype.component.less'],
 })
 export class LogotypeComponent implements OnInit {
-  @Input() set company(value: Company) {
-    this._company = value;
+  @Input() set company(value: any) {
+    if (value?.length) {
+      this._company = value;
+    } else {
+      this._company = null;
+    }
   }
-  get company(): Company {
+  get company(): any {
     return this._company;
   }
   private _company: Company;
