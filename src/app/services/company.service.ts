@@ -8,6 +8,7 @@ import { BehaviorSubject, from, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Company, CompanyAddress, CompanyInfo } from '../models/company.model';
 import { NotificationService } from './notification.service';
+import { Bank, BankAccount } from '../models/bank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,13 +62,16 @@ export class CompanyService {
   }
 
   setCompany(company: Company): void {
-    this.company$.next(company);
+    if (company) {
+      this.company$.next(company);
+    }
   }
 
   getCompany(): Company {
     if (this.company$.getValue()) {
       return this.company$.getValue();
     } else {
+      this.setCompany(new Company());
     }
   }
 
@@ -94,8 +98,26 @@ export class CompanyService {
     this.setCompany(company);
   }
 
+  clearCompanyBankAccount(): void {
+    let company = this.getCompany();
+
+    company.bankAccount = new BankAccount();
+
+    this.setCompany(company);
+  }
+
+  clearCompanyBank(): void {
+    let company = this.getCompany();
+
+    company.bankAccount.bank = new Bank();
+
+    this.setCompany(company);
+  }
+
   add$(company: Company): Observable<any> {
-    company._id = this.afs.createId();
+    if (!company._id) {
+      company._id = this.afs.createId();
+    }
     company._userId = this.authService.getUserId();
     company._createdDate = new Date().toString();
 
@@ -106,6 +128,18 @@ export class CompanyService {
         .set(JSON.parse(JSON.stringify(company)))
         .then(() => {
           this.notificationService.success('Компания успешно добавлена');
+        })
+    );
+  }
+
+  update$(_id: string, company: any): Observable<void> {
+    return from(
+      this.afs
+        .collection(this.dbPath)
+        .doc(_id)
+        .update(company)
+        .then(() => {
+          this.notificationService.success('Компания успешно обнавлена');
         })
     );
   }

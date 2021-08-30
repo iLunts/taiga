@@ -27,7 +27,7 @@
         [disabled]="!isCompanyValid"
         (click)="save()"
       >
-        Сохранить
+        {{ company._id ? "Обновить" : "Сохранить" }}
       </button>
     </div>
   </div>

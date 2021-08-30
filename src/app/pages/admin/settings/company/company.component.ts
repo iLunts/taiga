@@ -29,9 +29,21 @@ export class CompanyComponent implements OnInit {
   }
 
   save(): void {
-    this.companyService.add$(this.company).subscribe((response) => {
-      this.router.navigate([environment.routing.admin.settings.main]);
-    });
+    if (this.company._id) {
+      this.update();
+    } else {
+      this.companyService.add$(this.company).subscribe((response) => {
+        this.router.navigate([environment.routing.admin.settings.main]);
+      });
+    }
+  }
+
+  update(): void {
+    this.companyService
+      .update$(this.company._id, this.company)
+      .subscribe((response) => {
+        this.router.navigate([environment.routing.admin.settings.main]);
+      });
   }
 
   getProfileCompany$(): void {

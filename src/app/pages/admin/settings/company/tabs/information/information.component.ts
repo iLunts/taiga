@@ -14,9 +14,10 @@ export class InformationComponent implements OnInit {
   @Input() set company(value: any) {
     if (value?.length) {
       this._company = value[0];
-      this.checkCompanyValid();
+      this.companyService.setCompany(this._company);
+      this.checkValid();
     } else {
-      this._company = null;
+      this._company = this.companyService.getCompany();
     }
   }
   get company(): any {
@@ -36,7 +37,7 @@ export class InformationComponent implements OnInit {
   ngOnInit(): void {
     this.companyService.getCompanyState$().subscribe((company: Company) => {
       this.isCompanySelected = this.companyService.isCompanyInfoValid(company);
-      this.checkCompanyValid();
+      this.checkValid();
     });
   }
 
@@ -57,7 +58,7 @@ export class InformationComponent implements OnInit {
     this.isCompanySelected = false;
   }
 
-  checkCompanyValid(): void {
+  checkValid(): void {
     this.isValid = this.companyService.isCompanyInfoValid(this.company);
     if (this.isValid) {
       this.isCompanySelected = true;

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Bank } from 'src/app/models/bank.model';
 
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -12,9 +13,10 @@ export class BanksComponent implements OnInit {
   @Input() set company(value: any) {
     if (value?.length) {
       this._company = value[0];
-      this.checkCompanyValid();
+      this.companyService.setCompany(this._company);
+      this.checkValid();
     } else {
-      this._company = null;
+      this._company = this.companyService.getCompany();
     }
   }
   get company(): any {
@@ -30,19 +32,27 @@ export class BanksComponent implements OnInit {
   ngOnInit(): void {
     this.companyService.getCompanyState$().subscribe((company: Company) => {
       this.company = company;
-      this.checkCompanyValid();
+      this.checkValid();
     });
   }
 
-  changeBank(bankInfo): void {
-    this.company.bankAccount.bank = bankInfo;
+  changeBank(bankInfo: Bank): void {
+    if (this.company && bankInfo && bankInfo.CDBank) {
+      this.company.bankAccount.bank = bankInfo;
+    } else {
+      this.companyService.clearCompanyBank();
+    }
+
     this.companyService.setCompany(this.company);
+    this.checkValid();
   }
 
-  checkCompanyValid(): void {
+  checkValid(): void {
     this.isValid = this.companyService.isCompanyBankValid(this.company);
     if (this.isValid) {
       this.isBankSelected = true;
+    } else {
+      this.isBankSelected = false;
     }
   }
 }
