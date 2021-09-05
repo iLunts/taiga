@@ -16,12 +16,23 @@ import { Bank, BankAccount } from '../models/bank.model';
 export class CompanyService {
   private company$ = new BehaviorSubject<Company>(new Company());
   private dbPath = '/companies';
+  private companyRef: AngularFirestoreCollection<Company> = null;
 
   constructor(
     private authService: AuthService,
     private afs: AngularFirestore,
     private notificationService: NotificationService
-  ) {}
+  ) {
+    if (this.authService.isLoggedIn) {
+      this.companyRef = this.afs.collection(this.dbPath, (q) =>
+        q.where('_userId', '==', this.authService.getUserId())
+      );
+    }
+  }
+
+  getAll$(): Observable<Company[]> {
+    return this.companyRef.valueChanges();
+  }
 
   isCompanyValid(company: Company): boolean {
     if (company) {
@@ -112,6 +123,18 @@ export class CompanyService {
     company.bankAccount.bank = new Bank();
 
     this.setCompany(company);
+  }
+
+  clearMailingAddress(): void {
+    let company = this.getCompany();
+
+    company.mailingAddress = new CompanyAddress();
+
+    this.setCompany(company);
+  }
+
+  clearCompany(): void {
+    this.setCompany(new Company());
   }
 
   add$(company: Company): Observable<any> {

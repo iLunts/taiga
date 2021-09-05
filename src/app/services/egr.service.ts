@@ -56,16 +56,7 @@ export class EgrService {
 
   getAllByUnp(UNP: string): Company {
     let company: Company = new Company();
-    // let company = {
-    //   _type: null,
-    //   ved: null,
-    //   juridicalAddress: {},
-    //   info: {
-    //     unp: null
-    //   },
-    // };
 
-    // const observable = forkJoin([
     forkJoin([
       this.getBaseInfoByRegNum$(UNP),
       this.getAddressByRegNum$(UNP),
@@ -79,6 +70,7 @@ export class EgrService {
           this._notification.warning(
             'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
           );
+          this.companyService.clearCompanyInfo();
           return;
         }
 

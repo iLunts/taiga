@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Contractor } from '../models/company.model';
-import { Observable, from } from 'rxjs';
+import { Observable, from, BehaviorSubject } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -18,6 +18,7 @@ export class ContractorService {
   dbRef: AngularFirestoreCollection<Contractor> = null;
 
   selectedContractor: Contractor;
+  contractor$ = new BehaviorSubject<Contractor>(new Contractor());
 
   constructor(
     private _fs: AngularFirestore,
@@ -84,11 +85,23 @@ export class ContractorService {
     return this.customersRef.doc(_id).update(value);
   }
 
+  // setContractor(contractor: Contractor): void {
+  //   this.selectedContractor = contractor;
+  // }
+
+  // getContractor(): Contractor {
+  //   return this.selectedContractor;
+  // }
+
+  getContractorState$(): Observable<Contractor> {
+    return this.contractor$.asObservable();
+  }
+
   setContractor(contractor: Contractor): void {
-    this.selectedContractor = contractor;
+    this.contractor$.next(contractor);
   }
 
   getContractor(): Contractor {
-    return this.selectedContractor;
+    return this.contractor$.getValue();
   }
 }

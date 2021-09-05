@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import {
   TuiAvatarModule,
+  TuiCheckboxBlockModule,
   TuiFieldErrorModule,
   TuiInputModule,
   TuiToggleModule,
@@ -27,6 +28,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiAvatarModule,
     TuiButtonModule,
     TuiButtonModule,
+    TuiCheckboxBlockModule,
     TuiFieldErrorModule,
     TuiHintControllerModule,
     TuiInputModule,
