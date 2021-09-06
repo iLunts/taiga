@@ -13,7 +13,11 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import { ContractorCreateComponent } from './create/create.component';
 import { ContractorListComponent } from './list/list.component';
 import { ContractorRoutingModule } from './contractor-routing.module';
-import { TuiButtonModule, TuiHintControllerModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiHintControllerModule,
+  TuiLoaderModule,
+} from '@taiga-ui/core';
 // import { ImageCropperModule } from 'ngx-image-cropper';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -34,6 +38,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiInputModule,
     TuiLetModule,
     TuiToggleModule,
+    TuiLoaderModule,
     // ImageCropperModule,
     // TuiInputDateRangeModule,
     // TuiInputNumberModule,

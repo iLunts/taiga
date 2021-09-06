@@ -1,63 +1,69 @@
-<form [formGroup]="form">
-  <h2>Создание контрагента</h2>
+<tui-loader
+  [showLoader]="isLoading"
+  [overlay]="true"
+  size="l"
+  textContent="Ожидайте..."
+>
+  <form [formGroup]="form">
+    <h2>Создание контрагента</h2>
 
-  <section>
-    <h3 class="tui-space_top-10">Информация</h3>
-    <tui-input
-      *ngIf="!isValidCompany"
-      [textMask]="maskUNP"
-      formControlName="unp"
-      (change)="getContractorInformation()"
-    >
-      УНП
-    </tui-input>
-    <tui-field-error formControlName="unp"></tui-field-error>
+    <section>
+      <h3 class="tui-space_top-10">Информация</h3>
+      <tui-input
+        *ngIf="!isValidCompany"
+        [textMask]="maskUNP"
+        formControlName="unp"
+        (change)="getContractorInformation()"
+      >
+        УНП
+      </tui-input>
+      <tui-field-error formControlName="unp"></tui-field-error>
 
-    <app-company-panel
-      *ngIf="isValidCompany"
-      [data]="contractor"
-      [isLoaded]="isValidCompany"
-      (change)="changeCompany()"
-    ></app-company-panel>
+      <app-company-panel
+        *ngIf="isValidCompany"
+        [data]="contractor"
+        [isLoaded]="isValidCompany"
+        (change)="changeCompany()"
+      ></app-company-panel>
 
-    <tui-checkbox-block
-      class="tui-space_top-5"
-      formControlName="samePostMail"
-      contentAlign="left"
-      nativeId="exSamePostMail"
-      size="l"
-      (change)="changePostAddress()"
-    >
-      <div class="inner inner_flex">
-        Почтовый адрес совпадает с юрид.
-        <!-- <tui-tooltip
+      <tui-checkbox-block
+        class="tui-space_top-5"
+        formControlName="samePostMail"
+        contentAlign="left"
+        nativeId="exSamePostMail"
+        size="l"
+        (change)="changePostAddress()"
+      >
+        <div class="inner inner_flex">
+          Почтовый адрес совпадает с юрид.
+          <!-- <tui-tooltip
             describeId="example3"
             content="some tooltip content"
           ></tui-tooltip> -->
-      </div>
-    </tui-checkbox-block>
-  </section>
+        </div>
+      </tui-checkbox-block>
+    </section>
 
-  <section>
-    <h3 class="tui-space_top-10">Банк</h3>
-    <app-bank-select
-      *ngIf="!isValidBank"
-      (change)="changeBank($event)"
-    ></app-bank-select>
-    <app-bank-panel
-      *ngIf="isValidBank"
-      [data]="contractor.bankAccount.bank"
-      [isLoaded]="isValidBank"
-      (change)="changeBank()"
-    ></app-bank-panel>
-  </section>
+    <section>
+      <h3 class="tui-space_top-10">Банк</h3>
+      <app-bank-select
+        *ngIf="!isValidBank"
+        (change)="changeBank($event)"
+      ></app-bank-select>
+      <app-bank-panel
+        *ngIf="isValidBank"
+        [data]="contractor.bankAccount.bank"
+        [isLoaded]="isValidBank"
+        (change)="changeBank()"
+      ></app-bank-panel>
+    </section>
 
-  <!-- <section formGroupName="juridicalAddress">
+    <!-- <section formGroupName="juridicalAddress">
     <h3 class="tui-space_top-10">Юридические данные</h3>
     <p>123123123</p>
   </section> -->
 
-  <!-- <section formGroupName="mailingAddress">
+    <!-- <section formGroupName="mailingAddress">
     <h3 class="tui-space_top-10">Почтовые данные</h3>
     <p>
       Идентичные юридическим данным
@@ -71,27 +77,28 @@
     <p>123123123</p>
   </section> -->
 
-  <section class="tui-space_top-10">
-    <button
-      class="tui-space_right-3"
-      tuiButton
-      type="button"
-      [showLoader]="false"
-      [size]="'m'"
-      appearance="secondary"
-      (click)="cancel()"
-    >
-      Отменить
-    </button>
-    <button
-      tuiButton
-      type="button"
-      [showLoader]="false"
-      [size]="'m'"
-      [disabled]="!isValid"
-      (click)="save()"
-    >
-      Добавить
-    </button>
-  </section>
-</form>
+    <section class="tui-space_top-10">
+      <button
+        class="tui-space_right-3"
+        tuiButton
+        type="button"
+        [showLoader]="false"
+        [size]="'m'"
+        appearance="secondary"
+        (click)="cancel()"
+      >
+        Отменить
+      </button>
+      <button
+        tuiButton
+        type="button"
+        [showLoader]="false"
+        [size]="'m'"
+        [disabled]="!isValid"
+        (click)="save()"
+      >
+        Добавить
+      </button>
+    </section>
+  </form>
+</tui-loader>

@@ -26,9 +26,9 @@ export class ContractorCreateComponent implements OnInit {
   isValidCompany: boolean;
   isValidBank: boolean;
   isValid: boolean;
-
   isBankSelected: boolean;
   isCompanySelected: boolean;
+  isLoading = false;
 
   readonly maskUNP = {
     guide: false,
@@ -67,7 +67,9 @@ export class ContractorCreateComponent implements OnInit {
   }
 
   save(): void {
+    this.isLoading = true;
     this.contractorService.add$(this.contractor).subscribe(() => {
+      this.isLoading = false;
       this.cancel();
     });
   }
