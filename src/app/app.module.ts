@@ -13,6 +13,9 @@ import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.
 // import { MessagingService } from './services/messaging.service';
 import { SharedModule } from './shared/shared.module';
 import { TaigaModule } from './shared/taiga.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent, AdminLayoutComponent, DefaultLayoutComponent],
@@ -23,6 +26,11 @@ import { TaigaModule } from './shared/taiga.module';
     SharedModule,
     TaigaModule,
     HttpClientModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [
     AuthGuard,
