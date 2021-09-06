@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -12,7 +13,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./company.component.less'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CompanyComponent implements OnInit {
+export class CompanyComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject();
   company: Company;
   company$: Observable<Company[]>;
   isCompanyValid: boolean;
@@ -22,25 +24,32 @@ export class CompanyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.companyService.getCompanyState$().subscribe((company: Company) => {
-      this.company = company;
-      this.isCompanyValid = this.companyService.isCompanyValid(this.company);
-    });
+    this.companyService
+      .getCompanyState$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((company: Company) => {
+        this.company = company;
+        this.isCompanyValid = this.companyService.isCompanyValid(this.company);
+      });
   }
 
   save(): void {
     if (this.company._id) {
       this.update();
     } else {
-      this.companyService.add$(this.company).subscribe((response) => {
-        this.router.navigate([environment.routing.admin.settings.main]);
-      });
+      this.companyService
+        .add$(this.company)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((response) => {
+          this.router.navigate([environment.routing.admin.settings.main]);
+        });
     }
   }
 
   update(): void {
     this.companyService
       .update$(this.company._id, this.company)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         this.router.navigate([environment.routing.admin.settings.main]);
       });
@@ -48,5 +57,11 @@ export class CompanyComponent implements OnInit {
 
   getProfileCompany$(): void {
     this.company$ = this.companyService.getProfileCompany$();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.companyService.clearCompany();
   }
 }
