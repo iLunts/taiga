@@ -12,11 +12,11 @@ const routes: Routes = [
   {
     path: 'create',
     component: ContractorCreateComponent,
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ContractorRoutingModule { }
+export class ContractorRoutingModule {}
