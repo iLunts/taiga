@@ -16,36 +16,39 @@ import { ComponentsModule } from './components/components.module';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { TextMaskModule } from 'angular2-text-mask';
+import { TopMenuModule } from './components/top-menu/top-menu.module';
 
 @NgModule({
   declarations: [],
   imports: [
     AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
-    AngularFireStorageModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     CommonModule,
     ComponentsModule,
     FormsModule,
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
+    QRCodeModule,
     ReactiveFormsModule,
     TaigaModule,
     TextMaskModule,
-    QRCodeModule,
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
+    TopMenuModule,
   ],
   exports: [
     CommonModule,
     ComponentsModule,
     FormsModule,
+    FroalaEditorModule,
+    FroalaViewModule,
+    QRCodeModule,
     ReactiveFormsModule,
     TaigaModule,
     TextMaskModule,
-    QRCodeModule,
-    FroalaEditorModule,
-    FroalaViewModule,
+    TopMenuModule,
   ],
 })
 export class SharedModule {}

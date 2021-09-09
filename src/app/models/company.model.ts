@@ -1,3 +1,18 @@
+// export interface ICompany {
+//   _id: string;
+//   _createdDate: string;
+//   _userId: string;
+//   _type: number;
+
+//   info: CompanyInfo;
+//   mailingAddress: CompanyAddress;
+//   juridicalAddress: CompanyAddress;
+//   bankAccount: BankAccount;
+//   person: Person;
+//   ved: CompanyVEDInfo[];
+// }
+
+// export class Company implements ICompany {
 export class Company {
   _id: string;
   _createdDate: string;

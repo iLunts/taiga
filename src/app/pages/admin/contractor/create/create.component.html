@@ -4,6 +4,10 @@
   size="l"
   textContent="Ожидайте..."
 >
+  <p>
+    {{ company$ | async | json }}
+  </p>
+
   <form [formGroup]="form">
     <h2>Создание контрагента</h2>
 
