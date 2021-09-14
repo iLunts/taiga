@@ -17,9 +17,12 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { reducers, metaReducers } from './reducers';
-import { AppEffects } from './app.effects';
+import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
+import { entityConfig } from './entity-metadata';
+
+const defaultDataServiceConfig: DefaultDataServiceConfig = {
+  root: 'crud',
+};
 
 @NgModule({
   declarations: [AppComponent, AdminLayoutComponent, DefaultLayoutComponent],
@@ -35,10 +38,8 @@ import { AppEffects } from './app.effects';
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([AppEffects]),
-    StoreRouterConnectingModule.forRoot(),
-    StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([]),
+    EntityDataModule.forRoot(entityConfig),
   ],
   providers: [
     AuthGuard,
@@ -47,6 +48,10 @@ import { AppEffects } from './app.effects';
     {
       provide: TUI_ICONS_PATH,
       useValue: iconsPathFactory('assets/taiga-ui/icons/'),
+    },
+    {
+      provide: DefaultDataServiceConfig,
+      useValue: defaultDataServiceConfig,
     },
   ],
   bootstrap: [AppComponent],

@@ -5,6 +5,7 @@ import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { CompanyService } from './company.service';
 import { map } from 'lodash';
+import { ContractorService } from './contractor.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,8 @@ export class EgrService {
   constructor(
     private _http: HttpClient,
     private _notification: NotificationService,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private contractorService: ContractorService
   ) {}
 
   getBaseInfoByRegNum$(UNP: string): Observable<any> {
@@ -54,7 +56,7 @@ export class EgrService {
     );
   }
 
-  getAllByUnp(UNP: string): Company {
+  getAllByUnp(UNP: string, type?: 'company' | 'contractor'): Company {
     let company: Company = new Company();
 
     forkJoin([
@@ -98,7 +100,20 @@ export class EgrService {
         company.mailingAddress = prevCompany.mailingAddress;
         company.person = prevCompany.person;
 
-        this.companyService.setCompany(company);
+        switch (type) {
+          case 'company': {
+            this.companyService.setCompany(company);
+            break;
+          }
+          case 'contractor': {
+            this.contractorService.setCompany(company);
+            break;
+          }
+          default: {
+            this.companyService.setCompany(company);
+            break;
+          }
+        }
         return company;
       },
       error: (error) => {

@@ -4,16 +4,14 @@
   size="l"
   textContent="Ожидайте..."
 >
-  <p>
-    {{ company$ | async | json }}
-  </p>
-
   <form [formGroup]="form">
     <h2>Создание контрагента</h2>
 
     <section>
       <h3 class="tui-space_top-10">Информация</h3>
-      <tui-input
+      <app-company-unp></app-company-unp>
+
+      <!-- <tui-input
         *ngIf="!isValidCompany"
         [textMask]="maskUNP"
         formControlName="unp"
@@ -21,14 +19,14 @@
       >
         УНП
       </tui-input>
-      <tui-field-error formControlName="unp"></tui-field-error>
+      <tui-field-error formControlName="unp"></tui-field-error> -->
 
-      <app-company-panel
+      <!-- <app-company-panel
         *ngIf="isValidCompany"
         [data]="contractor"
         [isLoaded]="isValidCompany"
         (change)="changeCompany()"
-      ></app-company-panel>
+      ></app-company-panel> -->
 
       <tui-checkbox-block
         class="tui-space_top-5"

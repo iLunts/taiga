@@ -31,7 +31,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ContractorRoutingModule,
     TuiAvatarModule,
     TuiButtonModule,
-    TuiButtonModule,
     TuiCheckboxBlockModule,
     TuiFieldErrorModule,
     TuiHintControllerModule,

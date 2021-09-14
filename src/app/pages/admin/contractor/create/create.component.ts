@@ -6,13 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { Bank } from 'src/app/models/bank.model';
 import { Company, Contractor } from 'src/app/models/company.model';
-import { CompanyState } from 'src/app/reducers/company/company.reducer';
-import { selectCompany } from 'src/app/reducers/company/company.selector';
-import { BankService } from 'src/app/services/bank.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { EgrService } from 'src/app/services/egr.service';
@@ -40,16 +35,12 @@ export class ContractorCreateComponent implements OnInit {
     mask: [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/],
   };
 
-  company$: Observable<Company> = this.store$.pipe(select(selectCompany));
-
   constructor(
     private afs: AngularFirestore,
     private formBuilder: FormBuilder,
     private contractorService: ContractorService,
     private companyService: CompanyService,
-    private egrService: EgrService,
-    private bankService: BankService,
-    private store$: Store<CompanyState>
+    private egrService: EgrService
   ) {}
 
   ngOnInit(): void {
@@ -89,7 +80,8 @@ export class ContractorCreateComponent implements OnInit {
   getContractorInformation(): void {
     if (this.form.controls.unp.value) {
       this.egrService.getAllByUnp(
-        this.form.controls.unp.value.replace(/ /g, '')
+        this.form.controls.unp.value.replace(/ /g, ''),
+        'contractor'
       );
     }
   }

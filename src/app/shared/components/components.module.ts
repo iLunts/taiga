@@ -38,6 +38,6 @@ import { UploaderModule } from './uploader/uploader.module';
     StatusModule,
     UploadImageModule,
     UploaderModule,
-  ]
+  ],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

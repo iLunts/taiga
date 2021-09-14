@@ -1,0 +1,17 @@
+<section class="company-unp">
+  <tui-input
+    *ngIf="!isValidCompany"
+    ngDefaultControl
+    [formControl]="unpControl"
+  >
+    УНП
+  </tui-input>
+  <tui-field-error [formControl]="unpControl"></tui-field-error>
+
+  <app-company-panel
+    *ngIf="isValidCompany"
+    [data]="company"
+    [isLoaded]="isValidCompany"
+    (change)="clearCompanyInfo()"
+  ></app-company-panel>
+</section>

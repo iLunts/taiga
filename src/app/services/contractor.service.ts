@@ -101,7 +101,21 @@ export class ContractorService {
     this.contractor$.next(contractor);
   }
 
+  clearCompany(): void {
+    this.setCompany(new Contractor());
+  }
+
+  setCompany(company: Contractor): void {
+    if (company) {
+      this.contractor$.next(company);
+    }
+  }
+
   getContractor(): Contractor {
-    return this.contractor$.getValue();
+    if (this.contractor$.getValue()) {
+      return this.contractor$.getValue();
+    } else {
+      this.setCompany(new Contractor());
+    }
   }
 }
