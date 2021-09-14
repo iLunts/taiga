@@ -56,7 +56,7 @@ export class EgrService {
     );
   }
 
-  getAllByUnp(UNP: string, type?: 'company' | 'contractor'): Company {
+  getAllByUnp(UNP: string): Company {
     let company: Company = new Company();
 
     forkJoin([
@@ -100,20 +100,7 @@ export class EgrService {
         company.mailingAddress = prevCompany.mailingAddress;
         company.person = prevCompany.person;
 
-        switch (type) {
-          case 'company': {
-            this.companyService.setCompany(company);
-            break;
-          }
-          case 'contractor': {
-            this.contractorService.setCompany(company);
-            break;
-          }
-          default: {
-            this.companyService.setCompany(company);
-            break;
-          }
-        }
+        this.companyService.setCompany(company);
         return company;
       },
       error: (error) => {

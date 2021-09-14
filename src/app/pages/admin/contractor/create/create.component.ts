@@ -80,8 +80,7 @@ export class ContractorCreateComponent implements OnInit {
   getContractorInformation(): void {
     if (this.form.controls.unp.value) {
       this.egrService.getAllByUnp(
-        this.form.controls.unp.value.replace(/ /g, ''),
-        'contractor'
+        this.form.controls.unp.value.replace(/ /g, '')
       );
     }
   }
