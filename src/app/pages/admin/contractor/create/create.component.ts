@@ -60,7 +60,7 @@ export class ContractorCreateComponent implements OnInit {
     this.form = this.formBuilder.group({
       unp: new FormControl(null, [Validators.required]),
       bic: new FormControl(null, [Validators.required]),
-      samePostMail: new FormControl(false),
+      // samePostMail: new FormControl(false),
     });
   }
 
@@ -77,19 +77,19 @@ export class ContractorCreateComponent implements OnInit {
     this.close.emit(true);
   }
 
-  getContractorInformation(): void {
-    if (this.form.controls.unp.value) {
-      this.egrService.getAllByUnp(
-        this.form.controls.unp.value.replace(/ /g, '')
-      );
-    }
-  }
+  // getContractorInformation(): void {
+  //   if (this.form.controls.unp.value) {
+  //     this.egrService.getAllByUnp(
+  //       this.form.controls.unp.value.replace(/ /g, '')
+  //     );
+  //   }
+  // }
 
-  changeCompany(): void {
-    this.companyService.clearCompanyInfo();
-    this.form.controls.unp.setValue(null);
-    this.checkValid();
-  }
+  // changeCompany(): void {
+  //   this.companyService.clearCompanyInfo();
+  //   this.form.controls.unp.setValue(null);
+  //   this.checkValid();
+  // }
 
   changeBank(bankInfo: Bank): void {
     if (this.contractor && bankInfo && bankInfo.CDBank) {
@@ -102,14 +102,14 @@ export class ContractorCreateComponent implements OnInit {
     this.checkValid();
   }
 
-  changePostAddress(): void {
-    if (this.form.controls.samePostMail.value) {
-      this.contractor.mailingAddress = this.contractor.juridicalAddress;
-      this.companyService.setCompany(this.contractor);
-    } else {
-      this.companyService.clearMailingAddress();
-    }
-  }
+  // changePostAddress(): void {
+  //   if (this.form.controls.samePostMail.value) {
+  //     this.contractor.mailingAddress = this.contractor.juridicalAddress;
+  //     this.companyService.setCompany(this.contractor);
+  //   } else {
+  //     this.companyService.clearMailingAddress();
+  //   }
+  // }
 
   checkValid(): void {
     this.isValidCompany = this.companyService.isCompanyInfoValid(
@@ -118,10 +118,10 @@ export class ContractorCreateComponent implements OnInit {
     this.isValidBank = this.companyService.isCompanyBankValid(this.contractor);
     this.isValid = this.companyService.isCompanyValid(this.contractor);
 
-    if (this.isValidCompany) {
-      this.form.controls.samePostMail.enable();
-    } else {
-      this.form.controls.samePostMail.disable();
-    }
+    // if (this.isValidCompany) {
+    //   this.form.controls.samePostMail.enable();
+    // } else {
+    //   this.form.controls.samePostMail.disable();
+    // }
   }
 }

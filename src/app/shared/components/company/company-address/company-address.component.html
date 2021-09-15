@@ -1,0 +1,16 @@
+<tui-checkbox-block
+  ngDefaultControl
+  [formControl]="samePostMail"
+  contentAlign="left"
+  nativeId="exSamePostMail"
+  size="l"
+  (change)="changePostAddress()"
+>
+  <div class="inner inner_flex">
+    Почтовый адрес совпадает с юрид...
+    <tui-tooltip
+      describeId="tooltipAddress"
+      content="Если галочка активна - значение почтового адреса будет взято из юридических данных компании"
+    ></tui-tooltip>
+  </div>
+</tui-checkbox-block>
