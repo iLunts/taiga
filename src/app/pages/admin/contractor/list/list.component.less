@@ -41,16 +41,29 @@ table {
 
 .aside {
   position: fixed;
-  right: 15px;
-  top: 15px;
-  bottom: 15px;
-  width: 400px;
-  border-radius: 10px;
-  background: #fff;
-  z-index: 100;
-  padding: 15px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #10121b66;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.5s ease-in-out;
+  z-index: 99;
 
-  -webkit-box-shadow: 0px 0px 30px 10px rgba(105, 105, 105, 0.2);
-  -moz-box-shadow: 0px 0px 30px 10px rgba(105, 105, 105, 0.2);
-  box-shadow: 0px 0px 30px 10px rgba(105, 105, 105, 0.2);
+  & &__panel {
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    bottom: 15px;
+    width: 400px;
+    border-radius: 10px;
+    background: #fff;
+    z-index: 100;
+    padding: 15px;
+
+    -webkit-box-shadow: 0px 0px 30px 10px rgba(105, 105, 105, 0.2);
+    -moz-box-shadow: 0px 0px 30px 10px rgba(105, 105, 105, 0.2);
+    box-shadow: 0px 0px 30px 10px rgba(105, 105, 105, 0.2);
+  }
 }

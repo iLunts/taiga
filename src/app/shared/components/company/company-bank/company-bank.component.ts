@@ -18,8 +18,8 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
   isValidBank: boolean;
   swiftControl: FormControl = new FormControl({ value: null, disabled: true }, [
     Validators.required,
-    Validators.minLength(34),
-    Validators.maxLength(34),
+    // Validators.minLength(34),
+    // Validators.maxLength(34),
   ]);
 
   readonly swiftMask = {
@@ -66,14 +66,18 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
     this.companyService
       .getCompanyState$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe();
+      .subscribe((company: Company) => {
+        this.company = company;
+      });
 
     this.swiftControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        if (this.swiftControl.valid) {
+      .subscribe((swiftValue: string) => {
+        if (this.companyService.isCompanySwiftValid(swiftValue)) {
           this.company.bankAccount.SWIFT = this.swiftControl.value;
           this.updateCompany();
+        } else {
+          this.companyService.clearCompanySwift();
         }
       });
   }

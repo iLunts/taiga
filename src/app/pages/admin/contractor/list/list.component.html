@@ -61,7 +61,9 @@
 </ng-container>
 
 <aside class="aside _right _close" *ngIf="isOpenAsideContractorCreate">
-  <app-contractor-create
-    (close)="toggleAsideContractorCreate()"
-  ></app-contractor-create>
+  <div class="aside__panel">
+    <app-contractor-create
+      (close)="toggleAsideContractorCreate()"
+    ></app-contractor-create>
+  </div>
 </aside>
