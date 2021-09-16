@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Contractor } from 'src/app/models/company.model';
+import { Company, Contractor } from 'src/app/models/company.model';
+import { CompanyService } from 'src/app/services/company.service';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { environment } from 'src/environments/environment';
 
@@ -14,6 +15,7 @@ export class ContractorListComponent implements OnInit {
   routing = environment.routing;
   contractors$: Observable<Contractor[]>;
   isOpenAsideContractorCreate: boolean;
+  isOpenAsideContractorView: boolean;
 
   constructor(private contractorService: ContractorService) {}
 
@@ -33,5 +35,10 @@ export class ContractorListComponent implements OnInit {
 
   toggleAsideContractorCreate(): void {
     this.isOpenAsideContractorCreate = !this.isOpenAsideContractorCreate;
+  }
+
+  toggleAsideContractorView(contractor: Company): void {
+    this.isOpenAsideContractorView = !this.isOpenAsideContractorView;
+    this.contractorService.setContractor(contractor);
   }
 }

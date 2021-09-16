@@ -25,7 +25,6 @@ export class ContractorCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.companyService.getCompanyState$().subscribe((contractor: Company) => {
-      console.log('Company State$: ', contractor);
       this.contractor = contractor;
       this.checkValid();
     });

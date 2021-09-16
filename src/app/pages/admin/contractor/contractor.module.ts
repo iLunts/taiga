@@ -18,17 +18,21 @@ import {
   TuiHintControllerModule,
   TuiLoaderModule,
 } from '@taiga-ui/core';
-// import { ImageCropperModule } from 'ngx-image-cropper';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ContractorInfoComponent } from './info/info.component';
 
 @NgModule({
-  declarations: [ContractorListComponent, ContractorCreateComponent],
+  declarations: [
+    ContractorCreateComponent,
+    ContractorInfoComponent,
+    ContractorListComponent,
+  ],
   imports: [
     CommonModule,
-    SharedModule,
+    ContractorRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ContractorRoutingModule,
+    SharedModule,
     TuiAvatarModule,
     TuiButtonModule,
     TuiCheckboxBlockModule,
@@ -36,14 +40,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiHintControllerModule,
     TuiInputModule,
     TuiLetModule,
-    TuiToggleModule,
     TuiLoaderModule,
-    // ImageCropperModule,
-    // TuiInputDateRangeModule,
-    // TuiInputNumberModule,
-    // TuiInputDateModule,
-    // TuiDataListModule,
-    // TuiHostedDropdownModule,
+    TuiToggleModule,
   ],
 })
 export class ContractorModule {}

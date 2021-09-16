@@ -27,7 +27,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
     Validators.minLength(9),
     Validators.maxLength(9),
   ]);
-  destroy: ReplaySubject<any> = new ReplaySubject<any>(1);
+  destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
   company = new Company();
 
   constructor(
@@ -43,7 +43,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.unpControl.valueChanges
-      .pipe(takeUntil(this.destroy), distinctUntilChanged())
+      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe((response: string) => {
         if (this.unpControl.valid) {
           this.getContractorInformation();
@@ -52,8 +52,8 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 
   private getContractorInformation(): void {

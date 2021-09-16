@@ -49,6 +49,15 @@
             tuiIconButton
             appearance="flat"
             size="s"
+            icon="tuiIconUsers"
+            title="Просмотреть"
+            shape="rounded"
+            (click)="toggleAsideContractorView(item)"
+          ></button>
+          <button
+            tuiIconButton
+            appearance="flat"
+            size="s"
             icon="tuiIconTrash"
             title="Удалить"
             shape="rounded"
@@ -65,5 +74,13 @@
     <app-contractor-create
       (close)="toggleAsideContractorCreate()"
     ></app-contractor-create>
+  </div>
+</aside>
+
+<aside class="aside _right _close" *ngIf="isOpenAsideContractorView">
+  <div class="aside__panel">
+    <app-contractor-info
+      (close)="toggleAsideContractorView()"
+    ></app-contractor-info>
   </div>
 </aside>

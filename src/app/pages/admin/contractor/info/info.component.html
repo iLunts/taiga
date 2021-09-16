@@ -1,0 +1,27 @@
+<!-- <h2 class="tui-text_h4">Просмотр контрагента</h2> -->
+
+<p class="tui-text_h5">
+  {{ contractor.info.shortName }}
+</p>
+
+<p class="tui-text_body-xl">
+  {{ contractor.info.fullName }}
+</p>
+
+<p>
+  {{ contractor | json }}
+</p>
+
+<section class="tui-space_top-10">
+  <button
+    class="tui-space_right-3"
+    tuiButton
+    type="button"
+    [showLoader]="false"
+    [size]="'m'"
+    appearance="secondary"
+    (click)="cancel()"
+  >
+    Закрыть
+  </button>
+</section>

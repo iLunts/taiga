@@ -85,14 +85,6 @@ export class ContractorService {
     return this.customersRef.doc(_id).update(value);
   }
 
-  // setContractor(contractor: Contractor): void {
-  //   this.selectedContractor = contractor;
-  // }
-
-  // getContractor(): Contractor {
-  //   return this.selectedContractor;
-  // }
-
   getContractorState$(): Observable<Contractor> {
     return this.contractor$.asObservable();
   }
@@ -101,21 +93,15 @@ export class ContractorService {
     this.contractor$.next(contractor);
   }
 
-  clearCompany(): void {
-    this.setCompany(new Contractor());
-  }
-
-  setCompany(company: Contractor): void {
-    if (company) {
-      this.contractor$.next(company);
-    }
+  clearContractor(): void {
+    this.setContractor(new Contractor());
   }
 
   getContractor(): Contractor {
     if (this.contractor$.getValue()) {
       return this.contractor$.getValue();
     } else {
-      this.setCompany(new Contractor());
+      this.setContractor(new Contractor());
     }
   }
 }
