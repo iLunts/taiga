@@ -4,46 +4,44 @@
   size="l"
   textContent="Ожидайте..."
 >
-  <form [formGroup]="form">
-    <h2 class="tui-text_h4">Создание контрагента</h2>
+  <h2 class="tui-text_h4">Создание контрагента</h2>
 
-    <section>
-      <h3 class="tui-space_top-10">Информация</h3>
-      <app-company-unp></app-company-unp>
-    </section>
+  <section>
+    <h3 class="tui-space_top-10">Информация</h3>
+    <app-company-unp></app-company-unp>
+  </section>
 
-    <section>
-      <h3 class="tui-space_top-10">Адрес</h3>
-      <app-company-address></app-company-address>
-    </section>
+  <section>
+    <h3 class="tui-space_top-10">Адрес</h3>
+    <app-company-address></app-company-address>
+  </section>
 
-    <section>
-      <h3 class="tui-space_top-10">Банк</h3>
-      <app-company-bank></app-company-bank>
-    </section>
+  <section>
+    <h3 class="tui-space_top-10">Банк</h3>
+    <app-company-bank></app-company-bank>
+  </section>
 
-    <section class="tui-space_top-10">
-      <button
-        class="tui-space_right-3"
-        tuiButton
-        type="button"
-        [showLoader]="false"
-        [size]="'m'"
-        appearance="secondary"
-        (click)="cancel()"
-      >
-        Отменить
-      </button>
-      <button
-        tuiButton
-        type="button"
-        [showLoader]="false"
-        [size]="'m'"
-        [disabled]="!isValid"
-        (click)="save()"
-      >
-        Добавить
-      </button>
-    </section>
-  </form>
+  <section class="tui-space_top-10">
+    <button
+      class="tui-space_right-3"
+      tuiButton
+      type="button"
+      [showLoader]="false"
+      [size]="'m'"
+      appearance="secondary"
+      (click)="cancel()"
+    >
+      Отменить
+    </button>
+    <button
+      tuiButton
+      type="button"
+      [showLoader]="false"
+      [size]="'m'"
+      [disabled]="!isValid"
+      (click)="save()"
+    >
+      Добавить
+    </button>
+  </section>
 </tui-loader>

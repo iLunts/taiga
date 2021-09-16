@@ -1,15 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
 import { ContractorService } from 'src/app/services/contractor.service';
-import { EgrService } from 'src/app/services/egr.service';
 
 @Component({
   selector: 'app-contractor-create',
@@ -21,25 +15,15 @@ export class ContractorCreateComponent implements OnInit {
 
   form: FormGroup;
   contractor: Contractor = new Contractor();
-
-  isValidCompany: boolean;
-  isValidBank: boolean;
   isValid: boolean;
-  isBankSelected: boolean;
-  isCompanySelected: boolean;
   isLoading = false;
 
   constructor(
-    private afs: AngularFirestore,
     private companyService: CompanyService,
-    private contractorService: ContractorService,
-    private egrService: EgrService,
-    private formBuilder: FormBuilder
+    private contractorService: ContractorService
   ) {}
 
   ngOnInit(): void {
-    this.setupForm();
-
     this.companyService.getCompanyState$().subscribe((contractor: Company) => {
       console.log('Company State$: ', contractor);
       this.contractor = contractor;
@@ -47,12 +31,8 @@ export class ContractorCreateComponent implements OnInit {
     });
   }
 
-  setupForm(): void {
-    this.form = this.formBuilder.group({
-      unp: new FormControl(null, [Validators.required]),
-      bic: new FormControl(null, [Validators.required]),
-      // samePostMail: new FormControl(false),
-    });
+  checkValid(): void {
+    this.isValid = this.companyService.isCompanyValid(this.contractor);
   }
 
   save(): void {
@@ -66,13 +46,5 @@ export class ContractorCreateComponent implements OnInit {
   cancel(): void {
     this.companyService.clearCompany();
     this.close.emit(true);
-  }
-
-  checkValid(): void {
-    this.isValidCompany = this.companyService.isCompanyInfoValid(
-      this.contractor
-    );
-    this.isValidBank = this.companyService.isCompanyBankValid(this.contractor);
-    this.isValid = this.companyService.isCompanyValid(this.contractor);
   }
 }
