@@ -1,6 +1,6 @@
 <tui-checkbox-block
   ngDefaultControl
-  [formControl]="samePostMail"
+  [formControl]="samePostMailControl"
   contentAlign="left"
   nativeId="exSamePostMail"
   size="l"
@@ -14,3 +14,11 @@
     ></tui-tooltip>
   </div>
 </tui-checkbox-block>
+
+<tui-expand [expanded]="isExpandedCustomAddress">
+  <ng-template tuiExpandContent>
+    <tui-notification class="tui-space_top-4" status="warning">
+      Временно устанавливать другой адрес не возможно.
+    </tui-notification>
+  </ng-template>
+</tui-expand>

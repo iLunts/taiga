@@ -1,0 +1,22 @@
+<app-bank-select
+  *ngIf="!isValidBank"
+  (change)="changeBank($event)"
+></app-bank-select>
+
+<app-bank-panel
+  *ngIf="isValidBank"
+  [data]="company.bankAccount.bank"
+  [isLoaded]="isValidBank"
+  (change)="changeBank()"
+></app-bank-panel>
+
+<section class="tui-space_top-5">
+  <tui-input
+    ngDefaultControl
+    [formControl]="swiftControl"
+    [textMask]="swiftMask"
+  >
+    Расчетный счет (SWIFT)
+  </tui-input>
+  <tui-field-error [formControl]="swiftControl"></tui-field-error>
+</section>

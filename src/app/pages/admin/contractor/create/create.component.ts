@@ -91,16 +91,16 @@ export class ContractorCreateComponent implements OnInit {
   //   this.checkValid();
   // }
 
-  changeBank(bankInfo: Bank): void {
-    if (this.contractor && bankInfo && bankInfo.CDBank) {
-      this.contractor.bankAccount.bank = bankInfo;
-    } else {
-      this.companyService.clearCompanyBank();
-    }
+  // changeBank(bankInfo: Bank): void {
+  //   if (this.contractor && bankInfo && bankInfo.CDBank) {
+  //     this.contractor.bankAccount.bank = bankInfo;
+  //   } else {
+  //     this.companyService.clearCompanyBank();
+  //   }
 
-    this.companyService.setCompany(this.contractor);
-    this.checkValid();
-  }
+  //   this.companyService.setCompany(this.contractor);
+  //   this.checkValid();
+  // }
 
   // changePostAddress(): void {
   //   if (this.form.controls.samePostMail.value) {

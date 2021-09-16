@@ -19,16 +19,7 @@
 
     <section>
       <h3 class="tui-space_top-10">Банк</h3>
-      <app-bank-select
-        *ngIf="!isValidBank"
-        (change)="changeBank($event)"
-      ></app-bank-select>
-      <app-bank-panel
-        *ngIf="isValidBank"
-        [data]="contractor.bankAccount.bank"
-        [isLoaded]="isValidBank"
-        (change)="changeBank()"
-      ></app-bank-panel>
+      <app-company-bank></app-company-bank>
     </section>
 
     <section class="tui-space_top-10">

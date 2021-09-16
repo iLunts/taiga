@@ -17,6 +17,7 @@ export class CompanyService {
   private company$ = new BehaviorSubject<Company>(new Company());
   private dbPath = '/companies';
   private companyRef: AngularFirestoreCollection<Company> = null;
+  private regexSWIFT = /^[0-9]{1,4}$/;
 
   constructor(
     private authService: AuthService,
@@ -70,6 +71,14 @@ export class CompanyService {
     }
 
     return status;
+  }
+
+  isCompanySwiftValid(company: Company): boolean {
+    const test = this.regexSWIFT.test(
+      company?.bankAccount?.SWIFT.toUpperCase().replace(/\s/g, '')
+    );
+    debugger;
+    return this.regexSWIFT.test(company?.bankAccount?.SWIFT);
   }
 
   setCompany(company: Company): void {

@@ -22,8 +22,12 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject();
   company: Company = new Company();
+  isExpandedCustomAddress = false;
   isValidCompany: boolean;
-  samePostMail: FormControl = new FormControl({ value: false, disabled: true });
+  samePostMailControl: FormControl = new FormControl({
+    value: false,
+    disabled: true,
+  });
 
   constructor(private companyService: CompanyService) {
     this.companyService
@@ -31,7 +35,6 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((company: Company) => {
         this.company = company;
-        // this.return.emit(this.company.info);
         this.checkValid();
       });
   }
@@ -45,21 +48,31 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
   }
 
   changePostAddress(): void {
-    if (this.samePostMail.value) {
+    if (this.samePostMailControl.value) {
       this.company.mailingAddress = this.company.juridicalAddress;
       this.companyService.setCompany(this.company);
     } else {
       this.companyService.clearMailingAddress();
     }
+    this.checkExpandCustomAddress();
   }
 
   private checkValid(): void {
     this.isValidCompany = this.companyService.isCompanyInfoValid(this.company);
 
     if (this.isValidCompany) {
-      this.samePostMail.enable();
+      this.samePostMailControl.enable();
     } else {
-      this.samePostMail.disable();
+      this.samePostMailControl.disable();
     }
+
+    this.checkExpandCustomAddress();
+  }
+
+  checkExpandCustomAddress(): void {
+    this.isExpandedCustomAddress =
+      this.samePostMailControl.value && this.samePostMailControl.enable
+        ? false
+        : true;
   }
 }

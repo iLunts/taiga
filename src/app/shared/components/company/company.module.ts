@@ -14,31 +14,42 @@ import { TuiLoaderModule } from '@taiga-ui/core/components/loader';
 import { CompanyAddressComponent } from './company-address/company-address.component';
 import { CompanyPanelComponent } from './company-panel/company-panel.component';
 import { CompanyUnpComponent } from './company-unp/company-unp.component';
-import { TuiTooltipModule } from '@taiga-ui/core';
+import {
+  TuiExpandModule,
+  TuiNotificationModule,
+  TuiTooltipModule,
+} from '@taiga-ui/core';
+import { CompanyBankComponent } from './company-bank/company-bank.component';
+import { BankModule } from '../bank/bank.module';
 
 @NgModule({
   declarations: [
     CompanyPanelComponent,
     CompanyUnpComponent,
     CompanyAddressComponent,
+    CompanyBankComponent,
   ],
   imports: [
+    BankModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TextMaskModule,
     TuiAvatarModule,
-    TuiLoaderModule,
     TuiButtonModule,
+    TuiCheckboxBlockModule,
+    TuiExpandModule,
     TuiFieldErrorModule,
     TuiInputModule,
-    TextMaskModule,
-    TuiCheckboxBlockModule,
+    TuiLoaderModule,
+    TuiNotificationModule,
     TuiTooltipModule,
   ],
   exports: [
     CompanyPanelComponent,
     CompanyUnpComponent,
     CompanyAddressComponent,
+    CompanyBankComponent,
   ],
 })
 export class CompanyModule {}
