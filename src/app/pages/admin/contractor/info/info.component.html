@@ -4,13 +4,60 @@
   {{ contractor.info.shortName }}
 </p>
 
-<p class="tui-text_body-xl">
+<!-- <p class="tui-text_body-l">
   {{ contractor.info.fullName }}
-</p>
+</p> -->
 
-<p>
-  {{ contractor | json }}
-</p>
+<section>
+  <h3>Юридический адрес</h3>
+
+  <p class="tui-text_body-m">
+    {{ contractor.juridicalAddress.country + " " || "" }}
+    {{ contractor.juridicalAddress.zipCode + " " || "" }}
+    {{ contractor.juridicalAddress.vnsfull + " " || "" }}
+
+    {{ contractor.juridicalAddress.streetType + " " || "" }}
+    <br />
+    {{ contractor.juridicalAddress.street + " " || "" }}
+    {{ contractor.juridicalAddress.houseNumber + " " || "" }}
+    {{ contractor.juridicalAddress.officeType + " " || "" }}
+    {{ contractor.juridicalAddress.office + " " || "" }}
+    <br />
+    {{ "email: " + contractor.juridicalAddress.email + " " || "" }}
+  </p>
+</section>
+
+<section>
+  <h3>Почтовый адрес</h3>
+
+  <p class="tui-text_body-m">
+    {{ contractor.mailingAddress.country + " " || "" }}
+    {{ contractor.mailingAddress.zipCode + " " || "" }}
+    {{ contractor.mailingAddress.vnsfull + " " || "" }}
+
+    {{ contractor.mailingAddress.streetType + " " || "" }}
+    <br />
+    {{ contractor.mailingAddress.street + " " || "" }}
+    {{ contractor.mailingAddress.houseNumber + " " || "" }}
+    {{ contractor.mailingAddress.officeType + " " || "" }}
+    {{ contractor.mailingAddress.office + " " || "" }}
+    <br />
+    {{ "email: " + contractor?.mailingAddress?.email + " " || "" }}
+  </p>
+</section>
+
+<section>
+  <h3>Банковские реквизиты</h3>
+
+  <p class="tui-text_body-m">
+    {{ contractor.bankAccount.bank.typ + " " || "" }}
+    {{ contractor.bankAccount.bank.NmBankShort + " " || "" }}
+    <br />
+    {{ "БИК (BIC): " + contractor.bankAccount.bank.CDBank + " " || "" }}
+    <br />
+    {{ "Р/сч. (SWIFT): " + contractor.bankAccount.SWIFT + " " || "" }}
+  </p>
+</section>
 
 <section class="tui-space_top-10">
   <button
