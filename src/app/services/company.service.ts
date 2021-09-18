@@ -4,6 +4,7 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
 import { BehaviorSubject, from, Observable } from 'rxjs';
+import * as _ from 'lodash';
 
 import { AuthService } from './auth.service';
 import { Company, CompanyAddress, CompanyInfo } from '../models/company.model';
@@ -179,5 +180,9 @@ export class CompanyService {
           this.notificationService.success('Компания успешно обнавлена');
         })
     );
+  }
+
+  isJuridicalAndPostalAddressSame(company: Company): boolean {
+    return _.isEqual(company.juridicalAddress, company.mailingAddress);
   }
 }

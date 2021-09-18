@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
-import { Contractor } from '../models/company.model';
-import { Observable, from, BehaviorSubject } from 'rxjs';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { Observable, from, BehaviorSubject } from 'rxjs';
+import * as _ from 'lodash';
+
+import { AuthService } from './auth.service';
+import { Contractor } from '../models/company.model';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -103,5 +105,75 @@ export class ContractorService {
     } else {
       this.setContractor(new Contractor());
     }
+  }
+
+  isJuridicalAndMailingAddressSame(contractor: Contractor): boolean {
+    return _.isEqual(contractor.juridicalAddress, contractor.mailingAddress);
+  }
+
+  getAddressToString(
+    contractor: Contractor,
+    type: 'juridical' | 'mailing' = 'juridical'
+  ): string {
+    let address = '';
+    const typeVar =
+      type === 'juridical' ? 'juridicalAddress' : 'mailingAddress';
+
+    address += contractor[typeVar].country
+      ? contractor[typeVar].country + ' '
+      : '';
+    address += contractor[typeVar].zipCode
+      ? contractor[typeVar].zipCode + ' '
+      : '';
+    address += contractor[typeVar].vnsfull
+      ? contractor[typeVar].vnsfull + ' '
+      : '';
+    address += contractor[typeVar].streetType
+      ? contractor[typeVar].streetType + ' '
+      : '';
+    address += contractor[typeVar].street
+      ? contractor[typeVar].street + ' '
+      : '';
+    address += contractor[typeVar].houseNumber
+      ? contractor[typeVar].houseNumber + ' '
+      : '';
+    address += contractor[typeVar].officeType
+      ? contractor[typeVar].officeType + ' '
+      : '';
+    address += contractor[typeVar].office
+      ? contractor[typeVar].office + ' '
+      : '';
+
+    if (contractor[typeVar]?.email) {
+      address += '<br />';
+
+      address += contractor[typeVar]?.email
+        ? contractor[typeVar]?.email + ' '
+        : '';
+    }
+
+    return address;
+  }
+
+  getBankInfoToString(contractor: Contractor): string {
+    let bankInfo = '';
+
+    bankInfo += contractor.bankAccount.bank.AdrBank
+      ? contractor.bankAccount.bank.AdrBank + ' '
+      : '';
+    bankInfo += contractor.bankAccount.bank.typ
+      ? contractor.bankAccount.bank.typ + ' '
+      : '';
+    bankInfo += contractor.bankAccount.bank.NmBankShort
+      ? contractor.bankAccount.bank.NmBankShort + '<br />'
+      : '';
+    bankInfo += contractor.bankAccount.bank.CDBank
+      ? 'БИК (BIC): ' + contractor.bankAccount.bank.CDBank + '<br />'
+      : '';
+    bankInfo += contractor.bankAccount.SWIFT
+      ? 'Р/сч. (SWIFT): ' + contractor.bankAccount.SWIFT
+      : '';
+
+    return bankInfo;
   }
 }

@@ -42,4 +42,18 @@ export class ContractorInfoComponent implements OnInit, OnDestroy {
     this.contractorService.clearContractor();
     this.close.emit(true);
   }
+
+  get isJuridicalAndMailingAddressSame(): boolean {
+    return this.contractorService.isJuridicalAndMailingAddressSame(
+      this.contractor
+    );
+  }
+
+  getAddressToString(type: 'juridical' | 'mailing'): string {
+    return this.contractorService.getAddressToString(this.contractor, type);
+  }
+
+  getBankInfoToString(): string {
+    return this.contractorService.getBankInfoToString(this.contractor);
+  }
 }
