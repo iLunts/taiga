@@ -44,4 +44,6 @@ export class InvoicesListComponent implements OnInit {
   downloadPdf(data: Invoice): void {
     this.templatePdfService.downloadPdf('invoice', data);
   }
+
+  create(): void {}
 }
