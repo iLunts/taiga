@@ -16,7 +16,7 @@ import {
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 
@@ -25,6 +25,9 @@ import { CompanyService } from 'src/app/services/company.service';
 import { Invoice, InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
+import { ContractorService } from 'src/app/services/contractor.service';
+import { QueryParams } from '@ngrx/data';
+import { ContractService } from 'src/app/services/contract.service';
 
 @Component({
   selector: 'app-invoices-create',
@@ -40,6 +43,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   invoice: Invoice = new Invoice(this.afs.createId());
   form: FormGroup;
   isEditingNumber: boolean;
+  queryParams: QueryParams;
 
   constructor(
     private afs: AngularFirestore,
@@ -47,9 +51,19 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private contractorService: ContractorService,
+    private contractService: ContractService
   ) {
     this.initForm();
+
+    this.route.queryParams
+      .pipe(filter((params) => params.contractorId))
+      .subscribe((params) => {
+        this.queryParams = params;
+      });
+
+    this.initQueryParams();
 
     this.companyService
       .getProfileCompany$()
@@ -86,6 +100,31 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       total: new FormControl(new TotalSum(), [Validators.required]),
       type: new FormControl(1, [Validators.required]),
     });
+  }
+
+  initQueryParams(): void {
+    if (this.queryParams.contractorId) {
+      this.contractorService
+        .getById$(this.queryParams.contractorId.toString())
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((contractor: Contractor[]) => {
+          if (contractor.length) {
+            this.form.controls.contractor.setValue(contractor[0]);
+            this.invoice.contractor = contractor[0];
+          }
+        });
+    }
+    // if (this.queryParams.contractId) {
+    //   this.contractorService
+    //     .getById$(this.queryParams.contractorId.toString())
+    //     .pipe(takeUntil(this.destroy$))
+    //     .subscribe((contractor: Contractor[]) => {
+    //       if (contractor.length) {
+    //         this.form.controls.contractor.setValue(contractor[0]);
+    //         this.invoice.contractor = contractor[0];
+    //       }
+    //     });
+    // }
   }
 
   get f(): any {

@@ -87,11 +87,25 @@
               tuiDataListDropdownManager
               [tuiActiveZoneParent]="activeZone"
             >
-              <button tuiOption (click)="createBaseOnInvoice(item)">
+              <button
+                tuiOption
+                (click)="createBaseOnInvoice(item)"
+                [disabled]="false"
+              >
                 Счёт
               </button>
-              <button tuiOption (click)="createBaseOnAct(item)">Акт</button>
-              <button tuiOption (click)="createBaseOnReference(item)">
+              <button
+                tuiOption
+                (click)="createBaseOnAct(item)"
+                [disabled]="true"
+              >
+                Акт
+              </button>
+              <button
+                tuiOption
+                (click)="createBaseOnReference(item)"
+                [disabled]="true"
+              >
                 Справка
               </button>
             </tui-data-list>

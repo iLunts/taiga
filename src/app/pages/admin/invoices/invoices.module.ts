@@ -14,7 +14,11 @@ import {
   TuiInputNumberModule,
   TuiTextAreaModule,
 } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiHintControllerModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiHintControllerModule,
+  TuiHostedDropdownModule,
+} from '@taiga-ui/core';
 
 @NgModule({
   declarations: [InvoicesCreateComponent, InvoicesListComponent],
@@ -31,6 +35,7 @@ import { TuiButtonModule, TuiHintControllerModule } from '@taiga-ui/core';
     TuiInputNumberModule,
     TuiTextAreaModule,
     TuiAvatarModule,
+    TuiHostedDropdownModule,
   ],
 })
 export class InvoicesModule {}

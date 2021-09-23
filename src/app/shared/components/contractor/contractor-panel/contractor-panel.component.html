@@ -1,17 +1,30 @@
-<h3>{{contractor | json}}</h3>
-
-
-<tui-loader [showLoader]="!(contractors$ | async) && !(contractors$ | async) !== null" [overlay]="true"
-  [inheritColor]="true">
-  <form *tuiLet="contractors$ | async as contractors" class="b-form" [formGroup]="form">
-
-    <tui-select class="b-form" formControlName="contractor" [valueContent]="valueContent" tuiHintContent="A tooltip" (ngModelChange)="selected.emit($event)">
+<tui-loader
+  [showLoader]="!(contractors$ | async) && !(contractors$ | async) !== null"
+  [overlay]="true"
+  [inheritColor]="true"
+>
+  <form
+    *tuiLet="contractors$ | async as contractors"
+    class="b-form"
+    [formGroup]="form"
+  >
+    <tui-select
+      class="b-form"
+      formControlName="contractor"
+      [valueContent]="valueContent"
+      tuiHintContent="A tooltip"
+      (ngModelChange)="selected.emit($event)"
+    >
       Выбрать контрагента
-      <tui-data-list-wrapper *tuiDataList size="l" [items]="contractors" [itemContent]="itemContent"
-        [disabledItemHandler]="disabledItemHandler">
+      <tui-data-list-wrapper
+        *tuiDataList
+        size="l"
+        [items]="contractors"
+        [itemContent]="itemContent"
+        [disabledItemHandler]="disabledItemHandler"
+      >
       </tui-data-list-wrapper>
     </tui-select>
-
   </form>
 </tui-loader>
 
@@ -23,7 +36,13 @@
 
 <ng-template #itemContent let-data>
   <div class="itemContent">
-    <tui-avatar class="tui-space_right-5" [text]="data.info.shortName" size="s" [rounded]="true" [autoColor]="true">
+    <tui-avatar
+      class="tui-space_right-5"
+      [text]="data.info.shortName"
+      size="s"
+      [rounded]="true"
+      [autoColor]="true"
+    >
     </tui-avatar>
     <div>
       <div class="itemContent__unp">УНП: {{ data.info.unp }}</div>

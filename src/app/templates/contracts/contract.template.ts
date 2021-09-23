@@ -9,7 +9,7 @@ export const CONTRACT_TEMPLATE_ALL = `
     г. Минск {{date}}
 </p>
 <p style="margin: 0;">
-    <strong>{{profile.info.fullName}}</strong>, именуемый в
+    <strong>{{profileCompany.info.fullName}}</strong>, именуемый в
     дальнейшем "Арендодатель", в лице Лунцевича Владимира Владимировича,
     действующего на основании свидетельства о регистрации индивидуального
     предпринимателя, с одной стороны и <strong>{{contractor.info.fullName}}</strong>, именуемое в дальнейшем "Арендатор", в
@@ -231,25 +231,25 @@ export const CONTRACT_TEMPLATE_ALL = `
         <tr>
             <td width="50%" valign="top">
                 <p style="margin: 0;">
-                  {{profile.info.fullName}}
+                  {{profileCompany.info.fullName}}
                 </p>
                 <p style="margin: 0;">
-                  УНП: {{profile.info.unp}}
+                  УНП: {{profileCompany.info.unp}}
                 </p>
                 <p style="margin: 0;">
                     ОАО "БПС-Сбербанк" !!!!!!!!!!!!
                 </p>
                 <p style="margin: 0;">
-                    Р/с: {{profile.bankAccount.swift}}
+                    Р/с: {{profileCompany.bankAccount.swift}}
                 </p>
                 <p style="margin: 0;">
-                    БИК: {{profile.bankAccount.bic}}
+                    БИК: {{profileCompany.bankAccount.bic}}
                 </p>
                 <p style="margin: 0;">
-                    Юр. Адрес: {{profile.juridicalAddress.zipCode}}, {{profile.juridicalAddress.city}} {{profile.juridicalAddress.street}} д.{{profile.juridicalAddress.houseNumber}} оф.{{profile.juridicalAddress.office}}
+                    Юр. Адрес: {{profileCompany.juridicalAddress.zipCode}}, {{profileCompany.juridicalAddress.city}} {{profileCompany.juridicalAddress.street}} д.{{profileCompany.juridicalAddress.houseNumber}} оф.{{profileCompany.juridicalAddress.office}}
                 </p>
                 <p style="margin: 0;">
-                    Тел.: {{profile.juridicalAddress.phone}}
+                    Тел.: {{profileCompany.juridicalAddress.phone}}
                 </p>
             </td>
             <td width="50%" valign="top">

@@ -22,7 +22,7 @@
 
   <div class="tui-row tui-row_adaptive tui-space_top-5">
     <div
-      class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6"
+      class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-9 tui-col_lg-9"
     >
       <h1 class="header" [class.header_empty]="!f.number.value">
         Счет-фактура №
@@ -56,7 +56,7 @@
       </tui-text-area>
     </div>
     <div
-      class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6"
+      class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-3 tui-col_lg-3"
     >
       <!-- <tui-input-file
         class="container"
@@ -66,7 +66,7 @@
         [loadingFiles]="loading$ | async"
         [rejectedFiles]="rejected$ | async"
     ></tui-input-file> -->
-      <h2>Логотип</h2>
+      <!-- <h2>QR код</h2> -->
       <qrcode
         #qrBlock
         [qrdata]="invoice?._id"
@@ -94,6 +94,7 @@
     >
       <h5>Арендатор</h5>
       <app-contractor-panel
+        [contractor]="form.controls.contractor.value"
         (selected)="setContractor($event)"
       ></app-contractor-panel>
     </div>

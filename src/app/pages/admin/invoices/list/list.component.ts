@@ -45,5 +45,9 @@ export class InvoicesListComponent implements OnInit {
     this.templatePdfService.downloadPdf('invoice', data);
   }
 
-  create(): void {}
+  createBaseOnContract(invoice: Invoice): void {}
+
+  createBaseOnAct(invoice: Invoice): void {}
+
+  createBaseOnReference(invoice: Invoice): void {}
 }

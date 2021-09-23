@@ -42,8 +42,13 @@ export class ContractListComponent implements OnInit {
     this.templatePdfService.downloadPdf('contract', data);
   }
 
-  createBaseOnInvoice(data): void {
-    this.router.navigate([this.routing.admin.invoice.create]);
+  createBaseOnInvoice(contract: Contract): void {
+    this.router.navigate([this.routing.admin.invoice.create], {
+      queryParams: {
+        contractorId: contract.contractor._id,
+        contractId: contract._id,
+      },
+    });
     // this.router.navigate([this.routing.admin.invoice.create], {
     //   state: { contract: data },
     // });

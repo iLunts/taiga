@@ -104,57 +104,52 @@
             tuiIconButton
             appearance="flat"
             size="s"
-            icon="tuiIconCopy"
-            title="Создать Акт на основании..."
-            shape="rounded"
-            (click)="create(item)"
-          ></button>
-          <button
-            tuiIconButton
-            appearance="flat"
-            size="s"
             icon="tuiIconTrash"
             title="Удалить"
             shape="rounded"
             (click)="delete(item)"
           ></button>
+          <tui-hosted-dropdown #dropdown [content]="content">
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconMoreVer"
+              type="button"
+              shape="rounded"
+              [pseudoHovered]="dropdown.open || null"
+            ></button>
+          </tui-hosted-dropdown>
+          <ng-template #content let-activeZone>
+            <tui-data-list
+              tuiDataListDropdownManager
+              [tuiActiveZoneParent]="activeZone"
+            >
+              <button
+                tuiOption
+                (click)="createBaseOnContract(item)"
+                [disabled]="true"
+              >
+                Счёт
+              </button>
+              <button
+                tuiOption
+                (click)="createBaseOnAct(item)"
+                [disabled]="true"
+              >
+                Акт
+              </button>
+              <button
+                tuiOption
+                (click)="createBaseOnReference(item)"
+                [disabled]="true"
+              >
+                Справка
+              </button>
+            </tui-data-list>
+          </ng-template>
         </td>
       </tr>
     </tbody>
   </table>
 </ng-container>
-
-<!-- <div class="invoice" *ngIf="selectedInvoice">
-  <div class="invoice__info">
-    <span class="invoice__avatar">
-      <ion-icon class="invoice__avatar-icon" name="receipt-outline"></ion-icon>
-    </span>
-  </div>
-  <div class="invoice__body">
-    <h2 class="invoice__name">
-      № {{ selectedInvoice?.number || 'Б.н.' }} от
-      {{ selectedInvoice?.createDate | date: 'dd MMM yyyy' }}
-    </h2>
-    <p class="invoice__status" [style.color]="selectedInvoice?.status?.color">
-      <span>{{ selectedInvoice?.status?.name }}</span>
-      <span class="invoice__sum">
-        на сумму:
-        <b>{{ selectedInvoice?.total?.totalSum.amount | number: '0.0-2' }}</b>
-        руб.
-      </span>
-    </p>
-    <h3 class="invoice__desc">
-      {{ selectedInvoice?.contractor?.info?.shortName }}
-    </h3>
-
-    <p class="invoice__change">
-      <ion-button
-        class="invoice__change-link"
-        color="light"
-        size="small"
-        (click)="showMore()"
-        >ещё ...</ion-button
-      >
-    </p>
-  </div>
-</div> -->
