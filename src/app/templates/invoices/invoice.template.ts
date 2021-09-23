@@ -50,7 +50,7 @@ export const INVOICE_TEMPLATE_HEADER = `
             text-align: left;
           "
         >
-          {{invoice.profile.info.fullName}}
+          {{invoice.profileCompany.info.fullName}}
         </p>
         <p
           style="
@@ -60,7 +60,7 @@ export const INVOICE_TEMPLATE_HEADER = `
             text-align: left;
           "
         >
-          УНП: {{invoice.profile.info.unp}}
+          УНП: {{invoice.profileCompany.info.unp}}
         </p>
         <p
           style="
@@ -70,12 +70,12 @@ export const INVOICE_TEMPLATE_HEADER = `
             text-align: left;
           "
         >
-          Юр. адрес: {{invoice.profile.juridicalAddress.zipCode}}&nbsp;
-          {{invoice.profile.juridicalAddress.country}}&nbsp;
-          г. {{invoice.profile.juridicalAddress.city}}&nbsp;
-          ул. {{invoice.profile.juridicalAddress.street}}&nbsp;
-          д.{{invoice.profile.juridicalAddress.houseNumber}}&nbsp;
-          оф.{{invoice.profile.juridicalAddress.office}}&nbsp;
+          Юр. адрес: {{invoice.profileCompany.juridicalAddress.zipCode}}&nbsp;
+          {{invoice.profileCompany.juridicalAddress.country}}&nbsp;
+          г. {{invoice.profileCompany.juridicalAddress.city}}&nbsp;
+          ул. {{invoice.profileCompany.juridicalAddress.street}}&nbsp;
+          д.{{invoice.profileCompany.juridicalAddress.houseNumber}}&nbsp;
+          оф.{{invoice.profileCompany.juridicalAddress.office}}&nbsp;
         </p>
       </td>
       <td style="width: 50%; border: 0">
@@ -177,7 +177,7 @@ export const INVOICE_TEMPLATE_NOTE = `
 `;
 export const INVOICE_TEMPLATE_SIGN = `
 <p class="invoice-sign">
-  {{invoice.profile.info.fullName}} 
+  {{invoice.profileCompany.info.fullName}} 
   <img src="{{invoice.signature.sign}}" style="display: inline-block; vertical-align: middle; width: 130px;"/> (подпись)
 </p>`;
 export const INVOICE_TEMPLATE_QR_CODE = `<p class="invoice-sign">Отсканируйте код из мобильного приложения invoices.by чтобы открыть документ
@@ -239,7 +239,7 @@ export const INVOICE_TEMPLATE_ALL = `
             text-align: left;
           "
         >
-          {{invoice.profile.info.fullName}}
+          {{invoice.profileCompany.info.fullName}}
         </p>
         <p
           style="
@@ -249,7 +249,7 @@ export const INVOICE_TEMPLATE_ALL = `
             text-align: left;
           "
         >
-          УНП: {{invoice.profile.info.unp}}
+          УНП: {{invoice.profileCompany.info.unp}}
         </p>
         <p
           style="
@@ -259,12 +259,12 @@ export const INVOICE_TEMPLATE_ALL = `
             text-align: left;
           "
         >
-          Юр. адрес: {{invoice.profile.juridicalAddress.zipCode}}&nbsp;
-          {{invoice.profile.juridicalAddress.country}}&nbsp;
-          г. {{invoice.profile.juridicalAddress.city}}&nbsp;
-          ул. {{invoice.profile.juridicalAddress.street}}&nbsp;
-          д.{{invoice.profile.juridicalAddress.houseNumber}}&nbsp;
-          оф.{{invoice.profile.juridicalAddress.office}}&nbsp;
+          Юр. адрес: {{invoice.profileCompany.juridicalAddress.zipCode}}&nbsp;
+          {{invoice.profileCompany.juridicalAddress.country}}&nbsp;
+          г. {{invoice.profileCompany.juridicalAddress.city}}&nbsp;
+          ул. {{invoice.profileCompany.juridicalAddress.street}}&nbsp;
+          д.{{invoice.profileCompany.juridicalAddress.houseNumber}}&nbsp;
+          оф.{{invoice.profileCompany.juridicalAddress.office}}&nbsp;
         </p>
       </td>
       <td style="width: 50%; border: 0">
@@ -363,7 +363,7 @@ export const INVOICE_TEMPLATE_ALL = `
 <p class="invoice-note">Всего наименований 2(два), на сумму {{getTotalSumDigs}} ({{getTotalSum}})</p>
 
 <p class="invoice-sign">
-  {{invoice.profile.info.fullName}} (подпись)
+  {{invoice.profileCompany.info.fullName}} (подпись)
 </p>
 
 <p class="invoice-sign">Отсканируйте код из мобильного приложения invoices.by чтобы открыть документ</p>

@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import * as _ from 'lodash';
 
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -16,21 +17,26 @@ import { environment } from 'src/environments/environment';
 export class CompanyComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
   company: Company;
-  company$: Observable<Company[]>;
   isCompanyValid: boolean;
 
   constructor(private companyService: CompanyService, private router: Router) {
     this.getProfileCompany$();
-  }
 
-  ngOnInit(): void {
     this.companyService
       .getCompanyState$()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe((company: Company) => {
         this.company = company;
         this.isCompanyValid = this.companyService.isCompanyValid(this.company);
       });
+  }
+
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.companyService.clearCompany();
   }
 
   save(): void {
@@ -40,7 +46,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
       this.companyService
         .add$(this.company)
         .pipe(takeUntil(this.destroy$))
-        .subscribe((response) => {
+        .subscribe(() => {
           this.router.navigate([environment.routing.admin.settings.main]);
         });
     }
@@ -50,18 +56,25 @@ export class CompanyComponent implements OnInit, OnDestroy {
     this.companyService
       .update$(this.company._id, this.company)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((response) => {
+      .subscribe(() => {
         this.router.navigate([environment.routing.admin.settings.main]);
       });
   }
 
   getProfileCompany$(): void {
-    this.company$ = this.companyService.getProfileCompany$();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-    this.companyService.clearCompany();
+    this.companyService
+      .getProfileCompany$()
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged((a, b) => _.isEqual(a, b))
+      )
+      .subscribe((company: Company[]) => {
+        if (company?.length) {
+          this.company = company[0];
+          this.companyService.setCompany(this.company);
+        } else {
+          this.company = new Company();
+        }
+      });
   }
 }

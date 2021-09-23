@@ -2,8 +2,9 @@
   <tui-avatar
     class="company__avatar"
     class="tui-space_right-3"
-    [text]="data?.info?.shortName"
+    [text]="data?.info?.name"
     [autoColor]="true"
+    [rounded]="true"
   >
   </tui-avatar>
 
@@ -19,6 +20,7 @@
   </div>
 
   <button
+    *ngIf="canChange"
     class="company__btn company__btn--change"
     tuiButton
     type="button"

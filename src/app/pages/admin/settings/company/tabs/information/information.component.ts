@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
-import { EgrService } from 'src/app/services/egr.service';
 
 @Component({
   selector: 'app-company-settings-information',
@@ -11,57 +9,22 @@ import { EgrService } from 'src/app/services/egr.service';
   styleUrls: ['./information.component.less'],
 })
 export class InformationComponent implements OnInit {
-  @Input() set company(value: any) {
-    if (value?.length) {
-      this._company = value[0];
-      this.companyService.setCompany(this._company);
-      this.checkValid();
-    } else {
-      this._company = this.companyService.getCompany();
-    }
+  @Input() set company(company: Company) {
+    this._company = company;
+    this.checkValid();
   }
-  get company(): any {
+  get company(): Company {
     return this._company;
   }
   private _company: Company;
 
-  isCompanySelected: boolean;
   isValid: boolean;
-  unp = new FormControl(null);
 
-  constructor(
-    private egrService: EgrService,
-    private companyService: CompanyService
-  ) {}
+  constructor(private companyService: CompanyService) {}
 
-  ngOnInit(): void {
-    this.companyService.getCompanyState$().subscribe((company: Company) => {
-      this.isCompanySelected = this.companyService.isCompanyInfoValid(company);
-      this.checkValid();
-    });
-  }
-
-  getCompanyInformation(): Company {
-    if (this.unp.value) {
-      this.egrService.getAllByUnp(this.unp.value);
-
-      if (this.isValid) {
-        this.isCompanySelected = true;
-      }
-    }
-    return this.company;
-  }
-
-  changeCompany(): void {
-    this.companyService.clearCompanyInfo();
-    this.unp.setValue(null);
-    this.isCompanySelected = false;
-  }
+  ngOnInit(): void {}
 
   checkValid(): void {
     this.isValid = this.companyService.isCompanyInfoValid(this.company);
-    if (this.isValid) {
-      this.isCompanySelected = true;
-    }
   }
 }

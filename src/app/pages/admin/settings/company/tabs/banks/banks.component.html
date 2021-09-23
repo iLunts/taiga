@@ -17,16 +17,7 @@
       </div>
     </div>
     <ng-template tuiAccordionItemContent>
-      <app-bank-select
-        *ngIf="!isBankSelected"
-        (change)="changeBank($event)"
-      ></app-bank-select>
-      <app-bank-panel
-        *ngIf="isBankSelected"
-        [data]="company.bankAccount.bank"
-        [isLoaded]="isBankSelected"
-        (change)="changeBank()"
-      ></app-bank-panel>
+      <app-company-bank></app-company-bank>
     </ng-template>
   </tui-accordion-item>
 </tui-accordion>

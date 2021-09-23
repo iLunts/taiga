@@ -70,6 +70,9 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
         this.company = company;
       });
 
+    this.swiftControl.setValue(this.company?.bankAccount?.SWIFT);
+    this.checkValid();
+
     this.swiftControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((swiftValue: string) => {
@@ -87,7 +90,7 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.companyService.clearCompany();
+    // this.companyService.clearCompany();
   }
 
   changeBank(bankInfo: Bank): void {

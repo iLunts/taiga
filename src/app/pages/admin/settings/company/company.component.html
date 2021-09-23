@@ -4,20 +4,16 @@
   <div class="tui-row tui-row_sme">
     <div class="tui-col_12">
       <app-company-settings-logotype
-        [company]="company$ | async"
+        [company]="company"
       ></app-company-settings-logotype>
 
       <app-company-settings-information
-        [company]="company$ | async"
+        [company]="company"
       ></app-company-settings-information>
 
       <app-company-settings-banks
-        [company]="company$ | async"
+        [company]="company"
       ></app-company-settings-banks>
-
-      <!-- <h2>
-        {{ company$ | async | json }}
-      </h2> -->
 
       <button
         tuiButton

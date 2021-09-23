@@ -1,6 +1,8 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -11,16 +13,18 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { Contractor } from 'src/app/models/company.model';
+import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
+import * as moment from 'moment';
+
+import { Company, Contractor } from 'src/app/models/company.model';
+import { CompanyService } from 'src/app/services/company.service';
 import { Invoice, InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
-import * as moment from 'moment';
-import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
-import { DateHelper } from 'src/app/utils/date.helper';
 
 @Component({
   selector: 'app-invoices-create',
@@ -28,10 +32,11 @@ import { DateHelper } from 'src/app/utils/date.helper';
   styleUrls: ['./create.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InvoicesCreateComponent implements OnInit {
+export class InvoicesCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
   @ViewChild('inputNumber') inputNumber: any;
 
+  private readonly destroy$ = new Subject();
   invoice: Invoice = new Invoice(this.afs.createId());
   form: FormGroup;
   isEditingNumber: boolean;
@@ -41,14 +46,30 @@ export class InvoicesCreateComponent implements OnInit {
     private invoiceService: InvoiceService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private companyService: CompanyService
+  ) {
+    this.initForm();
 
-  ngOnInit(): void {
-    this.setupForm();
+    this.companyService
+      .getProfileCompany$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((company: Company[]) => {
+        if (company?.length) {
+          this.invoice.profileCompany = company[0];
+          this.form.controls.profileCompany.setValue(company[0]);
+        }
+      });
   }
 
-  setupForm(): void {
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
+
+  initForm(): void {
     this.form = this.formBuilder.group({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       contractor: new FormControl(null, [Validators.required]),
@@ -57,7 +78,7 @@ export class InvoicesCreateComponent implements OnInit {
       ),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
-      profile: new FormControl(null, [Validators.required]),
+      profileCompany: new FormControl(null, [Validators.required]),
       qrCode: new FormControl(null, [Validators.required]),
       services: new FormControl(null, [Validators.required]),
       signature: new FormControl(null, [Validators.required]),

@@ -18,6 +18,7 @@ import { CompanyService } from 'src/app/services/company.service';
 export class CompanyPanelComponent implements OnInit, OnChanges {
   @Input() data: Company;
   @Input() isLoaded: boolean;
+  @Input() canChange: boolean;
   @Output() change = new EventEmitter<boolean>();
 
   constructor(private companyService: CompanyService) {}

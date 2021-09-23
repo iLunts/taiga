@@ -17,7 +17,8 @@
       </div>
     </div>
     <ng-template tuiAccordionItemContent>
-      <tui-input-number
+      <app-company-unp></app-company-unp>
+      <!-- <tui-input-number
         *ngIf="!isCompanySelected"
         class="tui-space_top-2"
         [formControl]="unp"
@@ -26,13 +27,13 @@
         (change)="getCompanyInformation()"
       >
         УНП
-      </tui-input-number>
-      <app-company-panel
+      </tui-input-number> -->
+      <!-- <app-company-panel
         *ngIf="isCompanySelected"
         [data]="company"
         [isLoaded]="isCompanySelected"
         (change)="changeCompany()"
-      ></app-company-panel>
+      ></app-company-panel> -->
     </ng-template>
   </tui-accordion-item>
 </tui-accordion>

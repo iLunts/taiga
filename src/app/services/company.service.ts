@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 import { Company, CompanyAddress, CompanyInfo } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { Bank, BankAccount } from '../models/bank.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',

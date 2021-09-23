@@ -1,9 +1,9 @@
-import { Service } from './service.model';
 import { Contractor } from './company.model';
 import { Profile } from './profile.model';
+import { Service } from './service.model';
+import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { TuiDay } from '@taiga-ui/cdk';
 
 export class Invoice {
   _id: string;
@@ -15,7 +15,7 @@ export class Invoice {
   dateRange: TuiDay;
   description: string;
   number: string;
-  profile: Profile;
+  profileCompany: Profile;
   qrCode: string;
   services: Service[];
   signature: Signature;
@@ -34,7 +34,7 @@ export class Invoice {
     dateRange?: TuiDay,
     description?: string,
     number?: string,
-    profile?: Profile,
+    profileCompany?: Profile,
     qrCode?: string,
     services?: Service[],
     signature?: Signature,
@@ -50,7 +50,7 @@ export class Invoice {
     this._createdDate = _createdDate || new Date();
     this.number = number || null;
     this.contractor = contractor || new Contractor();
-    this.profile = profile || new Profile();
+    this.profileCompany = profileCompany || new Profile();
     this.services = services || [];
     this.dateRange =
       dateRange ||

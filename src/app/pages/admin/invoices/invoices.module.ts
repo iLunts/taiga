@@ -7,6 +7,7 @@ import { InvoicesListComponent } from './list/list.component';
 import { InvoicesRoutingModule } from './invoices-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {
+  TuiAvatarModule,
   TuiInputDateRangeModule,
   TuiInputFileModule,
   TuiInputInlineModule,
@@ -29,6 +30,7 @@ import { TuiButtonModule, TuiHintControllerModule } from '@taiga-ui/core';
     TuiInputInlineModule,
     TuiInputNumberModule,
     TuiTextAreaModule,
+    TuiAvatarModule,
   ],
 })
 export class InvoicesModule {}

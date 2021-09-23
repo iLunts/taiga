@@ -105,6 +105,13 @@ export class EgrService {
       },
       error: (error) => {
         switch (error.status) {
+          case 0: {
+            this._notification.error(
+              'Сервис ЕГР временно не доступен, попробуйте сделать запрос позже',
+              'Временно недоступен'
+            );
+            break;
+          }
           case 400: {
             this._notification.error(
               'Плохой запрос, проверьте вводимые данные',
@@ -117,7 +124,6 @@ export class EgrService {
             break;
           }
         }
-
         return null;
       },
     });
