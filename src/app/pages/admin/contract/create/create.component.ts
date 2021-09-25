@@ -7,10 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TuiDay } from '@taiga-ui/cdk';
 import { Company } from 'src/app/models/company.model';
 
-import { Contract } from 'src/app/models/contract.model';
 import { ContractService } from 'src/app/services/contract.service';
 import { CONTRACT_TEMPLATE_ALL } from 'src/app/templates/contracts/contract.template';
 import { DateHelper } from 'src/app/utils/date.helper';

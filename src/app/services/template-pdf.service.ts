@@ -148,13 +148,24 @@ export class TemplatePdfService {
     };
 
     let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
-    let html = template({
-      invoice: data,
+    let html = template(data, {
+      tableAutoSize: true,
+      defaultStyle: defaultStyle,
     });
     let result = htmlToPdfmake(html, {
       tableAutoSize: true,
       defaultStyle: defaultStyle,
     });
+
+    // let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
+    // let html = template({
+    //   invoice: data,
+    // });
+    // let result = htmlToPdfmake(html, {
+    // let result = htmlToPdfmake(data, {
+    //   tableAutoSize: true,
+    //   defaultStyle: defaultStyle,
+    // });
 
     let docDefinition = {
       content: [result],

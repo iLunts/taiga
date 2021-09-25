@@ -58,7 +58,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.route.queryParams
-      .pipe(filter((params) => params.contractorId))
+      .pipe(filter((params) => params?.contractorId))
       .subscribe((params) => {
         this.queryParams = params;
       });
@@ -103,7 +103,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   }
 
   initQueryParams(): void {
-    if (this.queryParams.contractorId) {
+    if (this.queryParams?.contractorId) {
       this.contractorService
         .getById$(this.queryParams.contractorId.toString())
         .pipe(takeUntil(this.destroy$))
