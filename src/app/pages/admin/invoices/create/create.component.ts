@@ -86,6 +86,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   initForm(): void {
     this.form = this.formBuilder.group({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
+      _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       dateRange: new FormControl(
         new TuiDayRange(DateHelper.initDate(), DateHelper.initDate(6))
@@ -111,6 +112,9 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
           if (contractor.length) {
             this.form.controls.contractor.setValue(contractor[0]);
             this.invoice.contractor = contractor[0];
+            this.form.controls._contractId.setValue(
+              this.queryParams?.contractorId
+            );
           }
         });
     }
