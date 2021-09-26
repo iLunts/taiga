@@ -114,17 +114,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
           }
         });
     }
-    // if (this.queryParams.contractId) {
-    //   this.contractorService
-    //     .getById$(this.queryParams.contractorId.toString())
-    //     .pipe(takeUntil(this.destroy$))
-    //     .subscribe((contractor: Contractor[]) => {
-    //       if (contractor.length) {
-    //         this.form.controls.contractor.setValue(contractor[0]);
-    //         this.invoice.contractor = contractor[0];
-    //       }
-    //     });
-    // }
   }
 
   get f(): any {
@@ -179,16 +168,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleInvoiceNumber(): void {
-    this.isEditingNumber = !this.isEditingNumber;
-  }
-
-  onFocusedChange(focused: boolean): void {
-    if (!focused) {
-      this.isEditingNumber = false;
-    }
-  }
-
   get getQrCode(): any {
     if (this.isQrCodeValid) {
       return this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
@@ -201,5 +180,15 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     return (
       this.qrBlock && this.qrBlock.qrcElement.nativeElement.childNodes.length
     );
+  }
+
+  toggleInvoiceNumber(): void {
+    this.isEditingNumber = !this.isEditingNumber;
+  }
+
+  onFocusedChange(focused: boolean): void {
+    if (!focused) {
+      this.isEditingNumber = false;
+    }
   }
 }

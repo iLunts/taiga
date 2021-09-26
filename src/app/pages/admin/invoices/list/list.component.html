@@ -55,7 +55,7 @@
     <thead>
       <tr tuiThGroup>
         <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
-        <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
+        <th *tuiHead="'unp'" tuiTh [resizable]="true">Организация</th>
         <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
         <th *tuiHead="'price'" tuiTh [resizable]="true">Сумма</th>
         <th *tuiHead="'action'" tuiTh [resizable]="true"></th>
@@ -66,6 +66,9 @@
       <tr *tuiRow="let item of invoices; let index = index" tuiTr>
         <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
         <td *tuiCell="'unp'" tuiTd>
+          <p class="tui-space_vertical-1 tui-text_body-m">
+            {{ item?.contractor?.info?.shortName }}
+          </p>
           {{ item?.contractor?.info?.unp }}
         </td>
         <td *tuiCell="'status'" tuiTd>

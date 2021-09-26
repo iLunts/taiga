@@ -83,7 +83,7 @@ export class TemplatePdfService {
   createInvoicePdf(data?: Invoice): void {
     const sumToWord = this.sum_letters(data.total.totalSum.amount);
     // Date format
-    Handlebars.registerHelper('formatDate', function (datetime, format) {
+    Handlebars.registerHelper('formatDate', (datetime, format) => {
       if (moment) {
         // can use other formats like 'lll' too
         format = format || 'DD.MM.YYYY';
@@ -94,7 +94,7 @@ export class TemplatePdfService {
     });
 
     // Invoice number
-    Handlebars.registerHelper('invoiceNumber', function (number) {
+    Handlebars.registerHelper('invoiceNumber', (number: number) => {
       if (number) {
         return number;
       } else {
@@ -103,7 +103,7 @@ export class TemplatePdfService {
     });
 
     // Get summa
-    Handlebars.registerHelper('getSum', function (count, price) {
+    Handlebars.registerHelper('getSum', (count, price) => {
       if (!count || !price) {
         return 'NaN';
       } else {
@@ -112,7 +112,7 @@ export class TemplatePdfService {
     });
 
     // Get index
-    Handlebars.registerHelper('getIndex', function (index) {
+    Handlebars.registerHelper('getIndex', (index: number) => {
       if (index == null || index == undefined) {
         return '0';
       } else {
@@ -121,18 +121,18 @@ export class TemplatePdfService {
     });
 
     // Get total SUM to word
-    Handlebars.registerHelper('getTotalSum', function () {
+    Handlebars.registerHelper('getTotalSum', () => {
       return sumToWord;
     });
 
     // Get total SUM to digs RUB and COP
-    Handlebars.registerHelper('getTotalSumDigs', function () {
+    Handlebars.registerHelper('getTotalSumDigs', () => {
       let sum = Number(data.total.totalSum.amount).toFixed(2).split('.');
       return sum[0] + ' руб. ' + sum[1] + ' коп.';
     });
 
     // Get count services
-    Handlebars.registerHelper('getCountService', function () {
+    Handlebars.registerHelper('getCountService', () => {
       if (data.services) {
         return Object.keys(data.services).length;
       } else {
