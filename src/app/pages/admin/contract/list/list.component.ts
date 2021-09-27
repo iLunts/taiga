@@ -49,9 +49,6 @@ export class ContractListComponent implements OnInit {
         contractId: contract._id,
       },
     });
-    // this.router.navigate([this.routing.admin.invoice.create], {
-    //   state: { contract: data },
-    // });
   }
 
   createBaseOnAct(data): void {}

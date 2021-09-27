@@ -37,6 +37,7 @@
     >
       <!-- <h5>Арендатор</h5> -->
       <app-contractor-panel
+        [contractor]="form.controls.contractor.value"
         (selected)="setContractor($event)"
       ></app-contractor-panel>
     </div>

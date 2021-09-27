@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
   FormBuilder,
@@ -6,21 +6,27 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Company } from 'src/app/models/company.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { QueryParams } from '@ngrx/data';
 
-import { ContractService } from 'src/app/services/contract.service';
+import { Company, Contractor } from 'src/app/models/company.model';
 import { CONTRACT_TEMPLATE_ALL } from 'src/app/templates/contracts/contract.template';
+import { ContractorService } from 'src/app/services/contractor.service';
+import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-contract-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.less'],
 })
-export class ContractCreateComponent implements OnInit {
+export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
+
+  private readonly destroy$ = new Subject();
   editorOptions = {
     toolbarButtons: [
       'bold',
@@ -39,19 +45,35 @@ export class ContractCreateComponent implements OnInit {
 
   // contract: Contract = new Contract(this.afs.createId());
   form: FormGroup;
+  queryParams: QueryParams;
 
   constructor(
     private afs: AngularFirestore,
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
-    private contractService: ContractService
-  ) {}
+    private contractService: ContractService,
+    private contractorService: ContractorService
+  ) {
+    this.initForm();
 
-  ngOnInit(): void {
-    this.setupForm();
+    this.route.queryParams
+      .pipe(filter((params) => params?.contractorId))
+      .subscribe((params) => {
+        this.queryParams = params;
+      });
+
+    this.initQueryParams();
   }
 
-  setupForm(): void {
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
+
+  initForm(): void {
     this.form = this.formBuilder.group({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       date: new FormControl(DateHelper.initDate(), [Validators.required]),
@@ -65,6 +87,22 @@ export class ContractCreateComponent implements OnInit {
       type: new FormControl(1, [Validators.required]),
       template: new FormControl(this.templateContent, [Validators.required]),
     });
+  }
+
+  initQueryParams(): void {
+    if (this.queryParams?.contractorId) {
+      this.contractorService
+        .getById$(this.queryParams.contractorId.toString())
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((contractor: Contractor[]) => {
+          if (contractor.length) {
+            this.form.controls.contractor.setValue(contractor[0]);
+            // this.form.controls._contractId.setValue(
+            //   this.queryParams?.contractorId
+            // );
+          }
+        });
+    }
   }
 
   get isContractValid(): boolean {
@@ -98,6 +136,7 @@ export class ContractCreateComponent implements OnInit {
   }
 
   save(): void {
+    // TODO: NEED UPDATE INVOICE and set _contractId;
     if (this.isQrCodeValid) {
       this.form.controls.qrCode.setValue(this.getQrCode);
     }

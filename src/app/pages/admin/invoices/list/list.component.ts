@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+
 import { Invoice } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-invoices-list',
@@ -19,7 +21,8 @@ export class InvoicesListComponent implements OnInit {
 
   constructor(
     private invoiceService: InvoiceService,
-    private templatePdfService: TemplatePdfService
+    private templatePdfService: TemplatePdfService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +48,14 @@ export class InvoicesListComponent implements OnInit {
     this.templatePdfService.downloadPdf('invoice', data);
   }
 
-  createBaseOnContract(invoice: Invoice): void {}
+  createBaseOnContract(invoice: Invoice): void {
+    this.router.navigate([this.routing.admin.contract.create], {
+      queryParams: {
+        contractorId: invoice.contractor._id,
+        // contractId: invoice._id,
+      },
+    });
+  }
 
   createBaseOnAct(invoice: Invoice): void {}
 
