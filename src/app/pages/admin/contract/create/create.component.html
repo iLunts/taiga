@@ -35,7 +35,18 @@
     <div
       class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6"
     >
-      <!-- <h5>Арендатор</h5> -->
+      <h5>Арендодатель</h5>
+      <app-company-panel
+        *ngIf="form.controls.profileCompany.value"
+        [data]="form.controls.profileCompany.value"
+        [isLoaded]="true"
+        [canChange]="false"
+      ></app-company-panel>
+    </div>
+    <div
+      class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6"
+    >
+      <h5>Арендатор</h5>
       <app-contractor-panel
         [contractor]="form.controls.contractor.value"
         (selected)="setContractor($event)"
@@ -50,17 +61,9 @@
       "
     >
       <div [froalaEditor]="editorOptions" formControlName="template">
-        Hello, Froala!
+        Hello!
       </div>
     </div>
-    <!-- <div
-      class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6"
-    >
-      <h5>Арендатор</h5>
-      <app-contractor-panel
-        (selected)="setContractor($event)"
-      ></app-contractor-panel>
-    </div> -->
   </div>
 
   <div class="tui-row tui-row_adaptive tui-space_top-10">

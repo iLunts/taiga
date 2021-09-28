@@ -17,6 +17,7 @@ import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-contract-create',
@@ -53,7 +54,8 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private contractService: ContractService,
-    private contractorService: ContractorService
+    private contractorService: ContractorService,
+    private companyService: CompanyService
   ) {
     this.initForm();
 
@@ -64,6 +66,15 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
       });
 
     this.initQueryParams();
+
+    this.companyService
+      .getProfileCompany$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((company: Company[]) => {
+        if (company?.length) {
+          this.form.controls.profileCompany.setValue(company[0]);
+        }
+      });
   }
 
   ngOnInit(): void {}
@@ -80,7 +91,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
       contractor: new FormControl(null, [Validators.required]),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
-      profile: new FormControl(null, [Validators.required]),
+      profileCompany: new FormControl(null, [Validators.required]),
       qrCode: new FormControl(null, [Validators.required]),
       signature: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
