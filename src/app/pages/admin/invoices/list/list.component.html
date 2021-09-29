@@ -1,8 +1,19 @@
 <div class="wrapper">
   <h1 class="tui-text_h3 title">Счета</h1>
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новый"
+    shape="rounded"
+    [routerLink]="[routing.admin.invoice.create]"
+  >
+    Создать новый
+  </button>
   <tui-tabs-with-more
     class="tabs"
-    [activeItemIndex]="activeItemIndex"
+    [activeItemIndex]="getTabActiveIndex"
     [moreContent]="more"
   >
     <ng-container *tuiLet="invoiceStatuses$ | async as invoiceStatuses">

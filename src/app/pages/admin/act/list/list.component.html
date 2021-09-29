@@ -1,18 +1,29 @@
 <div class="wrapper">
   <h1 class="tui-text_h3 title">Акты</h1>
-  <!-- <tui-tabs-with-more
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новый"
+    shape="rounded"
+    [routerLink]="[routing.admin.act.create]"
+  >
+    Создать новый
+  </button>
+  <tui-tabs-with-more
     class="tabs"
-    [activeItemIndex]="activeItemIndex"
+    [activeItemIndex]="getTabActiveIndex"
     [moreContent]="more"
   >
-    <ng-container *tuiLet="invoiceStatuses$ | async as invoiceStatuses">
-      <ng-container *ngFor="let status of invoiceStatuses">
+    <ng-container *tuiLet="actStatuses$ | async as actStatuses">
+      <ng-container *ngFor="let status of actStatuses">
         <button *tuiTab tuiTab (click)="selectTab(status)">
           {{ status.name }}
         </button>
       </ng-container>
     </ng-container>
-  </tui-tabs-with-more> -->
+  </tui-tabs-with-more>
 </div>
 <section class="content">
   <!-- <ng-container *ngIf="invoices$ | async as invoices">

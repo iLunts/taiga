@@ -1,47 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { Invoice, InvoiceStatus } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-invoices-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less'],
 })
-export class InvoicesListComponent implements OnInit {
+export class InvoicesListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'unp', 'status', 'price', 'action'];
+  private readonly destroy$ = new Subject();
   invoices$: Observable<any>;
   invoiceStatuses$: Observable<any>;
+  invoiceStatuses: InvoiceStatus[] = [];
   isLoaded: boolean;
   routing = environment.routing;
   // readonly tabs = ['Все', 'Черновики', 'Оплаченные'];
   // activeElement = String(this.tabs[0]);
-  activeElement: InvoiceStatus;
+  tabActive: InvoiceStatus;
 
   constructor(
     private invoiceService: InvoiceService,
     private templatePdfService: TemplatePdfService,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.fetchStatuses();
     this.fetch();
   }
 
-  get activeItemIndex(): InvoiceStatus {
-    return null;
-    // return this.tabs.indexOf(this.activeElement);
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
+
+  get getTabActiveIndex(): number {
+    return this.invoiceStatuses.findIndex(
+      (status: InvoiceStatus) => status._id === this.tabActive._id
+    );
   }
 
   selectTab(activeElement: InvoiceStatus): void {
-    this.activeElement = activeElement;
-    this.fetchFilterByStatus();
+    this.tabActive = activeElement;
+    // this.fetchFilterByStatus();
   }
 
   fetch(): void {
@@ -49,13 +57,19 @@ export class InvoicesListComponent implements OnInit {
   }
 
   fetchStatuses(): void {
-    this.invoiceStatuses$ = this.invoiceService.getAllStatus$();
+    this.invoiceStatuses$ = this.invoiceService.getAllStatus$().pipe(
+      tap((status: InvoiceStatus[]) => {
+        this.invoiceStatuses = status;
+        this.tabActive = status?.length ? status[0] : null;
+      }),
+      takeUntil(this.destroy$)
+    );
   }
 
   fetchFilterByStatus(): void {
     this.invoices$ = this.invoiceService.getAll$().pipe(
       filter((invoices) => {
-        return invoices.filter((x) => x.status._id === this.activeElement._id);
+        return invoices.filter((x) => x.status._id === this.tabActive._id);
       })
     );
   }

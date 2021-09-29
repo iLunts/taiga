@@ -16,8 +16,8 @@ import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root',
 })
-export class InvoiceService {
-  private dbPath = '/act';
+export class ActService {
+  private dbPath = '/acts';
   private dbPathStatuses = '/actStatuses';
   actsRef: AngularFirestoreCollection<Act> = null;
   actsForContractorsRef: AngularFirestoreCollection<Act> = null;
