@@ -12,14 +12,17 @@ import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { Act, ActStatus, TotalSum } from 'src/app/models/act.model';
 import { Company, Contractor } from 'src/app/models/company.model';
+import { Invoice } from 'src/app/models/invoice.model';
 import { Service } from 'src/app/models/service.model';
 import { ActService } from 'src/app/services/act.service';
 import { CompanyService } from 'src/app/services/company.service';
 // import { ContractService } from 'src/app/services/contract.service';
+// import { DateHelper } from 'src/app/utils/date.helper';
 import { ContractorService } from 'src/app/services/contractor.service';
-import { DateHelper } from 'src/app/utils/date.helper';
+import { InvoiceService } from 'src/app/services/invoice.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -44,12 +47,13 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private companyService: CompanyService,
+    private invoiceService: InvoiceService,
     private contractorService: ContractorService // private contractService: ContractService
   ) {
     this.initForm();
 
     this.route.queryParams
-      .pipe(filter((params) => params?.contractorId))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
         this.queryParams = params;
       });
@@ -78,6 +82,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _contractId: new FormControl(null),
+      _invoiceId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       date: new FormControl(this.initDate(0)),
       description: new FormControl(null),
@@ -93,17 +98,18 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   }
 
   initQueryParams(): void {
-    if (this.queryParams?.contractorId) {
-      this.contractorService
-        .getById$(this.queryParams.contractorId.toString())
+    if (this.queryParams?.invoiceId) {
+      this.invoiceService
+        .getById$(this.queryParams?.invoiceId.toString())
         .pipe(takeUntil(this.destroy$))
-        .subscribe((contractor: Contractor[]) => {
-          if (contractor.length) {
-            this.form.controls.contractor.setValue(contractor[0]);
-            this.act.contractor = contractor[0];
-            this.form.controls._contractId.setValue(
-              this.queryParams?.contractorId
-            );
+        .subscribe((invoices: Invoice[]) => {
+          if (invoices?.length) {
+            const invoice: Invoice = invoices[0];
+
+            this.form.controls.number.setValue(invoice.number);
+            this.form.controls.contractor.setValue(invoice.contractor);
+            this.form.controls.services.setValue(invoice.services);
+            this.form.controls._invoiceId.setValue(this.queryParams?.invoiceId);
           }
         });
     }

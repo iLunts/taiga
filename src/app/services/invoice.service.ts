@@ -42,11 +42,12 @@ export class InvoiceService {
     return this.invoicesRef.valueChanges();
   }
 
-  getByI$d(id: string): AngularFirestoreCollection<any> {
+  // getById$(id: string): AngularFirestoreCollection<any> {
+  getById$(id: string): Observable<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>
       q.where('_userId', '==', this._auth.getUserId()).where('_id', '==', id)
     );
-    return collection;
+    return collection.valueChanges();
   }
 
   get$(id: string): Observable<any> {

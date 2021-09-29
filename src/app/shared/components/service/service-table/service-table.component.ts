@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -20,6 +20,18 @@ import * as moment from 'moment';
   providers: [TuiDestroyService],
 })
 export class ServiceTableComponent implements OnInit {
+  @Input() set services(services: Service[]) {
+    if (services?.length) {
+      // services.forEach((service) => {
+      //   this.addNewRow(service);
+      // });
+    }
+  }
+  get services(): Service[] {
+    return this._services;
+  }
+  private _services: Service[];
+
   @Output() selected = new EventEmitter<Service[]>();
 
   form: FormGroup;
@@ -30,12 +42,12 @@ export class ServiceTableComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceService: ServicesService,
     private destroy$: TuiDestroyService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.createForm();
     this.fetch();
   }
+
+  ngOnInit(): void {}
 
   fetch(): void {
     this.services$ = this.serviceService.getAll$();
@@ -49,21 +61,21 @@ export class ServiceTableComponent implements OnInit {
     this.onChanges();
   }
 
-  private createTableRow(): FormGroup {
+  private createTableRow(serviceItem?: Service): FormGroup {
     return this.formBuilder.group({
-      name: new FormControl(null, {
+      name: new FormControl(serviceItem?.name || null, {
         validators: [Validators.required],
       }),
       date: new FormControl(this.initDate(), {
         validators: [Validators.required],
       }),
-      unit: new FormControl('', {
+      unit: new FormControl(serviceItem?.unit || '', {
         validators: [Validators.required],
       }),
-      count: new FormControl(null, {
+      count: new FormControl(serviceItem?.count || null, {
         validators: [Validators.required],
       }),
-      price: new FormControl(null, {
+      price: new FormControl(serviceItem?.price || null, {
         validators: [Validators.required],
       }),
       amount: new FormControl(null, {
@@ -76,8 +88,8 @@ export class ServiceTableComponent implements OnInit {
     return this.form.get('tableRowArray') as FormArray;
   }
 
-  addNewRow(): void {
-    this.tableRowArray.push(this.createTableRow());
+  addNewRow(serviceItem?: Service): void {
+    this.tableRowArray.push(this.createTableRow(serviceItem));
   }
 
   deleteRow(rowIndex: number): void {
