@@ -11,7 +11,7 @@
   >
     Создать новый
   </button>
-  <!-- <tui-tabs-with-more
+  <tui-tabs-with-more
     class="tabs"
     [activeItemIndex]="getTabActiveIndex"
     [moreContent]="more"
@@ -23,7 +23,7 @@
         </button>
       </ng-container>
     </ng-container>
-  </tui-tabs-with-more> -->
+  </tui-tabs-with-more>
 </div>
 
 <section class="content">
@@ -114,3 +114,7 @@
     </table>
   </ng-container>
 </section>
+
+<ng-template #more>
+  <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
+</ng-template>

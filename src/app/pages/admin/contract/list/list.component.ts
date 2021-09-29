@@ -56,7 +56,6 @@ export class ContractListComponent implements OnInit, OnDestroy {
   fetchStatuses(): void {
     this.contractStatuses$ = this.contractService.getAllStatus$().pipe(
       tap((status: ContractStatus[]) => {
-        debugger;
         this.contractStatuses = status;
         this.tabActive = status?.length ? status[0] : null;
       }),
