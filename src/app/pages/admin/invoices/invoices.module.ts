@@ -21,6 +21,7 @@ import {
   TuiHostedDropdownModule,
 } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
+import { HeaderModule } from 'src/app/shared/components/header/header.module';
 
 @NgModule({
   declarations: [InvoicesCreateComponent, InvoicesListComponent],
@@ -29,6 +30,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
     ContractorModule,
     InvoicesRoutingModule,
     SharedModule,
+    HeaderModule,
     TuiAvatarModule,
     TuiButtonModule,
     TuiHintControllerModule,

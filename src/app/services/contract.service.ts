@@ -36,7 +36,7 @@ export class ContractService {
     return this.contractsRef.valueChanges();
   }
 
-  getAllStatus(): Observable<any> {
+  getAllStatus$(): Observable<any> {
     return this._fs
       .collection(this.dbPathStatuses, (q) => q.orderBy('order'))
       .valueChanges();

@@ -45,14 +45,14 @@ export class LeftMenuComponent implements OnInit {
       type: 'divider',
     },
     {
-      name: 'Счета',
-      url: environment.routing.admin.invoice.list,
+      name: 'Договора',
+      url: environment.routing.admin.contract.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
     },
     {
-      name: 'Договора',
-      url: environment.routing.admin.contract.list,
+      name: 'Счета',
+      url: environment.routing.admin.invoice.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
     },

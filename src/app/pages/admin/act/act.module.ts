@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiTabsModule } from '@taiga-ui/kit';
+import { HeaderModule } from 'src/app/shared/components/header/header.module';
 
 @NgModule({
   declarations: [ActCreateComponent, ActListComponent],
@@ -16,6 +17,7 @@ import { TuiTabsModule } from '@taiga-ui/kit';
     // ContractorModule,
     ActRoutingModule,
     SharedModule,
+    HeaderModule,
     // TuiAvatarModule,
     TuiButtonModule,
     // TuiHintControllerModule,

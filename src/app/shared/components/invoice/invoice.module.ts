@@ -7,9 +7,7 @@ import { TuiInputModule } from '@taiga-ui/kit';
 import { InvoicePanelComponent } from './invoice-panel/invoice-panel.component';
 
 @NgModule({
-  declarations: [
-    InvoicePanelComponent,
-  ],
+  declarations: [InvoicePanelComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,8 +15,6 @@ import { InvoicePanelComponent } from './invoice-panel/invoice-panel.component';
     TuiLetModule,
     TuiInputModule,
   ],
-  exports: [
-    InvoicePanelComponent,
-  ],
+  exports: [InvoicePanelComponent],
 })
-export class InvoiceModule { }
+export class InvoiceModule {}
