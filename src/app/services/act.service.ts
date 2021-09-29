@@ -1,26 +1,26 @@
-import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
-import { Invoice, InvoiceStatus } from '../models/invoice.model';
-import { AuthService } from './auth.service';
 import { from, Observable } from 'rxjs';
-import { ContractorService } from './contractor.service';
-import { NotificationService } from './notification.service';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+
+import { Act } from '../models/act.model';
+import { AuthService } from './auth.service';
+import { ContractorService } from './contractor.service';
 import { environment } from 'src/environments/environment';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InvoiceService {
-  private dbPath = '/invoices';
-  private dbPathStatuses = '/invoiceStatuses';
-  invoicesRef: AngularFirestoreCollection<Invoice> = null;
-  invoicesForContractorsRef: AngularFirestoreCollection<Invoice> = null;
-  // invoiceList: Observable<Invoice[]>;
+  private dbPath = '/act';
+  private dbPathStatuses = '/actStatuses';
+  actsRef: AngularFirestoreCollection<Act> = null;
+  actsForContractorsRef: AngularFirestoreCollection<Act> = null;
 
   constructor(
     private _fs: AngularFirestore,
@@ -30,7 +30,7 @@ export class InvoiceService {
     private _route: Router
   ) {
     if (this._auth.isLoggedIn) {
-      this.invoicesRef = _fs.collection(this.dbPath, (q) =>
+      this.actsRef = _fs.collection(this.dbPath, (q) =>
         q
           .where('_userId', '==', this._auth.getUserId())
           .orderBy('_createdDate', 'desc')
@@ -39,7 +39,7 @@ export class InvoiceService {
   }
 
   getAll$(): Observable<any> {
-    return this.invoicesRef.valueChanges();
+    return this.actsRef.valueChanges();
   }
 
   getByI$d(id: string): AngularFirestoreCollection<any> {
@@ -71,52 +71,52 @@ export class InvoiceService {
       .valueChanges();
   }
 
-  getAllByContractor$(): Observable<any[]> {
-    this.invoicesForContractorsRef = this._fs.collection(this.dbPath, (q) =>
-      q
-        .where('_userId', '==', this._auth.getUserId())
-        .where(
-          'contractor.info.unp',
-          '==',
-          this._contractor.getContractor().info.unp
-        )
-        .orderBy('_createdDate', 'desc')
-    );
-    return this.invoicesForContractorsRef.valueChanges();
-  }
+  // getAllByContractor$(): Observable<any[]> {
+  //   this.actsForContractorsRef = this._fs.collection(this.dbPath, (q) =>
+  //     q
+  //       .where('_userId', '==', this._auth.getUserId())
+  //       .where(
+  //         'contractor.info.unp',
+  //         '==',
+  //         this._contractor.getContractor().info.unp
+  //       )
+  //       .orderBy('_createdDate', 'desc')
+  //   );
+  //   return this.actsForContractorsRef.valueChanges();
+  // }
 
-  add$(invoice: Invoice): Observable<any> {
-    invoice._userId = this._auth.getUserId();
-    invoice._createdDate = new Date();
-    invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);
+  add$(act: Act): Observable<any> {
+    act._userId = this._auth.getUserId();
+    act._createdDate = new Date();
+    act.total.totalSum.amount = this.calculateTotalAmount(act);
     return from(
       this._fs
         .collection(this.dbPath)
-        .doc(invoice._id)
-        .set(JSON.parse(JSON.stringify(invoice)))
+        .doc(act._id)
+        .set(JSON.parse(JSON.stringify(act)))
         .then(() => {
-          this._notification.success('Счет успешно создан');
-          this._route.navigate([environment.routing.admin.invoice.list]);
+          this._notification.success('Акт успешно создан');
+          this._route.navigate([environment.routing.admin.act.list]);
         })
     );
   }
 
   delete$(_id: string): Observable<void> {
     return from(
-      this.invoicesRef
+      this.actsRef
         .doc(_id)
         .delete()
         .then(() => {
-          this._notification.success('Счет успешно удален');
+          this._notification.success('Акт успешно удален');
         })
     );
   }
 
   update$(_id: string, value: any): Observable<void> {
-    return from(this.invoicesRef.doc(_id).update(value));
+    return from(this.actsRef.doc(_id).update(value));
   }
 
-  calculateTotalAmount(invoice: Invoice): number {
-    return _.sumBy(invoice.services, (o) => o.count * o.price);
+  calculateTotalAmount(act: Act): number {
+    return _.sumBy(act.services, (o) => o.count * o.price);
   }
 }

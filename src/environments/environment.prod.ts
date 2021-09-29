@@ -32,6 +32,10 @@ export const environment = {
         list: '/admin/contract',
         create: '/admin/contract/create',
       },
+      act: {
+        list: '/admin/act',
+        create: '/admin/act/create',
+      },
       settings: {
         main: '/admin/settings',
         company: '/admin/settings/company',

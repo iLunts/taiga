@@ -58,10 +58,10 @@ export class LeftMenuComponent implements OnInit {
     },
     {
       name: 'Акты',
-      url: environment.routing.admin.invoice.list,
+      url: environment.routing.admin.act.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true,
+      disabled: false,
     },
     {
       name: 'Справки',

@@ -1,6 +1,7 @@
+import * as moment from 'moment';
+
 import { Service } from './service.model';
 import { Contractor } from './company.model';
-import * as moment from 'moment';
 
 export class Act {
   _id: string;
@@ -16,7 +17,7 @@ export class Act {
   contractor: Contractor;
   companyProfile: Contractor;
 
-  orderList: OrderList[];
+  services: Service[];
   status: ActStatus;
   signature: Signature;
   total: TotalSum;
@@ -28,7 +29,7 @@ export class Act {
     _invoiceId?: string,
     _createdDate?: Date,
     contractor?: Contractor,
-    orderList?: OrderList[],
+    services?: Service[],
     number?: string,
     createDate?: string,
     expiredDate?: string,
@@ -44,7 +45,7 @@ export class Act {
     this._createdDate = _createdDate || new Date();
     this.number = number || null;
     this.contractor = contractor || null;
-    this.orderList = orderList || [];
+    this.services = services || [];
     this.createDate = createDate || moment().toString();
     this.expiredDate = expiredDate || moment().add(7, 'days').toString();
     this.status = status || null;
