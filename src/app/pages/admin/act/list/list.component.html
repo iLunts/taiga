@@ -26,7 +26,7 @@
   </tui-tabs-with-more>
 </div>
 <section class="content">
-  <!-- <ng-container *ngIf="invoices$ | async as invoices">
+  <ng-container *ngIf="acts$ | async as acts">
     <table tuiTable [columns]="columns">
       <thead>
         <tr tuiThGroup>
@@ -37,8 +37,8 @@
           <th *tuiHead="'action'" tuiTh [resizable]="true"></th>
         </tr>
       </thead>
-      <tbody tuiTbody [data]="invoices">
-        <tr *tuiRow="let item of invoices; let index = index" tuiTr>
+      <tbody tuiTbody [data]="acts">
+        <tr *tuiRow="let item of acts; let index = index" tuiTr>
           <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
           <td *tuiCell="'unp'" tuiTd>
             <p class="tui-space_vertical-1 tui-text_body-m">
@@ -125,7 +125,7 @@
         </tr>
       </tbody>
     </table>
-  </ng-container> -->
+  </ng-container>
 </section>
 <ng-template #more>
   <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
