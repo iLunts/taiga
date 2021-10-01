@@ -8,6 +8,7 @@ import * as Handlebars from 'handlebars/dist/cjs/handlebars';
 import * as moment from 'moment';
 import { Invoice } from '../models/invoice.model';
 import { INVOICE_TEMPLATE_ALL } from '../templates/invoices/invoice.template';
+import { ACT_TEMPLATE_ALL } from '../templates/act/act.template';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class TemplatePdfService {
         break;
       }
       case 'act': {
-        this.createContractPdf(data);
+        this.createActPdf(data);
         break;
       }
     }
@@ -148,6 +149,150 @@ export class TemplatePdfService {
     };
 
     let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
+    let html = template(data, {
+      tableAutoSize: true,
+      defaultStyle: defaultStyle,
+    });
+    let result = htmlToPdfmake(html, {
+      tableAutoSize: true,
+      defaultStyle: defaultStyle,
+    });
+
+    // let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
+    // let html = template({
+    //   invoice: data,
+    // });
+    // let result = htmlToPdfmake(html, {
+    // let result = htmlToPdfmake(data, {
+    //   tableAutoSize: true,
+    //   defaultStyle: defaultStyle,
+    // });
+
+    let docDefinition = {
+      content: [result],
+      styles: {
+        'html-p': {
+          fontSize: 10,
+          bold: false,
+          margin: [0, 0, 0, 0],
+          alignment: 'justify',
+        },
+        'html-strong': {
+          fontSize: 10,
+          bold: true,
+          margin: [0, 0, 0, 0],
+          alignment: 'center',
+        },
+        'html-th': {
+          fontSize: 10,
+          bold: true,
+          margin: [0, 0, 0, 0],
+          alignment: 'center',
+        },
+        'cell--bold': {
+          fontSize: 12,
+          bold: true,
+          margin: [0, 0, 0, 0],
+          alignment: 'center',
+        },
+        'invoice-cell-footer-label': {
+          fontSize: 12,
+          bold: true,
+          margin: [0, 0, 0, 0],
+          alignment: 'right',
+        },
+        'invoice-cell-footer-summa': {
+          fontSize: 12,
+          bold: true,
+          margin: [0, 0, 0, 0],
+          alignment: 'center',
+        },
+        'invoice-note': {
+          fontSize: 12,
+          bold: false,
+          margin: [60, 0, 60, 0],
+          alignment: 'left',
+        },
+        'invoice-sign': {
+          fontSize: 10,
+          bold: false,
+          margin: [100, 0, 0, 0],
+          alignment: 'left',
+        },
+      },
+    };
+
+    this.pdfObj = pdfMake.createPdf(docDefinition);
+  }
+
+  createActPdf(data: Invoice): void {
+    const sumToWord = this.sum_letters(data.total.totalSum.amount);
+    // Date format
+    Handlebars.registerHelper('formatDate', (datetime, format) => {
+      if (moment) {
+        // can use other formats like 'lll' too
+        format = format || 'DD.MM.YYYY';
+        return moment(datetime).format(format);
+      } else {
+        return datetime;
+      }
+    });
+
+    // Invoice number
+    Handlebars.registerHelper('invoiceNumber', (number: number) => {
+      if (number) {
+        return number;
+      } else {
+        return 'б.н.';
+      }
+    });
+
+    // Get summa
+    Handlebars.registerHelper('getSum', (count, price) => {
+      if (!count || !price) {
+        return 'NaN';
+      } else {
+        return count * price;
+      }
+    });
+
+    // Get index
+    Handlebars.registerHelper('getIndex', (index: number) => {
+      if (index == null || index == undefined) {
+        return '0';
+      } else {
+        return index + 1;
+      }
+    });
+
+    // Get total SUM to word
+    Handlebars.registerHelper('getTotalSum', () => {
+      return sumToWord;
+    });
+
+    // Get total SUM to digs RUB and COP
+    Handlebars.registerHelper('getTotalSumDigs', () => {
+      let sum = Number(data.total.totalSum.amount).toFixed(2).split('.');
+      return sum[0] + ' руб. ' + sum[1] + ' коп.';
+    });
+
+    // Get count services
+    Handlebars.registerHelper('getCountService', () => {
+      if (data.services) {
+        return Object.keys(data.services).length;
+      } else {
+        return 0;
+      }
+    });
+
+    // Default styles obj
+    let defaultStyle: {
+      fontSize: 12;
+      bold: false;
+      margin: [0, 0, 0, 0];
+    };
+
+    let template = Handlebars.compile(ACT_TEMPLATE_ALL);
     let html = template(data, {
       tableAutoSize: true,
       defaultStyle: defaultStyle,

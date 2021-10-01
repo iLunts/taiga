@@ -22,9 +22,7 @@ import * as moment from 'moment';
 export class ServiceTableComponent implements OnInit {
   @Input() set services(services: Service[]) {
     if (services?.length) {
-      // services.forEach((service) => {
-      //   this.addNewRow(service);
-      // });
+      this.preloadServices(services);
     }
   }
   get services(): Service[] {
@@ -56,9 +54,20 @@ export class ServiceTableComponent implements OnInit {
   private createForm(): void {
     this.form = this.formBuilder.group({
       tableRowArray: this.formBuilder.array([this.createTableRow()]),
+      // tableRowArray: this.formBuilder.array([]),
     });
 
     this.onChanges();
+  }
+
+  private clearForm(): void {
+    this.form = this.formBuilder.group({
+      tableRowArray: this.formBuilder.array([this.createTableRow()]),
+    });
+
+    // this.tableRowArray.clear();
+
+    // this.formBuilder.group({});
   }
 
   private createTableRow(serviceItem?: Service): FormGroup {
@@ -78,7 +87,7 @@ export class ServiceTableComponent implements OnInit {
       price: new FormControl(serviceItem?.price || null, {
         validators: [Validators.required],
       }),
-      amount: new FormControl(null, {
+      amount: new FormControl(serviceItem?.count * serviceItem?.price || null, {
         validators: [Validators.required],
       }),
     });
@@ -141,5 +150,10 @@ export class ServiceTableComponent implements OnInit {
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val) => {
       this.doEmit();
     });
+  }
+
+  preloadServices(services: Service[]): void {
+    // this.tableRowArray.patchValue(services);
+    // this.tableRowArray.setValue(services);
   }
 }

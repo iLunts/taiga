@@ -1,9 +1,11 @@
-import { Contractor } from './company.model';
-import { Profile } from './profile.model';
-import { Service } from './service.model';
 import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+
+import { Contractor } from './company.model';
+import { Profile } from './profile.model';
+import { Service } from './service.model';
+import { ModelHelper } from '../utils/model.helper';
 
 export class Invoice {
   _id: string;
@@ -65,16 +67,13 @@ export class Invoice {
   }
 
   isValid(invoice: Invoice): boolean {
-    let valid = false;
-
-    // console.warn('WARN: ', _.isEmpty(null));
-
-    valid =
-      invoice?.services?.length && invoice?.status && invoice?.contractor
+    let valid =
+      invoice?.services?.length > 0 &&
+      ModelHelper.isValidObject(invoice?.status) &&
+      ModelHelper.isValidObject(invoice?.contractor.info)
         ? true
         : false;
-    // valid = !_.values(invoice.status).every(_.isEmpty);
-    // return invoice?.status ? invoice?.status?.isValid(invoice.status) : false;
+
     return valid;
   }
 }

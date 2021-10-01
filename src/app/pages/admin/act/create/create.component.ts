@@ -8,10 +8,10 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParams } from '@ngrx/data';
-import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
-import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { TuiDay } from '@taiga-ui/cdk';
+import * as moment from 'moment';
 
 import { Act, ActStatus, TotalSum } from 'src/app/models/act.model';
 import { Company, Contractor } from 'src/app/models/company.model';
@@ -108,8 +108,10 @@ export class ActCreateComponent implements OnInit, OnDestroy {
 
             this.form.controls.number.setValue(invoice.number);
             this.form.controls.contractor.setValue(invoice.contractor);
-            this.form.controls.services.setValue(invoice.services);
+            // this.form.controls.services.setValue(invoice.services);
             this.form.controls._invoiceId.setValue(this.queryParams?.invoiceId);
+
+            this.setService(invoice.services);
           }
         });
     }
