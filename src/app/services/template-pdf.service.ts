@@ -312,7 +312,7 @@ export class TemplatePdfService {
           alignment: 'justify',
         },
         'html-text': {
-          fontSize: 11,
+          fontSize: 10,
           bold: false,
           margin: [0, 0, 0, 0],
           alignment: 'justify',
@@ -339,31 +339,50 @@ export class TemplatePdfService {
           margin: [0, 0, 0, 0],
           alignment: 'center',
         },
-        'cell--bold': {
-          fontSize: 12,
+        'table-cell-bold': {
+          fontSize: 10,
           bold: true,
-          margin: [0, 0, 0, 0],
+          margin: 0,
           alignment: 'center',
         },
-        'invoice-cell-footer-label': {
+        'table-cell': {
+          fontSize: 10,
+          bold: true,
+          margin: 0,
+          alignment: 'left',
+        },
+        'table-cell-sum': {
+          fontSize: 10,
+          bold: true,
+          margin: 0,
+          alignment: 'right',
+        },
+        'table-footer-cell-label': {
           fontSize: 12,
           bold: true,
           margin: [0, 0, 0, 0],
           alignment: 'right',
         },
-        'invoice-cell-footer-summa': {
+        'table-footer-cell-sum': {
           fontSize: 12,
           bold: true,
           margin: [0, 0, 0, 0],
-          alignment: 'center',
+          alignment: 'right',
         },
-        'invoice-note': {
-          fontSize: 12,
+        'html-note': {
+          fontSize: 10,
           bold: false,
-          margin: [60, 0, 60, 0],
+          margin: [40, 0, 20, 0],
           alignment: 'left',
         },
-        'invoice-sign': {
+        'html-requisites-sign': {
+          fontSize: 10,
+          bold: false,
+          margin: [100, 0, 20, 0],
+          alignment: 'right',
+          italics: true,
+        },
+        'html-sign': {
           fontSize: 10,
           bold: false,
           margin: [100, 0, 0, 0],
