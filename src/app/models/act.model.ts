@@ -60,12 +60,9 @@ export class Act {
   isValid(act: Act): boolean {
     let valid = false;
 
-    // console.warn('WARN: ', _.isEmpty(null));
-
     valid =
       act?.services?.length && act?.status && act?.contractor ? true : false;
-    // valid = !_.values(invoice.status).every(_.isEmpty);
-    // return invoice?.status ? invoice?.status?.isValid(invoice.status) : false;
+
     return valid;
   }
 }

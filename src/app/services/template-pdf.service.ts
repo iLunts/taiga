@@ -95,7 +95,7 @@ export class TemplatePdfService {
     });
 
     // Invoice number
-    Handlebars.registerHelper('invoiceNumber', (number: number) => {
+    Handlebars.registerHelper('documentNumber', (number: number) => {
       if (number) {
         return number;
       } else {
@@ -239,7 +239,7 @@ export class TemplatePdfService {
     });
 
     // Invoice number
-    Handlebars.registerHelper('invoiceNumber', (number: number) => {
+    Handlebars.registerHelper('documentNumber', (number: number) => {
       if (number) {
         return number;
       } else {
@@ -302,16 +302,6 @@ export class TemplatePdfService {
       defaultStyle: defaultStyle,
     });
 
-    // let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
-    // let html = template({
-    //   invoice: data,
-    // });
-    // let result = htmlToPdfmake(html, {
-    // let result = htmlToPdfmake(data, {
-    //   tableAutoSize: true,
-    //   defaultStyle: defaultStyle,
-    // });
-
     let docDefinition = {
       content: [result],
       styles: {
@@ -321,11 +311,27 @@ export class TemplatePdfService {
           margin: [0, 0, 0, 0],
           alignment: 'justify',
         },
-        'html-strong': {
-          fontSize: 10,
-          bold: true,
+        'html-text': {
+          fontSize: 11,
+          bold: false,
           margin: [0, 0, 0, 0],
+          alignment: 'justify',
+          lineHeight: 1,
+        },
+        'html-title': {
+          fontSize: 12,
+          bold: true,
+          margin: 0,
           alignment: 'center',
+          lineHeight: 0.25,
+        },
+        'html-subtitle': {
+          fontSize: 10,
+          bold: false,
+          margin: 0,
+          alignment: 'center',
+          color: '#5b5b5b',
+          lineHeight: 0.25,
         },
         'html-th': {
           fontSize: 10,
