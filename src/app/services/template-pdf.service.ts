@@ -382,6 +382,23 @@ export class TemplatePdfService {
           alignment: 'right',
           italics: true,
         },
+        'html-requisites': {
+          fontSize: 10,
+          bold: false,
+          margin: 0,
+          alignment: 'justify',
+          italics: false,
+          color: '#5b5b5b',
+          lineHeight: 1.2,
+        },
+        'html-requisites-title': {
+          fontSize: 11,
+          bold: true,
+          margin: [20, 0, 20, 0],
+          alignment: 'left',
+          italics: false,
+          color: '#000',
+        },
         'html-sign': {
           fontSize: 10,
           bold: false,

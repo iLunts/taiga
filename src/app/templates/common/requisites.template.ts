@@ -3,45 +3,14 @@ export const REQUISITES_TABLE = `
   <tbody>
     <tr>
       <td style="width: 50%; border: 0">
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #333333;
-            font-weight: 600;
-            text-align: left;
-          "
-        >
-          <strong>Получатель</strong>
+        <p class="html-requisites-title">
+          Получатель
         </p>
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #5b5b5b;
-            text-align: left;
-          "
-        >
+        <p class="html-requisites">
           {{profileCompany.info.fullName}}
-        </p>
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #5b5b5b;
-            text-align: left;
-          "
-        >
+          <br />
           УНП: {{profileCompany.info.unp}}
-        </p>
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #5b5b5b;
-            text-align: left;
-          "
-        >
+          <br />
           Юр. адрес: {{profileCompany.juridicalAddress.zipCode}}&nbsp;
           {{profileCompany.juridicalAddress.country}}&nbsp;
           г. {{profileCompany.juridicalAddress.city}}&nbsp;
@@ -51,45 +20,14 @@ export const REQUISITES_TABLE = `
         </p>
       </td>
       <td style="width: 50%; border: 0">
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #333333;
-            font-weight: 600;
-            text-align: left;
-          "
-        >
-          <strong>Плательщик</strong>
+        <p class="html-requisites-title">
+          Плательщик
         </p>
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #5b5b5b;
-            text-align: left;
-          "
-        >
+        <p class="html-requisites">
           {{contractor.info.fullName}}
-        </p>
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #5b5b5b;
-            text-align: left;
-          "
-        >
+          <br />
           УНП: {{contractor.info.unp}}
-        </p>
-        <p
-          style="
-            font-size: 14px;
-            margin: 3px 0;
-            color: #5b5b5b;
-            text-align: left;
-          "
-        >
+          <br />
           Юр. адрес: {{contractor.juridicalAddress.zipCode}}&nbsp;
           {{contractor.juridicalAddress.country}}&nbsp;
           г. {{contractor.juridicalAddress.city}}&nbsp;
