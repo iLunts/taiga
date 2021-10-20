@@ -56,6 +56,16 @@ export class ContractService {
     return this.contractsForContractorsRef.valueChanges();
   }
 
+  getAllByContractorUNP$(contractorUNP: string): Observable<any[]> {
+    this.contractsForContractorsRef = this._fs.collection(this.dbPath, (q) =>
+      q
+        .where('_userId', '==', this._auth.getUserId())
+        .where('contractor.info.unp', '==', contractorUNP)
+        .orderBy('_createdDate', 'desc')
+    );
+    return this.contractsForContractorsRef.valueChanges();
+  }
+
   getAllByContractorId(contractorId: string): Observable<any[]> {
     this.contractsForContractorIdRef = this._fs.collection(this.dbPath, (q) =>
       q

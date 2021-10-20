@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { Service } from './service.model';
 import { Contractor } from './company.model';
 import { Profile } from './profile.model';
+import { Contract } from './contract.model';
 
 export class Act {
   _id: string;
@@ -16,6 +17,7 @@ export class Act {
   contractId: string;
 
   contractor: Contractor;
+  contract: Contract;
   profileCompany: Profile;
 
   services: Service[];
@@ -30,6 +32,7 @@ export class Act {
     _invoiceId?: string,
     _createdDate?: Date,
     contractor?: Contractor,
+    contract?: Contract,
     services?: Service[],
     number?: string,
     createDate?: string,
@@ -47,6 +50,7 @@ export class Act {
     this._createdDate = _createdDate || new Date();
     this.number = number || null;
     this.contractor = contractor || null;
+    this.contract = contract || null;
     this.services = services || [];
     this.createDate = createDate || moment().toString();
     this.expiredDate = expiredDate || moment().add(7, 'days').toString();
@@ -61,7 +65,9 @@ export class Act {
     let valid = false;
 
     valid =
-      act?.services?.length && act?.status && act?.contractor ? true : false;
+      act?.services?.length && act?.status && act?.contractor && act?.contract
+        ? true
+        : false;
 
     return valid;
   }

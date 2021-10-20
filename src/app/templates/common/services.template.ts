@@ -28,7 +28,7 @@ export const SERVICES_TEMPLATE_TABLE = `
       <td colspan="2" class="table-footer-cell-sum" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; line-height: 1.4; font-size: 13px;">{{getTotalSumDigs}}</td>
     </tr>
     <tr>
-      <td colspan="5" class="table-footer-cell-label" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; line-height: 1.4; font-size: 13px;">Всего с НДС:</td>
+      <td colspan="5" class="table-footer-cell-label" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; line-height: 1.4; font-size: 13px;">Всего НДС:</td>
       <td colspan="2" class="table-footer-cell-sum" valign="middle" style="vertical-align: middle; border: none; padding: 5px 15px; margin: 4px 10px; line-height: 1.4; font-size: 13px;">Без НДС</td>
     </tr>
     <tr>

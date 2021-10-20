@@ -323,7 +323,7 @@ export class TemplatePdfService {
           bold: true,
           margin: 0,
           alignment: 'center',
-          lineHeight: 0.25,
+          lineHeight: 0.15,
         },
         'html-subtitle': {
           fontSize: 10,
@@ -331,7 +331,7 @@ export class TemplatePdfService {
           margin: 0,
           alignment: 'center',
           color: '#5b5b5b',
-          lineHeight: 0.25,
+          lineHeight: 0.15,
         },
         'html-th': {
           fontSize: 10,
@@ -398,12 +398,6 @@ export class TemplatePdfService {
           alignment: 'left',
           italics: false,
           color: '#000',
-        },
-        'html-sign': {
-          fontSize: 10,
-          bold: false,
-          margin: [100, 0, 0, 0],
-          alignment: 'left',
         },
       },
     };

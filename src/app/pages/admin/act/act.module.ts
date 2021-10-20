@@ -23,15 +23,17 @@ import {
 } from '@taiga-ui/kit';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
+import { ContractModule } from 'src/app/shared/components/contract/contract.module';
 
 @NgModule({
   declarations: [ActCreateComponent, ActListComponent],
   imports: [
-    CommonModule,
-    ContractorModule,
     ActRoutingModule,
-    SharedModule,
+    CommonModule,
+    ContractModule,
+    ContractorModule,
     HeaderModule,
+    SharedModule,
     TuiAvatarModule,
     TuiButtonModule,
     TuiHintControllerModule,

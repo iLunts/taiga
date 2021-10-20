@@ -24,6 +24,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { environment } from 'src/environments/environment';
+import { Contract } from 'src/app/models/contract.model';
 
 @Component({
   selector: 'app-act-create',
@@ -84,6 +85,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       _contractId: new FormControl(null),
       _invoiceId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
+      contract: new FormControl(null, [Validators.required]),
       date: new FormControl(this.initDate(0)),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
@@ -138,6 +140,14 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     if (this.act) {
       this.act.contractor = data;
       this.form.controls.contractor.setValue(data);
+      this.form.controls.contract.reset();
+    }
+  }
+
+  setContract(data: Contract): void {
+    if (this.act) {
+      this.act.contract = data;
+      this.form.controls.contract.setValue(data);
     }
   }
 

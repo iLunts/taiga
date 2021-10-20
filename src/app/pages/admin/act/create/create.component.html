@@ -62,6 +62,12 @@
         [contractor]="form.controls.contractor.value"
         (selected)="setContractor($event)"
       ></app-contractor-panel>
+
+      <app-contract-panel
+        class="tui-col_xs-4 tui-col_s-4 tui-col_sm-4 tui-col_md-4"
+        [contractor]="form.controls.contractor.value"
+        (selected)="setContract($event)"
+      ></app-contract-panel>
     </div>
   </div>
 

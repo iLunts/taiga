@@ -17,6 +17,12 @@ export const REQUISITES_TABLE = `
           ул. {{profileCompany.juridicalAddress.street}}&nbsp;
           д.{{profileCompany.juridicalAddress.houseNumber}}&nbsp;
           оф.{{profileCompany.juridicalAddress.office}}&nbsp;
+          <br />
+          {{profileCompany.bankAccount.bank.typ}}: {{profileCompany.bankAccount.bank.NmBankShort}}
+          <br />
+          Р/сч.: {{profileCompany.bankAccount.SWIFT}}
+          <br />
+          БИК: {{profileCompany.bankAccount.bank.CDBank}}
         </p>
       </td>
       <td style="width: 50%; border: 0">
@@ -34,6 +40,12 @@ export const REQUISITES_TABLE = `
           ул. {{contractor.juridicalAddress.street}}&nbsp;
           д.{{contractor.juridicalAddress.houseNumber}}&nbsp;
           оф.{{contractor.juridicalAddress.office}}&nbsp;
+          <br />
+          {{contractor.bankAccount.bank.typ}}: {{contractor.bankAccount.bank.NmBankShort}}
+          <br />
+          Р/сч.: {{contractor.bankAccount.SWIFT}}
+          <br />
+          БИК: {{contractor.bankAccount.bank.CDBank}}
         </p>
       </td>
     </tr>
