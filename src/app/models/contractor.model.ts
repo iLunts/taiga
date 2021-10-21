@@ -11,7 +11,8 @@ export class Contractor {
   mailingAddress: ContractorAddress;
   juridicalAddress: ContractorAddress;
   bankAccount: BankAccount;
-  person: Person;
+  responsiblePerson: ResponsiblePerson;
+  contacts: Contact[];
   ved: VEDInfo[];
 
   constructor(
@@ -23,7 +24,8 @@ export class Contractor {
     mailingAddress?: ContractorAddress,
     juridicalAddress?: ContractorAddress,
     bankAccount?: BankAccount,
-    person?: Person
+    responsiblePerson?: ResponsiblePerson,
+    contacts?: Contact[]
   ) {
     this._id = this._id || null;
     this._userId = this._userId || null;
@@ -32,8 +34,8 @@ export class Contractor {
     this.info = info || new ContractorInfo();
     this.mailingAddress = mailingAddress || new ContractorAddress();
     this.juridicalAddress = juridicalAddress || new ContractorAddress();
-    this.bankAccount = bankAccount || new BankAccount();
-    this.person = person || new Person();
+    this.responsiblePerson = responsiblePerson || null;
+    this.contacts = contacts || [];
   }
 }
 
@@ -122,12 +124,26 @@ export class ContractorInfo {
   }
 }
 
-export class Person {
-  responsiblePerson?: string;
+export class Contact {
+  fullName?: string;
+  basis?: string;
+  phone?: string;
+  email?: string;
+  viber?: string;
+  telegram?: string;
+
+  constructor(fullName?: string, basis?: string) {
+    this.fullName = fullName || null;
+    this.basis = basis || null;
+  }
+}
+
+export class ResponsiblePerson {
+  fullName?: string;
   basis?: string;
 
-  constructor(responsiblePerson?: string, basis?: string) {
-    this.responsiblePerson = responsiblePerson || null;
+  constructor(fullName?: string, basis?: string) {
+    this.fullName = fullName || null;
     this.basis = basis || null;
   }
 }

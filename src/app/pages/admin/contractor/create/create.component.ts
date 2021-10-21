@@ -13,7 +13,6 @@ import { ContractorService } from 'src/app/services/contractor.service';
 export class ContractorCreateComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>();
 
-  form: FormGroup;
   contractor: Contractor = new Contractor();
   isValid: boolean;
   isLoading = false;

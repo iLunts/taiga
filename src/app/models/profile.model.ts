@@ -11,7 +11,8 @@ export class Profile {
   mailingAddress: ProfileAddress;
   juridicalAddress: ProfileAddress;
   bankAccount: BankAccount;
-  person: Person;
+  responsiblePerson: ResponsiblePerson;
+  contacts: Contact[];
 
   constructor(
     _id?: string,
@@ -22,7 +23,8 @@ export class Profile {
     mailingAddress?: ProfileAddress,
     juridicalAddress?: ProfileAddress,
     bankAccount?: BankAccount,
-    person?: Person
+    responsiblePerson?: ResponsiblePerson,
+    contacts?: Contact[]
   ) {
     this._id = this._id || null;
     this._userId = this._userId || null;
@@ -32,7 +34,8 @@ export class Profile {
     this.mailingAddress = mailingAddress || new ProfileAddress();
     this.juridicalAddress = juridicalAddress || new ProfileAddress();
     this.bankAccount = bankAccount || new BankAccount();
-    this.person = person || new Person();
+    this.responsiblePerson = responsiblePerson || null;
+    this.contacts = contacts || [];
   }
 }
 
@@ -115,12 +118,26 @@ export class ProfileInfo {
   }
 }
 
-export class Person {
-  responsiblePerson?: string;
+export class Contact {
+  fullName?: string;
+  basis?: string;
+  phone?: string;
+  email?: string;
+  viber?: string;
+  telegram?: string;
+
+  constructor(fullName?: string, basis?: string) {
+    this.fullName = fullName || null;
+    this.basis = basis || null;
+  }
+}
+
+export class ResponsiblePerson {
+  fullName?: string;
   basis?: string;
 
-  constructor(responsiblePerson?: string, basis?: string) {
-    this.responsiblePerson = responsiblePerson || null;
+  constructor(fullName?: string, basis?: string) {
+    this.fullName = fullName || null;
     this.basis = basis || null;
   }
 }

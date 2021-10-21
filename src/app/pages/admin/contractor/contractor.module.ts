@@ -20,6 +20,7 @@ import {
 } from '@taiga-ui/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ContractorInfoComponent } from './info/info.component';
+import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-person/responsible-person.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ContractorInfoComponent } from './info/info.component';
     ContractorRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ResponsiblePersonModule,
     SharedModule,
     TuiAvatarModule,
     TuiButtonModule,

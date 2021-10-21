@@ -1,18 +1,3 @@
-// export interface ICompany {
-//   _id: string;
-//   _createdDate: string;
-//   _userId: string;
-//   _type: number;
-
-//   info: CompanyInfo;
-//   mailingAddress: CompanyAddress;
-//   juridicalAddress: CompanyAddress;
-//   bankAccount: BankAccount;
-//   person: Person;
-//   ved: CompanyVEDInfo[];
-// }
-
-// export class Company implements ICompany {
 export class Company {
   _id: string;
   _createdDate: string;
@@ -23,7 +8,8 @@ export class Company {
   mailingAddress: CompanyAddress;
   juridicalAddress: CompanyAddress;
   bankAccount: BankAccount;
-  person: Person;
+  responsiblePerson: ResponsiblePerson;
+  contacts: Contact[];
   ved: CompanyVEDInfo[];
 
   constructor(
@@ -35,7 +21,8 @@ export class Company {
     mailingAddress?: CompanyAddress,
     juridicalAddress?: CompanyAddress,
     bankAccount?: BankAccount,
-    person?: Person
+    responsiblePerson?: ResponsiblePerson,
+    contacts?: Contact[]
   ) {
     this._id = this._id || null;
     this._userId = this._userId || null;
@@ -45,37 +32,9 @@ export class Company {
     this.mailingAddress = mailingAddress || new CompanyAddress();
     this.juridicalAddress = juridicalAddress || new CompanyAddress();
     this.bankAccount = bankAccount || new BankAccount();
-    this.person = person || new Person();
+    this.responsiblePerson = responsiblePerson || null;
+    this.contacts = contacts || [];
   }
-
-  // isCompanyValid(company: Company): boolean {
-  //   return (
-  //     Object.values(company.info).every((c) => c !== null) &&
-  //     this.isCompanyBankValid(company)
-  //   );
-  // }
-
-  // isCompanyInfoValid(company: Company): boolean {
-  //   console.log('Check info: ', company.info);
-  //   return Object.values(company.info).every((c) => c !== null);
-  // }
-
-  // isCompanyBankValid(company: Company): boolean {
-  //   const bank = company.bankAccount.bank;
-  //   let status = true;
-
-  //   if (
-  //     !bank.CDBank ||
-  //     !bank.NmBankShort ||
-  //     !bank.CDHeadBank ||
-  //     !bank.AdrBank ||
-  //     bank.CdControl === 'ЗАКР'
-  //   ) {
-  //     status = false;
-  //   }
-
-  //   return status;
-  // }
 }
 
 export class CompanyAddress {
@@ -158,12 +117,26 @@ export class CompanyInfo {
   }
 }
 
-export class Person {
-  responsiblePerson?: string;
+export class Contact {
+  fullName?: string;
+  basis?: string;
+  phone?: string;
+  email?: string;
+  viber?: string;
+  telegram?: string;
+
+  constructor(fullName?: string, basis?: string) {
+    this.fullName = fullName || null;
+    this.basis = basis || null;
+  }
+}
+
+export class ResponsiblePerson {
+  fullName?: string;
   basis?: string;
 
-  constructor(responsiblePerson?: string, basis?: string) {
-    this.responsiblePerson = responsiblePerson || null;
+  constructor(fullName?: string, basis?: string) {
+    this.fullName = fullName || null;
     this.basis = basis || null;
   }
 }
@@ -193,7 +166,6 @@ export class CompanyVEDInfo {
 
 import { BankAccount } from './bank.model';
 import * as moment from 'moment';
-import { isEmpty } from 'lodash';
 
 export class Contractor {
   _id: string;
@@ -205,7 +177,8 @@ export class Contractor {
   mailingAddress: ContractorAddress;
   juridicalAddress: ContractorAddress;
   bankAccount: BankAccount;
-  person: Person;
+  responsiblePerson: ResponsiblePerson;
+  contacts: Contact[];
   ved: VEDInfo[];
 
   constructor(
@@ -217,7 +190,8 @@ export class Contractor {
     mailingAddress?: ContractorAddress,
     juridicalAddress?: ContractorAddress,
     bankAccount?: BankAccount,
-    person?: CompanyPerson
+    responsiblePerson?: ResponsiblePerson,
+    contacts?: Contact[]
   ) {
     this._id = this._id || null;
     this._userId = this._userId || null;
@@ -227,7 +201,8 @@ export class Contractor {
     this.mailingAddress = mailingAddress || new ContractorAddress();
     this.juridicalAddress = juridicalAddress || new ContractorAddress();
     this.bankAccount = bankAccount || new BankAccount();
-    this.person = person || new CompanyPerson();
+    this.responsiblePerson = responsiblePerson || null;
+    this.contacts = contacts || [];
   }
 }
 

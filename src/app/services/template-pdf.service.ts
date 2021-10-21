@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { Invoice } from '../models/invoice.model';
 import { INVOICE_TEMPLATE_ALL } from '../templates/invoices/invoice.template';
 import { ACT_TEMPLATE_ALL } from '../templates/act/act.template';
+import { DOC_DEFININITION_STYLE } from '../templates/defenition.style';
 
 @Injectable({
   providedIn: 'root',
@@ -62,20 +63,7 @@ export class TemplatePdfService {
 
     let docDefinition = {
       content: [result],
-      styles: {
-        'html-p': {
-          fontSize: 10,
-          bold: false,
-          margin: [0, 0, 0, 0],
-          alignment: 'justify',
-        },
-        'html-strong': {
-          fontSize: 10,
-          bold: false,
-          margin: [0, 0, 0, 0],
-          alignment: 'center',
-        },
-      },
+      styles: DOC_DEFININITION_STYLE,
     };
 
     this.pdfObj = pdfMake.createPdf(docDefinition);
@@ -158,68 +146,9 @@ export class TemplatePdfService {
       defaultStyle: defaultStyle,
     });
 
-    // let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
-    // let html = template({
-    //   invoice: data,
-    // });
-    // let result = htmlToPdfmake(html, {
-    // let result = htmlToPdfmake(data, {
-    //   tableAutoSize: true,
-    //   defaultStyle: defaultStyle,
-    // });
-
     let docDefinition = {
       content: [result],
-      styles: {
-        'html-p': {
-          fontSize: 10,
-          bold: false,
-          margin: [0, 0, 0, 0],
-          alignment: 'justify',
-        },
-        'html-strong': {
-          fontSize: 10,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'center',
-        },
-        'html-th': {
-          fontSize: 10,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'center',
-        },
-        'cell--bold': {
-          fontSize: 12,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'center',
-        },
-        'invoice-cell-footer-label': {
-          fontSize: 12,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'right',
-        },
-        'invoice-cell-footer-summa': {
-          fontSize: 12,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'center',
-        },
-        'invoice-note': {
-          fontSize: 12,
-          bold: false,
-          margin: [60, 0, 60, 0],
-          alignment: 'left',
-        },
-        'invoice-sign': {
-          fontSize: 10,
-          bold: false,
-          margin: [100, 0, 0, 0],
-          alignment: 'left',
-        },
-      },
+      styles: DOC_DEFININITION_STYLE,
     };
 
     this.pdfObj = pdfMake.createPdf(docDefinition);
@@ -304,102 +233,7 @@ export class TemplatePdfService {
 
     let docDefinition = {
       content: [result],
-      styles: {
-        'html-p': {
-          fontSize: 10,
-          bold: false,
-          margin: [0, 0, 0, 0],
-          alignment: 'justify',
-        },
-        'html-text': {
-          fontSize: 10,
-          bold: false,
-          margin: [0, 0, 0, 0],
-          alignment: 'justify',
-          lineHeight: 1,
-        },
-        'html-title': {
-          fontSize: 12,
-          bold: true,
-          margin: 0,
-          alignment: 'center',
-          lineHeight: 0.15,
-        },
-        'html-subtitle': {
-          fontSize: 10,
-          bold: false,
-          margin: 0,
-          alignment: 'center',
-          color: '#5b5b5b',
-          lineHeight: 0.15,
-        },
-        'html-th': {
-          fontSize: 10,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'center',
-        },
-        'table-cell-bold': {
-          fontSize: 10,
-          bold: true,
-          margin: 0,
-          alignment: 'center',
-        },
-        'table-cell': {
-          fontSize: 10,
-          bold: true,
-          margin: 0,
-          alignment: 'left',
-        },
-        'table-cell-sum': {
-          fontSize: 10,
-          bold: true,
-          margin: 0,
-          alignment: 'right',
-        },
-        'table-footer-cell-label': {
-          fontSize: 12,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'right',
-        },
-        'table-footer-cell-sum': {
-          fontSize: 12,
-          bold: true,
-          margin: [0, 0, 0, 0],
-          alignment: 'right',
-        },
-        'html-note': {
-          fontSize: 10,
-          bold: false,
-          margin: [40, 0, 20, 0],
-          alignment: 'left',
-        },
-        'html-requisites-sign': {
-          fontSize: 10,
-          bold: false,
-          margin: [100, 0, 20, 0],
-          alignment: 'right',
-          italics: true,
-        },
-        'html-requisites': {
-          fontSize: 10,
-          bold: false,
-          margin: 0,
-          alignment: 'justify',
-          italics: false,
-          color: '#5b5b5b',
-          lineHeight: 1.2,
-        },
-        'html-requisites-title': {
-          fontSize: 11,
-          bold: true,
-          margin: [20, 0, 20, 0],
-          alignment: 'left',
-          italics: false,
-          color: '#000',
-        },
-      },
+      styles: DOC_DEFININITION_STYLE,
     };
 
     this.pdfObj = pdfMake.createPdf(docDefinition);

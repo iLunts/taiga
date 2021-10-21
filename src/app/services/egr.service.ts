@@ -98,7 +98,8 @@ export class EgrService {
         const prevCompany = this.companyService.getCompany();
         company.bankAccount = prevCompany.bankAccount;
         company.mailingAddress = prevCompany.mailingAddress;
-        company.person = prevCompany.person;
+        company.responsiblePerson = prevCompany.responsiblePerson;
+        company.contacts = prevCompany.contacts;
 
         this.companyService.setCompany(company);
         return company;
