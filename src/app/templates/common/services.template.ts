@@ -38,13 +38,12 @@ export const SERVICES_TEMPLATE_TABLE = `
   </tbody>
 </table>
 
-<p class="html-note">
-  Всего наименований на сумму {{getTotalSumDigs}} ({{getTotalSum}})
+<p class="html-note html-note-italic">
+  Всего наименований на сумму {{getTotalSumDigs}} <span class="html-note-bold">({{getTotalSum}})</span>, в т.ч. НДС – без НДС.
 </p>
-<p class="html-note">
+<p class="html-note html-note-light">
   Без НДС согласно главы 34 Особенной части НК РБ.
-</p>
-<p class="html-note">
+  <br />
   Вышеперечисленные работы (услуги) выполнены полностью и в срок. Заказчик претензий по объему, качеству и срокам
   оказания услуг претензий не имеет
 </p>

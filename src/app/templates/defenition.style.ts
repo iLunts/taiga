@@ -75,6 +75,23 @@ export const DOC_DEFININITION_STYLE = {
     margin: [40, 0, 20, 0],
     alignment: 'left',
   },
+  'html-note-italic': {
+    fontSize: 10,
+    bold: false,
+    margin: 0,
+    alignment: 'left',
+    italics: true,
+  },
+  'html-note-light': {
+    fontSize: 10,
+    color: '#5b5b5b',
+  },
+  'html-note-bold': {
+    fontSize: 10,
+    bold: true,
+    margin: 0,
+    alignment: 'left',
+  },
   'html-requisites-sign': {
     fontSize: 10,
     bold: false,

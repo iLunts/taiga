@@ -76,6 +76,7 @@ export class TemplatePdfService {
       if (moment) {
         // can use other formats like 'lll' too
         format = format || 'DD.MM.YYYY';
+        moment.locale('ru');
         return moment(datetime).format(format);
       } else {
         return datetime;
@@ -161,6 +162,7 @@ export class TemplatePdfService {
       if (moment) {
         // can use other formats like 'lll' too
         format = format || 'DD.MM.YYYY';
+        moment.locale('ru');
         return moment(datetime).format(format);
       } else {
         return datetime;
