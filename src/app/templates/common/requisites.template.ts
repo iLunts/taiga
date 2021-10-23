@@ -1,4 +1,4 @@
-export const REQUISITES_TABLE = `
+export const REQUISITES_TABLE_TEMPLATE = `
 <table style="width: 100%; border-width: 0">
   <tbody>
     <tr>

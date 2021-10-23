@@ -1,4 +1,4 @@
-import { REQUISITES_TABLE } from '../common/requisites.template';
+import { REQUISITES_TABLE_TEMPLATE } from '../common/requisites.template';
 import { SERVICES_TEMPLATE_TABLE } from '../common/services.template';
 
 export const INVOICE_TEMPLATE_LOGO = `
@@ -146,6 +146,6 @@ export const INVOICE_TEMPLATE_QR_CODE = `<p class="invoice-sign">Отскани�
 
 export const INVOICE_TEMPLATE_ALL =
   INVOICE_TEMPLATE_LOGO +
-  REQUISITES_TABLE +
+  REQUISITES_TABLE_TEMPLATE +
   SERVICES_TEMPLATE_TABLE +
   INVOICE_TEMPLATE_QR_CODE;

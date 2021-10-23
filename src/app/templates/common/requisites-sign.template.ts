@@ -1,4 +1,4 @@
-export const REQUISITES_SIGN_TABLE = `
+export const REQUISITES_SIGN_TABLE_TEMPLATE = `
 <table style="width: 100%; border-width: 0; margin: 0;">
   <tbody>
     <tr>
