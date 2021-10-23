@@ -77,6 +77,9 @@ export class TemplatePdfService {
     });
 
     let docDefinition = {
+      pageSize: 'A4',
+      pageOrientation: 'portrait',
+      pageMargins: [40, 20, 40, 20],
       content: [result],
       styles: DOC_DEFININITION_STYLE,
     };

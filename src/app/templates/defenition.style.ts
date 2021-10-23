@@ -35,7 +35,7 @@ export const DOC_DEFININITION_STYLE = {
     color: '#5b5b5b',
   },
   'html-chapter': {
-    fontSize: 11,
+    fontSize: 10,
     bold: true,
     margin: [5, 0, 5, 0],
     alignment: 'left',
@@ -109,9 +109,16 @@ export const DOC_DEFININITION_STYLE = {
   'html-requisites-sign': {
     fontSize: 10,
     bold: false,
-    margin: [100, 0, 20, 0],
+    margin: [50, 0, 10, 0],
     alignment: 'right',
     italics: true,
+  },
+  'html-requisites-sign-bold': {
+    fontSize: 11,
+    bold: true,
+    margin: 0,
+    alignment: 'right',
+    italics: false,
   },
   'html-requisites': {
     fontSize: 10,
