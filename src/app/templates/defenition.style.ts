@@ -27,6 +27,20 @@ export const DOC_DEFININITION_STYLE = {
     color: '#5b5b5b',
     lineHeight: 0.15,
   },
+  'html-date': {
+    fontSize: 12,
+    bold: false,
+    margin: 0,
+    alignment: 'right',
+    color: '#5b5b5b',
+  },
+  'html-chapter': {
+    fontSize: 11,
+    bold: true,
+    margin: [5, 0, 5, 0],
+    alignment: 'left',
+    lineHeight: 0.15,
+  },
   'html-th': {
     fontSize: 10,
     bold: true,
@@ -114,6 +128,13 @@ export const DOC_DEFININITION_STYLE = {
     margin: [20, 0, 20, 0],
     alignment: 'left',
     italics: false,
+    color: '#000',
+  },
+  'html-requisites-sign-border': {
+    fontSize: 11,
+    bold: false,
+    margin: [0, 30, 0, 0],
+    alignment: 'right',
     color: '#000',
   },
 };

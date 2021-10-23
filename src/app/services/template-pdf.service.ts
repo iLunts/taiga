@@ -47,6 +47,17 @@ export class TemplatePdfService {
   }
 
   createContractPdf(data?: any): void {
+    Handlebars.registerHelper('formatDate', (datetime, format) => {
+      if (moment) {
+        // can use other formats like 'lll' too
+        format = format || 'DD.MM.YYYY';
+        moment.locale('ru');
+        return moment(datetime).format(format);
+      } else {
+        return datetime;
+      }
+    });
+
     // Default styles obj
     let defaultStyle: {
       fontSize: 12;
@@ -59,7 +70,11 @@ export class TemplatePdfService {
       tableAutoSize: true,
       defaultStyle: defaultStyle,
     });
-    let result = htmlToPdfmake(html);
+    // let result = htmlToPdfmake(html);
+    let result = htmlToPdfmake(html, {
+      tableAutoSize: true,
+      defaultStyle: defaultStyle,
+    });
 
     let docDefinition = {
       content: [result],

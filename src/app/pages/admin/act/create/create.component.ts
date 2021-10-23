@@ -14,17 +14,14 @@ import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 
 import { Act, ActStatus, TotalSum } from 'src/app/models/act.model';
-import { Company, Contractor } from 'src/app/models/company.model';
-import { Invoice } from 'src/app/models/invoice.model';
-import { Service } from 'src/app/models/service.model';
 import { ActService } from 'src/app/services/act.service';
+import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
-// import { ContractService } from 'src/app/services/contract.service';
-// import { DateHelper } from 'src/app/utils/date.helper';
-import { ContractorService } from 'src/app/services/contractor.service';
-import { InvoiceService } from 'src/app/services/invoice.service';
-import { environment } from 'src/environments/environment';
 import { Contract } from 'src/app/models/contract.model';
+import { environment } from 'src/environments/environment';
+import { Invoice } from 'src/app/models/invoice.model';
+import { InvoiceService } from 'src/app/services/invoice.service';
+import { Service } from 'src/app/models/service.model';
 
 @Component({
   selector: 'app-act-create',
@@ -48,8 +45,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private companyService: CompanyService,
-    private invoiceService: InvoiceService,
-    private contractorService: ContractorService // private contractService: ContractService
+    private invoiceService: InvoiceService
   ) {
     this.initForm();
 

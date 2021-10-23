@@ -18,8 +18,6 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
   isValidBank: boolean;
   swiftControl: FormControl = new FormControl({ value: null, disabled: true }, [
     Validators.required,
-    // Validators.minLength(34),
-    // Validators.maxLength(34),
   ]);
 
   readonly swiftMask = {

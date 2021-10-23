@@ -1,4 +1,4 @@
-export const HEADER_TEMPLATE_LOGO = `
+export const HEADER_TEMPLATE = `
 <table style="width: 100%; border-width: 0">
   <tbody>
     <tr>
@@ -24,6 +24,6 @@ export const HEADER_TEMPLATE_LOGO = `
 </table>
 <br />
 <p class="html-text">
-  Мы, нижеподписавшиеся, ИП Лунцевич В.В., с одной стороны – ООО «ЮВП-Альянс» в лице директора 
-  Тулатина Павла Николаевича действующего на основании устава с другой стороны, составили настоящий Акт о том, что Арендодателем в соответствии с условиями вышеуказанного договора были оказаны услуги по аренде мини-экскаватора:
+  Мы, нижеподписавшиеся, {{profileCompany.info.fullName}}, с одной стороны – {{contractor.info.fullName}} в лице {{contractor.responsiblePerson.type}} 
+  {{contractor.responsiblePerson.fullName}} действующего на основании {{contractor.responsiblePerson.basis}} с другой стороны, составили настоящий Акт о том, что Арендодателем в соответствии с условиями вышеуказанного договора были оказаны услуги по аренде мини-экскаватора:
 </p>`;
