@@ -13,6 +13,7 @@ export class Invoice {
   _contractId: string;
   _createdDate: Date;
   _userId: string;
+  headerImage: HeaderImage;
   contractor: Contractor;
   dateRange: TuiDay;
   description: string;
@@ -32,6 +33,7 @@ export class Invoice {
     _contractId?: string,
     _createdDate?: Date,
     _userId?: string,
+    headerImage?: HeaderImage,
     contractor?: Contractor,
     dateRange?: TuiDay,
     description?: string,
@@ -50,6 +52,7 @@ export class Invoice {
     this._contractId = _contractId || null;
     this._actId = _actId || null;
     this._createdDate = _createdDate || new Date();
+    this.headerImage = headerImage || null;
     this.number = number || null;
     this.contractor = contractor || new Contractor();
     this.profileCompany = profileCompany || new Profile();
@@ -148,5 +151,15 @@ export class Signature {
     this.firstName = firstName || null;
     this.lastName = lastName || null;
     this.initials = initials || null;
+  }
+}
+
+export class HeaderImage {
+  url: string;
+  name: string;
+
+  constructor(url?: string, name?: string) {
+    this.url = url || null;
+    this.name = name || null;
   }
 }

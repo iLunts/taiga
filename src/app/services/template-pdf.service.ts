@@ -159,10 +159,12 @@ export class TemplatePdfService {
     let html = template(data, {
       tableAutoSize: true,
       defaultStyle: defaultStyle,
+      // imagesByReference: true,
     });
     let result = htmlToPdfmake(html, {
       tableAutoSize: true,
       defaultStyle: defaultStyle,
+      // imagesByReference: true,
     });
 
     let docDefinition = {

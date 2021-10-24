@@ -32,12 +32,11 @@ import { SERVICES_TEMPLATE_TABLE } from '../common/services.template';
 //   </tbody>
 // </table>`;
 
-export const INVOICE_TEMPLATE_QR_CODE = `<p class="invoice-sign">Отсканируйте код из мобильного приложения invoices.by чтобы открыть документ
-<img src="{{qrCode}}" style="display: inline-block; vertical-align: middle; width: 100px; margin-left: 15px;"/></p>`;
+// export const INVOICE_TEMPLATE_QR_CODE = `<p class="invoice-sign">Отсканируйте код из мобильного приложения invoices.by чтобы открыть документ
+// <img src="{{qrCode}}" style="display: inline-block; vertical-align: middle; width: 100px; margin-left: 15px;"/></p>`;
 
 export const INVOICE_TEMPLATE_ALL =
   INVOICE_TEMPLATE_HEADER +
   SERVICES_TEMPLATE_TABLE +
   REQUISITES_TABLE_TEMPLATE +
-  REQUISITES_SIGN_TABLE_TEMPLATE +
-  INVOICE_TEMPLATE_QR_CODE;
+  REQUISITES_SIGN_TABLE_TEMPLATE;
