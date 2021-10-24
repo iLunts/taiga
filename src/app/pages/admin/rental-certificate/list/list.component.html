@@ -1,0 +1,57 @@
+<div class="wrapper">
+  <h1 class="tui-text_h3 title">Справки-аренды</h1>
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новую"
+    shape="rounded"
+  >
+    Создать новую
+  </button>
+</div>
+
+<!-- <section class="content">
+  <ng-container *ngIf="contractors$ | async as contractors">
+    <table tuiTable [columns]="columns">
+      <thead>
+        <tr tuiThGroup>
+          <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
+          <th *tuiHead="'name'" tuiTh [resizable]="true">Наименование</th>
+          <th *tuiHead="'action'" tuiTh [resizable]="false"></th>
+        </tr>
+      </thead>
+      <tbody tuiTbody [data]="contractors">
+        <tr *tuiRow="let item of contractors; let index = index" tuiTr>
+          <td *tuiCell="'unp'" tuiTd>
+            {{ item?.info?.unp }}
+          </td>
+          <td *tuiCell="'name'" tuiTd>
+            {{ item?.info?.shortName }}
+          </td>
+          <td *tuiCell="'action'" tuiTd>
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconUsers"
+              title="Просмотреть"
+              shape="rounded"
+              (click)="toggleAsideContractorView(item)"
+            ></button>
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconTrash"
+              title="Удалить"
+              shape="rounded"
+              (click)="delete(item)"
+            ></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</section> -->

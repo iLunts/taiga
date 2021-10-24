@@ -50,6 +50,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'rental-certificate',
+        loadChildren: () =>
+          import('./rental-certificate/rental-certificate.module').then(
+            (m) => m.RentalCertificateModule
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),

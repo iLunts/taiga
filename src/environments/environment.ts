@@ -40,6 +40,10 @@ export const environment = {
         list: '/admin/act',
         create: '/admin/act/create',
       },
+      rentalCertificate: {
+        list: '/admin/rental-certificate',
+        create: '/admin/rental-certificate/create',
+      },
       settings: {
         main: '/admin/settings',
         company: '/admin/settings/company',

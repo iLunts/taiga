@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Menu, MenuType } from 'src/app/models/menu';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -65,10 +66,10 @@ export class LeftMenuComponent implements OnInit {
     },
     {
       name: 'Справки',
-      url: environment.routing.admin.invoice.list,
+      url: environment.routing.admin.rentalCertificate.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true,
+      disabled: false,
     },
     {
       name: '',
