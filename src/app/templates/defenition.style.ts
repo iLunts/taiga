@@ -17,7 +17,7 @@ export const DOC_DEFININITION_STYLE = {
     bold: true,
     margin: 0,
     alignment: 'center',
-    lineHeight: 0.15,
+    lineHeight: 1,
   },
   'html-subtitle': {
     fontSize: 10,
@@ -25,7 +25,6 @@ export const DOC_DEFININITION_STYLE = {
     margin: 0,
     alignment: 'center',
     color: '#5b5b5b',
-    lineHeight: 0.15,
   },
   'html-date': {
     fontSize: 12,
@@ -50,7 +49,7 @@ export const DOC_DEFININITION_STYLE = {
   'table-cell': {
     fontSize: 10,
     bold: true,
-    margin: 0,
+    margin: [5, 0, 5, 0],
     alignment: 'left',
   },
   'table-cell-bold': {
@@ -65,10 +64,19 @@ export const DOC_DEFININITION_STYLE = {
     margin: 0,
     alignment: 'left',
   },
+  'table-cell-center': {
+    alignment: 'center',
+  },
   'table-cell-sum': {
     fontSize: 10,
     bold: true,
     margin: 0,
+    alignment: 'right',
+  },
+  'table-header-sum': {
+    fontSize: 10,
+    bold: true,
+    margin: [0, 0, 0, 0],
     alignment: 'right',
   },
   'table-footer-cell-label': {

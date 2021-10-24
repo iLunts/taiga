@@ -4,7 +4,7 @@ export const REQUISITES_TABLE_TEMPLATE = `
     <tr>
       <td style="width: 50%; border: 0">
         <p class="html-requisites-title">
-          Получатель
+          Арендодатель
         </p>
         <p class="html-requisites">
           {{profileCompany.info.fullName}}
@@ -27,7 +27,7 @@ export const REQUISITES_TABLE_TEMPLATE = `
       </td>
       <td style="width: 50%; border: 0">
         <p class="html-requisites-title">
-          Плательщик
+          Арендатор
         </p>
         <p class="html-requisites">
           {{contractor.info.fullName}}

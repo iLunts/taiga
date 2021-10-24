@@ -1,7 +1,7 @@
 export const CONTRACT_CONTENT_TEMPLATE = `
 <p class="html-text">
     {{profileCompany.info.fullName}}, именуемый в
-    дальнейшем "Арендодатель", в лице Лунцевича Владимира Владимировича!!!, 
+    дальнейшем "Арендодатель", в лице !!!Лунцевича Владимира Владимировича!!!, 
     действующего на основании свидетельства о регистрации индивидуального
     предпринимателя, с одной стороны и {{contractor.info.fullName}}, именуемое в дальнейшем "Арендатор", в 
     лице {{contractor.responsiblePerson.type}} {{contractor.responsiblePerson.fullName}} действующего на основании {{contractor.responsiblePerson.basis}}, с

@@ -5,10 +5,9 @@ export const CONTRACT_HEADER_TEMPLATE = `
       <td style="width: 25%; border: 0"></td>
       <td style="width: 50%; border: 0">
         <p class="html-title">
-            ДОГОВОР № б/н
-        </p>
-        <p class="html-title">
-            на аренду строительной техники
+          ДОГОВОР № б/н
+          <br />
+          на аренду строительной техники
         </p>
       </td>
       <td style="width: 25%; border: 0">

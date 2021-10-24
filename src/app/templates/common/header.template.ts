@@ -5,13 +5,12 @@ export const HEADER_TEMPLATE = `
       <td style="width: 25%; border: 0"></td>
       <td style="width: 50%; border: 0">
         <p class="html-title">
-            Акт №{{number}}
-        </p>
-        <p class="html-title">
-            Выполненных работ
+          Акт №{{number}}
+          <br/>
+          Выполненных работ
         </p>
         <p class="html-subtitle">
-            по договору №б/н от {{formatDate createDate "DD MMMM YYYY"}} г.
+          по договору №б/н от {{formatDate createDate "DD MMMM YYYY"}} г.
         </p>
       </td>
       <td style="width: 25%; border: 0">
