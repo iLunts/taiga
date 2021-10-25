@@ -16,10 +16,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class RentalCertificateService {
-  private dbPath = '/invoices';
-  private dbPathStatuses = '/invoiceStatuses';
-  invoicesRef: AngularFirestoreCollection<Invoice> = null;
-  invoicesForContractorsRef: AngularFirestoreCollection<Invoice> = null;
+  private dbPath = '/rentalCertificate';
+  private dbPathStatuses = '/rentalCertificateStatuses';
+  rentalCertificateRef: AngularFirestoreCollection<Invoice> = null;
+  rentalCertificateForContractorsRef: AngularFirestoreCollection<Invoice> =
+    null;
   // invoiceList: Observable<Invoice[]>;
 
   constructor(
@@ -30,7 +31,7 @@ export class RentalCertificateService {
     private _route: Router
   ) {
     if (this._auth.isLoggedIn) {
-      this.invoicesRef = _fs.collection(this.dbPath, (q) =>
+      this.rentalCertificateRef = _fs.collection(this.dbPath, (q) =>
         q
           .where('_userId', '==', this._auth.getUserId())
           .orderBy('_createdDate', 'desc')
@@ -39,7 +40,7 @@ export class RentalCertificateService {
   }
 
   getAll$(): Observable<any> {
-    return this.invoicesRef.valueChanges();
+    return this.rentalCertificateRef.valueChanges();
   }
 
   // getById$(id: string): AngularFirestoreCollection<any> {
@@ -73,17 +74,19 @@ export class RentalCertificateService {
   }
 
   getAllByContractor$(): Observable<any[]> {
-    this.invoicesForContractorsRef = this._fs.collection(this.dbPath, (q) =>
-      q
-        .where('_userId', '==', this._auth.getUserId())
-        .where(
-          'contractor.info.unp',
-          '==',
-          this._contractor.getContractor().info.unp
-        )
-        .orderBy('_createdDate', 'desc')
+    this.rentalCertificateForContractorsRef = this._fs.collection(
+      this.dbPath,
+      (q) =>
+        q
+          .where('_userId', '==', this._auth.getUserId())
+          .where(
+            'contractor.info.unp',
+            '==',
+            this._contractor.getContractor().info.unp
+          )
+          .orderBy('_createdDate', 'desc')
     );
-    return this.invoicesForContractorsRef.valueChanges();
+    return this.rentalCertificateForContractorsRef.valueChanges();
   }
 
   add$(invoice: Invoice): Observable<any> {
@@ -96,7 +99,7 @@ export class RentalCertificateService {
         .doc(invoice._id)
         .set(JSON.parse(JSON.stringify(invoice)))
         .then(() => {
-          this._notification.success('Счет успешно создан');
+          this._notification.success('Справка аренды успешно создана');
           this._route.navigate([environment.routing.admin.invoice.list]);
         })
     );
@@ -104,17 +107,17 @@ export class RentalCertificateService {
 
   delete$(_id: string): Observable<void> {
     return from(
-      this.invoicesRef
+      this.rentalCertificateRef
         .doc(_id)
         .delete()
         .then(() => {
-          this._notification.success('Счет успешно удален');
+          this._notification.success('Справка аренды успешно удалена');
         })
     );
   }
 
   update$(_id: string, value: any): Observable<void> {
-    return from(this.invoicesRef.doc(_id).update(value));
+    return from(this.rentalCertificateRef.doc(_id).update(value));
   }
 
   calculateTotalAmount(invoice: Invoice): number {
