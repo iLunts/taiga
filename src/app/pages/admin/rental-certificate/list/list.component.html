@@ -7,38 +7,48 @@
     iconRight="tuiIconPlus"
     title="Создать новую"
     shape="rounded"
+    [routerLink]="[routing.admin.rentalCertificate.create]"
   >
     Создать новую
   </button>
 </div>
 
-<!-- <section class="content">
-  <ng-container *ngIf="contractors$ | async as contractors">
+<section class="content">
+  <ng-container *ngIf="rentalCertificates$ | async as rentalCertificates">
     <table tuiTable [columns]="columns">
       <thead>
         <tr tuiThGroup>
-          <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
-          <th *tuiHead="'name'" tuiTh [resizable]="true">Наименование</th>
-          <th *tuiHead="'action'" tuiTh [resizable]="false"></th>
+          <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
+          <th *tuiHead="'unp'" tuiTh [resizable]="true">Организация</th>
+          <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
+          <th *tuiHead="'price'" tuiTh [resizable]="true">Сумма</th>
+          <th *tuiHead="'action'" tuiTh [resizable]="true"></th>
         </tr>
       </thead>
-      <tbody tuiTbody [data]="contractors">
-        <tr *tuiRow="let item of contractors; let index = index" tuiTr>
+      <tbody tuiTbody [data]="rentalCertificates">
+        <tr *tuiRow="let item of rentalCertificates; let index = index" tuiTr>
+          <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
           <td *tuiCell="'unp'" tuiTd>
-            {{ item?.info?.unp }}
+            <p class="tui-space_vertical-1 tui-text_body-m">
+              {{ item?.contractor?.info?.shortName }}
+            </p>
+            {{ item?.contractor?.info?.unp }}
           </td>
-          <td *tuiCell="'name'" tuiTd>
-            {{ item?.info?.shortName }}
+          <td *tuiCell="'status'" tuiTd>
+            {{ item?.status?.name }}
+          </td>
+          <td *tuiCell="'price'" tuiTd>
+            {{ item?.total?.totalSum?.amount }}
           </td>
           <td *tuiCell="'action'" tuiTd>
             <button
               tuiIconButton
               appearance="flat"
               size="s"
-              icon="tuiIconUsers"
-              title="Просмотреть"
+              icon="tuiIconDownload"
+              title="Скачать PDF"
               shape="rounded"
-              (click)="toggleAsideContractorView(item)"
+              (click)="downloadPdf(item)"
             ></button>
             <button
               tuiIconButton
@@ -49,9 +59,62 @@
               shape="rounded"
               (click)="delete(item)"
             ></button>
+            <tui-hosted-dropdown #dropdown [content]="content">
+              <button
+                tuiIconButton
+                appearance="flat"
+                size="s"
+                icon="tuiIconMoreVer"
+                type="button"
+                shape="rounded"
+                [pseudoHovered]="dropdown.open || null"
+              ></button>
+            </tui-hosted-dropdown>
+            <ng-template #content let-activeZone>
+              <tui-data-list
+                tuiDataListDropdownManager
+                [tuiActiveZoneParent]="activeZone"
+              >
+                <tui-opt-group>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnContract(item)"
+                    [disabled]="item._contractId"
+                  >
+                    Договор
+                  </button>
+                </tui-opt-group>
+                <tui-opt-group>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnContract(item)"
+                    [disabled]="true"
+                  >
+                    Копировать счёт
+                  </button>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnAct(item)"
+                    [disabled]="false"
+                  >
+                    Акт
+                  </button>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnReference(item)"
+                    [disabled]="true"
+                  >
+                    Справка
+                  </button>
+                </tui-opt-group>
+              </tui-data-list>
+            </ng-template>
           </td>
         </tr>
       </tbody>
     </table>
   </ng-container>
-</section> -->
+</section>
+<ng-template #more>
+  <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
+</ng-template>

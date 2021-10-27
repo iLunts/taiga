@@ -9,4 +9,8 @@ export class DateHelper {
         .format('DD.MM.YYYY')
     );
   }
+
+  public static getDayArray(date: TuiDay): number[] {
+    return [date.year, date.month, date.day];
+  }
 }

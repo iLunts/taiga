@@ -65,7 +65,7 @@ export class LeftMenuComponent implements OnInit {
       disabled: false,
     },
     {
-      name: 'Справки',
+      name: 'Справки аренды',
       url: environment.routing.admin.rentalCertificate.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
