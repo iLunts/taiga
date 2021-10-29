@@ -14,7 +14,6 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { TextMaskModule } from 'angular2-text-mask';
 import { TopMenuModule } from './components/top-menu/top-menu.module';
 
@@ -30,8 +29,6 @@ import { TopMenuModule } from './components/top-menu/top-menu.module';
     CommonModule,
     ComponentsModule,
     FormsModule,
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
     QRCodeModule,
     ReactiveFormsModule,
     TaigaModule,
@@ -42,8 +39,6 @@ import { TopMenuModule } from './components/top-menu/top-menu.module';
     CommonModule,
     ComponentsModule,
     FormsModule,
-    FroalaEditorModule,
-    FroalaViewModule,
     QRCodeModule,
     ReactiveFormsModule,
     TaigaModule,

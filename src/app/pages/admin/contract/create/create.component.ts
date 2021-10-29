@@ -8,43 +8,43 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParams } from '@ngrx/data';
+import {
+  defaultEditorExtensions,
+  tiptapEditorStyles,
+  TUI_EDITOR_EXTENSIONS,
+  TUI_EDITOR_STYLES,
+} from '@taiga-ui/addon-editor';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { Company, Contractor } from 'src/app/models/company.model';
+import { CompanyService } from 'src/app/services/company.service';
 import { CONTRACT_TEMPLATE_ALL } from 'src/app/templates/contracts/contract.template';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-contract-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.less'],
+  providers: [
+    {
+      provide: TUI_EDITOR_EXTENSIONS,
+      useValue: defaultEditorExtensions,
+    },
+    {
+      provide: TUI_EDITOR_STYLES,
+      useValue: tiptapEditorStyles,
+    },
+  ],
 })
 export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
 
-  private readonly destroy$ = new Subject();
-  editorOptions = {
-    toolbarButtons: [
-      'bold',
-      'italic',
-      'underline',
-      'insertImage',
-      'insertLink',
-      'insertTable',
-      'undo',
-      'redo',
-    ],
-    placeholderText: 'Edit Your Content Here!',
-    charCounterCount: false,
-  };
+  private readonly destroy = new Subject();
   templateContent = CONTRACT_TEMPLATE_ALL;
-
-  // contract: Contract = new Contract(this.afs.createId());
   form: FormGroup;
   queryParams: QueryParams;
 
@@ -69,7 +69,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
 
     this.companyService
       .getProfileCompany$()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy))
       .subscribe((company: Company[]) => {
         if (company?.length) {
           this.form.controls.profileCompany.setValue(company[0]);
@@ -80,8 +80,8 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroy$.next(null);
-    this.destroy$.complete();
+    this.destroy.next(null);
+    this.destroy.complete();
   }
 
   initForm(): void {
@@ -104,7 +104,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     if (this.queryParams?.contractorId) {
       this.contractorService
         .getById$(this.queryParams.contractorId.toString())
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy))
         .subscribe((contractor: Contractor[]) => {
           if (contractor.length) {
             this.form.controls.contractor.setValue(contractor[0]);

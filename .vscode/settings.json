@@ -1,4 +1,4 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["datetime", "адрес", "Плательщик", "Получатель"]
+  "cSpell.words": ["datetime", "адрес", "Плательщик", "Получатель", "статус"]
 }

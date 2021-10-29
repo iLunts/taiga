@@ -2,7 +2,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Status } from '../models/status';
+import { Status } from '../models/status.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,9 @@ import { Status } from '../models/status';
 export class StatusService {
   constructor(private _fs: AngularFirestore, private _auth: AuthService) {}
 
-  getAll$(path: string): Observable<Status[]> {
-    return this._fs.collection(path).valueChanges() as Observable<Status[]>;
+  getAll$(type: string): Observable<Status[]> {
+    return this._fs
+      .collection('/statuses', (q) => q.where('type', 'array-contains', type))
+      .valueChanges() as Observable<Status[]>;
   }
 }
