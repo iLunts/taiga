@@ -13,7 +13,7 @@ export const DOC_DEFININITION_STYLE = {
     lineHeight: 1,
   },
   'html-text-mini': {
-    fontSize: 8,
+    fontSize: 7,
     bold: false,
   },
   'html-text-small': {

@@ -5,7 +5,7 @@ export const RENTAL_CERTIFICATE_PRE_HEADER_TEMPLATE = `
       <td class="html-pre-header" style="border: 0">
         Арендатор
       </td>
-      <td class="html-pre-header" style="width: 35%; border: 0">
+      <td class="html-pre-header" style="width: 37%; border: 0">
         <span class="html-text-underline html-text-bold">
           {{contractor.info.shortName}}
         </span>
@@ -39,7 +39,7 @@ export const RENTAL_CERTIFICATE_PRE_HEADER_TEMPLATE = `
           </tr>
           <tr>
             <td>
-              &nbsp;
+              ...
             </td>
           </tr>
         </table>
