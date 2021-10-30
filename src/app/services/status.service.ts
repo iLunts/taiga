@@ -12,7 +12,9 @@ export class StatusService {
 
   getAll$(type: string): Observable<Status[]> {
     return this._fs
-      .collection('/statuses', (q) => q.where('type', 'array-contains', type))
+      .collection('/statuses', (q) =>
+        q.where('type', 'array-contains', type).orderBy('order')
+      )
       .valueChanges() as Observable<Status[]>;
   }
 }
