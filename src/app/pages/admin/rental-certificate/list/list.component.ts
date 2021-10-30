@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import {
   RentalCertificate,
   RentalCertificateStatus,
-} from 'src/app/models/rental-certificate';
+} from 'src/app/models/rental-certificate.model';
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 
@@ -31,7 +30,6 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
     private templatePdfService: TemplatePdfService,
     private router: Router
   ) {
-    this.fetchStatuses();
     this.fetch();
   }
 
@@ -56,28 +54,6 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
     this.rentalCertificates$ = this.rentalCertificateService.getAll$();
   }
 
-  fetchStatuses(): void {
-    this.rentalCertificateStatuses$ = this.rentalCertificateService
-      .getAllStatus$()
-      .pipe(
-        tap((status: RentalCertificateStatus[]) => {
-          this.rentalCertificateStatuses = status;
-          this.tabActive = status?.length ? status[0] : null;
-        }),
-        takeUntil(this.destroy$)
-      );
-  }
-
-  fetchFilterByStatus(): void {
-    this.rentalCertificates$ = this.rentalCertificateService.getAll$().pipe(
-      filter((rentalCetificates) => {
-        return rentalCetificates.filter(
-          (x) => x.status._id === this.tabActive._id
-        );
-      })
-    );
-  }
-
   delete(item: RentalCertificate): void {
     if (item) {
       this.rentalCertificateService.delete$(item._id);
@@ -85,7 +61,7 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
   }
 
   downloadPdf(data: RentalCertificate): void {
-    this.templatePdfService.downloadPdf('invoice', data);
+    this.templatePdfService.downloadPdf('rental-certificate', data);
   }
 
   createBaseOnContract(rentalCertificate: RentalCertificate): void {

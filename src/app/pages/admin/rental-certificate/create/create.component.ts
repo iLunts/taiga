@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { filter, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
 import {
   FormBuilder,
   FormControl,
@@ -20,10 +20,9 @@ import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import {
-  RentalCertificate,
   RentalCertificateStatus,
   TotalSum,
-} from 'src/app/models/rental-certificate';
+} from 'src/app/models/rental-certificate.model';
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { Service } from 'src/app/models/service.model';
 
@@ -36,10 +35,11 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
   @ViewChild('inputNumber') inputNumber: any;
 
-  private readonly destroy$ = new Subject();
-  rentalCertificate: RentalCertificate = new RentalCertificate(
-    this.afs.createId()
-  );
+  private readonly destroySubject = new Subject();
+  // rentalCertificate: RentalCertificate = new RentalCertificate(
+  //   this.afs.createId()
+  // );
+
   form: FormGroup;
   isEditingNumber: boolean;
   queryParams: QueryParams;
@@ -66,20 +66,22 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
 
     this.companyService
       .getProfileCompany$()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((company: Company[]) => {
-        if (company?.length) {
-          this.rentalCertificate.profileCompany = company[0];
-          this.form.controls.profileCompany.setValue(company[0]);
-        }
-      });
+      .pipe(
+        filter((company) => !!company),
+        distinctUntilChanged(),
+        tap((company) =>
+          this.form.controls.profileCompany.setValue(company[0])
+        ),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe();
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroy$.next(null);
-    this.destroy$.complete();
+    this.destroySubject.next(null);
+    this.destroySubject.complete();
   }
 
   initForm(): void {
@@ -106,11 +108,11 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     if (this.queryParams?.contractorId) {
       this.contractorService
         .getById$(this.queryParams.contractorId.toString())
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroySubject))
         .subscribe((contractor: Contractor[]) => {
           if (contractor.length) {
             this.form.controls.contractor.setValue(contractor[0]);
-            this.rentalCertificate.contractor = contractor[0];
+            // this.rentalCertificate.contractor = contractor[0];
             this.form.controls._contractId.setValue(
               this.queryParams?.contractorId
             );
@@ -129,25 +131,16 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     );
   }
 
-  setStatus(data: RentalCertificateStatus): void {
-    if (this.rentalCertificate) {
-      this.rentalCertificate.status = data;
-      this.form.controls.status.setValue(data);
-    }
+  selectStatus(data: RentalCertificateStatus): void {
+    this.form.controls.status.setValue(data);
   }
 
-  setContractor(data: Contractor): void {
-    if (this.rentalCertificate) {
-      this.rentalCertificate.contractor = data;
-      this.form.controls.contractor.setValue(data);
-    }
+  selectContractor(data: Contractor): void {
+    this.form.controls.contractor.setValue(data);
   }
 
-  setService(data: Service[]): void {
-    if (this.rentalCertificate) {
-      this.rentalCertificate.services = data;
-      this.form.controls.services.setValue(data);
-    }
+  selectService(data: Service[]): void {
+    this.form.controls.services.setValue(data);
   }
 
   save(): void {
@@ -164,11 +157,14 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   }
 
   get isRentalCertificateValid(): boolean {
-    if (this.rentalCertificate) {
-      return this.rentalCertificate.isValid(this.rentalCertificate);
-    } else {
-      return false;
-    }
+    // if (this.rentalCertificate) {
+    // return this.rentalCertificate.isValid(this.rentalCertificate);
+    // } else {
+    //   return false;
+    // }
+    // TODO: Need to change
+    // return this.form.valid;
+    return true;
   }
 
   get getQrCode(): any {
@@ -183,16 +179,6 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     return (
       this.qrBlock && this.qrBlock.qrcElement.nativeElement.childNodes.length
     );
-  }
-
-  toggleRentalCertificateNumber(): void {
-    this.isEditingNumber = !this.isEditingNumber;
-  }
-
-  onFocusedChange(focused: boolean): void {
-    if (!focused) {
-      this.isEditingNumber = false;
-    }
   }
 
   get getServicesDateRange(): string {
@@ -212,6 +198,16 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
             ).format(formatString);
     } else {
       return null;
+    }
+  }
+
+  toggleRentalCertificateNumber(): void {
+    this.isEditingNumber = !this.isEditingNumber;
+  }
+
+  onFocusedChange(focused: boolean): void {
+    if (!focused) {
+      this.isEditingNumber = false;
     }
   }
 }

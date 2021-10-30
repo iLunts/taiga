@@ -12,6 +12,30 @@ export const DOC_DEFININITION_STYLE = {
     alignment: 'justify',
     lineHeight: 1,
   },
+  'html-text-mini': {
+    fontSize: 8,
+    bold: false,
+  },
+  'html-text-small': {
+    fontSize: 9,
+    bold: false,
+  },
+  'html-text-align-right': {
+    alignment: 'right',
+  },
+  'html-text-underline': {
+    decoration: 'underline',
+  },
+  'html-text-bold': {
+    bold: true,
+  },
+  'html-pre-header': {
+    fontSize: 9,
+    bold: false,
+    margin: [0, 0, 0, 0],
+    alignment: 'justify',
+    lineHeight: 1,
+  },
   'html-title': {
     fontSize: 12,
     bold: true,

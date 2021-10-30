@@ -16,7 +16,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 import { Status } from 'src/app/models/status.model';
 import { StatusService } from 'src/app/services/status.service';
@@ -33,7 +33,7 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
   private typeSubject = new ReplaySubject<string>(1);
   type$ = this.typeSubject.asObservable();
 
-  @Output() selected = new EventEmitter<Status>();
+  @Output() changed = new EventEmitter<Status>();
 
   statuses$: Observable<Status[]>;
   form = new FormGroup({
@@ -42,18 +42,20 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
   private readonly destroySubject = new Subject();
 
   constructor(private statusesService: StatusService) {
+    // TODO: Need to check twiceCall
     this.statuses$ = this.type$.pipe(
       filter((type: string) => !!type),
       distinctUntilChanged(),
       switchMap((type: string) =>
         this.statusesService.getAll$(type).pipe(
-          filter((statuses: Status[]) => !!statuses),
+          filter((statuses) => !!statuses),
           tap((statuses: Status[]) => this.selectStatus(statuses[0]))
         )
       ),
       shareReplay()
     );
 
+    // TODO: Need to check twiceCall
     this.form.controls.status.valueChanges
       .pipe(
         filter((status: Status) => !!status),
@@ -73,6 +75,6 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
 
   selectStatus(status: Status): void {
     this.form.controls.status.setValue(status);
-    this.selected.emit(status);
+    this.changed.emit(status);
   }
 }

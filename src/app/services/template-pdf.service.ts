@@ -10,6 +10,7 @@ import { Invoice } from '../models/invoice.model';
 import { INVOICE_TEMPLATE_ALL } from '../templates/invoices/invoice.template';
 import { ACT_TEMPLATE_ALL } from '../templates/act/act.template';
 import { DOC_DEFININITION_STYLE } from '../templates/defenition.style';
+import { RENTAL_REFERENCE_TEMPLATE_ALL } from '../templates/rental-reference/rental-reference.template';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,10 @@ export class TemplatePdfService {
       }
       case 'act': {
         this.createActPdf(data);
+        break;
+      }
+      case 'rental-certificate': {
+        this.createRentalCertificatePdf(data);
         break;
       }
     }
@@ -251,6 +256,94 @@ export class TemplatePdfService {
     let result = htmlToPdfmake(html, {
       tableAutoSize: true,
       defaultStyle: defaultStyle,
+    });
+
+    let docDefinition = {
+      content: [result],
+      styles: DOC_DEFININITION_STYLE,
+    };
+
+    this.pdfObj = pdfMake.createPdf(docDefinition);
+  }
+
+  createRentalCertificatePdf(data?: Invoice): void {
+    const sumToWord = this.sum_letters(data.total.totalSum.amount);
+
+    // Date format
+    Handlebars.registerHelper('formatDate', (datetime, format) => {
+      if (moment) {
+        format = format || 'DD.MM.YYYY';
+        moment.locale('ru');
+        return moment(datetime).format(format);
+      } else {
+        return datetime;
+      }
+    });
+
+    // Invoice number
+    Handlebars.registerHelper('documentNumber', (number: number) => {
+      if (number) {
+        return number;
+      } else {
+        return 'б.н.';
+      }
+    });
+
+    // Get summa
+    Handlebars.registerHelper('getSum', (count, price) => {
+      if (!count || !price) {
+        return 'NaN';
+      } else {
+        return count * price;
+      }
+    });
+
+    // Get index
+    Handlebars.registerHelper('getIndex', (index: number) => {
+      if (index == null || index == undefined) {
+        return '0';
+      } else {
+        return index + 1;
+      }
+    });
+
+    // Get total SUM to word
+    Handlebars.registerHelper('getTotalSum', () => {
+      return sumToWord;
+    });
+
+    // Get total SUM to digs RUB and COP
+    Handlebars.registerHelper('getTotalSumDigs', () => {
+      let sum = Number(data.total.totalSum.amount).toFixed(2).split('.');
+      return sum[0] + ' руб. ' + sum[1] + ' коп.';
+    });
+
+    // Get count services
+    Handlebars.registerHelper('getCountService', () => {
+      if (data.services) {
+        return Object.keys(data.services).length;
+      } else {
+        return 0;
+      }
+    });
+
+    // Default styles obj
+    let defaultStyle: {
+      fontSize: 12;
+      bold: false;
+      margin: [0, 0, 0, 0];
+    };
+
+    let template = Handlebars.compile(RENTAL_REFERENCE_TEMPLATE_ALL);
+    let html = template(data, {
+      tableAutoSize: true,
+      defaultStyle: defaultStyle,
+      // imagesByReference: true,
+    });
+    let result = htmlToPdfmake(html, {
+      tableAutoSize: true,
+      defaultStyle: defaultStyle,
+      // imagesByReference: true,
     });
 
     let docDefinition = {

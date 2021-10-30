@@ -8,7 +8,7 @@
     <app-status-panel
       class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-4"
       type="rentalCertificate"
-      (selected)="setStatus($event)"
+      (changed)="selectStatus($event)"
     ></app-status-panel>
     <!-- <tui-input-date-range
       class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-5 tui-col_lg-5"
@@ -73,7 +73,7 @@
       <!-- <h2>QR код</h2> -->
       <qrcode
         #qrBlock
-        [qrdata]="rentalCertificate?._id"
+        [qrdata]="f._id.value"
         [width]="125"
         [errorCorrectionLevel]="'H'"
         [elementType]="'img'"
@@ -87,9 +87,9 @@
     >
       <h5>Арендодатель</h5>
       <app-company-panel
-        *ngIf="rentalCertificate.profileCompany"
-        [data]="rentalCertificate.profileCompany"
-        [isLoaded]="true"
+        *ngIf="f.profileCompany.value"
+        [data]="f.profileCompany.value"
+        [isLoaded]="f.profileCompany.value"
         [canChange]="false"
       ></app-company-panel>
     </div>
@@ -99,7 +99,7 @@
       <h5>Арендатор</h5>
       <app-contractor-panel
         [contractor]="form.controls.contractor.value"
-        (selected)="setContractor($event)"
+        (selected)="selectContractor($event)"
       ></app-contractor-panel>
     </div>
   </div>
@@ -113,7 +113,7 @@
       <div class="tui-form__row">
         <div class="tui-form__field">
           <app-service-table
-            (selected)="setService($event)"
+            (selected)="selectService($event)"
           ></app-service-table>
         </div>
       </div>
