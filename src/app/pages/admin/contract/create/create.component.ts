@@ -43,7 +43,7 @@ import { environment } from 'src/environments/environment';
 export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
 
-  private readonly destroy = new Subject();
+  private readonly destroySubject = new Subject();
   templateContent = CONTRACT_TEMPLATE_ALL;
   form: FormGroup;
   queryParams: QueryParams;
@@ -69,7 +69,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
 
     this.companyService
       .getProfileCompany$()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroySubject))
       .subscribe((company: Company[]) => {
         if (company?.length) {
           this.form.controls.profileCompany.setValue(company[0]);
@@ -80,8 +80,8 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroy.next(null);
-    this.destroy.complete();
+    this.destroySubject.next(null);
+    this.destroySubject.complete();
   }
 
   initForm(): void {
@@ -104,13 +104,10 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     if (this.queryParams?.contractorId) {
       this.contractorService
         .getById$(this.queryParams.contractorId.toString())
-        .pipe(takeUntil(this.destroy))
+        .pipe(takeUntil(this.destroySubject))
         .subscribe((contractor: Contractor[]) => {
           if (contractor.length) {
             this.form.controls.contractor.setValue(contractor[0]);
-            // this.form.controls._contractId.setValue(
-            //   this.queryParams?.contractorId
-            // );
           }
         });
     }
