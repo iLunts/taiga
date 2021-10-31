@@ -181,24 +181,30 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     );
   }
 
-  get getServicesDateRange(): string {
-    const formatString = 'DD MMM YYYY';
-    const dateRange = this.form.controls.services.value;
-    moment.locale('ru');
+  // get getServicesDateRange(): string {
+  //   const formatString = 'DD MMM YYYY';
+  //   const dateRange = this.form.controls.services.value;
+  //   moment.locale('ru');
 
-    if (dateRange?.length) {
-      return dateRange?.length === 1
-        ? moment(DateHelper.getDayArray(dateRange[0].date)).format(formatString)
-        : moment(DateHelper.getDayArray(dateRange[0].date)).format(
-            formatString
-          ) +
-            ' по ' +
-            moment(
-              DateHelper.getDayArray(dateRange[dateRange.length - 1].date)
-            ).format(formatString);
-    } else {
-      return null;
-    }
+  //   if (dateRange?.length) {
+  //     return dateRange?.length === 1
+  //       ? moment(DateHelper.getDayArray(dateRange[0].date)).format(formatString)
+  //       : moment(DateHelper.getDayArray(dateRange[0].date)).format(
+  //           formatString
+  //         ) +
+  //           ' по ' +
+  //           moment(
+  //             DateHelper.getDayArray(dateRange[dateRange.length - 1].date)
+  //           ).format(formatString);
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  get getMinDate(): Date {
+    return DateHelper.convertTuiDateToDate(
+      DateHelper.getMinDayFromServices(this.f.services.value).date
+    );
   }
 
   toggleRentalCertificateNumber(): void {

@@ -12,6 +12,7 @@ import { Service } from 'src/app/models/service.model';
 import { ServicesService } from 'src/app/services/services.service';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-service-table',
@@ -39,7 +40,7 @@ export class ServiceTableComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private serviceService: ServicesService,
-    private destroy$: TuiDestroyService
+    private destroy: TuiDestroyService
   ) {
     this.createForm();
     this.fetch();
@@ -54,7 +55,6 @@ export class ServiceTableComponent implements OnInit {
   private createForm(): void {
     this.form = this.formBuilder.group({
       tableRowArray: this.formBuilder.array([this.createTableRow()]),
-      // tableRowArray: this.formBuilder.array([]),
     });
 
     this.onChanges();
@@ -64,10 +64,6 @@ export class ServiceTableComponent implements OnInit {
     this.form = this.formBuilder.group({
       tableRowArray: this.formBuilder.array([this.createTableRow()]),
     });
-
-    // this.tableRowArray.clear();
-
-    // this.formBuilder.group({});
   }
 
   private createTableRow(serviceItem?: Service): FormGroup {
@@ -138,6 +134,10 @@ export class ServiceTableComponent implements OnInit {
     return 'test';
   }
 
+  getRowArrayValue() {
+    return this.form.get('tableRowArray').value;
+  }
+
   doEmit(): void {
     if (this.form.valid) {
       this.selected.emit(this.form.get('tableRowArray').value);
@@ -147,7 +147,8 @@ export class ServiceTableComponent implements OnInit {
   }
 
   onChanges(): void {
-    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val) => {
+    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe((val) => {
+      this.sortTableByDate();
       this.doEmit();
     });
   }
@@ -155,5 +156,12 @@ export class ServiceTableComponent implements OnInit {
   preloadServices(services: Service[]): void {
     // this.tableRowArray.patchValue(services);
     // this.tableRowArray.setValue(services);
+  }
+
+  sortTableByDate(): void {
+    // const minDate = _.minBy(this.getRowArrayValue(), (service: any) => {
+    //   return  moment(service.date, 'YYYY-MM-DD').toDate();
+    // });
+    // console.log('Sort min: ', minDate);
   }
 }
