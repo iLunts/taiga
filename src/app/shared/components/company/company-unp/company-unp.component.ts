@@ -3,7 +3,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
@@ -16,7 +16,7 @@ import { EgrService } from 'src/app/services/egr.service';
 @Component({
   selector: 'app-company-unp',
   templateUrl: './company-unp.component.html',
-  styleUrls: ['./company-unp.component.less'],
+  styleUrls: ['./company-unp.component.less']
 })
 export class CompanyUnpComponent implements OnInit, OnDestroy {
   @Output() return = new EventEmitter<CompanyInfo>();
@@ -25,7 +25,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
   unpControl: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(9),
-    Validators.maxLength(9),
+    Validators.maxLength(9)
   ]);
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
   company = new Company();

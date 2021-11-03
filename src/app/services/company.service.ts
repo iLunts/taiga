@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import * as _ from 'lodash';
@@ -13,7 +13,7 @@ import { Bank, BankAccount } from '../models/bank.model';
 import { User } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CompanyService {
   private company$ = new BehaviorSubject<Company>(new Company());

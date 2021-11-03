@@ -4,7 +4,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import * as _ from 'lodash';
   selector: 'app-service-table',
   templateUrl: './service-table.component.html',
   styleUrls: ['./service-table.component.less'],
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService]
 })
 export class ServiceTableComponent implements OnInit {
   @Input() set services(services: Service[]) {
@@ -54,7 +54,7 @@ export class ServiceTableComponent implements OnInit {
 
   private createForm(): void {
     this.form = this.formBuilder.group({
-      tableRowArray: this.formBuilder.array([this.createTableRow()]),
+      tableRowArray: this.formBuilder.array([this.createTableRow()])
     });
 
     this.onChanges();
@@ -62,30 +62,30 @@ export class ServiceTableComponent implements OnInit {
 
   private clearForm(): void {
     this.form = this.formBuilder.group({
-      tableRowArray: this.formBuilder.array([this.createTableRow()]),
+      tableRowArray: this.formBuilder.array([this.createTableRow()])
     });
   }
 
   private createTableRow(serviceItem?: Service): FormGroup {
     return this.formBuilder.group({
       name: new FormControl(serviceItem?.name || null, {
-        validators: [Validators.required],
+        validators: [Validators.required]
       }),
       date: new FormControl(this.initDate(), {
-        validators: [Validators.required],
+        validators: [Validators.required]
       }),
       unit: new FormControl(serviceItem?.unit || '', {
-        validators: [Validators.required],
+        validators: [Validators.required]
       }),
       count: new FormControl(serviceItem?.count || null, {
-        validators: [Validators.required],
+        validators: [Validators.required]
       }),
       price: new FormControl(serviceItem?.price || null, {
-        validators: [Validators.required],
+        validators: [Validators.required]
       }),
       amount: new FormControl(serviceItem?.count * serviceItem?.price || null, {
-        validators: [Validators.required],
-      }),
+        validators: [Validators.required]
+      })
     });
   }
 
@@ -134,7 +134,7 @@ export class ServiceTableComponent implements OnInit {
     return 'test';
   }
 
-  getRowArrayValue() {
+  getRowArrayValue(): any {
     return this.form.get('tableRowArray').value;
   }
 

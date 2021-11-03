@@ -4,7 +4,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParams } from '@ngrx/data';
@@ -12,7 +12,7 @@ import {
   defaultEditorExtensions,
   tiptapEditorStyles,
   TUI_EDITOR_EXTENSIONS,
-  TUI_EDITOR_STYLES,
+  TUI_EDITOR_STYLES
 } from '@taiga-ui/addon-editor';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -32,13 +32,13 @@ import { environment } from 'src/environments/environment';
   providers: [
     {
       provide: TUI_EDITOR_EXTENSIONS,
-      useValue: defaultEditorExtensions,
+      useValue: defaultEditorExtensions
     },
     {
       provide: TUI_EDITOR_STYLES,
-      useValue: tiptapEditorStyles,
-    },
-  ],
+      useValue: tiptapEditorStyles
+    }
+  ]
 })
 export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
@@ -96,7 +96,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
       signature: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
       type: new FormControl(1, [Validators.required]),
-      template: new FormControl(this.templateContent, [Validators.required]),
+      template: new FormControl(this.templateContent, [Validators.required])
     });
   }
 

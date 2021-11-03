@@ -1,6 +1,6 @@
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ActService {
   private dbPath = '/acts';

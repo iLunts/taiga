@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 
 import {
   RentalCertificate,
-  RentalCertificateStatus,
+  RentalCertificateStatus
 } from 'src/app/models/rental-certificate.model';
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
@@ -13,7 +13,7 @@ import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 @Component({
   selector: 'app-rental-certificate-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less'],
+  styleUrls: ['./list.component.less']
 })
 export class RentalCertificateListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'unp', 'status', 'price', 'action'];
@@ -67,16 +67,16 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
   createBaseOnContract(rentalCertificate: RentalCertificate): void {
     this.router.navigate([this.routing.admin.contract.create], {
       queryParams: {
-        contractorId: rentalCertificate.contractor._id,
-      },
+        contractorId: rentalCertificate.contractor._id
+      }
     });
   }
 
   createBaseOnAct(rentalCertificate: RentalCertificate): void {
     this.router.navigate([this.routing.admin.act.create], {
       queryParams: {
-        invoiceId: rentalCertificate._id,
-      },
+        invoiceId: rentalCertificate._id
+      }
     });
   }
 

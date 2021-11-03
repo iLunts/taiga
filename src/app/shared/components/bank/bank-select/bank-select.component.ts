@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   tuiReplayedValueChangesFrom,
-  TUI_DEFAULT_MATCHER,
+  TUI_DEFAULT_MATCHER
 } from '@taiga-ui/cdk';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { BankService } from 'src/app/services/bank.service';
 @Component({
   selector: 'app-bank-select',
   templateUrl: './bank-select.component.html',
-  styleUrls: ['./bank-select.component.less'],
+  styleUrls: ['./bank-select.component.less']
 })
 export class BankSelectComponent implements OnInit {
   @Output() change = new EventEmitter<Bank>();
@@ -21,7 +21,7 @@ export class BankSelectComponent implements OnInit {
     this.bankService.getAllBank$().subscribe({
       next: (bank: Bank[]) => {
         this.banks = bank;
-      },
+      }
     });
   }
 

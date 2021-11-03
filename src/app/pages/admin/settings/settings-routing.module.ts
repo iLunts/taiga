@@ -5,17 +5,17 @@ import { SettingsComponent } from './settings.component';
 const routes: Routes = [
   {
     path: '',
-    component: SettingsComponent,
+    component: SettingsComponent
   },
   {
     path: 'company',
     loadChildren: () =>
-      import('./company/company.module').then((m) => m.CompanyModule),
-  },
+      import('./company/company.module').then((m) => m.CompanyModule)
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class SettingsRoutingModule {}

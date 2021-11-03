@@ -4,7 +4,7 @@ import {
   TuiButtonModule,
   TuiDataListModule,
   TuiHintControllerModule,
-  TuiHostedDropdownModule,
+  TuiHostedDropdownModule
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
@@ -14,7 +14,7 @@ import {
   TuiInputInlineModule,
   TuiInputNumberModule,
   TuiTabsModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
@@ -45,7 +45,7 @@ import { HeaderModule } from 'src/app/shared/components/header/header.module';
     TuiLetModule,
     TuiTabsModule,
     TuiTextAreaModule,
-    TuiEditorModule,
-  ],
+    TuiEditorModule
+  ]
 })
 export class ContractModule {}

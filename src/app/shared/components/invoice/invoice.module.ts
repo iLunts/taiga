@@ -13,8 +13,8 @@ import { InvoicePanelComponent } from './invoice-panel/invoice-panel.component';
     FormsModule,
     ReactiveFormsModule,
     TuiLetModule,
-    TuiInputModule,
+    TuiInputModule
   ],
-  exports: [InvoicePanelComponent],
+  exports: [InvoicePanelComponent]
 })
 export class InvoiceModule {}

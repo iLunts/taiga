@@ -7,7 +7,8 @@
     "build": "ng build --prod; zip -r invoices/invoices.zip invoices;",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "private": true,
   "dependencies": {
@@ -72,6 +73,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "open": "^7.0.3",
+    "prettier": "^2.4.1",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",

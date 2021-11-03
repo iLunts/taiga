@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less'],
+  styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
   returnUrl: string;
@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
       Validators.required,
-      Validators.minLength(6),
-    ]),
+      Validators.minLength(6)
+    ])
   });
 
   constructor(

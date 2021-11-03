@@ -5,6 +5,6 @@ import { TopMenuComponent } from './top-menu.component';
 @NgModule({
   declarations: [TopMenuComponent],
   imports: [CommonModule],
-  exports: [TopMenuComponent],
+  exports: [TopMenuComponent]
 })
 export class TopMenuModule {}

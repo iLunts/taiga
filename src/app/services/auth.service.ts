@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 // import { ProfileService } from './profile.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   userData: User;
@@ -129,7 +129,7 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
       token: user.idToken,
-      refreshToken: user.refreshToken,
+      refreshToken: user.refreshToken
     };
 
     this.userSubject.next(userData);

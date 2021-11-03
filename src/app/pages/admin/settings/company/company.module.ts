@@ -11,7 +11,7 @@ import {
   TuiAccordionModule,
   TuiInputNumberModule,
   TuiIslandModule,
-  TuiMarkerIconModule,
+  TuiMarkerIconModule
 } from '@taiga-ui/kit';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -20,7 +20,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CompanyComponent,
     LogotypeComponent,
     InformationComponent,
-    BanksComponent,
+    BanksComponent
   ],
   imports: [
     CommonModule,
@@ -30,8 +30,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiAccordionModule,
     TuiInputNumberModule,
     TuiIslandModule,
-    TuiMarkerIconModule,
+    TuiMarkerIconModule
   ],
-  exports: [CompanyComponent],
+  exports: [CompanyComponent]
 })
 export class CompanyModule {}

@@ -11,7 +11,7 @@ import { filter, takeUntil, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-invoices-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less'],
+  styleUrls: ['./list.component.less']
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'unp', 'status', 'price', 'action'];
@@ -87,17 +87,17 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   createBaseOnContract(invoice: Invoice): void {
     this.router.navigate([this.routing.admin.contract.create], {
       queryParams: {
-        contractorId: invoice.contractor._id,
+        contractorId: invoice.contractor._id
         // contractId: invoice._id,
-      },
+      }
     });
   }
 
   createBaseOnAct(invoice: Invoice): void {
     this.router.navigate([this.routing.admin.act.create], {
       queryParams: {
-        invoiceId: invoice._id,
-      },
+        invoiceId: invoice._id
+      }
     });
   }
 

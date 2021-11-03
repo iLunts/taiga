@@ -3,14 +3,14 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot,
+  RouterStateSnapshot
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
   routing = environment.routing;
@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
       //   queryParams: { returnUrl: state.url },
       // });
       this.router.navigate([this.routing.admin.login], {
-        queryParams: { returnUrl: state.url },
+        queryParams: { returnUrl: state.url }
       });
 
       return false;

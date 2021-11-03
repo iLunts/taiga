@@ -6,7 +6,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { QueryParams } from '@ngrx/data';
 import { Subject } from 'rxjs';
@@ -21,7 +21,7 @@ import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import {
   RentalCertificateStatus,
-  TotalSum,
+  TotalSum
 } from 'src/app/models/rental-certificate.model';
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { Service } from 'src/app/models/service.model';
@@ -29,7 +29,7 @@ import { Service } from 'src/app/models/service.model';
 @Component({
   selector: 'app-rental-certificate-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.less'],
+  styleUrls: ['./create.component.less']
 })
 export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
@@ -98,7 +98,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       signature: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
       total: new FormControl(new TotalSum(), [Validators.required]),
-      type: new FormControl(1, [Validators.required]),
+      type: new FormControl(1, [Validators.required])
     });
   }
 
@@ -146,12 +146,12 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       this.form.controls.qrCode.setValue(this.getQrCode);
     }
     this.rentalCertificateService.add$(this.form.value).subscribe(() => {
-      this.router.navigate([environment.routing.admin.invoice.list]);
+      this.router.navigate([environment.routing.admin.rentalCertificate.list]);
     });
   }
 
   cancel(): void {
-    this.router.navigate([environment.routing.admin.invoice.list]);
+    this.router.navigate([environment.routing.admin.rentalCertificate.list]);
   }
 
   get isRentalCertificateValid(): boolean {

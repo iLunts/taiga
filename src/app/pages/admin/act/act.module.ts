@@ -8,7 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import {
   TuiButtonModule,
   TuiHintControllerModule,
-  TuiHostedDropdownModule,
+  TuiHostedDropdownModule
 } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
@@ -19,7 +19,7 @@ import {
   TuiInputInlineModule,
   TuiInputNumberModule,
   TuiTabsModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
@@ -45,8 +45,8 @@ import { ContractModule } from 'src/app/shared/components/contract/contract.modu
     TuiInputNumberModule,
     TuiLetModule,
     TuiTabsModule,
-    TuiTextAreaModule,
+    TuiTextAreaModule
   ],
-  exports: [ActCreateComponent, ActListComponent],
+  exports: [ActCreateComponent, ActListComponent]
 })
 export class ActModule {}

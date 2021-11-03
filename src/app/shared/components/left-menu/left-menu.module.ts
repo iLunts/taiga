@@ -12,8 +12,8 @@ import { TuiButtonModule } from '@taiga-ui/core';
     RouterModule,
     TuiAvatarModule,
     TuiBadgedContentModule,
-    TuiButtonModule,
+    TuiButtonModule
   ],
-  exports: [LeftMenuComponent],
+  exports: [LeftMenuComponent]
 })
-export class LeftMenuModule { }
+export class LeftMenuModule {}

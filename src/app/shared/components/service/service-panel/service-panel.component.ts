@@ -12,9 +12,7 @@ import { ServicesService } from 'src/app/services/services.service';
 export class ServicePanelComponent implements OnInit {
   services$: Observable<Service[]>;
 
-  constructor(
-    private serviceService: ServicesService,
-  ) { }
+  constructor(private serviceService: ServicesService) {}
 
   ngOnInit(): void {
     this.fetch();
@@ -23,5 +21,4 @@ export class ServicePanelComponent implements OnInit {
   fetch(): void {
     this.services$ = this.serviceService.getAll$();
   }
-
 }

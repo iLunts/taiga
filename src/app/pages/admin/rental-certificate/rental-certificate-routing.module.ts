@@ -6,16 +6,16 @@ import { RentalCertificateListComponent } from './list/list.component';
 const routes: Routes = [
   {
     path: '',
-    component: RentalCertificateListComponent,
+    component: RentalCertificateListComponent
   },
   {
     path: 'create',
-    component: RentalCertificateCreateComponent,
-  },
+    component: RentalCertificateCreateComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class RentalCertificateRoutingModule {}

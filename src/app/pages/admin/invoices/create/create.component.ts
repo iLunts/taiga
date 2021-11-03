@@ -4,14 +4,14 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
@@ -33,7 +33,7 @@ import { ContractService } from 'src/app/services/contract.service';
   selector: 'app-invoices-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvoicesCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
@@ -99,7 +99,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       signature: new FormControl(null, [Validators.required]),
       status: new FormControl(null, [Validators.required]),
       total: new FormControl(new TotalSum(), [Validators.required]),
-      type: new FormControl(1, [Validators.required]),
+      type: new FormControl(1, [Validators.required])
     });
   }
 

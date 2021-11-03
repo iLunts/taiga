@@ -8,9 +8,8 @@ describe('BankPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BankPanelComponent ]
-    })
-    .compileComponents();
+      declarations: [BankPanelComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

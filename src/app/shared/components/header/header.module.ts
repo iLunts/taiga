@@ -7,6 +7,6 @@ import { TuiButtonModule } from '@taiga-ui/core';
 @NgModule({
   declarations: [HeaderCreateComponent],
   imports: [CommonModule, TuiButtonModule],
-  exports: [HeaderCreateComponent],
+  exports: [HeaderCreateComponent]
 })
 export class HeaderModule {}

@@ -6,7 +6,7 @@ import { CompanyService } from 'src/app/services/company.service';
 @Component({
   selector: 'app-company-settings-information',
   templateUrl: './information.component.html',
-  styleUrls: ['./information.component.less'],
+  styleUrls: ['./information.component.less']
 })
 export class InformationComponent implements OnInit {
   @Input() set company(company: Company) {

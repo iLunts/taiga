@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { Service } from '../models/service.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ServicesService {
   private dbPath = '/services';

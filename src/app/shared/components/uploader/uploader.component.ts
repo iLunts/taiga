@@ -5,7 +5,7 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 @Component({
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
-  styleUrls: ['./uploader.component.less'],
+  styleUrls: ['./uploader.component.less']
 })
 export class UploaderComponent {
   isHovering: boolean;

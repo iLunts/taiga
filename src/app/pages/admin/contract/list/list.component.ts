@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-contract-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less'],
+  styleUrls: ['./list.component.less']
 })
 export class ContractListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'unp', 'status', 'action'];
@@ -77,8 +77,8 @@ export class ContractListComponent implements OnInit, OnDestroy {
     this.router.navigate([this.routing.admin.invoice.create], {
       queryParams: {
         contractorId: contract.contractor._id,
-        contractId: contract._id,
-      },
+        contractId: contract._id
+      }
     });
   }
 

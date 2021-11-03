@@ -6,12 +6,12 @@ import { Bank } from '../models/bank.model';
 import { NotificationService } from './notification.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BankService {
   constructor(
     private _http: HttpClient,
-    private _notification: NotificationService,
+    private _notification: NotificationService
   ) {}
   bankInfo = new Bank();
 

@@ -3,7 +3,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { ContractorService } from 'src/app/services/contractor.service';
 @Component({
   selector: 'app-contractor-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.less'],
+  styleUrls: ['./info.component.less']
 })
 export class ContractorInfoComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<boolean>();

@@ -6,7 +6,7 @@ import {
   TuiExpandModule,
   TuiLinkModule,
   TuiLoaderModule,
-  TuiNotificationModule,
+  TuiNotificationModule
 } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
@@ -26,8 +26,8 @@ import { ContractPanelComponent } from './contract-panel/contract-panel.componen
     TuiDataListWrapperModule,
     TuiNotificationModule,
     TuiExpandModule,
-    TuiLinkModule,
+    TuiLinkModule
   ],
-  exports: [ContractPanelComponent],
+  exports: [ContractPanelComponent]
 })
 export class ContractModule {}

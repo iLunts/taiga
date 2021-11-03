@@ -8,7 +8,7 @@ import { map } from 'lodash';
 import { ContractorService } from './contractor.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EgrService {
   constructor(
@@ -64,7 +64,7 @@ export class EgrService {
       this.getAddressByRegNum$(UNP),
       this.getJurNamesByRegNum$(UNP),
       this.getVEDByRegNum$(UNP),
-      this.getIPFIOByRegNum$(UNP),
+      this.getIPFIOByRegNum$(UNP)
     ]).subscribe({
       // observable.subscribe({
       next: (response) => {
@@ -126,7 +126,7 @@ export class EgrService {
           }
         }
         return null;
-      },
+      }
     });
 
     return company;

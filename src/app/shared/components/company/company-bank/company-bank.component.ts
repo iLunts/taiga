@@ -10,14 +10,14 @@ import { CompanyService } from 'src/app/services/company.service';
 @Component({
   selector: 'app-company-bank',
   templateUrl: './company-bank.component.html',
-  styleUrls: ['./company-bank.component.less'],
+  styleUrls: ['./company-bank.component.less']
 })
 export class CompanyBankComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
   company: Company = new Company();
   isValidBank: boolean;
   swiftControl: FormControl = new FormControl({ value: null, disabled: true }, [
-    Validators.required,
+    Validators.required
   ]);
 
   readonly swiftMask = {
@@ -56,8 +56,8 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
       /\d/,
       /\d/,
       /\d/,
-      /\d/,
-    ],
+      /\d/
+    ]
   };
 
   constructor(private companyService: CompanyService) {

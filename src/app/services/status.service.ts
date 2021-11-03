@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Status } from '../models/status.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class StatusService {
   constructor(private _fs: AngularFirestore, private _auth: AuthService) {}

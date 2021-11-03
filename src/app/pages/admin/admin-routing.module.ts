@@ -16,25 +16,25 @@ const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () =>
-          import('./auth/auth.module').then((m) => m.AuthModule),
+          import('./auth/auth.module').then((m) => m.AuthModule)
       },
       {
         path: 'dashboard',
         loadChildren: () =>
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard]
       },
       {
         path: 'invoices',
         loadChildren: () =>
           import('./invoices/invoices.module').then((m) => m.InvoicesModule),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard]
       },
       {
         path: 'contract',
         loadChildren: () =>
           import('./contract/contract.module').then((m) => m.ContractModule),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard]
       },
       {
         path: 'contractor',
@@ -42,12 +42,12 @@ const routes: Routes = [
           import('./contractor/contractor.module').then(
             (m) => m.ContractorModule
           ),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard]
       },
       {
         path: 'act',
         loadChildren: () => import('./act/act.module').then((m) => m.ActModule),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard]
       },
       {
         path: 'rental-certificate',
@@ -55,20 +55,20 @@ const routes: Routes = [
           import('./rental-certificate/rental-certificate.module').then(
             (m) => m.RentalCertificateModule
           ),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard]
       },
       {
         path: 'settings',
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),
-        canActivate: [AuthGuard],
-      },
-    ],
-  },
+        canActivate: [AuthGuard]
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AdminRoutingModule {}

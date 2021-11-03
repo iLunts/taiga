@@ -25,7 +25,7 @@ import { UploaderModule } from './uploader/uploader.module';
     ServiceModule,
     StatusModule,
     UploadImageModule,
-    UploaderModule,
+    UploaderModule
   ],
   exports: [
     BankModule,
@@ -37,7 +37,7 @@ import { UploaderModule } from './uploader/uploader.module';
     ServiceModule,
     StatusModule,
     UploadImageModule,
-    UploaderModule,
-  ],
+    UploaderModule
+  ]
 })
 export class ComponentsModule {}

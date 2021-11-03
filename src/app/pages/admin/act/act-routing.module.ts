@@ -6,16 +6,16 @@ import { ActListComponent } from './list/list.component';
 const routes: Routes = [
   {
     path: '',
-    component: ActListComponent,
+    component: ActListComponent
   },
   {
     path: 'create',
-    component: ActCreateComponent,
-  },
+    component: ActCreateComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ActRoutingModule {}

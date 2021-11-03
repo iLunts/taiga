@@ -3,7 +3,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { CompanyService } from 'src/app/services/company.service';
 @Component({
   selector: 'app-responsible-person-panel',
   templateUrl: './responsible-person-panel.component.html',
-  styleUrls: ['./responsible-person-panel.component.less'],
+  styleUrls: ['./responsible-person-panel.component.less']
 })
 export class ResponsiblePersonPanelComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
@@ -51,7 +51,7 @@ export class ResponsiblePersonPanelComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       fullName: new FormControl(null, [Validators.required]),
       basis: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
+      type: new FormControl(null, [Validators.required])
     });
   }
 }

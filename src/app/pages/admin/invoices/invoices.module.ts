@@ -13,12 +13,12 @@ import {
   TuiInputInlineModule,
   TuiInputNumberModule,
   TuiTabsModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 import {
   TuiButtonModule,
   TuiHintControllerModule,
-  TuiHostedDropdownModule,
+  TuiHostedDropdownModule
 } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
@@ -41,7 +41,7 @@ import { HeaderModule } from 'src/app/shared/components/header/header.module';
     TuiInputNumberModule,
     TuiLetModule,
     TuiTabsModule,
-    TuiTextAreaModule,
-  ],
+    TuiTextAreaModule
+  ]
 })
 export class InvoicesModule {}

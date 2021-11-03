@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-act-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less'],
+  styleUrls: ['./list.component.less']
 })
 export class ActListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'unp', 'status', 'price', 'action'];
@@ -93,9 +93,9 @@ export class ActListComponent implements OnInit, OnDestroy {
   createBaseOnContract(invoice: Act): void {
     this.router.navigate([this.routing.admin.contract.create], {
       queryParams: {
-        contractorId: invoice.contractor._id,
+        contractorId: invoice.contractor._id
         // contractId: invoice._id,
-      },
+      }
     });
   }
 

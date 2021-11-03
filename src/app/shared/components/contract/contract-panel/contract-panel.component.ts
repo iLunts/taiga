@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-contract-panel',
   templateUrl: './contract-panel.component.html',
-  styleUrls: ['./contract-panel.component.less'],
+  styleUrls: ['./contract-panel.component.less']
 })
 export class ContractPanelComponent implements OnInit, OnDestroy {
   @Input() set contractor(value: Contractor) {
@@ -38,7 +38,7 @@ export class ContractPanelComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject();
   contracts$: Observable<Contract[]>;
   form = new FormGroup({
-    contract: new FormControl(null, [Validators.required]),
+    contract: new FormControl(null, [Validators.required])
   });
   routing = environment.routing;
 

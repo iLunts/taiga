@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
-  styleUrls: ['./left-menu.component.less'],
+  styleUrls: ['./left-menu.component.less']
 })
 export class LeftMenuComponent implements OnInit {
   user: User;
@@ -17,72 +17,72 @@ export class LeftMenuComponent implements OnInit {
       name: 'Домашняя',
       url: environment.routing.admin.dashboard,
       icon: 'tuiIconDesktopLarge',
-      type: 'menu',
+      type: 'menu'
     },
     {
       name: 'Контрагенты',
       url: environment.routing.admin.contractor.list,
       icon: 'tuiIconFileLarge',
-      type: 'menu',
+      type: 'menu'
     },
     {
       name: 'Услуги',
       url: environment.routing.admin.contractor.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true,
+      disabled: true
     },
     {
       name: 'Профиль',
       url: environment.routing.admin.contractor.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true,
+      disabled: true
     },
     {
       name: '',
       url: '',
       icon: '',
-      type: 'divider',
+      type: 'divider'
     },
     {
       name: 'Договора',
       url: environment.routing.admin.contract.list,
       icon: 'tuiIconFileLarge',
-      type: 'menu',
+      type: 'menu'
     },
     {
       name: 'Счета',
       url: environment.routing.admin.invoice.list,
       icon: 'tuiIconFileLarge',
-      type: 'menu',
+      type: 'menu'
     },
     {
       name: 'Акты',
       url: environment.routing.admin.act.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: false,
+      disabled: false
     },
     {
       name: 'Справки аренды',
       url: environment.routing.admin.rentalCertificate.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: false,
+      disabled: false
     },
     {
       name: '',
       url: '',
       icon: '',
-      type: 'divider',
+      type: 'divider'
     },
     {
       name: 'Настройки',
       url: environment.routing.admin.settings.main,
       icon: 'tuiIconSettingsLarge',
-      type: 'menu',
-    },
+      type: 'menu'
+    }
   ];
   MENU_TYPE: MenuType;
 

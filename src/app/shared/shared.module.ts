@@ -33,7 +33,7 @@ import { TopMenuModule } from './components/top-menu/top-menu.module';
     ReactiveFormsModule,
     TaigaModule,
     TextMaskModule,
-    TopMenuModule,
+    TopMenuModule
   ],
   exports: [
     CommonModule,
@@ -43,7 +43,7 @@ import { TopMenuModule } from './components/top-menu/top-menu.module';
     ReactiveFormsModule,
     TaigaModule,
     TextMaskModule,
-    TopMenuModule,
-  ],
+    TopMenuModule
+  ]
 })
 export class SharedModule {}

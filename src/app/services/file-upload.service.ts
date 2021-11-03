@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 import { FileUpload } from '../models/fileUpload.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class FileUploadService {
   private basePath = '/uploads';

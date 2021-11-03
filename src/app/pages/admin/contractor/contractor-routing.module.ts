@@ -7,16 +7,16 @@ import { ContractorListComponent } from './list/list.component';
 const routes: Routes = [
   {
     path: '',
-    component: ContractorListComponent,
+    component: ContractorListComponent
   },
   {
     path: 'create',
-    component: ContractorCreateComponent,
-  },
+    component: ContractorCreateComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ContractorRoutingModule {}

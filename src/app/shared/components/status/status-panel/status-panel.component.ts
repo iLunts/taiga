@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import {
   distinctUntilChanged,
@@ -13,7 +13,7 @@ import {
   shareReplay,
   switchMap,
   takeUntil,
-  tap,
+  tap
 } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
@@ -24,7 +24,7 @@ import { StatusService } from 'src/app/services/status.service';
 @Component({
   selector: 'app-status-panel',
   templateUrl: './status-panel.component.html',
-  styleUrls: ['./status-panel.component.less'],
+  styleUrls: ['./status-panel.component.less']
 })
 export class StatusPanelComponent implements OnInit, OnDestroy {
   @Input() set type(value: string) {
@@ -37,7 +37,7 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
 
   statuses$: Observable<Status[]>;
   form = new FormGroup({
-    status: new FormControl(null, [Validators.required]),
+    status: new FormControl(null, [Validators.required])
   });
   private readonly destroySubject = new Subject();
 

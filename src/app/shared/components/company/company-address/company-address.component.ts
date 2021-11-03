@@ -3,7 +3,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -15,7 +15,7 @@ import { CompanyService } from 'src/app/services/company.service';
 @Component({
   selector: 'app-company-address',
   templateUrl: './company-address.component.html',
-  styleUrls: ['./company-address.component.less'],
+  styleUrls: ['./company-address.component.less']
 })
 export class CompanyAddressComponent implements OnInit, OnDestroy {
   @Output() return = new EventEmitter<Company>();
@@ -26,7 +26,7 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
   isValidCompany: boolean;
   samePostMailControl: FormControl = new FormControl({
     value: false,
-    disabled: true,
+    disabled: true
   });
 
   constructor(private companyService: CompanyService) {

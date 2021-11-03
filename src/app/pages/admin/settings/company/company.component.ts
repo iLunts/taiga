@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
-  styleUrls: ['./company.component.less'],
+  styleUrls: ['./company.component.less']
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompanyComponent implements OnInit, OnDestroy {

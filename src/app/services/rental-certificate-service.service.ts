@@ -1,6 +1,6 @@
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -14,7 +14,7 @@ import { RentalCertificate } from '../models/rental-certificate.model';
 import * as _ from 'lodash';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class RentalCertificateService {
   private dbPath = '/rentalCertificate';
@@ -82,7 +82,7 @@ export class RentalCertificateService {
         .then(() => {
           this.notificationService.success('Справка аренды успешно создана');
           this.router.navigate([
-            environment.routing.admin.rentalCertificate.list,
+            environment.routing.admin.rentalCertificate.list
           ]);
         })
     );

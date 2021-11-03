@@ -1,6 +1,6 @@
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Observable, from, BehaviorSubject } from 'rxjs';
@@ -11,7 +11,7 @@ import { Contractor } from '../models/company.model';
 import { NotificationService } from './notification.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ContractorService {
   private dbPath = '/contractors';

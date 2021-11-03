@@ -8,6 +8,6 @@ import { ResponsiblePersonPanelComponent } from './responsible-person-panel/resp
 @NgModule({
   declarations: [ResponsiblePersonPanelComponent],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, TuiInputModule],
-  exports: [ResponsiblePersonPanelComponent],
+  exports: [ResponsiblePersonPanelComponent]
 })
 export class ResponsiblePersonModule {}

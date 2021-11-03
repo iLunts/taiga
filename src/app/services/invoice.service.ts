@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { Invoice, InvoiceStatus } from '../models/invoice.model';
 import { AuthService } from './auth.service';
@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class InvoiceService {
   private dbPath = '/invoices';

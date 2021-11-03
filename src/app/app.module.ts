@@ -21,7 +21,7 @@ import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
 
 const defaultDataServiceConfig: DefaultDataServiceConfig = {
-  root: 'crud',
+  root: 'crud'
 };
 
 @NgModule({
@@ -36,10 +36,10 @@ const defaultDataServiceConfig: DefaultDataServiceConfig = {
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: environment.production,
+      logOnly: environment.production
     }),
     EffectsModule.forRoot([]),
-    EntityDataModule.forRoot(entityConfig),
+    EntityDataModule.forRoot(entityConfig)
   ],
   providers: [
     AuthGuard,
@@ -47,13 +47,13 @@ const defaultDataServiceConfig: DefaultDataServiceConfig = {
     AsyncPipe,
     {
       provide: TUI_ICONS_PATH,
-      useValue: iconsPathFactory('assets/taiga-ui/icons/'),
+      useValue: iconsPathFactory('assets/taiga-ui/icons/')
     },
     {
       provide: DefaultDataServiceConfig,
-      useValue: defaultDataServiceConfig,
-    },
+      useValue: defaultDataServiceConfig
+    }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

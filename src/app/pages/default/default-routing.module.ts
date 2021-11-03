@@ -12,18 +12,18 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent,
-      },
-    ],
+        component: HomeComponent
+      }
+    ]
   },
   {
     path: '**',
-    component: PageNotFoundComponent,
-  },
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class DefaultRoutingModule {}

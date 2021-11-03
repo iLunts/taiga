@@ -5,14 +5,14 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
+  SimpleChanges
 } from '@angular/core';
 import { Bank } from 'src/app/models/bank.model';
 
 @Component({
   selector: 'app-bank-panel',
   templateUrl: './bank-panel.component.html',
-  styleUrls: ['./bank-panel.component.less'],
+  styleUrls: ['./bank-panel.component.less']
 })
 export class BankPanelComponent implements OnInit, OnChanges {
   @Input() data: Bank;

@@ -8,7 +8,7 @@ import { ContractorService } from 'src/app/services/contractor.service';
 @Component({
   selector: 'app-contractor-panel',
   templateUrl: './contractor-panel.component.html',
-  styleUrls: ['./contractor-panel.component.less'],
+  styleUrls: ['./contractor-panel.component.less']
 })
 export class ContractorPanelComponent implements OnInit {
   @Input() set contractor(contractor: Contractor) {
@@ -26,7 +26,7 @@ export class ContractorPanelComponent implements OnInit {
 
   contractors$: Observable<Contractor[]>;
   form = new FormGroup({
-    contractor: new FormControl(null, [Validators.required]),
+    contractor: new FormControl(null, [Validators.required])
   });
 
   constructor(private contractorService: ContractorService) {}

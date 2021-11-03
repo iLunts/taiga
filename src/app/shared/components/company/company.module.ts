@@ -7,7 +7,7 @@ import { TuiButtonModule } from '@taiga-ui/core/components/button';
 import {
   TuiCheckboxBlockModule,
   TuiFieldErrorModule,
-  TuiInputModule,
+  TuiInputModule
 } from '@taiga-ui/kit';
 import { TuiLoaderModule } from '@taiga-ui/core/components/loader';
 
@@ -17,7 +17,7 @@ import { CompanyUnpComponent } from './company-unp/company-unp.component';
 import {
   TuiExpandModule,
   TuiNotificationModule,
-  TuiTooltipModule,
+  TuiTooltipModule
 } from '@taiga-ui/core';
 import { CompanyBankComponent } from './company-bank/company-bank.component';
 import { BankModule } from '../bank/bank.module';
@@ -27,7 +27,7 @@ import { BankModule } from '../bank/bank.module';
     CompanyPanelComponent,
     CompanyUnpComponent,
     CompanyAddressComponent,
-    CompanyBankComponent,
+    CompanyBankComponent
   ],
   imports: [
     BankModule,
@@ -43,13 +43,13 @@ import { BankModule } from '../bank/bank.module';
     TuiInputModule,
     TuiLoaderModule,
     TuiNotificationModule,
-    TuiTooltipModule,
+    TuiTooltipModule
   ],
   exports: [
     CompanyPanelComponent,
     CompanyUnpComponent,
     CompanyAddressComponent,
-    CompanyBankComponent,
-  ],
+    CompanyBankComponent
+  ]
 })
 export class CompanyModule {}

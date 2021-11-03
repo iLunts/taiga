@@ -8,7 +8,7 @@ import { ContractorService } from 'src/app/services/contractor.service';
 @Component({
   selector: 'app-contractor-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.less'],
+  styleUrls: ['./create.component.less']
 })
 export class ContractorCreateComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>();

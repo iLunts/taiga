@@ -4,7 +4,7 @@ import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
   TuiHintControllerModule,
-  TuiHostedDropdownModule,
+  TuiHostedDropdownModule
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
@@ -13,7 +13,7 @@ import {
   TuiInputInlineModule,
   TuiInputNumberModule,
   TuiTabsModule,
-  TuiTextAreaModule,
+  TuiTextAreaModule
 } from '@taiga-ui/kit';
 
 import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
@@ -26,7 +26,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 @NgModule({
   declarations: [
     RentalCertificateCreateComponent,
-    RentalCertificateListComponent,
+    RentalCertificateListComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +44,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiInputNumberModule,
     TuiLetModule,
     TuiTabsModule,
-    TuiTextAreaModule,
-  ],
+    TuiTextAreaModule
+  ]
 })
 export class RentalCertificateModule {}

@@ -4,7 +4,7 @@ import {
   TuiAccordionModule,
   TuiInputNumberModule,
   TuiIslandModule,
-  TuiMarkerIconModule,
+  TuiMarkerIconModule
 } from '@taiga-ui/kit';
 
 import { SettingsComponent } from './settings.component';
@@ -24,8 +24,8 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     TuiAccordionModule,
     TuiInputNumberModule,
     TuiIslandModule,
-    TuiMarkerIconModule,
+    TuiMarkerIconModule
   ],
-  exports: [SettingsComponent],
+  exports: [SettingsComponent]
 })
 export class SettingsModule {}

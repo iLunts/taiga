@@ -8,7 +8,7 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 @Component({
   selector: 'app-company-settings-logotype',
   templateUrl: './logotype.component.html',
-  styleUrls: ['./logotype.component.less'],
+  styleUrls: ['./logotype.component.less']
 })
 export class LogotypeComponent implements OnInit {
   @Input() set company(value: any) {

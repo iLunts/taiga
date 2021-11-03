@@ -13,7 +13,7 @@ import { DOC_DEFININITION_STYLE } from '../templates/defenition.style';
 import { RENTAL_REFERENCE_TEMPLATE_ALL } from '../templates/rental-reference/rental-reference.template';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TemplatePdfService {
   pdfObj = null;
@@ -73,12 +73,12 @@ export class TemplatePdfService {
     let template = Handlebars.compile(data.template);
     let html = template(data, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
     });
     // let result = htmlToPdfmake(html);
     let result = htmlToPdfmake(html, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
     });
 
     let docDefinition = {
@@ -86,7 +86,7 @@ export class TemplatePdfService {
       pageOrientation: 'portrait',
       pageMargins: [40, 20, 40, 20],
       content: [result],
-      styles: DOC_DEFININITION_STYLE,
+      styles: DOC_DEFININITION_STYLE
     };
 
     this.pdfObj = pdfMake.createPdf(docDefinition);
@@ -106,7 +106,7 @@ export class TemplatePdfService {
       }
     });
 
-    // Invoice number
+    // Document number
     Handlebars.registerHelper('documentNumber', (number: number) => {
       if (number) {
         return number;
@@ -114,6 +114,19 @@ export class TemplatePdfService {
         return 'б.н.';
       }
     });
+
+    // Document range
+    Handlebars.registerHelper(
+      'datesRange',
+      (dates: Date[], format = 'DD.MMM.YYYY') => {
+        return dates.length > 1
+          ? 'c ' +
+              moment(dates[0]).format(format) +
+              ' по ' +
+              moment(dates[1]).format(format)
+          : 'за ' + moment(dates[0]).format(format);
+      }
+    );
 
     // Get summa
     Handlebars.registerHelper('getSum', (count, price) => {
@@ -163,18 +176,18 @@ export class TemplatePdfService {
     let template = Handlebars.compile(INVOICE_TEMPLATE_ALL);
     let html = template(data, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
       // imagesByReference: true,
     });
     let result = htmlToPdfmake(html, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
       // imagesByReference: true,
     });
 
     let docDefinition = {
       content: [result],
-      styles: DOC_DEFININITION_STYLE,
+      styles: DOC_DEFININITION_STYLE
     };
 
     this.pdfObj = pdfMake.createPdf(docDefinition);
@@ -251,16 +264,16 @@ export class TemplatePdfService {
     let template = Handlebars.compile(ACT_TEMPLATE_ALL);
     let html = template(data, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
     });
     let result = htmlToPdfmake(html, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
     });
 
     let docDefinition = {
       content: [result],
-      styles: DOC_DEFININITION_STYLE,
+      styles: DOC_DEFININITION_STYLE
     };
 
     this.pdfObj = pdfMake.createPdf(docDefinition);
@@ -337,18 +350,18 @@ export class TemplatePdfService {
     let template = Handlebars.compile(RENTAL_REFERENCE_TEMPLATE_ALL);
     let html = template(data, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
       // imagesByReference: true,
     });
     let result = htmlToPdfmake(html, {
       tableAutoSize: true,
-      defaultStyle: defaultStyle,
+      defaultStyle: defaultStyle
       // imagesByReference: true,
     });
 
     let docDefinition = {
       content: [result],
-      styles: DOC_DEFININITION_STYLE,
+      styles: DOC_DEFININITION_STYLE
     };
 
     this.pdfObj = pdfMake.createPdf(docDefinition);
@@ -371,10 +384,10 @@ export class TemplatePdfService {
           'септиллион',
           'октиллион',
           'нониллион',
-          'дециллион',
+          'дециллион'
         ],
         ['а', 'и', ''],
-        ['', 'а', 'ов'],
+        ['', 'а', 'ов']
       ];
     if (k == '' || k == '0') return ' ноль'; // 0
     k = k.split(/(?=(?:\d{3})+$)/); // разбить число в массив с трёхзначными числами
@@ -412,7 +425,7 @@ export class TemplatePdfService {
         ' шесть',
         ' семь',
         ' восемь',
-        ' девять',
+        ' девять'
       ],
       [
         ' десять',
@@ -424,7 +437,7 @@ export class TemplatePdfService {
         ' шестнадцать',
         ' семнадцать',
         ' восемнадцать',
-        ' девятнадцать',
+        ' девятнадцать'
       ],
       [
         '',
@@ -436,7 +449,7 @@ export class TemplatePdfService {
         ' шестьдесят',
         ' семьдесят',
         ' восемьдесят',
-        ' девяносто',
+        ' девяносто'
       ],
       [
         '',
@@ -448,9 +461,9 @@ export class TemplatePdfService {
         ' шестьсот',
         ' семьсот',
         ' восемьсот',
-        ' девятьсот',
+        ' девятьсот'
       ],
-      ['', ' одна', ' две'],
+      ['', ' одна', ' две']
     ];
     return (
       e[3][k[0]] +

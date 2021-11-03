@@ -5,12 +5,12 @@ import { Observable, from } from 'rxjs';
 import { ContractorService } from './contractor.service';
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { NotificationService } from './notification.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ContractService {
   private dbPath = '/contracts';
