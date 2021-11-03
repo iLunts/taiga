@@ -9,7 +9,7 @@ export const RENTAL_CERTIFICATE_HEADER_TEMPLATE = `
           <br/>
           о времени аренды строительной машины
           <br/>
-          за [dateStart] [месяца] [года]
+          {{datesRange dateRange "DD MMM YYYY"}}
         </p>
         <p class="html-subtitle">
           по договору №б/н от {{formatDate createDate "DD MMMM YYYY"}} г.

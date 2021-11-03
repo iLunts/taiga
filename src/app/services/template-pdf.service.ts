@@ -115,19 +115,6 @@ export class TemplatePdfService {
       }
     });
 
-    // Document range
-    Handlebars.registerHelper(
-      'datesRange',
-      (dates: Date[], format = 'DD.MMM.YYYY') => {
-        return dates.length > 1
-          ? 'c ' +
-              moment(dates[0]).format(format) +
-              ' по ' +
-              moment(dates[1]).format(format)
-          : 'за ' + moment(dates[0]).format(format);
-      }
-    );
-
     // Get summa
     Handlebars.registerHelper('getSum', (count, price) => {
       if (!count || !price) {
@@ -293,7 +280,7 @@ export class TemplatePdfService {
       }
     });
 
-    // Invoice number
+    // Document number
     Handlebars.registerHelper('documentNumber', (number: number) => {
       if (number) {
         return number;
@@ -301,6 +288,21 @@ export class TemplatePdfService {
         return 'б.н.';
       }
     });
+
+    // Document datesRange
+    Handlebars.registerHelper(
+      'datesRange',
+      (dates: Date[], format = 'DD MMM YYYY') => {
+        moment.locale('ru');
+        return dates.length > 1
+          ? 'c ' +
+              moment(dates[0]).format(format) +
+              ' по ' +
+              moment(dates[1]).format(format) +
+              ' г.'
+          : 'за ' + moment(dates[0]).format(format) + ' г.';
+      }
+    );
 
     // Get summa
     Handlebars.registerHelper('getSum', (count, price) => {
