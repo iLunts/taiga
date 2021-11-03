@@ -89,9 +89,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
-      dateRange: new FormControl(
-        new TuiDayRange(DateHelper.initDate(), DateHelper.initDate(6))
-      ),
+      dateRange: new FormControl(null),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
       profileCompany: new FormControl(null, [Validators.required]),
@@ -181,30 +179,29 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     );
   }
 
-  // get getServicesDateRange(): string {
-  //   const formatString = 'DD MMM YYYY';
-  //   const dateRange = this.form.controls.services.value;
-  //   moment.locale('ru');
+  getRangeDate(): Date[] {
+    if (this.f.services?.value?.length > 1) {
+      const dates = DateHelper.getRangeDaysFromServices(this.f.services.value);
+      this.f.dateRange.setValue(dates);
+      return dates;
+    } else {
+      const date = [DateHelper.getMinDayFromServices(this.f.services.value)];
+      this.f.dateRange.setValue(date);
+      return date;
+    }
+  }
 
-  //   if (dateRange?.length) {
-  //     return dateRange?.length === 1
-  //       ? moment(DateHelper.getDayArray(dateRange[0].date)).format(formatString)
-  //       : moment(DateHelper.getDayArray(dateRange[0].date)).format(
-  //           formatString
-  //         ) +
-  //           ' по ' +
-  //           moment(
-  //             DateHelper.getDayArray(dateRange[dateRange.length - 1].date)
-  //           ).format(formatString);
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  get getRangeDatesString(): string {
+    const dates = this.getRangeDate();
+    const format = 'DD MMM yyyy';
+    moment.locale('ru');
 
-  get getMinDate(): Date {
-    return DateHelper.convertTuiDateToDate(
-      DateHelper.getMinDayFromServices(this.f.services.value).date
-    );
+    return dates.length > 1
+      ? 'c ' +
+          moment(dates[0]).format(format) +
+          ' по ' +
+          moment(dates[1]).format(format)
+      : 'за ' + moment(dates[0]).format(format);
   }
 
   toggleRentalCertificateNumber(): void {

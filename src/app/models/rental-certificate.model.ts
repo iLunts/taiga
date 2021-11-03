@@ -14,7 +14,7 @@ export class RentalCertificate {
   _createdDate: Date;
   _userId: string;
   contractor: Contractor;
-  dateRange: TuiDay;
+  dateRange: Date[];
   description: string;
   number: string;
   profileCompany: Profile;
@@ -33,7 +33,7 @@ export class RentalCertificate {
     _createdDate?: Date,
     _userId?: string,
     contractor?: Contractor,
-    dateRange?: TuiDay,
+    dateRange?: Date[],
     description?: string,
     number?: string,
     profileCompany?: Profile,
@@ -54,9 +54,7 @@ export class RentalCertificate {
     this.contractor = contractor || new Contractor();
     this.profileCompany = profileCompany || new Profile();
     this.services = services || [];
-    this.dateRange =
-      dateRange ||
-      TuiDay.normalizeParse(moment().add(7, 'day').format('DD.MM.YYYY'));
+    this.dateRange = dateRange || null;
     this.status = status || null;
     this.description = description || null;
     this.type = type || null;

@@ -29,7 +29,7 @@
     >
       <h1 class="header" [class.header_empty]="!f.number.value">
         Справка аренды
-        <span *ngIf="f.services.value?.length">от {{ getMinDate }}</span>
+        <span *ngIf="f.services.value?.length">{{ getRangeDatesString }}</span>
         <!-- <tui-input-inline
           *ngIf="isEditingNumber; else rentalCertificateNumberText"
           #inputNumber
