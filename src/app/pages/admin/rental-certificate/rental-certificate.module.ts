@@ -16,6 +16,7 @@ import {
   TuiTextAreaModule
 } from '@taiga-ui/kit';
 
+import { ContractModule } from 'src/app/shared/components/contract/contract.module';
 import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { RentalCertificateCreateComponent } from './create/create.component';
@@ -31,6 +32,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     ContractorModule,
+    ContractModule,
     HeaderModule,
     RentalCertificateRoutingModule,
     SharedModule,

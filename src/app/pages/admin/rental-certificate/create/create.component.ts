@@ -10,11 +10,12 @@ import {
 } from '@angular/forms';
 import { QueryParams } from '@ngrx/data';
 import { Subject } from 'rxjs';
-import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
+import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 
-import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
+import { Contract } from 'src/app/models/contract.model';
+import { Contractor } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/utils/date.helper';
@@ -89,6 +90,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
+      contract: new FormControl(null, [Validators.required]),
       dateRange: new FormControl(null),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
@@ -135,6 +137,11 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
 
   selectContractor(data: Contractor): void {
     this.form.controls.contractor.setValue(data);
+    this.form.controls.contract.reset();
+  }
+
+  setContract(data: Contract): void {
+    this.form.controls.contract.setValue(data);
   }
 
   selectService(data: Service[]): void {

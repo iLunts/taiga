@@ -82,7 +82,21 @@ export class ContractListComponent implements OnInit, OnDestroy {
     });
   }
 
-  createBaseOnAct(data): void {}
+  createBaseOnAct(contract: Contract): void {
+    this.router.navigate([this.routing.admin.act.create], {
+      queryParams: {
+        contractorId: contract.contractor._id,
+        contractId: contract._id
+      }
+    });
+  }
 
-  createBaseOnReference(data): void {}
+  createBaseOnRentalReference(contract: Contract): void {
+    this.router.navigate([this.routing.admin.rentalCertificate.create], {
+      queryParams: {
+        contractorId: contract.contractor._id,
+        contractId: contract._id
+      }
+    });
+  }
 }
