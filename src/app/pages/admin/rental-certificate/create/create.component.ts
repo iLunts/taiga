@@ -37,9 +37,6 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   @ViewChild('inputNumber') inputNumber: any;
 
   private readonly destroySubject = new Subject();
-  // rentalCertificate: RentalCertificate = new RentalCertificate(
-  //   this.afs.createId()
-  // );
 
   form: FormGroup;
   isEditingNumber: boolean;
@@ -142,6 +139,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
 
   setContract(data: Contract): void {
     this.form.controls.contract.setValue(data);
+    this.form.controls._contractId.setValue(data._id);
   }
 
   selectService(data: Service[]): void {
@@ -188,7 +186,12 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
 
   getRangeDate(): Date[] {
     if (this.f.services?.value?.length > 1) {
-      const dates = DateHelper.getRangeDaysFromServices(this.f.services.value);
+      let dates: Date[] = DateHelper.getRangeDaysFromServices(
+        this.f.services.value
+      );
+      if (moment(dates[0]).isSame(dates[1])) {
+        dates = [dates[0]];
+      }
       this.f.dateRange.setValue(dates);
       return dates;
     } else {

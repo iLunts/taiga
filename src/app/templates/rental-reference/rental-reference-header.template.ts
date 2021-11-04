@@ -12,7 +12,7 @@ export const RENTAL_CERTIFICATE_HEADER_TEMPLATE = `
           {{datesRange dateRange "DD MMM YYYY"}}
         </p>
         <p class="html-subtitle">
-          по договору №б/н от {{formatDate createDate "DD MMMM YYYY"}} г.
+          по договору №{{documentNumber number}} от {{formatDate contract.date "DD MMMM YYYY"}} г.
         </p>
       </td>
       <td style="width: 25%; border: 0"></td>
