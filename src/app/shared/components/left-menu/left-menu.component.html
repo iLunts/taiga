@@ -10,32 +10,39 @@
           type="button"
           class="tui-space_bottom-2"
           [icon]="item.icon"
-          [routerLink]="[item.url]" 
+          [routerLink]="[item.url]"
           routerLinkActive="active"
           *ngIf="item.type === 'menu'"
-          [disabled]="item.disabled">
-          {{item.name}}
+          [disabled]="item.disabled"
+          [tuiHint]="item.name"
+          tuiHintDirection="right"
+        >
+          <!-- <span class="left-menu__menu-item-text">
+            {{ item.name }}
+          </span> -->
         </button>
-  
-        <hr class="left-menu__menu-divider" *ngIf="item.type === 'divider'">
+
+        <hr class="left-menu__menu-divider" *ngIf="item.type === 'divider'" />
       </div>
     </ng-container>
   </nav>
   <div class="left-menu__account">
-      <tui-badged-content
-        *ngIf="getUserDisplayName"
+    <tui-badged-content
+      *ngIf="getUserDisplayName"
+      class="tui-space_right-2"
+      contentTop=""
+      colorTop="red"
+      size="s"
+      [rounded]="true"
+    >
+      <tui-avatar
         class="tui-space_right-2"
-        contentTop=""
-        colorTop="red"
+        [text]="getUserDisplayName"
         size="s"
-        [rounded]="true">
-        <tui-avatar
-          class="tui-space_right-2"
-          [text]="getUserDisplayName"
-          size="s"
-          [autoColor]="true"
-          [rounded]="true">
-        </tui-avatar>
+        [autoColor]="true"
+        [rounded]="true"
+      >
+      </tui-avatar>
     </tui-badged-content>
     {{ getUserDisplayName }}
   </div>

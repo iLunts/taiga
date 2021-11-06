@@ -22,23 +22,23 @@ export class LeftMenuComponent implements OnInit {
     {
       name: 'Контрагенты',
       url: environment.routing.admin.contractor.list,
-      icon: 'tuiIconFileLarge',
+      icon: 'tuiIconCompanyLarge',
       type: 'menu'
     },
-    {
-      name: 'Услуги',
-      url: environment.routing.admin.contractor.list,
-      icon: 'tuiIconFileLarge',
-      type: 'menu',
-      disabled: true
-    },
-    {
-      name: 'Профиль',
-      url: environment.routing.admin.contractor.list,
-      icon: 'tuiIconFileLarge',
-      type: 'menu',
-      disabled: true
-    },
+    // {
+    //   name: 'Услуги',
+    //   url: environment.routing.admin.contractor.list,
+    //   icon: 'tuiIconFileLarge',
+    //   type: 'menu',
+    //   disabled: true
+    // },
+    // {
+    //   name: 'Профиль',
+    //   url: environment.routing.admin.contractor.list,
+    //   icon: 'tuiIconFileLarge',
+    //   type: 'menu',
+    //   disabled: true
+    // },
     {
       name: '',
       url: '',
@@ -48,19 +48,19 @@ export class LeftMenuComponent implements OnInit {
     {
       name: 'Договора',
       url: environment.routing.admin.contract.list,
-      icon: 'tuiIconFileLarge',
+      icon: 'tuiIconEditLarge',
       type: 'menu'
     },
     {
       name: 'Счета',
       url: environment.routing.admin.invoice.list,
-      icon: 'tuiIconFileLarge',
+      icon: 'tuiIconCalendarLarge',
       type: 'menu'
     },
     {
       name: 'Акты',
       url: environment.routing.admin.act.list,
-      icon: 'tuiIconFileLarge',
+      icon: 'tuiIconExternalLarge',
       type: 'menu',
       disabled: false
     },
