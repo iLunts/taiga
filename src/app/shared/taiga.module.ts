@@ -9,7 +9,8 @@ import {
   TuiCalendarModule,
   TuiDataListModule,
   TuiThemeNightModule,
-  TuiModeModule
+  TuiModeModule,
+  TuiScrollbarModule
 } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
@@ -52,6 +53,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TuiMarkerIconModule,
     TuiComboBoxModule,
     TuiDataListWrapperModule,
+    TuiScrollbarModule,
     // TuiSidebarModule,
     // TuiActiveZoneModule,
     DragDropModule
@@ -77,6 +79,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TuiMarkerIconModule,
     TuiComboBoxModule,
     TuiDataListWrapperModule,
+    TuiScrollbarModule,
     // TuiSidebarModule,
     // TuiActiveZoneModule,
     DragDropModule

@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from 'src/app/guards/auth.guard';
+
 import { AdminLayoutComponent } from 'src/app/layouts/admin-layout/admin-layout.component';
+import { AuthGuard } from 'src/app/guards/auth.guard';
+// import { ContractorAsideLayoutComponent } from 'src/app/layouts/contractor-aside-layout/contractor-aside-layout.component';
 
 const routes: Routes = [
   // {

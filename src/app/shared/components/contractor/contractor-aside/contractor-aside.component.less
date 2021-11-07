@@ -30,12 +30,23 @@
     display: inline-flex;
   }
 
-  & &__name {
-    display: inline-flex;
-    align-items: center;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 16px;
+  & &__info {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 0;
+
+    &-name {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 16px;
+    }
+
+    &-unp {
+      font-size: 11px;
+      line-height: 16px;
+      color: #999;
+    }
   }
 
   & &__balance {

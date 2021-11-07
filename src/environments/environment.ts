@@ -25,7 +25,7 @@ export const environment = {
       registration: '/admin/auth/registration',
       dashboard: '/admin/dashboard',
       invoice: {
-        list: '/admin/invoices',
+        list: '/admin/invoices/list',
         create: '/admin/invoices/create'
       },
       contractor: {
@@ -33,15 +33,15 @@ export const environment = {
         create: '/admin/contractor/create'
       },
       contract: {
-        list: '/admin/contract',
+        list: '/admin/contract/list',
         create: '/admin/contract/create'
       },
       act: {
-        list: '/admin/act',
+        list: '/admin/act/list',
         create: '/admin/act/create'
       },
       rentalCertificate: {
-        list: '/admin/rental-certificate',
+        list: '/admin/rental-certificate/list',
         create: '/admin/rental-certificate/create'
       },
       settings: {

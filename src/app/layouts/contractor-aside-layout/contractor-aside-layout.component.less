@@ -1,5 +1,4 @@
 @import '~@taiga-ui/core/styles/taiga-ui-local';
-@import '../../../../../theme/page-header.less';
 
 :host {
   display: block;
@@ -9,5 +8,12 @@
 }
 
 .wrap {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: 100%;
   height: 100%;
+
+  & &__aside {
+    border-right: 1px solid #e5e5e5;
+  }
 }

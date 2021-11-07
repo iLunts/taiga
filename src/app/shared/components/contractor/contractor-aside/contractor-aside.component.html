@@ -23,7 +23,12 @@
         [rounded]="true"
         size="s"
       ></tui-avatar>
-      <span class="contractor-card__name">{{ item.info.shortName }}</span>
+      <p class="contractor-card__info">
+        <span class="contractor-card__info-name">{{ item.info.name }}</span>
+        <small class="contractor-card__info-unp"
+          >УНП: {{ item.info.unp }}</small
+        >
+      </p>
     </div>
     <div class="contractor-card__bottom">
       <tui-badge
