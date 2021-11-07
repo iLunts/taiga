@@ -9,7 +9,12 @@
     Поиск
   </tui-input>
 
-  <div class="contractor-card" *ngFor="let item of contractors$ | async">
+  <div
+    class="contractor-card"
+    [class._active]="isSelectedContractor(item)"
+    (click)="selectContractor(item)"
+    *ngFor="let item of contractors$ | async"
+  >
     <div class="contractor-card__top">
       <tui-avatar
         class="contractor-card__avatar tui-space_right-2"
