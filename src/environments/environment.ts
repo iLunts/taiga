@@ -29,7 +29,7 @@ export const environment = {
         create: '/admin/invoices/create'
       },
       contractor: {
-        list: '/admin/contractor',
+        list: '/admin/contractor/list',
         create: '/admin/contractor/create'
       },
       contract: {

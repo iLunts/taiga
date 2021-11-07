@@ -14,7 +14,6 @@ export class ContractorListComponent implements OnInit {
   readonly columns = ['unp', 'name', 'action'];
   routing = environment.routing;
   contractors$: Observable<Contractor[]>;
-  isOpenAsideContractorCreate: boolean;
   isOpenAsideContractorView: boolean;
 
   constructor(private contractorService: ContractorService) {}
@@ -31,10 +30,6 @@ export class ContractorListComponent implements OnInit {
     if (item) {
       this.contractorService.delete$(item._id);
     }
-  }
-
-  toggleAsideContractorCreate(): void {
-    this.isOpenAsideContractorCreate = !this.isOpenAsideContractorCreate;
   }
 
   toggleAsideContractorView(contractor: Company): void {

@@ -1,0 +1,56 @@
+.contractor-aside {
+  padding: 1rem;
+
+  & &__search {
+    margin-bottom: 1rem;
+  }
+}
+
+.contractor-card {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #e5e5e5;
+  box-shadow: none;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: inset 0px 0px 0px 2px #03a9f4;
+    cursor: pointer;
+  }
+
+  & &__avatar {
+    display: inline-flex;
+  }
+
+  & &__name {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 16px;
+  }
+
+  & &__balance {
+    font-size: 12px;
+    line-height: 12px;
+    color: #999;
+    font-weight: 500;
+  }
+
+  & &__top {
+    display: flex;
+  }
+
+  & &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e5e5e5;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  & + & {
+    margin-top: 1rem;
+  }
+}
