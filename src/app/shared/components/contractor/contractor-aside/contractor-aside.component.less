@@ -15,7 +15,7 @@
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    box-shadow: inset 0px 0px 0px 2px #03a9f4;
+    box-shadow: inset 0 0 0 1px #03a9f4;
     cursor: pointer;
 
     .contractor-card__actions {
@@ -23,11 +23,25 @@
     }
   }
 
-  &._active {
-    box-shadow: inset 0px 0px 0px 2px #03a9f4;
+  &.contractor-card--new {
+    background: #4caf501c;
+    border-color: #4caf50;
+    color: #4caf50;
 
     &:hover {
-      box-shadow: inset 0px 0px 0px 2px #b3e5fc;
+      box-shadow: inset 0 0 0 1px #4caf50;
+    }
+
+    .contractor-card__info-unp {
+      color: #4caf50;
+    }
+  }
+
+  &._active {
+    box-shadow: inset 0 0 0 1px #03a9f4;
+
+    &:hover {
+      box-shadow: inset 0 0 0 1px #b3e5fc;
     }
   }
 

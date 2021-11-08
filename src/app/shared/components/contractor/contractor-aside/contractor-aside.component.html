@@ -17,6 +17,25 @@
     </tui-input>
 
     <div
+      class="contractor-card contractor-card--new"
+      (click)="goToCreatePage()"
+    >
+      <div class="contractor-card__top">
+        <tui-avatar
+          class="contractor-card__avatar tui-space_right-2"
+          text="+"
+          [autoColor]="true"
+          [rounded]="true"
+          size="s"
+        ></tui-avatar>
+        <p class="contractor-card__info">
+          <span class="contractor-card__info-name">Создать нового</span>
+          <small class="contractor-card__info-unp">контрагента</small>
+        </p>
+      </div>
+    </div>
+
+    <div
       class="contractor-card"
       [class._active]="isSelectedContractor(item)"
       (click)="selectContractor(item)"

@@ -22,6 +22,7 @@ import {
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ContractorInfoComponent } from './info/info.component';
 import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-person/responsible-person.module';
+import { HeaderModule } from 'src/app/shared/components/header/header.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-p
     CommonModule,
     ContractorRoutingModule,
     FormsModule,
+    HeaderModule,
     ReactiveFormsModule,
     ResponsiblePersonModule,
     SharedModule,

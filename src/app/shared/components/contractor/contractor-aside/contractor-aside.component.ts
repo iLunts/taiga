@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -12,6 +13,7 @@ import {
 import { Contractor } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { StoreService } from 'src/app/services/store.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-contractor-aside',
@@ -21,6 +23,7 @@ import { StoreService } from 'src/app/services/store.service';
 export class ContractorAsideComponent implements OnInit {
   filterControl = new FormControl('');
   selectedContractor: Contractor;
+  routing = environment.routing;
 
   filter$: Observable<string>;
   contractors$: Observable<Contractor[]>;
@@ -28,7 +31,8 @@ export class ContractorAsideComponent implements OnInit {
 
   constructor(
     private contractorService: ContractorService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private router: Router
   ) {
     // this.filter$ = this.filterControl.valueChanges;
 
@@ -81,5 +85,9 @@ export class ContractorAsideComponent implements OnInit {
 
   isSelectedContractor(contractor: Contractor): boolean {
     return this.selectedContractor?._id === contractor?._id;
+  }
+
+  goToCreatePage(): void {
+    this.router.navigate([this.routing.admin.contractor.create]);
   }
 }
