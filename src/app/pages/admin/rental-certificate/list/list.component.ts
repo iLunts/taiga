@@ -9,6 +9,13 @@ import {
 } from 'src/app/models/rental-certificate.model';
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
+import { StoreService } from 'src/app/services/store.service';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  switchMap
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-rental-certificate-list',
@@ -28,6 +35,7 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
   constructor(
     private rentalCertificateService: RentalCertificateService,
     private templatePdfService: TemplatePdfService,
+    private storeService: StoreService,
     private router: Router
   ) {
     this.fetch();
@@ -51,7 +59,14 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
   }
 
   fetch(): void {
-    this.rentalCertificates$ = this.rentalCertificateService.getAll$();
+    this.rentalCertificates$ = this.storeService.getContractor$().pipe(
+      filter((contractor) => !!contractor),
+      distinctUntilChanged(),
+      switchMap((contractor) =>
+        this.rentalCertificateService.getAllByContractorId$(contractor._id)
+      ),
+      shareReplay()
+    );
   }
 
   delete(item: RentalCertificate): void {

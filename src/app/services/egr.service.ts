@@ -13,7 +13,7 @@ import { ContractorService } from './contractor.service';
 export class EgrService {
   constructor(
     private _http: HttpClient,
-    private _notification: NotificationService,
+    private notificationService: NotificationService,
     private companyService: CompanyService,
     private contractorService: ContractorService
   ) {}
@@ -69,7 +69,7 @@ export class EgrService {
       // observable.subscribe({
       next: (response) => {
         if (response.every((element) => element === null)) {
-          this._notification.warning(
+          this.notificationService.warning(
             'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
           );
           this.companyService.clearCompanyInfo();
@@ -107,21 +107,24 @@ export class EgrService {
       error: (error) => {
         switch (error.status) {
           case 0: {
-            this._notification.error(
+            this.notificationService.error(
               'Сервис ЕГР временно не доступен, попробуйте сделать запрос позже',
               'Временно недоступен'
             );
             break;
           }
           case 400: {
-            this._notification.error(
+            this.notificationService.error(
               'Плохой запрос, проверьте вводимые данные',
               'Плохой запрос'
             );
             break;
           }
           default: {
-            this._notification.error(error.error.message, error.error.error);
+            this.notificationService.error(
+              error.error.message,
+              error.error.error
+            );
             break;
           }
         }

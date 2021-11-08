@@ -1,10 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 
 import { Act, ActStatus } from 'src/app/models/act.model';
 import { ActService } from 'src/app/services/act.service';
+import { StoreService } from 'src/app/services/store.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import { environment } from 'src/environments/environment';
 
@@ -26,9 +34,9 @@ export class ActListComponent implements OnInit, OnDestroy {
   constructor(
     private actService: ActService,
     private templatePdfService: TemplatePdfService,
+    private storeService: StoreService,
     private router: Router
   ) {
-    this.fetchStatuses();
     this.fetch();
   }
 
@@ -47,27 +55,16 @@ export class ActListComponent implements OnInit, OnDestroy {
 
   selectTab(status: ActStatus): void {
     this.tabActive = status;
-    // this.fetchFilterByStatus();
   }
 
   fetch(): void {
-    this.acts$ = this.actService.getAll$();
-  }
-
-  fetchStatuses(): void {
-    // this.actService.getAllStatus$().subscribe((actStatuses: ActStatus[]) => {
-    //   this.actStatuses = actStatuses;
-    //   return of(actStatuses);
-    // });
-
-    // this.actStatuses$ = this.actService.getAllStatus$();
-
-    this.actStatuses$ = this.actService.getAllStatus$().pipe(
-      tap((status: ActStatus[]) => {
-        this.actStatuses = status;
-        this.tabActive = status?.length ? status[0] : null;
-      }),
-      takeUntil(this.destroy$)
+    this.acts$ = this.storeService.getContractor$().pipe(
+      filter((contractor) => !!contractor),
+      distinctUntilChanged(),
+      switchMap((contractor) =>
+        this.actService.getAllByContractorId$(contractor._id)
+      ),
+      shareReplay()
     );
   }
 

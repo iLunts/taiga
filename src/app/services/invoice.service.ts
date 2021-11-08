@@ -24,15 +24,15 @@ export class InvoiceService {
 
   constructor(
     private _fs: AngularFirestore,
-    private _auth: AuthService,
-    private _contractor: ContractorService,
-    private _notification: NotificationService,
+    private authService: AuthService,
+    private contractorService: ContractorService,
+    private notificationService: NotificationService,
     private _route: Router
   ) {
-    if (this._auth.isLoggedIn) {
+    if (this.authService.isLoggedIn) {
       this.invoicesRef = _fs.collection(this.dbPath, (q) =>
         q
-          .where('_userId', '==', this._auth.getUserId())
+          .where('_userId', '==', this.authService.getUserId())
           .orderBy('_createdDate', 'desc')
       );
     }
@@ -45,7 +45,7 @@ export class InvoiceService {
   getAllByContractorId$(contractorId: string): Observable<any[]> {
     const invoicesRef = this._fs.collection(this.dbPath, (q) =>
       q
-        .where('_userId', '==', this._auth.getUserId())
+        .where('_userId', '==', this.authService.getUserId())
         .where('contractor._id', '==', contractorId)
         .orderBy('_createdDate', 'desc')
     );
@@ -55,7 +55,9 @@ export class InvoiceService {
   // getById$(id: string): AngularFirestoreCollection<any> {
   getById$(id: string): Observable<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>
-      q.where('_userId', '==', this._auth.getUserId()).where('_id', '==', id)
+      q
+        .where('_userId', '==', this.authService.getUserId())
+        .where('_id', '==', id)
     );
     return collection.valueChanges();
   }
@@ -76,7 +78,7 @@ export class InvoiceService {
     return this._fs
       .collection(this.dbPathStatuses, (q) =>
         q
-          .where('_userId', '==', this._auth.getUserId())
+          .where('_userId', '==', this.authService.getUserId())
           .where('_id', '==', statusId)
       )
       .valueChanges();
@@ -85,11 +87,11 @@ export class InvoiceService {
   getAllByContractor$(): Observable<any[]> {
     this.invoicesForContractorsRef = this._fs.collection(this.dbPath, (q) =>
       q
-        .where('_userId', '==', this._auth.getUserId())
+        .where('_userId', '==', this.authService.getUserId())
         .where(
           'contractor.info.unp',
           '==',
-          this._contractor.getContractor().info.unp
+          this.contractorService.getContractor().info.unp
         )
         .orderBy('_createdDate', 'desc')
     );
@@ -97,7 +99,7 @@ export class InvoiceService {
   }
 
   add$(invoice: Invoice): Observable<any> {
-    invoice._userId = this._auth.getUserId();
+    invoice._userId = this.authService.getUserId();
     invoice._createdDate = new Date();
     invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);
     return from(
@@ -106,7 +108,7 @@ export class InvoiceService {
         .doc(invoice._id)
         .set(JSON.parse(JSON.stringify(invoice)))
         .then(() => {
-          this._notification.success('Счет успешно создан');
+          this.notificationService.success('Счет успешно создан');
           this._route.navigate([environment.routing.admin.invoice.list]);
         })
     );
@@ -118,7 +120,7 @@ export class InvoiceService {
         .doc(_id)
         .delete()
         .then(() => {
-          this._notification.success('Счет успешно удален');
+          this.notificationService.success('Счет успешно удален');
         })
     );
   }

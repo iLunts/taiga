@@ -22,13 +22,13 @@ export class ContractService {
 
   constructor(
     private _fs: AngularFirestore,
-    private _auth: AuthService,
-    private _contractor: ContractorService,
-    private _notification: NotificationService
+    private authService: AuthService,
+    private contractorService: ContractorService,
+    private notificationService: NotificationService
   ) {
-    if (this._auth.isLoggedIn) {
+    if (this.authService.isLoggedIn) {
       this.contractsRef = this._fs.collection(this.dbPath, (q) =>
-        q.where('_userId', '==', this._auth.getUserId())
+        q.where('_userId', '==', this.authService.getUserId())
       );
     }
   }
@@ -46,11 +46,11 @@ export class ContractService {
   getAllByContractor(): Observable<any[]> {
     this.contractsForContractorsRef = this._fs.collection(this.dbPath, (q) =>
       q
-        .where('_userId', '==', this._auth.getUserId())
+        .where('_userId', '==', this.authService.getUserId())
         .where(
           'contractor.info.unp',
           '==',
-          this._contractor.getContractor().info.unp
+          this.contractorService.getContractor().info.unp
         )
         .orderBy('_createdDate', 'desc')
     );
@@ -60,7 +60,7 @@ export class ContractService {
   getAllByContractorUNP$(contractorUNP: string): Observable<any[]> {
     this.contractsForContractorsRef = this._fs.collection(this.dbPath, (q) =>
       q
-        .where('_userId', '==', this._auth.getUserId())
+        .where('_userId', '==', this.authService.getUserId())
         .where('contractor.info.unp', '==', contractorUNP)
         .orderBy('_createdDate', 'desc')
     );
@@ -70,7 +70,7 @@ export class ContractService {
   getAllByContractorId$(contractorId: string): Observable<any[]> {
     const contractsForContractorIdRef = this._fs.collection(this.dbPath, (q) =>
       q
-        .where('_userId', '==', this._auth.getUserId())
+        .where('_userId', '==', this.authService.getUserId())
         .where('contractor._id', '==', contractorId)
         .orderBy('_createdDate', 'desc')
     );
@@ -78,7 +78,7 @@ export class ContractService {
   }
 
   add$(contract: any): Observable<any> {
-    contract._userId = this._auth.getUserId();
+    contract._userId = this.authService.getUserId();
     contract._createdDate = new Date();
     return from(
       this._fs
@@ -93,7 +93,7 @@ export class ContractService {
       this.contractsRef
         .doc(_id)
         .delete()
-        .then(() => this._notification.success('Договор успешно удален'))
+        .then(() => this.notificationService.success('Договор успешно удален'))
     );
   }
 
@@ -102,7 +102,7 @@ export class ContractService {
       this.contractsRef
         .doc(_id)
         .update(value)
-        .then(() => this._notification.success('Договор успешно изменен'))
+        .then(() => this.notificationService.success('Договор успешно изменен'))
     );
   }
 }

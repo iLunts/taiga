@@ -24,12 +24,12 @@ export class ContractorService {
 
   constructor(
     private _fs: AngularFirestore,
-    private _auth: AuthService,
-    private _notification: NotificationService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {
-    if (this._auth.isLoggedIn) {
+    if (this.authService.isLoggedIn) {
       this.customersRef = this._fs.collection(this.dbPath, (q) =>
-        q.where('_userId', '==', this._auth.getUserId())
+        q.where('_userId', '==', this.authService.getUserId())
       );
     }
   }
@@ -42,7 +42,9 @@ export class ContractorService {
   // getById(id: string): AngularFirestoreCollection<any> {
   getById$(id: string): Observable<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>
-      q.where('_userId', '==', this._auth.getUserId()).where('_id', '==', id)
+      q
+        .where('_userId', '==', this.authService.getUserId())
+        .where('_id', '==', id)
     );
     return collection.valueChanges();
   }
@@ -51,7 +53,7 @@ export class ContractorService {
     return this._fs
       .collection(this.dbPath, (q) =>
         q
-          .where('_userId', '==', this._auth.getUserId())
+          .where('_userId', '==', this.authService.getUserId())
           .where('info.unp', '==', unp)
       )
       .valueChanges();
@@ -60,14 +62,14 @@ export class ContractorService {
   add$(contractor: any): Observable<any> {
     const pushkey = this._fs.createId();
     contractor._id = pushkey;
-    contractor._userId = this._auth.getUserId();
+    contractor._userId = this.authService.getUserId();
     return from(
       this._fs
         .collection(this.dbPath)
         .doc(pushkey)
         .set(JSON.parse(JSON.stringify(contractor)))
         .then(() => {
-          this._notification.success('Контрагент успешно создан');
+          this.notificationService.success('Контрагент успешно создан');
         })
     );
   }
@@ -78,7 +80,7 @@ export class ContractorService {
         .doc(_id)
         .delete()
         .then(() => {
-          this._notification.success('Контрагент успешно удалён');
+          this.notificationService.success('Контрагент успешно удалён');
         })
     );
   }

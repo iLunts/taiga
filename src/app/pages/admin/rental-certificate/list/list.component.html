@@ -1,5 +1,5 @@
-<div class="wrapper">
-  <h1 class="tui-text_h3 title">Справки аренды</h1>
+<div class="page-header">
+  <h1 class="tui-text_h3 page-header__title">Справки аренды</h1>
   <button
     class="tui-space_left-5"
     tuiButton
@@ -13,7 +13,7 @@
   </button>
 </div>
 
-<section class="content">
+<section class="page-body">
   <ng-container *ngIf="rentalCertificates$ | async as rentalCertificates">
     <table tuiTable [columns]="columns">
       <thead>

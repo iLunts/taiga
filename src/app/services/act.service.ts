@@ -42,6 +42,16 @@ export class ActService {
     return this.actsRef.valueChanges();
   }
 
+  getAllByContractorId$(contractorId: string): Observable<any[]> {
+    const actsRef = this._fs.collection(this.dbPath, (q) =>
+      q
+        .where('_userId', '==', this._auth.getUserId())
+        .where('contractor._id', '==', contractorId)
+        .orderBy('_createdDate', 'desc')
+    );
+    return actsRef.valueChanges();
+  }
+
   getByI$d(id: string): AngularFirestoreCollection<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>
       q.where('_userId', '==', this._auth.getUserId()).where('_id', '==', id)

@@ -41,6 +41,16 @@ export class RentalCertificateService {
     return this.rentalCertificateRef.valueChanges();
   }
 
+  getAllByContractorId$(contractorId: string): Observable<any[]> {
+    const rentalCertificateRef = this._fs.collection(this.dbPath, (q) =>
+      q
+        .where('_userId', '==', this.authService.getUserId())
+        .where('contractor._id', '==', contractorId)
+        .orderBy('_createdDate', 'desc')
+    );
+    return rentalCertificateRef.valueChanges();
+  }
+
   getById$(id: string): Observable<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>
       q

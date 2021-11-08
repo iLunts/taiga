@@ -1,5 +1,5 @@
-<div class="wrapper">
-  <h1 class="tui-text_h3 title">Акты</h1>
+<div class="page-header">
+  <h1 class="tui-text_h3 page-header__title">Акты</h1>
   <button
     class="tui-space_left-5"
     tuiButton
@@ -12,7 +12,7 @@
     Создать новый
   </button>
   <tui-tabs-with-more
-    class="tabs"
+    class="page-header__tabs"
     [activeItemIndex]="getTabActiveIndex"
     [moreContent]="more"
   >
@@ -25,7 +25,8 @@
     </ng-container>
   </tui-tabs-with-more>
 </div>
-<section class="content">
+
+<section class="page-body">
   <ng-container *ngIf="acts$ | async as acts">
     <table tuiTable [columns]="columns">
       <thead>
