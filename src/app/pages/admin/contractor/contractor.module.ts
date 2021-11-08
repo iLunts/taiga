@@ -10,7 +10,6 @@ import {
 } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 
-import { ContractorBaseComponent } from './base/base.component';
 import { ContractorCreateComponent } from './create/create.component';
 import { ContractorListComponent } from './list/list.component';
 import { ContractorRoutingModule } from './contractor-routing.module';
@@ -26,7 +25,6 @@ import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-p
 
 @NgModule({
   declarations: [
-    ContractorBaseComponent,
     ContractorCreateComponent,
     ContractorInfoComponent,
     ContractorListComponent

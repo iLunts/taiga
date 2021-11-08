@@ -8,6 +8,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { NotificationService } from './notification.service';
+import { Contract } from '../models/contract.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,7 @@ export class ContractService {
     return this.contractsForContractorsRef.valueChanges();
   }
 
-  getAllByContractorId(contractorId: string): Observable<any[]> {
+  getAllByContractorId$(contractorId: string): Observable<any[]> {
     this.contractsForContractorIdRef = this._fs.collection(this.dbPath, (q) =>
       q
         .where('_userId', '==', this._auth.getUserId())

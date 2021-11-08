@@ -1,5 +1,6 @@
 .contractor-aside {
   padding: 1rem;
+  height: 100vh;
 
   & &__search {
     margin-bottom: 1rem;
@@ -16,6 +17,10 @@
   &:hover {
     box-shadow: inset 0px 0px 0px 2px #03a9f4;
     cursor: pointer;
+
+    .contractor-card__actions {
+      opacity: 1;
+    }
   }
 
   &._active {
@@ -49,15 +54,13 @@
     }
   }
 
-  & &__balance {
-    font-size: 12px;
-    line-height: 12px;
-    color: #999;
-    font-weight: 500;
-  }
-
   & &__top {
     display: flex;
+  }
+
+  & &__actions {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
   }
 
   & &__bottom {

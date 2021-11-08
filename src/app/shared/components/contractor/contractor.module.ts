@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiDataListModule, TuiLoaderModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiLoaderModule
+} from '@taiga-ui/core';
 import {
   TuiAvatarModule,
   TuiBadgeModule,
@@ -21,6 +25,7 @@ import { ContractorAsideComponent } from './contractor-aside/contractor-aside.co
     FormsModule,
     ReactiveFormsModule,
     TuiAvatarModule,
+    TuiButtonModule,
     TuiDataListModule,
     TuiDataListWrapperModule,
     TuiInputModule,

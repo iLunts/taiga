@@ -1,5 +1,5 @@
-<!-- <div class="wrapper">
-  <h1 class="tui-text_h3 title">Договора</h1>
+<div class="page-header">
+  <h1 class="tui-text_h3 page-header__title">Договора</h1>
   <button
     class="tui-space_left-5"
     tuiButton
@@ -12,7 +12,7 @@
     Создать новый
   </button>
   <tui-tabs-with-more
-    class="tabs"
+    class="page-header__tabs"
     [activeItemIndex]="getTabActiveIndex"
     [moreContent]="more"
   >
@@ -24,96 +24,104 @@
       </ng-container>
     </ng-container>
   </tui-tabs-with-more>
-</div> -->
+</div>
 
-<section class="content">
-  <ng-container *ngIf="contracts$ | async as contracts">
-    <table tuiTable [columns]="columns">
-      <thead>
-        <tr tuiThGroup>
-          <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
-          <th *tuiHead="'unp'" tuiTh [resizable]="true">Организация</th>
-          <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
-          <th *tuiHead="'action'" tuiTh [resizable]="false"></th>
-        </tr>
-      </thead>
-      <tbody tuiTbody [data]="contracts">
-        <tr *tuiRow="let item of contracts; let index = index" tuiTr>
-          <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
-          <td *tuiCell="'unp'" tuiTd>
-            <p class="tui-space_vertical-1 tui-text_body-m">
-              {{ item?.contractor?.info?.shortName }}
-            </p>
-            {{ item?.contractor?.info?.unp }}
-          </td>
-          <td *tuiCell="'status'" tuiTd>
-            {{ item?.status?.name }}
-          </td>
-          <td *tuiCell="'action'" tuiTd>
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconDownload"
-              title="Скачать PDF"
-              shape="rounded"
-              (click)="downloadPdf(item)"
-            ></button>
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconTrash"
-              title="Remove"
-              shape="rounded"
-              (click)="delete(item)"
-            ></button>
-
-            <tui-hosted-dropdown #dropdown [content]="content">
+<tui-loader
+  [showLoader]="!(contracts$ | async)"
+  [overlay]="true"
+  [inheritColor]="true"
+  textContent="Загружается..."
+  size="l"
+>
+  <section class="page-body">
+    <ng-container *ngIf="contracts$ | async as contracts">
+      <table tuiTable [columns]="columns">
+        <thead>
+          <tr tuiThGroup>
+            <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
+            <th *tuiHead="'unp'" tuiTh [resizable]="true">Организация</th>
+            <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
+            <th *tuiHead="'action'" tuiTh [resizable]="false"></th>
+          </tr>
+        </thead>
+        <tbody tuiTbody [data]="contracts">
+          <tr *tuiRow="let item of contracts; let index = index" tuiTr>
+            <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
+            <td *tuiCell="'unp'" tuiTd>
+              <p class="tui-space_vertical-1 tui-text_body-m">
+                {{ item?.contractor?.info?.shortName }}
+              </p>
+              {{ item?.contractor?.info?.unp }}
+            </td>
+            <td *tuiCell="'status'" tuiTd>
+              {{ item?.status?.name }}
+            </td>
+            <td *tuiCell="'action'" tuiTd>
               <button
                 tuiIconButton
                 appearance="flat"
                 size="s"
-                icon="tuiIconMoreVer"
-                type="button"
+                icon="tuiIconDownload"
+                title="Скачать PDF"
                 shape="rounded"
-                [pseudoHovered]="dropdown.open || null"
+                (click)="downloadPdf(item)"
               ></button>
-            </tui-hosted-dropdown>
-            <ng-template #content let-activeZone>
-              <tui-data-list
-                tuiDataListDropdownManager
-                [tuiActiveZoneParent]="activeZone"
-              >
+              <button
+                tuiIconButton
+                appearance="flat"
+                size="s"
+                icon="tuiIconTrash"
+                title="Remove"
+                shape="rounded"
+                (click)="delete(item)"
+              ></button>
+
+              <tui-hosted-dropdown #dropdown [content]="content">
                 <button
-                  tuiOption
-                  (click)="createBaseOnInvoice(item)"
-                  [disabled]="false"
+                  tuiIconButton
+                  appearance="flat"
+                  size="s"
+                  icon="tuiIconMoreVer"
+                  type="button"
+                  shape="rounded"
+                  [pseudoHovered]="dropdown.open || null"
+                ></button>
+              </tui-hosted-dropdown>
+              <ng-template #content let-activeZone>
+                <tui-data-list
+                  tuiDataListDropdownManager
+                  [tuiActiveZoneParent]="activeZone"
                 >
-                  Счёт
-                </button>
-                <button
-                  tuiOption
-                  (click)="createBaseOnAct(item)"
-                  [disabled]="false"
-                >
-                  Акт
-                </button>
-                <button
-                  tuiOption
-                  (click)="createBaseOnRentalReference(item)"
-                  [disabled]="false"
-                >
-                  Справка
-                </button>
-              </tui-data-list>
-            </ng-template>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </ng-container>
-</section>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnInvoice(item)"
+                    [disabled]="false"
+                  >
+                    Счёт
+                  </button>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnAct(item)"
+                    [disabled]="false"
+                  >
+                    Акт
+                  </button>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnRentalReference(item)"
+                    [disabled]="false"
+                  >
+                    Справка
+                  </button>
+                </tui-data-list>
+              </ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </section>
+</tui-loader>
 
 <ng-template #more>
   <tui-svg src="tuiIconMoreHorLarge"></tui-svg>

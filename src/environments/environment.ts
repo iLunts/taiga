@@ -25,23 +25,23 @@ export const environment = {
       registration: '/admin/auth/registration',
       dashboard: '/admin/dashboard',
       invoice: {
-        list: '/admin/invoices/list',
+        list: '/admin/invoices',
         create: '/admin/invoices/create'
       },
       contractor: {
-        list: '/admin/contractor/list',
+        list: '/admin/contractor',
         create: '/admin/contractor/create'
       },
       contract: {
-        list: '/admin/contract/list',
+        list: '/admin/contract',
         create: '/admin/contract/create'
       },
       act: {
-        list: '/admin/act/list',
+        list: '/admin/act',
         create: '/admin/act/create'
       },
       rentalCertificate: {
-        list: '/admin/rental-certificate/list',
+        list: '/admin/rental-certificate',
         create: '/admin/rental-certificate/create'
       },
       settings: {

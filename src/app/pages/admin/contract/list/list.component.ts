@@ -1,10 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { Contract, ContractStatus } from 'src/app/models/contract.model';
 import { Invoice } from 'src/app/models/invoice.model';
 import { ContractService } from 'src/app/services/contract.service';
+import { StoreService } from 'src/app/services/store.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import { environment } from 'src/environments/environment';
 
@@ -26,9 +34,9 @@ export class ContractListComponent implements OnInit, OnDestroy {
   constructor(
     private contractService: ContractService,
     private templatePdfService: TemplatePdfService,
-    private router: Router
+    private router: Router,
+    private storeService: StoreService
   ) {
-    this.fetchStatuses();
     this.fetch();
   }
 
@@ -50,16 +58,13 @@ export class ContractListComponent implements OnInit, OnDestroy {
   }
 
   fetch(): void {
-    this.contracts$ = this.contractService.getAll$();
-  }
-
-  fetchStatuses(): void {
-    this.contractStatuses$ = this.contractService.getAllStatus$().pipe(
-      tap((status: ContractStatus[]) => {
-        this.contractStatuses = status;
-        this.tabActive = status?.length ? status[0] : null;
-      }),
-      takeUntil(this.destroy$)
+    this.contracts$ = this.storeService.getContractor$().pipe(
+      filter((contractor) => !!contractor),
+      distinctUntilChanged(),
+      switchMap((contractor) =>
+        this.contractService.getAllByContractorId$(contractor._id)
+      ),
+      shareReplay()
     );
   }
 

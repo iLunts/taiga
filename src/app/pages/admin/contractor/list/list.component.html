@@ -1,4 +1,19 @@
-<section class="content">
+<div class="page-header">
+  <h1 class="tui-text_h3 page-header__title">Контрагенты</h1>
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новый"
+    shape="rounded"
+    [routerLink]="[routing.admin.contractor.create]"
+  >
+    Создать новый
+  </button>
+</div>
+
+<section class="page-body">
   <ng-container *ngIf="contractors$ | async as contractors">
     <table tuiTable [columns]="columns">
       <thead>

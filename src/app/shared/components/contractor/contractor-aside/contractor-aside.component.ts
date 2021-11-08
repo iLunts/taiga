@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, shareReplay, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, shareReplay, tap } from 'rxjs/operators';
 
 import { Contractor } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
@@ -22,7 +22,12 @@ export class ContractorAsideComponent implements OnInit {
     private contractorService: ContractorService,
     private storeService: StoreService
   ) {
-    this.contractors$ = this.contractorService.getAll$();
+    this.contractors$ = this.contractorService.getAll$().pipe(
+      filter((contractors) => !!contractors),
+      distinctUntilChanged(),
+      tap((contractors) => this.selectContractor(contractors[0]))
+    );
+
     this.storeService
       .getContractor$()
       .pipe(
