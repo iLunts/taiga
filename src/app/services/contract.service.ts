@@ -68,13 +68,13 @@ export class ContractService {
   }
 
   getAllByContractorId$(contractorId: string): Observable<any[]> {
-    this.contractsForContractorIdRef = this._fs.collection(this.dbPath, (q) =>
+    const contractsForContractorIdRef = this._fs.collection(this.dbPath, (q) =>
       q
         .where('_userId', '==', this._auth.getUserId())
         .where('contractor._id', '==', contractorId)
         .orderBy('_createdDate', 'desc')
     );
-    return this.contractsForContractorIdRef.valueChanges();
+    return contractsForContractorIdRef.valueChanges();
   }
 
   add$(contract: any): Observable<any> {

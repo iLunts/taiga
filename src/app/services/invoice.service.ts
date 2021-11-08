@@ -42,6 +42,16 @@ export class InvoiceService {
     return this.invoicesRef.valueChanges();
   }
 
+  getAllByContractorId$(contractorId: string): Observable<any[]> {
+    const invoicesRef = this._fs.collection(this.dbPath, (q) =>
+      q
+        .where('_userId', '==', this._auth.getUserId())
+        .where('contractor._id', '==', contractorId)
+        .orderBy('_createdDate', 'desc')
+    );
+    return invoicesRef.valueChanges();
+  }
+
   // getById$(id: string): AngularFirestoreCollection<any> {
   getById$(id: string): Observable<any> {
     const collection = this._fs.collection(this.dbPath, (q) =>

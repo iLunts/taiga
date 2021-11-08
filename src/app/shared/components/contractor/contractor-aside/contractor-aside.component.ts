@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, shareReplay, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  tap
+} from 'rxjs/operators';
 
 import { Contractor } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
@@ -13,15 +19,40 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./contractor-aside.component.less']
 })
 export class ContractorAsideComponent implements OnInit {
-  searchControl = new FormControl(null);
+  filterControl = new FormControl('');
+  selectedContractor: Contractor;
+
+  filter$: Observable<string>;
   contractors$: Observable<Contractor[]>;
   contractorSelected$: Observable<Contractor>;
-  selectedContractor: Contractor;
 
   constructor(
     private contractorService: ContractorService,
     private storeService: StoreService
   ) {
+    // this.filter$ = this.filterControl.valueChanges;
+
+    // const contractorsData$ = this.contractorService.getAll$();
+    // .pipe
+    // filter((contractors) => !!contractors),
+    // distinctUntilChanged()
+    // tap((contractors) => this.selectContractor(contractors[0]))
+    // ();
+
+    // this.contractors$ = combineLatest(contractorsData$, this.filter$).pipe(
+    //   tap((value) => {
+    //     debugger;
+    //   }),
+    //   map(([contractors, filterString]) =>
+    //     contractors.filter(
+    //       (contractor) =>
+    //         contractor.info.unp
+    //           .toLowerCase()
+    //           .indexOf(filterString.toLowerCase()) !== -1
+    //     )
+    //   )
+    // );
+
     this.contractors$ = this.contractorService.getAll$().pipe(
       filter((contractors) => !!contractors),
       distinctUntilChanged(),

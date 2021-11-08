@@ -6,7 +6,15 @@ import { Router } from '@angular/router';
 import { Invoice, InvoiceStatus } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-invoices-list',
@@ -21,16 +29,14 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   invoiceStatuses: InvoiceStatus[] = [];
   isLoaded: boolean;
   routing = environment.routing;
-  // readonly tabs = ['Все', 'Черновики', 'Оплаченные'];
-  // activeElement = String(this.tabs[0]);
   tabActive: InvoiceStatus;
 
   constructor(
     private invoiceService: InvoiceService,
     private templatePdfService: TemplatePdfService,
+    private storeService: StoreService,
     private router: Router
   ) {
-    this.fetchStatuses();
     this.fetch();
   }
 
@@ -53,16 +59,13 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   }
 
   fetch(): void {
-    this.invoices$ = this.invoiceService.getAll$();
-  }
-
-  fetchStatuses(): void {
-    this.invoiceStatuses$ = this.invoiceService.getAllStatus$().pipe(
-      tap((status: InvoiceStatus[]) => {
-        this.invoiceStatuses = status;
-        this.tabActive = status?.length ? status[0] : null;
-      }),
-      takeUntil(this.destroy$)
+    this.invoices$ = this.storeService.getContractor$().pipe(
+      filter((contractor) => !!contractor),
+      distinctUntilChanged(),
+      switchMap((contractor) =>
+        this.invoiceService.getAllByContractorId$(contractor._id)
+      ),
+      shareReplay()
     );
   }
 
