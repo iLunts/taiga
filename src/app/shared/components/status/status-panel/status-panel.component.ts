@@ -36,9 +36,8 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
   @Output() changed = new EventEmitter<Status>();
 
   statuses$: Observable<Status[]>;
-  form = new FormGroup({
-    status: new FormControl(null, [Validators.required])
-  });
+  statusControl = new FormControl(null, [Validators.required]);
+
   private readonly destroySubject = new Subject();
 
   constructor(private statusesService: StatusService) {
@@ -56,7 +55,7 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
     );
 
     // TODO: Need to check twiceCall
-    this.form.controls.status.valueChanges
+    this.statusControl.valueChanges
       .pipe(
         filter((status: Status) => !!status),
         distinctUntilChanged(),
@@ -74,7 +73,7 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
   }
 
   selectStatus(status: Status): void {
-    this.form.controls.status.setValue(status);
+    this.statusControl.setValue(status);
     this.changed.emit(status);
   }
 }

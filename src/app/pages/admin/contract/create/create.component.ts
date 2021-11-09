@@ -14,8 +14,14 @@ import {
   TUI_EDITOR_EXTENSIONS,
   TUI_EDITOR_STYLES
 } from '@taiga-ui/addon-editor';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -24,6 +30,7 @@ import { ContractorService } from 'src/app/services/contractor.service';
 import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-contract-create',
@@ -55,9 +62,20 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     private router: Router,
     private contractService: ContractService,
     private contractorService: ContractorService,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private storeService: StoreService
   ) {
     this.initForm();
+
+    this.storeService
+      .getContractor$()
+      .pipe(
+        filter((contractor) => !!contractor),
+        distinctUntilChanged(),
+        tap((contractor) => this.setContractor(contractor)),
+        shareReplay()
+      )
+      .subscribe();
 
     this.route.queryParams
       .pipe(filter((params) => params?.contractorId))
@@ -138,6 +156,8 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   }
 
   setContractor(data: Company): void {
+    console.log('Contractor: ', this.form.controls.contractor.value);
+
     if (this.form) {
       this.form.controls.contractor.setValue(data);
     }

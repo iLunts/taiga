@@ -9,6 +9,7 @@ import {
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
+  TuiBadgeModule,
   TuiInputDateModule,
   TuiInputDateRangeModule,
   TuiInputFileModule,
@@ -34,6 +35,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     HeaderModule,
     SharedModule,
     TuiAvatarModule,
+    TuiBadgeModule,
     TuiButtonModule,
     TuiDataListModule,
     TuiEditorModule,

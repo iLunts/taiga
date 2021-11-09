@@ -3,8 +3,8 @@
   [overlay]="true"
   [inheritColor]="true"
 >
-  <form *tuiLet="statuses$ | async as statuses" [formGroup]="form">
-    <tui-select formControlName="status" [valueContent]="itemContent">
+  <form *tuiLet="statuses$ | async as statuses">
+    <tui-select [formControl]="statusControl" [valueContent]="itemContent">
       Выбрать статус
       <tui-data-list-wrapper
         *tuiDataList

@@ -35,28 +35,84 @@
 >
   <section class="page-body">
     <ng-container *ngIf="contracts$ | async as contracts">
-      <table tuiTable [columns]="columns">
+      <table tuiTable [columns]="columns" class="tui-table">
         <thead>
-          <tr tuiThGroup>
-            <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
-            <th *tuiHead="'unp'" tuiTh [resizable]="true">Организация</th>
-            <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
-            <th *tuiHead="'action'" tuiTh [resizable]="false"></th>
+          <tr class="tui-table__tr" tuiThGroup>
+            <th
+              class="tui-table__th"
+              *tuiHead="'number'"
+              tuiTh
+              [resizable]="true"
+            >
+              Номер
+            </th>
+            <th
+              class="tui-table__th"
+              *tuiHead="'date'"
+              tuiTh
+              [resizable]="true"
+            >
+              Дата начала
+            </th>
+            <th
+              class="tui-table__th"
+              *tuiHead="'status'"
+              tuiTh
+              [resizable]="true"
+            >
+              Статус
+            </th>
+            <th
+              class="tui-table__th"
+              *tuiHead="'dateCreation'"
+              tuiTh
+              [resizable]="true"
+            >
+              Дата создания
+            </th>
+            <th
+              class="tui-table__th"
+              *tuiHead="'action'"
+              tuiTh
+              [resizable]="false"
+            ></th>
           </tr>
         </thead>
         <tbody tuiTbody [data]="contracts">
-          <tr *tuiRow="let item of contracts; let index = index" tuiTr>
-            <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
-            <td *tuiCell="'unp'" tuiTd>
-              <p class="tui-space_vertical-1 tui-text_body-m">
-                {{ item?.contractor?.info?.shortName }}
-              </p>
-              {{ item?.contractor?.info?.unp }}
+          <tr
+            class="tui-table__tr"
+            tuiTr
+            *tuiRow="let item of contracts; let index = index"
+          >
+            <td class="tui-table__td" *tuiCell="'number'" tuiTd>
+              № <b>{{ item?.number }}</b>
             </td>
-            <td *tuiCell="'status'" tuiTd>
-              {{ item?.status?.name }}
+            <td class="tui-table__td" *tuiCell="'date'" tuiTd>
+              <b>{{ item?.date | date: 'dd MMM yyyy' }}</b>
             </td>
-            <td *tuiCell="'action'" tuiTd>
+            <td class="tui-table__td" *tuiCell="'status'" tuiTd>
+              <tui-badge
+                [style.background-color]="item?.status?.color"
+                status="custom"
+                [value]="item?.status?.name"
+                *ngIf="item?.status"
+              ></tui-badge>
+              <span *ngIf="!item?.status">не указан</span>
+            </td>
+            <td class="tui-table__td" *tuiCell="'dateCreation'" tuiTd>
+              <span>
+                {{ item?._createdDate | date: 'dd MMM yyyy' }}
+              </span>
+              <br />
+              <small>
+                {{ item?._createdDate | date: 'hh:mm' }}
+              </small>
+            </td>
+            <td
+              class="tui-table__td tui-table__td--right"
+              *tuiCell="'action'"
+              tuiTd
+            >
               <button
                 tuiIconButton
                 appearance="flat"
