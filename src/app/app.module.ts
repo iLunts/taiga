@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { iconsPathFactory, TUI_ICONS_PATH } from '@taiga-ui/core';
 import { HttpClientModule } from '@angular/common/http';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, registerLocaleData } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +13,7 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { SharedModule } from './shared/shared.module';
 import { StoreModule } from '@ngrx/store';
 import { TaigaModule } from './shared/taiga.module';
+import localeRu from '@angular/common/locales/ru';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { ContractorAsideLayoutComponent } from './layouts/contractor-aside-layout/contractor-aside-layout.component';
@@ -27,6 +28,8 @@ import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.
 const defaultDataServiceConfig: DefaultDataServiceConfig = {
   root: 'crud'
 };
+
+registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
@@ -61,7 +64,8 @@ const defaultDataServiceConfig: DefaultDataServiceConfig = {
     {
       provide: DefaultDataServiceConfig,
       useValue: defaultDataServiceConfig
-    }
+    },
+    { provide: LOCALE_ID, useValue: 'ru' }
     // MessagingService,
   ],
   bootstrap: [AppComponent]
