@@ -28,32 +28,74 @@
 
 <section class="page-body">
   <ng-container *ngIf="invoices$ | async as invoices">
-    <table tuiTable [columns]="columns">
+    <table tuiTable [columns]="columns" class="tui-table">
       <thead>
-        <tr tuiThGroup>
-          <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
-          <th *tuiHead="'unp'" tuiTh [resizable]="true">Организация</th>
-          <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
-          <th *tuiHead="'price'" tuiTh [resizable]="true">Сумма</th>
-          <th *tuiHead="'action'" tuiTh [resizable]="true"></th>
+        <tr tuiThGroup class="tui-table__tr">
+          <th
+            class="tui-table__th"
+            *tuiHead="'number'"
+            tuiTh
+            [resizable]="true"
+          >
+            Номер
+          </th>
+          <th class="tui-table__th" *tuiHead="'date'" tuiTh [resizable]="true">
+            Дата
+          </th>
+          <th
+            class="tui-table__th"
+            *tuiHead="'status'"
+            tuiTh
+            [resizable]="true"
+          >
+            Статус
+          </th>
+          <th class="tui-table__th" *tuiHead="'price'" tuiTh [resizable]="true">
+            Сумма
+          </th>
+          <th
+            class="tui-table__th"
+            *tuiHead="'action'"
+            tuiTh
+            [resizable]="true"
+          ></th>
         </tr>
       </thead>
       <tbody tuiTbody [data]="invoices">
-        <tr *tuiRow="let item of invoices; let index = index" tuiTr>
-          <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
-          <td *tuiCell="'unp'" tuiTd>
-            <p class="tui-space_vertical-1 tui-text_body-m">
-              {{ item?.contractor?.info?.shortName }}
-            </p>
-            {{ item?.contractor?.info?.unp }}
+        <tr
+          *tuiRow="let item of invoices; let index = index"
+          tuiTr
+          class="tui-table__tr"
+        >
+          <td class="tui-table__td" *tuiCell="'number'" tuiTd>
+            № <b>{{ item?.number }}</b>
           </td>
-          <td *tuiCell="'status'" tuiTd>
-            {{ item?.status?.name }}
+          <td class="tui-table__td" *tuiCell="'date'" tuiTd>
+            <b
+              >{{ item?.dateRange.from | date: 'dd MMM yyyy' }} -
+              {{ item?.dateRange.to | date: 'dd MMM yyyy' }}</b
+            >
           </td>
-          <td *tuiCell="'price'" tuiTd>
-            {{ item?.total?.totalSum?.amount }}
+          <td class="tui-table__td" *tuiCell="'status'" tuiTd>
+            <tui-badge
+              [style.background-color]="item?.status?.color"
+              status="custom"
+              [value]="item?.status?.name"
+              *ngIf="item?.status"
+            ></tui-badge>
+            <span *ngIf="!item?.status">не указан</span>
           </td>
-          <td *tuiCell="'action'" tuiTd>
+          <td class="tui-table__td" *tuiCell="'price'" tuiTd>
+            <b>
+              {{ item?.total?.totalSum?.amount | tuiFormatNumber: 2:',' }}
+            </b>
+            {{ 'BYN' | tuiCurrency }}
+          </td>
+          <td
+            class="tui-table__td tui-table__td--right"
+            *tuiCell="'action'"
+            tuiTd
+          >
             <button
               tuiIconButton
               appearance="flat"

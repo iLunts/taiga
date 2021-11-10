@@ -22,7 +22,7 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./list.component.less']
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
-  readonly columns = ['number', 'unp', 'status', 'price', 'action'];
+  readonly columns = ['number', 'date', 'status', 'price', 'action'];
   private readonly destroy$ = new Subject();
   invoices$: Observable<any>;
   invoiceStatuses$: Observable<any>;

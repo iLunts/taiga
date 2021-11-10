@@ -8,6 +8,7 @@ import { InvoicesRoutingModule } from './invoices-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {
   TuiAvatarModule,
+  TuiBadgeModule,
   TuiInputDateRangeModule,
   TuiInputFileModule,
   TuiInputInlineModule,
@@ -17,22 +18,27 @@ import {
 } from '@taiga-ui/kit';
 import {
   TuiButtonModule,
+  TuiFormatNumberPipeModule,
   TuiHintControllerModule,
   TuiHostedDropdownModule
 } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
+import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
 
 @NgModule({
   declarations: [InvoicesCreateComponent, InvoicesListComponent],
   imports: [
     CommonModule,
     ContractorModule,
+    HeaderModule,
     InvoicesRoutingModule,
     SharedModule,
-    HeaderModule,
     TuiAvatarModule,
+    TuiBadgeModule,
     TuiButtonModule,
+    TuiCurrencyPipeModule,
+    TuiFormatNumberPipeModule,
     TuiHintControllerModule,
     TuiHostedDropdownModule,
     TuiInputDateRangeModule,
