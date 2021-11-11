@@ -22,7 +22,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./list.component.less']
 })
 export class ActListComponent implements OnInit, OnDestroy {
-  readonly columns = ['number', 'unp', 'status', 'price', 'action'];
+  readonly columns = ['number', 'date', 'status', 'sum', 'action'];
   private readonly destroy$ = new Subject();
   acts$: Observable<any>;
   actStatuses$: Observable<any>;
