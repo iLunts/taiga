@@ -16,9 +16,10 @@ import { ComponentsModule } from './components/components.module';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { TextMaskModule } from 'angular2-text-mask';
 import { TopMenuModule } from './components/top-menu/top-menu.module';
+import { DisabledStateDirective } from './directives/disabled-state.directive';
 
 @NgModule({
-  declarations: [],
+  declarations: [DisabledStateDirective],
   imports: [
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -38,6 +39,7 @@ import { TopMenuModule } from './components/top-menu/top-menu.module';
   exports: [
     CommonModule,
     ComponentsModule,
+    DisabledStateDirective,
     FormsModule,
     QRCodeModule,
     ReactiveFormsModule,

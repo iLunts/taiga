@@ -28,7 +28,7 @@ import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  declarations: [ContractListComponent, ContractCreateComponent],
+  declarations: [ContractCreateComponent, ContractListComponent],
   imports: [
     CommonModule,
     ContractRoutingModule,

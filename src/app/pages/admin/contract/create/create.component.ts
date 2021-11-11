@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
   FormBuilder,
@@ -49,6 +55,7 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
+  public buttonDisabled = new EventEmitter<boolean>(false);
 
   private readonly destroySubject = new Subject();
   templateContent = CONTRACT_TEMPLATE_ALL;
@@ -156,8 +163,6 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   }
 
   setContractor(data: Company): void {
-    console.log('Contractor: ', this.form.controls.contractor.value);
-
     if (this.form) {
       this.form.controls.contractor.setValue(data);
     }
@@ -170,6 +175,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     }
 
     this.contractService.add$(this.form.value).subscribe((response) => {
+      this.buttonDisabled.emit(false);
       this.router.navigate([environment.routing.admin.contract.list]);
     });
   }
