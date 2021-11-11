@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import {
   TuiButtonModule,
+  TuiFormatNumberPipeModule,
   TuiHintControllerModule,
   TuiHostedDropdownModule
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
+  TuiBadgeModule,
   TuiInputDateRangeModule,
   TuiInputFileModule,
   TuiInputInlineModule,
@@ -23,6 +25,7 @@ import { RentalCertificateCreateComponent } from './create/create.component';
 import { RentalCertificateListComponent } from './list/list.component';
 import { RentalCertificateRoutingModule } from './rental-certificate-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
 
 @NgModule({
   declarations: [
@@ -31,13 +34,16 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   imports: [
     CommonModule,
-    ContractorModule,
     ContractModule,
+    ContractorModule,
     HeaderModule,
     RentalCertificateRoutingModule,
     SharedModule,
     TuiAvatarModule,
+    TuiBadgeModule,
     TuiButtonModule,
+    TuiCurrencyPipeModule,
+    TuiFormatNumberPipeModule,
     TuiHintControllerModule,
     TuiHostedDropdownModule,
     TuiInputDateRangeModule,
