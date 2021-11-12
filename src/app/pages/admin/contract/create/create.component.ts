@@ -55,7 +55,7 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
-  public buttonDisabled = new EventEmitter<boolean>(false);
+  public stateInProgress = new EventEmitter<boolean>(false);
 
   private readonly destroySubject = new Subject();
   templateContent = CONTRACT_TEMPLATE_ALL;
@@ -169,13 +169,15 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
+    this.stateInProgress.emit(true);
+
     // TODO: NEED UPDATE INVOICE and set _contractId;
     if (this.isQrCodeValid) {
       this.form.controls.qrCode.setValue(this.getQrCode);
     }
 
     this.contractService.add$(this.form.value).subscribe((response) => {
-      this.buttonDisabled.emit(false);
+      this.stateInProgress.emit(false);
       this.router.navigate([environment.routing.admin.contract.list]);
     });
   }

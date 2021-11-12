@@ -6,34 +6,51 @@ import {
   HostListener,
   Renderer2,
   ElementRef,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { shareReplay, tap } from 'rxjs/operators';
 
 @Directive({
-  selector: '[appDisabledState]'
+  selector: '[disabledState]'
 })
 export class DisabledStateDirective implements OnInit, OnDestroy {
-  @Input('appDisabledState') reenableButton: EventEmitter<boolean>;
+  @Input('disabledState') reenableButton: EventEmitter<boolean>;
+
   subscription: Subscription;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   @HostListener('click')
   onClick(): void {
-    this.renderer.setAttribute(this.el.nativeElement, 'disabled', 'true');
+    this.setProperties();
   }
 
   ngOnInit(): void {
-    this.subscription = this.reenableButton.subscribe((value: any) => {
-      console.log('Got the value as ', value);
-      if (!value) {
-        this.renderer.removeAttribute(this.el.nativeElement, 'disabled');
-      }
-    });
+    this.subscription = this.reenableButton
+      .pipe(
+        tap((value) =>
+          value ? this.setProperties() : this.removeProperties()
+        ),
+        tap((value) => console.log('Got the value as ', value))
+      )
+      .subscribe();
+  }
+
+  setProperties(): void {
+    this.renderer.setAttribute(this.el.nativeElement, 'disabled', 'true');
+    this.renderer.addClass(this.el.nativeElement, '_disabled-loader');
+  }
+
+  removeProperties(): void {
+    this.renderer.removeAttribute(this.el.nativeElement, 'disabled');
+    this.renderer.removeClass(this.el.nativeElement, '_disabled-loader');
   }
 
   ngOnDestroy(): void {
-    this.subscription && this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

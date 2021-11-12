@@ -1,0 +1,21 @@
+button {
+  // background: red;
+
+  &._disabled-loader {
+    opacity: var(--tui-disabled-opacity);
+
+    tui-wrapper[data-appearance='primary'] {
+      background: #eee;
+      color: #666;
+    }
+
+    tui-wrapper[data-appearance='outline'] {
+      background: #eee;
+      color: #666;
+
+      &:after {
+        color: #eee;
+      }
+    }
+  }
+}
