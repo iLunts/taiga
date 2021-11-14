@@ -1,10 +1,29 @@
-<p>settings works!</p>
+<main class="wrap">
+  <tui-scrollbar class="wrap__aside">
+    <!-- <app-contractor-aside></app-contractor-aside> -->
 
-<button
-    tuiButton
-    type="button"
-    class="tui-space_right-3 tui-space_bottom-3"
-    appearance="outline"
-    [routerLink]="[routing.admin.settings.company]">
-    Компании
-</button>
+    <div class="menu">
+      <a
+        *ngFor="let item of menuList"
+        class="menu__link"
+        [routerLink]="[item.url]"
+        routerLinkActive="_active"
+      >
+        {{ item.label }}
+      </a>
+    </div>
+  </tui-scrollbar>
+  <div class="wrap__body">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
+<!-- <button
+  tuiButton
+  type="button"
+  class="tui-space_right-3 tui-space_bottom-3"
+  appearance="outline"
+  [routerLink]="[routing.admin.settings.company]"
+>
+  Компании
+</button> -->
