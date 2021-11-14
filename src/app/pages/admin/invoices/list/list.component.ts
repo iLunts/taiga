@@ -69,13 +69,13 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     );
   }
 
-  fetchFilterByStatus(): void {
-    this.invoices$ = this.invoiceService.getAll$().pipe(
-      filter((invoices) => {
-        return invoices.filter((x) => x.status._id === this.tabActive._id);
-      })
-    );
-  }
+  // fetchFilterByStatus(): void {
+  //   this.invoices$ = this.invoiceService.getAll$().pipe(
+  //     filter((invoices) => {
+  //       return invoices.filter((x) => x.status._id === this.tabActive._id);
+  //     })
+  //   );
+  // }
 
   delete(item: Invoice): void {
     if (item) {

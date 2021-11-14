@@ -10,14 +10,14 @@ import {
   Output
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { shareReplay, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Directive({
   selector: '[disabledState]'
 })
 export class DisabledStateDirective implements OnInit, OnDestroy {
   @Input('disabledState') reenableButton: EventEmitter<boolean>;
-
+  @Output('disabledState') reenableButtonChange = new EventEmitter<boolean>();
   subscription: Subscription;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}

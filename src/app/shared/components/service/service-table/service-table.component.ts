@@ -7,10 +7,10 @@ import {
   Validators
 } from '@angular/forms';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Service } from 'src/app/models/service.model';
 import { ServicesService } from 'src/app/services/services.service';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
@@ -22,20 +22,22 @@ import * as _ from 'lodash';
 })
 export class ServiceTableComponent implements OnInit {
   @Input() set services(services: Service[]) {
-    if (services?.length) {
-      this.preloadServices(services);
-    }
+    this.servicesSubject.next(services);
+    // if (services?.length) {
+    //   this.preloadServices(services);
+    // }
   }
-  get services(): Service[] {
-    return this._services;
-  }
-  private _services: Service[];
+  // get services(): Service[] {
+  //   return this._services;
+  // }
+  // private _services: Service[];
+  private servicesSubject = new BehaviorSubject<Service[]>(null);
 
   @Output() selected = new EventEmitter<Service[]>();
 
   form: FormGroup;
   columns: ['name', 'date', 'w', 'price'];
-  services$: Observable<Service[]>;
+  serviceListData$: Observable<Service[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,12 +46,25 @@ export class ServiceTableComponent implements OnInit {
   ) {
     this.createForm();
     this.fetch();
+
+    this.servicesSubject
+      .pipe(
+        filter((services) => !!services),
+        distinctUntilChanged(),
+        tap((services) => {
+          // services.forEach((element) => {
+          //   this.addNewRow();
+          // });
+          // this.form.controls.tableRowArray.patchValue(services);
+        })
+      )
+      .subscribe();
   }
 
   ngOnInit(): void {}
 
   fetch(): void {
-    this.services$ = this.serviceService.getAll$();
+    this.serviceListData$ = this.serviceService.getAll$();
   }
 
   private createForm(): void {

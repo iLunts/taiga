@@ -9,7 +9,13 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParams } from '@ngrx/data';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 
@@ -22,6 +28,9 @@ import { environment } from 'src/environments/environment';
 import { Invoice } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
+import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
+import { StoreService } from 'src/app/services/store.service';
+import { Status } from 'src/app/models/status.model';
 
 @Component({
   selector: 'app-act-create',
@@ -32,8 +41,8 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
   @ViewChild('inputNumber') inputNumber: any;
 
-  private readonly destroy$ = new Subject();
-  act: Act = new Act(this.afs.createId());
+  private readonly destroySubject = new Subject();
+  // act: Act = new Act(this.afs.createId());
   form: FormGroup;
   isEditingNumber: boolean;
   queryParams: QueryParams;
@@ -45,34 +54,46 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private companyService: CompanyService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private rentalCertificateService: RentalCertificateService,
+    private storeService: StoreService
   ) {
     this.initForm();
 
     this.route.queryParams
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params) => {
-        this.queryParams = params;
-      });
+      .pipe(
+        tap((queryParams) => this.initQueryParams(queryParams)),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe();
 
-    this.initQueryParams();
-
+    // TODO: Need found another way how we can quicly get current Company
     this.companyService
       .getProfileCompany$()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroySubject))
       .subscribe((company: Company[]) => {
         if (company?.length) {
-          this.act.profileCompany = company[0];
           this.form.controls.profileCompany.setValue(company[0]);
         }
       });
+
+    this.storeService
+      .getContractor$()
+      .pipe(
+        filter((contractor) => !!contractor),
+        distinctUntilChanged(),
+        tap((contractor) => this.form.controls.contractor.setValue(contractor)),
+        takeUntil(this.destroySubject),
+        shareReplay()
+      )
+      .subscribe();
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroy$.next(null);
-    this.destroy$.complete();
+    this.destroySubject.next(null);
+    this.destroySubject.complete();
   }
 
   initForm(): void {
@@ -95,21 +116,40 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     });
   }
 
-  initQueryParams(): void {
+  initQueryParams(queryParams: QueryParams): void {
+    this.queryParams = queryParams;
+
+    if (this.queryParams?.rentalCertificateId) {
+      this.rentalCertificateService
+        .getById$(this.queryParams?.rentalCertificateId.toString())
+        .pipe(
+          filter((rentalCertificate) => !!rentalCertificate),
+          tap((rentalCertificate) => {
+            this.form.controls.status.setValue(rentalCertificate.status);
+
+            // TODO: Need connect this part
+            // this.form.controls.services.patchValue(
+            //   rentalCertificate[0].services
+            // );
+          }),
+          takeUntil(this.destroySubject)
+        )
+        .subscribe();
+    }
     if (this.queryParams?.invoiceId) {
       this.invoiceService
         .getById$(this.queryParams?.invoiceId.toString())
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroySubject))
         .subscribe((invoices: Invoice[]) => {
           if (invoices?.length) {
             const invoice: Invoice = invoices[0];
 
             this.form.controls.number.setValue(invoice.number);
             this.form.controls.contractor.setValue(invoice.contractor);
-            // this.form.controls.services.setValue(invoice.services);
             this.form.controls._invoiceId.setValue(this.queryParams?.invoiceId);
 
-            this.setService(invoice.services);
+            // TODO: Need connect this part
+            // this.setService(invoice.services);
           }
         });
     }
@@ -125,33 +165,24 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     );
   }
 
-  setStatus(data: ActStatus): void {
-    if (this.act) {
-      this.act.status = data;
-      this.form.controls.status.setValue(data);
-    }
+  setStatus(data: Status): void {
+    this.form.controls.status.setValue(data);
+    this.form.controls.status.markAsDirty();
   }
 
   setContractor(data: Contractor): void {
-    if (this.act) {
-      this.act.contractor = data;
-      this.form.controls.contractor.setValue(data);
-      this.form.controls.contract.reset();
-    }
+    this.form.controls.contractor.setValue(data);
+    this.form.controls.contract.reset();
   }
 
   setContract(data: Contract): void {
-    if (this.act) {
-      this.act.contract = data;
-      this.form.controls.contract.setValue(data);
-    }
+    this.form.controls.contract.setValue(data);
+    this.form.controls.contract.markAsDirty();
   }
 
   setService(data: Service[]): void {
-    if (this.act) {
-      this.act.services = data;
-      this.form.controls.services.setValue(data);
-    }
+    this.form.controls.services.setValue(data);
+    this.form.controls.services.markAsDirty();
   }
 
   save(): void {
@@ -164,15 +195,17 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   }
 
   cancel(): void {
+    // if (this.form.dirty) {
+    // } else {
+    //   this.router.navigate([environment.routing.admin.invoice.list]);
+    // }
+
     this.router.navigate([environment.routing.admin.invoice.list]);
   }
 
   get isActValid(): boolean {
-    if (this.act) {
-      return this.act.isValid(this.act);
-    } else {
-      return false;
-    }
+    // TODO: Need add function for checking Act data
+    return true;
   }
 
   get getQrCode(): any {

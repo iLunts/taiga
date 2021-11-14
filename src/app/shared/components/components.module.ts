@@ -5,12 +5,13 @@ import { RouterModule } from '@angular/router';
 import { BankModule } from './bank/bank.module';
 import { CompanyModule } from './company/company.module';
 import { ContractorModule } from './contractor/contractor.module';
+import { EmptyModule } from './empty/empty.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { LeftMenuModule } from './left-menu/left-menu.module';
 import { ServiceModule } from './service/service.module';
 import { StatusModule } from './status/status.module';
-import { UploadImageModule } from './upload-image/upload-image.module';
 import { UploaderModule } from './uploader/uploader.module';
+import { UploadImageModule } from './upload-image/upload-image.module';
 
 @NgModule({
   declarations: [],
@@ -19,25 +20,27 @@ import { UploaderModule } from './uploader/uploader.module';
     CommonModule,
     CompanyModule,
     ContractorModule,
+    EmptyModule,
     InvoiceModule,
     LeftMenuModule,
     RouterModule,
     ServiceModule,
     StatusModule,
-    UploadImageModule,
-    UploaderModule
+    UploaderModule,
+    UploadImageModule
   ],
   exports: [
     BankModule,
     CompanyModule,
     ContractorModule,
+    EmptyModule,
     InvoiceModule,
     LeftMenuModule,
     RouterModule,
     ServiceModule,
     StatusModule,
-    UploadImageModule,
-    UploaderModule
+    UploaderModule,
+    UploadImageModule
   ]
 })
 export class ComponentsModule {}

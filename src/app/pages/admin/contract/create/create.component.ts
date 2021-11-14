@@ -27,7 +27,7 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -80,7 +80,8 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
         filter((contractor) => !!contractor),
         distinctUntilChanged(),
         tap((contractor) => this.setContractor(contractor)),
-        shareReplay()
+        shareReplay(),
+        takeUntil(this.destroySubject)
       )
       .subscribe();
 
@@ -169,7 +170,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
-    this.stateInProgress.emit(true);
+    this.stateInProgress.next(true);
 
     // TODO: NEED UPDATE INVOICE and set _contractId;
     if (this.isQrCodeValid) {

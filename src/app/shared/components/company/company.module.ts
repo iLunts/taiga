@@ -21,6 +21,7 @@ import {
 } from '@taiga-ui/core';
 import { CompanyBankComponent } from './company-bank/company-bank.component';
 import { BankModule } from '../bank/bank.module';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { BankModule } from '../bank/bank.module';
     TuiExpandModule,
     TuiFieldErrorModule,
     TuiInputModule,
+    TuiLetModule,
     TuiLoaderModule,
     TuiNotificationModule,
     TuiTooltipModule
