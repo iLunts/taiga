@@ -15,7 +15,8 @@
           <app-status-panel
             class="tui-form__multi-field"
             type="act"
-            (selected)="setStatus($event)"
+            [status]="f.status.value"
+            (changed)="setStatus($event)"
           ></app-status-panel>
 
           <tui-input-date

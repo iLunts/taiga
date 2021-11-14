@@ -9,13 +9,11 @@ import {
 import {
   distinctUntilChanged,
   filter,
-  map,
-  shareReplay,
   switchMap,
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 import { Status } from 'src/app/models/status.model';
@@ -33,6 +31,12 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
   private typeSubject = new ReplaySubject<string>(1);
   type$ = this.typeSubject.asObservable();
 
+  @Input() set status(value: Status) {
+    this.statusSubject.next(value);
+  }
+  private statusSubject = new ReplaySubject<Status>(1);
+  status$: Observable<Status> = this.statusSubject.asObservable();
+
   @Output() changed = new EventEmitter<Status>();
 
   statuses$: Observable<Status[]>;
@@ -44,21 +48,29 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
     // TODO: Need to check twiceCall
     this.statuses$ = this.type$.pipe(
       filter((type: string) => !!type),
-      distinctUntilChanged(),
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
       switchMap((type: string) =>
         this.statusesService.getAll$(type).pipe(
           filter((statuses) => !!statuses),
           tap((statuses: Status[]) => this.selectStatus(statuses[0]))
         )
-      ),
-      shareReplay()
+      )
+      // shareReplay()
     );
+
+    this.statusSubject
+      .pipe(
+        filter((status) => !!status),
+        tap((status) => this.selectStatus(status)),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe();
 
     // TODO: Need to check twiceCall
     this.statusControl.valueChanges
       .pipe(
         filter((status: Status) => !!status),
-        distinctUntilChanged(),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
         tap((status: Status) => this.selectStatus(status)),
         takeUntil(this.destroySubject)
       )

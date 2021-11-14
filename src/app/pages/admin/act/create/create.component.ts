@@ -125,7 +125,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
         .pipe(
           filter((rentalCertificate) => !!rentalCertificate),
           tap((rentalCertificate) => {
-            this.form.controls.status.setValue(rentalCertificate.status);
+            this.form.controls.status.setValue(rentalCertificate[0].status);
 
             // TODO: Need connect this part
             // this.form.controls.services.patchValue(
@@ -190,7 +190,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       this.form.controls.qrCode.setValue(this.getQrCode);
     }
     this.actService.add$(this.form.value).subscribe(() => {
-      this.router.navigate([environment.routing.admin.invoice.list]);
+      this.router.navigate([environment.routing.admin.act.list]);
     });
   }
 
@@ -200,7 +200,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     //   this.router.navigate([environment.routing.admin.invoice.list]);
     // }
 
-    this.router.navigate([environment.routing.admin.invoice.list]);
+    this.router.navigate([environment.routing.admin.act.list]);
   }
 
   get isActValid(): boolean {
