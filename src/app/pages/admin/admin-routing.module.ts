@@ -60,11 +60,11 @@ const routes: Routes = [
           }
         ]
       },
-      {
-        path: 'auth',
-        loadChildren: () =>
-          import('./auth/auth.module').then((m) => m.AuthModule)
-      },
+      // {
+      //   path: 'auth',
+      //   loadChildren: () =>
+      //     import('../default/auth/auth.module').then((m) => m.AuthModule)
+      // },
       {
         path: 'dashboard',
         loadChildren: () =>

@@ -18,6 +18,7 @@ import localeRu from '@angular/common/locales/ru';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { ContractorAsideLayoutComponent } from './layouts/contractor-aside-layout/contractor-aside-layout.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 // import { EffectsModule } from '@ngrx/effects';
 // import { entityConfig } from './entity-metadata';
 // import { EntityDataModule } from '@ngrx/data';
@@ -35,6 +36,7 @@ registerLocaleData(localeRu);
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    AuthLayoutComponent,
     ContractorAsideLayoutComponent,
     DefaultLayoutComponent
   ],

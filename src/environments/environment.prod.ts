@@ -16,9 +16,11 @@ export const environment = {
     default: {
       home: '/home'
     },
+    auth: {
+      login: '/auth/login',
+      registration: '/auth/registration'
+    },
     admin: {
-      login: '/admin/auth/login',
-      registration: '/admin/auth/registration',
       dashboard: '/admin/dashboard',
       invoice: {
         list: '/admin/invoices',
