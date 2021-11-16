@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-empty-panel',
@@ -6,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./empty-panel.component.less']
 })
 export class EmptyPanelComponent implements OnInit {
+  @Input() title = 'Данные отсутствуют!';
+  @Input() buttonText = 'Добавить';
+  @Input() link = '123';
+
+  routing = environment.routing;
+
   constructor() {}
 
   ngOnInit(): void {}

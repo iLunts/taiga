@@ -95,15 +95,24 @@
       </div>
     </div>
 
-    <p class="empty-container__title">Данные отсутствуют!</p>
+    <p class="empty-container__title">{{ title }}</p>
     <p class="empty-container__text">
       Пока тут ничего нет, возможно вы ничего не создали,
       <br />
       но вы можете изменить это, нажав на кнопку "добавить".
     </p>
 
-    <!-- <p class="empty-container__link">
-      <a [routerLink]="['/']">Вернуться на главную страницу</a>
-    </p> -->
+    <p class="empty-container__link" *ngIf="link">
+      <button
+        class="tui-space_top-5"
+        tuiButton
+        size="m"
+        iconRight="tuiIconPlus"
+        [title]="buttonText"
+        [routerLink]="[routing.admin.rentalCertificate.create]"
+      >
+        {{ buttonText }}
+      </button>
+    </p>
   </div>
 </div>
