@@ -27,7 +27,11 @@
 </div>
 
 <section class="page-body">
-  <ng-container *ngIf="invoices$ | async as invoices">
+  <app-empty-panel *ngIf="!(invoices$ | async)?.length"></app-empty-panel>
+
+  <ng-container
+    *ngIf="(invoices$ | async)?.length && invoices$ | async as invoices"
+  >
     <table tuiTable [columns]="columns" class="tui-table">
       <thead>
         <tr tuiThGroup class="tui-table__tr">

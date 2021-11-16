@@ -14,7 +14,15 @@
 </div>
 
 <section class="page-body">
-  <ng-container *ngIf="rentalCertificates$ | async as rentalCertificates">
+  <app-empty-panel
+    *ngIf="!(rentalCertificates$ | async)?.length"
+  ></app-empty-panel>
+  <ng-container
+    *ngIf="
+      (rentalCertificates$ | async)?.length && rentalCertificates$
+        | async as rentalCertificates
+    "
+  >
     <table tuiTable [columns]="columns" class="tui-table">
       <thead>
         <tr class="tui-table__tr" tuiThGroup>

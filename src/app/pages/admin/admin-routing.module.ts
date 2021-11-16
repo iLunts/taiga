@@ -60,50 +60,12 @@ const routes: Routes = [
           }
         ]
       },
-      // {
-      //   path: 'auth',
-      //   loadChildren: () =>
-      //     import('../default/auth/auth.module').then((m) => m.AuthModule)
-      // },
       {
         path: 'dashboard',
         loadChildren: () =>
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
         canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'invoices',
-      //   loadChildren: () =>
-      //     import('./invoices/invoices.module').then((m) => m.InvoicesModule),
-      //   canActivate: [AuthGuard]
-      // },
-      // {
-      //   path: 'contract',
-      //   loadChildren: () =>
-      //     import('./contract/contract.module').then((m) => m.ContractModule),
-      //   canActivate: [AuthGuard]
-      // },
-      // {
-      //   path: 'contractor',
-      //   loadChildren: () =>
-      //     import('./contractor/contractor.module').then(
-      //       (m) => m.ContractorModule
-      //     ),
-      //   canActivate: [AuthGuard]
-      // },
-      // {
-      //   path: 'act',
-      //   loadChildren: () => import('./act/act.module').then((m) => m.ActModule),
-      //   canActivate: [AuthGuard]
-      // },
-      // {
-      //   path: 'rental-certificate',
-      //   loadChildren: () =>
-      //     import('./rental-certificate/rental-certificate.module').then(
-      //       (m) => m.RentalCertificateModule
-      //     ),
-      //   canActivate: [AuthGuard]
-      // },
       {
         path: 'settings',
         loadChildren: () =>

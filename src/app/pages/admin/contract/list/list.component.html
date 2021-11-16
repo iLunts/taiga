@@ -34,7 +34,10 @@
   size="l"
 >
   <section class="page-body">
-    <ng-container *ngIf="contracts$ | async as contracts">
+    <app-empty-panel *ngIf="!(contracts$ | async)?.length"></app-empty-panel>
+    <ng-container
+      *ngIf="(contracts$ | async)?.length && contracts$ | async as contracts"
+    >
       <table tuiTable [columns]="columns" class="tui-table">
         <thead>
           <tr class="tui-table__tr" tuiThGroup>

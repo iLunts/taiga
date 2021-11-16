@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
+import { EmptyPanelComponent } from './empty-panel/empty-panel.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  declarations: [EmptyPanelComponent],
+  imports: [CommonModule],
+  exports: [EmptyPanelComponent]
 })
-export class EmptyModule { }
+export class EmptyModule {}

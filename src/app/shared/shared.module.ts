@@ -11,15 +11,16 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
-import { environment } from 'src/environments/environment';
-import { ComponentsModule } from './components/components.module';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { ComponentsModule } from './components/components.module';
+import { environment } from 'src/environments/environment';
+import { StateInProgressDirective } from './directives/disabled-state.directive';
 import { TextMaskModule } from 'angular2-text-mask';
 import { TopMenuModule } from './components/top-menu/top-menu.module';
-import { DisabledStateDirective } from './directives/disabled-state.directive';
+import { EmptyModule } from './components/empty/empty.module';
 
 @NgModule({
-  declarations: [DisabledStateDirective],
+  declarations: [StateInProgressDirective],
   imports: [
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -29,6 +30,7 @@ import { DisabledStateDirective } from './directives/disabled-state.directive';
     AngularFirestoreModule,
     CommonModule,
     ComponentsModule,
+    EmptyModule,
     FormsModule,
     QRCodeModule,
     ReactiveFormsModule,
@@ -39,10 +41,11 @@ import { DisabledStateDirective } from './directives/disabled-state.directive';
   exports: [
     CommonModule,
     ComponentsModule,
-    DisabledStateDirective,
+    EmptyModule,
     FormsModule,
     QRCodeModule,
     ReactiveFormsModule,
+    StateInProgressDirective,
     TaigaModule,
     TextMaskModule,
     TopMenuModule

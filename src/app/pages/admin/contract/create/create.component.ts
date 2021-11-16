@@ -27,7 +27,7 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -55,7 +55,8 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
-  public stateInProgress = new EventEmitter<boolean>(false);
+  // public stateInProgress = new EventEmitter<boolean>(false);
+  stateInProgress = false;
 
   private readonly destroySubject = new Subject();
   templateContent = CONTRACT_TEMPLATE_ALL;
@@ -169,16 +170,15 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  // TODO: Need to rewrite this function to actionObservable
   save(): void {
-    this.stateInProgress.next(true);
-
     // TODO: NEED UPDATE INVOICE and set _contractId;
     if (this.isQrCodeValid) {
       this.form.controls.qrCode.setValue(this.getQrCode);
     }
 
     this.contractService.add$(this.form.value).subscribe((response) => {
-      this.stateInProgress.emit(false);
+      this.stateInProgress = false;
       this.router.navigate([environment.routing.admin.contract.list]);
     });
   }

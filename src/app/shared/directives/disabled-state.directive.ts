@@ -9,15 +9,19 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Directive({
-  selector: '[disabledState]'
+  selector: '[stateInProgress]'
 })
-export class DisabledStateDirective implements OnInit, OnDestroy {
-  @Input('disabledState') reenableButton: EventEmitter<boolean>;
-  @Output('disabledState') reenableButtonChange = new EventEmitter<boolean>();
+export class StateInProgressDirective implements OnInit, OnDestroy {
+  @Input() set stateInProgress(state: boolean) {
+    this.stateInProgressSubject.next(state);
+  }
+  private stateInProgressSubject = new BehaviorSubject<boolean>(false);
+
+  @Output() stateInProgressChange = new EventEmitter<boolean>();
   subscription: Subscription;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
@@ -28,22 +32,21 @@ export class DisabledStateDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.reenableButton
+    this.subscription = this.stateInProgressSubject
       .pipe(
-        tap((value) =>
-          value ? this.setProperties() : this.removeProperties()
-        ),
-        tap((value) => console.log('Got the value as ', value))
+        tap((value) => (value ? this.setProperties() : this.removeProperties()))
       )
       .subscribe();
   }
 
   setProperties(): void {
+    this.stateInProgressChange.emit(true);
     this.renderer.setAttribute(this.el.nativeElement, 'disabled', 'true');
     this.renderer.addClass(this.el.nativeElement, '_disabled-loader');
   }
 
   removeProperties(): void {
+    this.stateInProgressChange.emit(false);
     this.renderer.removeAttribute(this.el.nativeElement, 'disabled');
     this.renderer.removeClass(this.el.nativeElement, '_disabled-loader');
   }

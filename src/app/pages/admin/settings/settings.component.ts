@@ -16,17 +16,17 @@ export class SettingsComponent implements OnInit {
     },
     {
       label: 'Сотрудники',
-      url: this.routing.admin.settings.company,
+      url: this.routing.admin.settings.employees,
       icon: ''
     },
     {
       label: 'Мобильные приложения',
-      url: this.routing.admin.settings.company,
+      url: this.routing.admin.settings.apps,
       icon: ''
     },
     {
       label: 'Шаблоны',
-      url: this.routing.admin.settings.company,
+      url: this.routing.admin.settings.templates,
       icon: ''
     }
   ];

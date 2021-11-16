@@ -1,4 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  BehaviorSubject,
+  interval,
+  merge,
+  Observable,
+  of,
+  Subject
+} from 'rxjs';
+import { filter, shareReplay, tap } from 'rxjs/operators';
 
 import { Company } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
@@ -13,13 +22,34 @@ export class ContractorListComponent implements OnInit {
   readonly columns = ['unp', 'name', 'action'];
   routing = environment.routing;
   isOpenAsideContractorView: boolean;
+  private testSubject = new BehaviorSubject<boolean>(false);
+  test$ = this.testSubject.asObservable();
 
-  constructor(private contractorService: ContractorService) {}
+  constructor(private contractorService: ContractorService) {
+    this.test$.pipe(
+      filter((data) => !!data),
+      tap((data) => console.log('Data: ', data)),
+      shareReplay()
+    );
+  }
 
   ngOnInit(): void {}
 
   toggleAsideContractorView(contractor: Company): void {
     this.isOpenAsideContractorView = !this.isOpenAsideContractorView;
     this.contractorService.setContractor(contractor);
+  }
+
+  getTestSubject$(): Observable<boolean> {
+    return this.testSubject.asObservable();
+  }
+
+  test(): void {
+    this.testSubject.next(true);
+
+    // const clicks = of(1);
+    // const timer = interval(5000);
+    // const clicksOrTimer = merge(clicks, timer);
+    // clicksOrTimer.subscribe((x) => console.log(x));
   }
 }

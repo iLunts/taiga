@@ -5,13 +5,24 @@ import { SettingsComponent } from './settings.component';
 const routes: Routes = [
   {
     path: '',
-    component: SettingsComponent
-  },
-  {
-    path: 'company',
-    loadChildren: () =>
-      import('./company/company.module').then((m) => m.CompanyModule)
+    component: SettingsComponent,
+    children: [
+      {
+        path: 'company',
+        loadChildren: () =>
+          import('./company/company.module').then((m) => m.CompanyModule)
+      }
+    ]
   }
+  // {
+  //   path: '',
+  //   component: SettingsComponent
+  // },
+  // {
+  //   path: 'company',
+  //   loadChildren: () =>
+  //     import('./company/company.module').then((m) => m.CompanyModule)
+  // }
 ];
 
 @NgModule({

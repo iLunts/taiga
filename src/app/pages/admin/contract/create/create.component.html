@@ -89,8 +89,8 @@
           type="button"
           class="tui-space_right-3 tui-space_bottom-3"
           appearance="outline"
+          [(stateInProgress)]="stateInProgress"
           (click)="cancel()"
-          [disabledState]="stateInProgress"
         >
           Отменить
         </button>
@@ -98,8 +98,8 @@
           tuiButton
           type="button"
           class="tui-space_right-3 tui-space_bottom-3"
+          [(stateInProgress)]="stateInProgress"
           (click)="save()"
-          [disabledState]="stateInProgress"
         >
           Создать
         </button>

@@ -47,8 +47,11 @@ export const environment = {
         create: '/admin/rental-certificate/create'
       },
       settings: {
+        apps: '/admin/settings/apps',
+        company: '/admin/settings/company',
+        employees: '/admin/settings/employees',
         main: '/admin/settings',
-        company: '/admin/settings/company'
+        templates: '/admin/settings/templates'
       }
     }
   }

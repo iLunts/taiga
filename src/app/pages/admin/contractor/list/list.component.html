@@ -13,7 +13,19 @@
   </button>
 </div>
 
-<section class="page-body"></section>
+<section class="page-body">
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новый"
+    shape="rounded"
+    (click)="test()"
+  >
+    Test Subject
+  </button>
+</section>
 
 <aside class="aside _right _close" *ngIf="isOpenAsideContractorView">
   <div class="aside__panel">
