@@ -8,31 +8,84 @@
     textContent="Ожидайте..."
   >
     <div class="tui-container tui-container_full">
-      <div class="tui-form__row tui-form__row_multi-fields">
-        <div class="tui-form__multi-field">
-          <h3 class="">Информация</h3>
-          <p class="">Описание</p>
+      <!-- УНП -->
+      <div class="tui-form__row tui-form__row_multi-fields info-group">
+        <div
+          class="tui-form__multi-field info-group__item info-group__item-info"
+        >
+          <h3 class="info-group__item-title">Учётный номер плательщика</h3>
+          <p class="info-group__item-desc">
+            единый уникальный номер, присваиваемый каждому плательщику при
+            постановке на учёт в налоговом органе в Беларуси, и используемый по
+            всем налогам, сборам, пошлинам, в том числе по таможенным платежам.
+          </p>
         </div>
-        <div class="tui-form__multi-field">
+        <div class="tui-form__multi-field info-group__item">
           <app-company-unp></app-company-unp>
+        </div>
+      </div>
+
+      <!-- Адрес -->
+      <div class="tui-form__row tui-form__row_multi-fields info-group">
+        <div
+          class="tui-form__multi-field info-group__item info-group__item-info"
+        >
+          <h3 class="info-group__item-title">Адрес</h3>
+          <p class="info-group__item-desc">
+            необходимо указать реальный юридический адрес контрагента. Данный
+            адрес будет указываться в реквизитах контрагента на всех документах
+          </p>
+        </div>
+        <div class="tui-form__multi-field info-group__item">
+          <app-company-address></app-company-address>
+        </div>
+      </div>
+
+      <!-- Банк -->
+      <div class="tui-form__row tui-form__row_multi-fields info-group">
+        <div
+          class="tui-form__multi-field info-group__item info-group__item-info"
+        >
+          <h3 class="info-group__item-title">Банк</h3>
+          <p class="info-group__item-desc">
+            необходимо указать реальный юридический адрес контрагента. Данный
+            адрес будет указываться в реквизитах контрагента на всех документах
+          </p>
+        </div>
+        <div class="tui-form__multi-field info-group__item">
+          <app-company-bank></app-company-bank>
         </div>
       </div>
     </div>
 
-    <section>
+    <!-- Ответственное лицо -->
+    <div class="tui-form__row tui-form__row_multi-fields info-group">
+      <div class="tui-form__multi-field info-group__item info-group__item-info">
+        <h3 class="info-group__item-title">Ответственное лицо</h3>
+        <p class="info-group__item-desc">
+          необходимо указать реальный юридический адрес контрагента. Данный
+          адрес будет указываться в реквизитах контрагента на всех документах
+        </p>
+      </div>
+      <div class="tui-form__multi-field info-group__item">
+        <app-responsible-person-panel></app-responsible-person-panel>
+      </div>
+    </div>
+
+    <!-- <section>
       <h3 class="tui-space_top-10">Адрес</h3>
       <app-company-address></app-company-address>
-    </section>
+    </section> -->
 
-    <section>
+    <!-- <section>
       <h3 class="tui-space_top-10">Банк</h3>
       <app-company-bank></app-company-bank>
-    </section>
+    </section> -->
 
-    <section>
+    <!-- <section>
       <h3 class="tui-space_top-10">Ответственное лицо</h3>
       <app-responsible-person-panel></app-responsible-person-panel>
-    </section>
+    </section> -->
 
     <section class="tui-space_top-10">
       <button
