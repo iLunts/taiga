@@ -19,9 +19,21 @@
     tuiButton
     size="s"
     iconRight="tuiIconPlus"
+    title="Cancel"
+    shape="rounded"
+    [stateInProgress]="stateInProgress$ | async"
+  >
+    Cancel
+  </button>
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
     title="Создать новый"
     shape="rounded"
     (click)="test()"
+    [stateInProgress]="stateInProgress$ | async"
   >
     Test Subject
   </button>

@@ -26,12 +26,14 @@ import { ContractListComponent } from './list/list.component';
 import { ContractRoutingModule } from './contract-routing.module';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
 
 @NgModule({
   declarations: [ContractCreateComponent, ContractListComponent],
   imports: [
     CommonModule,
     ContractRoutingModule,
+    ContractorModule,
     HeaderModule,
     SharedModule,
     TuiAvatarModule,

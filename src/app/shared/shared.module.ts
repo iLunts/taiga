@@ -14,7 +14,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { ComponentsModule } from './components/components.module';
 import { environment } from 'src/environments/environment';
-import { StateInProgressDirective } from './directives/disabled-state.directive';
+import { StateInProgressDirective } from './directives/state-in-progress.directive';
 import { TextMaskModule } from 'angular2-text-mask';
 import { TopMenuModule } from './components/top-menu/top-menu.module';
 import { EmptyModule } from './components/empty/empty.module';

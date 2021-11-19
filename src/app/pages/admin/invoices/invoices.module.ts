@@ -25,10 +25,12 @@ import {
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
+import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 
 @NgModule({
   declarations: [InvoicesCreateComponent, InvoicesListComponent],
   imports: [
+    BreadcrumbsModule,
     CommonModule,
     ContractorModule,
     HeaderModule,

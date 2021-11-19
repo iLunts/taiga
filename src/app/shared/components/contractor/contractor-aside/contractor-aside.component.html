@@ -12,6 +12,7 @@
       icon="tuiIconSearch"
       iconAlign="left"
       tuiTextfieldSize="m"
+      appearance="aside-search"
     >
       Поиск
     </tui-input>
@@ -71,6 +72,7 @@
             icon="tuiIconEyeOpen"
             title="Просмотреть"
             shape="rounded"
+            [disabled]="true"
             (click)="toggleAsideContractorView(item)"
           ></button>
           <button
@@ -80,6 +82,7 @@
             icon="tuiIconTrash"
             title="Удалить"
             shape="rounded"
+            [disabled]="true"
             (click)="delete(item)"
           ></button>
         </div>

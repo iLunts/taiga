@@ -1,16 +1,19 @@
 <div class="page-header">
-  <h1 class="tui-text_h3 page__title">Счета</h1>
-  <button
-    class="tui-space_left-5"
-    tuiButton
-    size="s"
-    iconRight="tuiIconPlus"
-    title="Создать новый"
-    shape="rounded"
-    [routerLink]="[routing.admin.invoice.create]"
-  >
-    Создать новый
-  </button>
+  <div class="page-header__header">
+    <h1 class="tui-text_h3 page-header__title">Счета</h1>
+    <button
+      class="tui-space_left-5"
+      tuiButton
+      size="s"
+      iconRight="tuiIconPlus"
+      title="Создать новый"
+      shape="rounded"
+      [routerLink]="[routing.admin.invoice.create]"
+    >
+      Создать новый
+    </button>
+    <!-- <app-breadcrumbs></app-breadcrumbs> -->
+  </div>
   <tui-tabs-with-more
     class="page-header__tabs"
     [activeItemIndex]="getTabActiveIndex"

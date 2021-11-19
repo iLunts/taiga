@@ -21,7 +21,6 @@ export class StateInProgressDirective implements OnInit, OnDestroy {
   }
   private stateInProgressSubject = new BehaviorSubject<boolean>(false);
 
-  @Output() stateInProgressChange = new EventEmitter<boolean>();
   subscription: Subscription;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
@@ -40,13 +39,11 @@ export class StateInProgressDirective implements OnInit, OnDestroy {
   }
 
   setProperties(): void {
-    this.stateInProgressChange.emit(true);
     this.renderer.setAttribute(this.el.nativeElement, 'disabled', 'true');
     this.renderer.addClass(this.el.nativeElement, '_disabled-loader');
   }
 
   removeProperties(): void {
-    this.stateInProgressChange.emit(false);
     this.renderer.removeAttribute(this.el.nativeElement, 'disabled');
     this.renderer.removeClass(this.el.nativeElement, '_disabled-loader');
   }

@@ -27,7 +27,7 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -86,14 +86,6 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.route.queryParams
-      .pipe(filter((params) => params?.contractorId))
-      .subscribe((params) => {
-        this.queryParams = params;
-      });
-
-    this.initQueryParams();
-
     this.companyService
       .getProfileCompany$()
       .pipe(takeUntil(this.destroySubject))
@@ -102,6 +94,14 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
           this.form.controls.profileCompany.setValue(company[0]);
         }
       });
+
+    this.route.queryParams
+      .pipe(filter((params) => params?.contractorId))
+      .subscribe((params) => {
+        this.queryParams = params;
+      });
+
+    this.initQueryParams();
   }
 
   ngOnInit(): void {}
@@ -158,15 +158,20 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  get f(): any {
+    return this.form.controls;
+  }
+
   setStatus(data: any): void {
     if (this.form) {
       this.form.controls.status.setValue(data);
     }
   }
 
-  setContractor(data: Company): void {
+  setContractor(contractor: Company): void {
     if (this.form) {
-      this.form.controls.contractor.setValue(data);
+      this.form.controls.contractor.setValue(contractor);
+      // this.form.controls.contractor.patchValue(contractor);
     }
   }
 

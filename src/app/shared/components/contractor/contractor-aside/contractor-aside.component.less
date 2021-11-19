@@ -1,9 +1,17 @@
 .contractor-aside {
-  padding: 1rem;
+  position: relative;
+  padding: 95px 1rem 1rem 1rem;
   height: 100vh;
 
   & &__search {
-    margin-bottom: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 0;
   }
 }
 
@@ -88,5 +96,21 @@
 
   & + & {
     margin-top: 1rem;
+  }
+}
+
+:host ::ng-deep tui-wrapper[data-appearance='textfield'] {
+  box-shadow: none;
+  border-radius: 0;
+  border-width: 0;
+  height: 80px;
+
+  &._focused {
+    border-width: 0;
+
+    &:after {
+      border-width: 0;
+      border-bottom-width: 2px;
+    }
   }
 }

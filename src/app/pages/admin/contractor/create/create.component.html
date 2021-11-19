@@ -1,52 +1,61 @@
 <app-header-create title="Создание контрагента"></app-header-create>
 
-<tui-loader
-  [showLoader]="isLoading"
-  [overlay]="true"
-  size="l"
-  textContent="Ожидайте..."
->
-  <section>
-    <h3 class="tui-space_top-10">Информация</h3>
-    <app-company-unp></app-company-unp>
-  </section>
+<div class="page-body">
+  <tui-loader
+    [showLoader]="isLoading"
+    [overlay]="true"
+    size="l"
+    textContent="Ожидайте..."
+  >
+    <div class="tui-container tui-container_full">
+      <div class="tui-form__row tui-form__row_multi-fields">
+        <div class="tui-form__multi-field">
+          <h3 class="">Информация</h3>
+          <p class="">Описание</p>
+        </div>
+        <div class="tui-form__multi-field">
+          <app-company-unp></app-company-unp>
+        </div>
+      </div>
+    </div>
 
-  <section>
-    <h3 class="tui-space_top-10">Адрес</h3>
-    <app-company-address></app-company-address>
-  </section>
+    <section>
+      <h3 class="tui-space_top-10">Адрес</h3>
+      <app-company-address></app-company-address>
+    </section>
 
-  <section>
-    <h3 class="tui-space_top-10">Банк</h3>
-    <app-company-bank></app-company-bank>
-  </section>
+    <section>
+      <h3 class="tui-space_top-10">Банк</h3>
+      <app-company-bank></app-company-bank>
+    </section>
 
-  <section>
-    <h3 class="tui-space_top-10">Ответственное лицо</h3>
-    <app-responsible-person-panel></app-responsible-person-panel>
-  </section>
+    <section>
+      <h3 class="tui-space_top-10">Ответственное лицо</h3>
+      <app-responsible-person-panel></app-responsible-person-panel>
+    </section>
 
-  <section class="tui-space_top-10">
-    <button
-      class="tui-space_right-3"
-      tuiButton
-      type="button"
-      [showLoader]="false"
-      [size]="'m'"
-      appearance="secondary"
-      (click)="cancel()"
-    >
-      Отменить
-    </button>
-    <button
-      tuiButton
-      type="button"
-      [showLoader]="false"
-      [size]="'m'"
-      [disabled]="!isValid"
-      (click)="save()"
-    >
-      Добавить
-    </button>
-  </section>
-</tui-loader>
+    <section class="tui-space_top-10">
+      <button
+        class="tui-space_right-3"
+        tuiButton
+        type="button"
+        [showLoader]="false"
+        [size]="'m'"
+        appearance="secondary"
+        (click)="cancel()"
+      >
+        Отменить
+      </button>
+      <button
+        tuiButton
+        type="button"
+        [showLoader]="false"
+        [size]="'m'"
+        [disabled]="!isValid"
+        (click)="save()"
+      >
+        Добавить
+      </button>
+    </section>
+  </tui-loader>
+</div>

@@ -22,11 +22,11 @@ export class ContractorListComponent implements OnInit {
   readonly columns = ['unp', 'name', 'action'];
   routing = environment.routing;
   isOpenAsideContractorView: boolean;
-  private testSubject = new BehaviorSubject<boolean>(false);
-  test$ = this.testSubject.asObservable();
+  private stateInProgressSubject = new BehaviorSubject<boolean>(false);
+  stateInProgress$ = this.stateInProgressSubject.asObservable();
 
   constructor(private contractorService: ContractorService) {
-    this.test$.pipe(
+    this.stateInProgress$.pipe(
       filter((data) => !!data),
       tap((data) => console.log('Data: ', data)),
       shareReplay()
@@ -40,12 +40,16 @@ export class ContractorListComponent implements OnInit {
     this.contractorService.setContractor(contractor);
   }
 
-  getTestSubject$(): Observable<boolean> {
-    return this.testSubject.asObservable();
-  }
+  // getTestSubject$(): Observable<boolean> {
+  //   return this.stateInProgressSubject.asObservable();
+  // }
 
   test(): void {
-    this.testSubject.next(true);
+    this.stateInProgressSubject.next(true);
+
+    setTimeout(() => {
+      this.stateInProgressSubject.next(false);
+    }, 5000);
 
     // const clicks = of(1);
     // const timer = interval(5000);
