@@ -6,14 +6,16 @@ import { CompanyRoutingModule } from './company-routing.module';
 import { LogotypeComponent } from './tabs/logotype/logotype.component';
 import { InformationComponent } from './tabs/information/information.component';
 import { BanksComponent } from './tabs/banks/banks.component';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiNotificationModule } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
+  TuiBadgeModule,
   TuiInputNumberModule,
   TuiIslandModule,
   TuiMarkerIconModule
 } from '@taiga-ui/kit';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { HeaderModule } from 'src/app/shared/components/header/header.module';
 
 @NgModule({
   declarations: [
@@ -25,12 +27,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     CompanyRoutingModule,
+    HeaderModule,
     SharedModule,
-    TuiButtonModule,
     TuiAccordionModule,
+    TuiBadgeModule,
+    TuiButtonModule,
     TuiInputNumberModule,
     TuiIslandModule,
-    TuiMarkerIconModule
+    TuiMarkerIconModule,
+    TuiNotificationModule
   ],
   exports: [CompanyComponent]
 })

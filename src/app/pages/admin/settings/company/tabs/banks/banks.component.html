@@ -1,23 +1,20 @@
-<tui-accordion class="accordion" [rounded]="false" [closeOthers]="false">
-  <tui-accordion-item borders="all" [showArrow]="true">
-    <div class="accordion__header">
-      <div class="accordion__header-icon">
-        <tui-marker-icon
-          class="operation-icon"
-          src="tuiIconAlertCircleLarge"
-          size="s"
-          mode="primary"
-        ></tui-marker-icon>
-      </div>
-      <div class="accordion__title">Банк</div>
-      <div class="accordion__info">
-        <div class="accordion__status" [class._success]="isValid">
-          {{ isValid ? "Проверено" : "Не хватает данных" }}
-        </div>
-      </div>
-    </div>
-    <ng-template tuiAccordionItemContent>
-      <app-company-bank></app-company-bank>
-    </ng-template>
-  </tui-accordion-item>
-</tui-accordion>
+<div class="tui-form__row tui-form__row_multi-fields form-group">
+  <div class="tui-form__multi-field form-group__item form-group__item-info">
+    <h3 class="form-group__item-title">
+      Банк
+      <tui-badge
+        class="form-group__item-status"
+        [status]="(valid$ | async) ? 'success' : 'warning'"
+        [value]="(valid$ | async) ? 'Проверено' : 'Не хватает данных'"
+      ></tui-badge>
+    </h3>
+    <p class="form-group__item-desc">
+      Выберите банк из списка. вы пожете осуществлять поиск по наименованию
+      банка или по БИК(BIC) номеру. В случае отсутствия необходимого банка -
+      пожалуйста, сообщите технической поддержке.
+    </p>
+  </div>
+  <div class="tui-form__multi-field form-group__item">
+    <app-company-bank [company]="company$ | async"></app-company-bank>
+  </div>
+</div>

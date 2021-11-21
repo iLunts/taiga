@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, from, Observable, of } from 'rxjs';
+import { forkJoin, from, Observable } from 'rxjs';
 import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { CompanyService } from './company.service';
-import { map } from 'lodash';
 import { ContractorService } from './contractor.service';
 
 @Injectable({
@@ -14,9 +13,9 @@ export class EgrService {
   constructor(
     private _http: HttpClient,
     private notificationService: NotificationService,
-    private companyService: CompanyService,
-    private contractorService: ContractorService
-  ) {}
+    private companyService: CompanyService
+  ) // private contractorService: ContractorService
+  {}
 
   getBaseInfoByRegNum$(UNP: string): Observable<any> {
     return from(

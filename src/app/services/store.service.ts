@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { Contractor } from '../models/company.model';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,9 @@ export class StoreService {
   }
 
   getContractor$(): Observable<Contractor> {
-    return this.contractor$;
+    return this.contractor$.pipe(
+      distinctUntilChanged((a, b) => _.isEqual(a, b))
+    );
   }
 
   getSelectedContractorId(): string {

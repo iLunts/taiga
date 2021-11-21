@@ -1,13 +1,16 @@
+<p>Status: {{ valid$ | async | json }}</p>
+<p>Company bank: {{ (company$ | async)?.bankAccount?.bank | json }}</p>
+
 <app-bank-select
-  *ngIf="!isValidBank"
-  (change)="changeBank($event)"
+  *ngIf="!(valid$ | async)"
+  (change)="setBank($event)"
 ></app-bank-select>
 
 <app-bank-panel
-  *ngIf="isValidBank"
-  [data]="company.bankAccount.bank"
-  [isLoaded]="isValidBank"
-  (change)="changeBank()"
+  *ngIf="valid$ | async"
+  [bank]="(company$ | async)?.bankAccount?.bank"
+  [isLoaded]="valid$ | async"
+  (change)="clearBank()"
 ></app-bank-panel>
 
 <section class="tui-space_top-5">

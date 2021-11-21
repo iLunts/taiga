@@ -1,80 +1,100 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  takeUntil,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { iif, Observable, Subject } from 'rxjs';
 import * as _ from 'lodash';
 
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
-import { environment } from 'src/environments/environment';
+import { QueryParams } from '@ngrx/data';
 
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.less']
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyComponent implements OnInit, OnDestroy {
-  private readonly destroy$ = new Subject();
-  company: Company;
+  private readonly destroySubject = new Subject();
   isCompanyValid: boolean;
+  company$: Observable<Company>;
+  private actionCompanySubject = new Subject<void>();
+  // queryParams: QueryParams;
+  isCannotBeEmpty: boolean;
 
-  constructor(private companyService: CompanyService, private router: Router) {
+  constructor(
+    private companyService: CompanyService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.queryParams
+      .pipe(filter((params) => params.cannotBeEmpty))
+      .subscribe((params) => {
+        this.isCannotBeEmpty = true;
+      });
+
     this.getProfileCompany$();
 
-    this.companyService
-      .getCompanyState$()
-      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
-      .subscribe((company: Company) => {
-        this.company = company;
-        this.isCompanyValid = this.companyService.isCompanyValid(this.company);
-      });
+    this.company$ = this.companyService.getCompany$().pipe(
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      tap(() => console.log('Get company$'))
+    );
+
+    this.actionCompanySubject
+      .pipe(
+        withLatestFrom(this.company$),
+        map(([, company]) => company),
+        switchMap((company: Company) =>
+          iif(() => !!company._id, this.save$(company), this.update$(company))
+        ),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe();
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroySubject.next();
+    this.destroySubject.complete();
     this.companyService.clearCompany();
   }
 
   save(): void {
-    if (this.company._id) {
-      this.update();
-    } else {
-      this.companyService
-        .add$(this.company)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.router.navigate([environment.routing.admin.settings.main]);
-        });
-    }
+    this.actionCompanySubject.next();
   }
 
-  update(): void {
-    this.companyService
-      .update$(this.company._id, this.company)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.router.navigate([environment.routing.admin.settings.main]);
-      });
+  save$(company: Company): Observable<any> {
+    return this.companyService.add$(company);
+  }
+
+  update$(company: Company): Observable<any> {
+    return this.companyService.update$(company._id, company);
   }
 
   getProfileCompany$(): void {
     this.companyService
       .getProfileCompany$()
       .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged((a, b) => _.isEqual(a, b))
+        filter((company: Company) => !!company),
+        distinctUntilChanged((a, b) => _.isEqual(a, b)),
+        tap((company) => console.log('company: ', company)),
+        takeUntil(this.destroySubject)
       )
-      .subscribe((company: Company[]) => {
-        if (company?.length) {
-          this.company = company[0];
-          this.companyService.setCompany(this.company);
-        } else {
-          this.company = new Company();
-        }
-      });
+      .subscribe();
   }
 }

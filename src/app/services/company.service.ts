@@ -3,23 +3,33 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  from,
+  Observable,
+  of,
+  Subject
+} from 'rxjs';
 import * as _ from 'lodash';
 
 import { AuthService } from './auth.service';
 import { Company, CompanyAddress, CompanyInfo } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { Bank, BankAccount } from '../models/bank.model';
-import { User } from '../models/user.model';
+import { filter, first, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
-  private company$ = new BehaviorSubject<Company>(new Company());
   private dbPath = '/companies';
   private companyRef: AngularFirestoreCollection<Company> = null;
   private regexSWIFT = /^[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{20}$/;
+  private companySubject = new BehaviorSubject<Company>(new Company());
+  // private companySubject = new Subject<Company>();
+  company$: Observable<Company> = this.companySubject.asObservable();
 
   constructor(
     private authService: AuthService,
@@ -30,6 +40,8 @@ export class CompanyService {
       this.companyRef = this.afs.collection(this.dbPath, (q) =>
         q.where('_userId', '==', this.authService.getUserId())
       );
+
+      this.company$ = this.getProfileCompany$();
     }
   }
 
@@ -37,29 +49,44 @@ export class CompanyService {
     return this.companyRef.valueChanges();
   }
 
-  isCompanyValid(company: Company): boolean {
+  checkCompanyValid(company: Company): boolean {
     if (company) {
       return (
-        this.isCompanyInfoValid(company) &&
-        this.isCompanyBankValid(company) &&
-        this.isCompanySwiftValid(company.bankAccount.SWIFT)
+        this.checkCompanyInfoValid(company) &&
+        this.checkCompanyBankValid(company) &&
+        this.checkCompanySwiftValid(company.bankAccount.SWIFT)
       );
     } else {
       return false;
     }
   }
 
-  isCompanyInfoValid(company: Company): boolean {
-    if (company) {
-      return Object.values(company.info).every(
-        (info: CompanyInfo) => info !== null
-      );
-    } else {
-      return false;
-    }
+  checkCompanyValid$(): Observable<boolean> {
+    return this.company$.pipe(
+      filter((company) => !!company),
+      switchMap((company: Company) =>
+        forkJoin(
+          this.checkCompanyInfoValid$(company),
+          this.checkCompanyBankValid$(company),
+          this.checkCompanySwiftValid$(company.bankAccount.SWIFT)
+        ).pipe(map(([a, b]) => a && b))
+      )
+    );
   }
 
-  isCompanyBankValid(company: Company): boolean {
+  checkCompanyInfoValid(company: Company): boolean {
+    return Object.values(company.info).every(
+      (info: CompanyInfo) => info !== null
+    );
+  }
+
+  checkCompanyInfoValid$(company: Company): Observable<boolean> {
+    return of(
+      Object.values(company.info).every((info: CompanyInfo) => info !== null)
+    );
+  }
+
+  checkCompanyBankValid(company: Company): boolean {
     const bank = company?.bankAccount?.bank;
     let status = true;
 
@@ -77,34 +104,66 @@ export class CompanyService {
     return status;
   }
 
-  isCompanySwiftValid(swift: string): boolean {
+  checkCompanyBankValid$(company: Company): Observable<boolean> {
+    const bank = company?.bankAccount?.bank;
+    let status = true;
+
+    if (
+      !bank ||
+      !bank.CDBank ||
+      !bank.NmBankShort ||
+      !bank.CDHeadBank ||
+      !bank.AdrBank ||
+      bank.CdControl === 'ЗАКР'
+    ) {
+      status = false;
+    }
+
+    console.log('Update valid: ', status);
+
+    return of(status);
+  }
+
+  checkCompanySwiftValid(swift: string): boolean {
     return this.regexSWIFT.test(swift?.toUpperCase().replace(/\s/g, ''));
   }
 
+  checkCompanySwiftValid$(swift: string): Observable<boolean> {
+    return of(this.regexSWIFT.test(swift?.toUpperCase().replace(/\s/g, '')));
+  }
+
   setCompany(company: Company): void {
-    if (company) {
-      this.company$.next(company);
-    }
+    this.companySubject.next(company);
+    console.log('Set company: ', company);
   }
 
   getCompany(): Company {
-    if (this.company$.getValue()) {
-      return this.company$.getValue();
-    } else {
+    // TODO: Need rewrite to Observable !!!
+    // if (this.companySubject.getValue()) {
+    //   return this.companySubject.getValue();
+    // } else {
+    //   this.setCompany(new Company());
+    // }
+    if (!this.companySubject.getValue()) {
       this.setCompany(new Company());
     }
+    return this.companySubject.getValue();
   }
 
-  getProfileCompany$(): Observable<Company[]> {
+  getProfileCompany$(): Observable<Company> {
     const companyRef: AngularFirestoreCollection<Company> = this.afs.collection(
       this.dbPath,
       (q) => q.where('_userId', '==', this.authService.getUserId())
     );
-    return companyRef.valueChanges();
+    return companyRef.valueChanges().pipe(
+      first(),
+      map(([company]) => company),
+      tap((company: Company) => this.companySubject.next(company))
+    ) as Observable<Company>;
   }
 
-  getCompanyState$(): Observable<Company> {
-    return this.company$.asObservable();
+  getCompany$(): Observable<Company> {
+    return this.companySubject.asObservable();
   }
 
   clearCompanyInfo(): void {
@@ -185,5 +244,9 @@ export class CompanyService {
 
   isJuridicalAndPostalAddressSame(company: Company): boolean {
     return _.isEqual(company.juridicalAddress, company.mailingAddress);
+  }
+
+  isCompanyEmpty(): boolean {
+    return this.checkCompanyValid(this.getCompany());
   }
 }

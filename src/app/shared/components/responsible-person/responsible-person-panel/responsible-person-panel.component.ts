@@ -27,7 +27,7 @@ export class ResponsiblePersonPanelComponent implements OnInit, OnDestroy {
     this.initForm();
 
     this.companyService
-      .getCompanyState$()
+      .getCompany$()
       .pipe(takeUntil(this.destroy$))
       .subscribe((company: Company) => {
         this.company = company;

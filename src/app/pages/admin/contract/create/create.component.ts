@@ -89,10 +89,8 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
     this.companyService
       .getProfileCompany$()
       .pipe(takeUntil(this.destroySubject))
-      .subscribe((company: Company[]) => {
-        if (company?.length) {
-          this.form.controls.profileCompany.setValue(company[0]);
-        }
+      .subscribe((company: Company) => {
+        this.form.controls.profileCompany.setValue(company);
       });
 
     this.route.queryParams

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -15,22 +16,25 @@ export class ContractorCreateComponent implements OnInit {
 
   contractor: Contractor = new Contractor();
   isValid: boolean;
+  valid$: Observable<boolean>;
   isLoading = false;
 
   constructor(
-    private companyService: CompanyService,
+    // private companyService: CompanyService,
     private contractorService: ContractorService
   ) {}
 
   ngOnInit(): void {
-    this.companyService.getCompanyState$().subscribe((contractor: Company) => {
-      this.contractor = contractor;
-      this.checkValid();
-    });
+    this.valid$ = this.contractorService.checkContractorValid$();
+    // .subscribe((contractor: Company) => {
+    //   this.contractor = contractor;
+    //   console.log('Contractor: ', contractor);
+    //   // this.checkValid();
+    // });
   }
 
   checkValid(): void {
-    this.isValid = this.companyService.isCompanyValid(this.contractor);
+    // this.isValid = this.companyService.isCompanyValid(this.contractor);
   }
 
   save(): void {
@@ -42,7 +46,7 @@ export class ContractorCreateComponent implements OnInit {
   }
 
   cancel(): void {
-    this.companyService.clearCompany();
+    this.contractorService.clearContractor();
     this.close.emit(true);
   }
 }

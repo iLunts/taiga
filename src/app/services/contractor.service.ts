@@ -3,18 +3,20 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
-import { Observable, from, BehaviorSubject } from 'rxjs';
+import { Observable, from, BehaviorSubject, of } from 'rxjs';
 import * as _ from 'lodash';
 
 import { AuthService } from './auth.service';
-import { Contractor } from '../models/company.model';
+import { Contractor, ContractorInfo } from '../models/company.model';
 import { NotificationService } from './notification.service';
+import { filter, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContractorService {
   private dbPath = '/contractors';
+  private regexSWIFT = /^[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{20}$/;
   customersRef: AngularFirestoreCollection<Contractor> = null;
   customersExistRef: AngularFirestoreCollection<Contractor> = null;
   dbRef: AngularFirestoreCollection<Contractor> = null;
@@ -85,8 +87,8 @@ export class ContractorService {
     );
   }
 
-  update(_id: string, value: any): Promise<void> {
-    return this.customersRef.doc(_id).update(value);
+  update$(_id: string, value: any): Observable<any> {
+    return of(this.customersRef.doc(_id).update(value));
   }
 
   getContractorState$(): Observable<Contractor> {
@@ -177,5 +179,46 @@ export class ContractorService {
       : '';
 
     return bankInfo;
+  }
+
+  checkContractorValid$(): Observable<boolean> {
+    return this.contractor$.pipe(
+      filter((contractor) => !!contractor),
+      switchMap((contractor: Contractor) =>
+        of(
+          this.checkContractorInfoValid(contractor) &&
+            this.checkContractorBankValid(contractor) &&
+            this.checkContractorSwiftValid(contractor.bankAccount.SWIFT)
+        )
+      )
+    );
+  }
+
+  checkContractorInfoValid(contractor: Contractor): boolean {
+    return Object.values(contractor.info).every(
+      (info: ContractorInfo) => info !== null
+    );
+  }
+
+  checkContractorBankValid(contractor: Contractor): boolean {
+    const bank = contractor?.bankAccount?.bank;
+    let status = true;
+
+    if (
+      !bank ||
+      !bank.CDBank ||
+      !bank.NmBankShort ||
+      !bank.CDHeadBank ||
+      !bank.AdrBank ||
+      bank.CdControl === 'ЗАКР'
+    ) {
+      status = false;
+    }
+
+    return status;
+  }
+
+  checkContractorSwiftValid(swift: string): boolean {
+    return this.regexSWIFT.test(swift?.toUpperCase().replace(/\s/g, ''));
   }
 }

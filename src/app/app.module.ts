@@ -19,6 +19,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { ContractorAsideLayoutComponent } from './layouts/contractor-aside-layout/contractor-aside-layout.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { CompanyGuard } from './guards/company.guard';
 // import { EffectsModule } from '@ngrx/effects';
 // import { entityConfig } from './entity-metadata';
 // import { EntityDataModule } from '@ngrx/data';
@@ -58,6 +59,7 @@ registerLocaleData(localeRu);
   ],
   providers: [
     AuthGuard,
+    CompanyGuard,
     AsyncPipe,
     {
       provide: TUI_ICONS_PATH,

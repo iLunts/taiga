@@ -1,12 +1,13 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Company, CompanyInfo } from 'src/app/models/company.model';
 
@@ -19,6 +20,14 @@ import { EgrService } from 'src/app/services/egr.service';
   styleUrls: ['./company-unp.component.less']
 })
 export class CompanyUnpComponent implements OnInit, OnDestroy {
+  @Input() set company(company: Company) {
+    this.companySubject.next(company);
+  }
+  private companySubject = new BehaviorSubject<Company>(null);
+  company$: Observable<Company> = this.companySubject.asObservable();
+
+  @Input() canChange: boolean;
+
   @Output() return = new EventEmitter<CompanyInfo>();
 
   isValidCompany: boolean;
@@ -28,17 +37,17 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
     Validators.maxLength(9)
   ]);
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  company = new Company();
+  // company = new Company();
 
   constructor(
     private egrService: EgrService,
     private companyService: CompanyService
   ) {
-    this.companyService.getCompanyState$().subscribe((company: Company) => {
-      this.company = company;
-      this.return.emit(this.company.info);
-      this.checkValid();
-    });
+    // this.companyService.getCompany$().subscribe((company: Company) => {
+    //   this.company = company;
+    //   this.return.emit(this.company.info);
+    //   this.checkValid();
+    // });
   }
 
   ngOnInit(): void {
@@ -61,7 +70,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
   }
 
   private checkValid(): void {
-    this.isValidCompany = this.companyService.isCompanyInfoValid(this.company);
+    // this.isValidCompany = this.companyService.checkCompanyInfoValid(this.company);
   }
 
   clearCompanyInfo(): void {

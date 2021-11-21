@@ -1,39 +1,25 @@
-<tui-accordion class="accordion" [rounded]="false" [closeOthers]="false">
-  <tui-accordion-item borders="all" [showArrow]="true">
-    <div class="accordion__header">
-      <div class="accordion__header-icon">
-        <tui-marker-icon
-          class="operation-icon"
-          src="tuiIconAlertCircleLarge"
-          size="s"
-          mode="primary"
-        ></tui-marker-icon>
-      </div>
-      <div class="accordion__title">Информация о компании</div>
-      <div class="accordion__info">
-        <div class="accordion__status" [class._success]="isValid">
-          {{ isValid ? "Проверено" : "Не хватает данных" }}
-        </div>
-      </div>
-    </div>
-    <ng-template tuiAccordionItemContent>
-      <app-company-unp></app-company-unp>
-      <!-- <tui-input-number
-        *ngIf="!isCompanySelected"
-        class="tui-space_top-2"
-        [formControl]="unp"
-        min="100000000"
-        max="999999999"
-        (change)="getCompanyInformation()"
-      >
-        УНП
-      </tui-input-number> -->
-      <!-- <app-company-panel
-        *ngIf="isCompanySelected"
-        [data]="company"
-        [isLoaded]="isCompanySelected"
-        (change)="changeCompany()"
-      ></app-company-panel> -->
-    </ng-template>
-  </tui-accordion-item>
-</tui-accordion>
+<div class="tui-form__row tui-form__row_multi-fields form-group">
+  <div class="tui-form__multi-field form-group__item form-group__item-info">
+    <h3 class="form-group__item-title">
+      Информация
+      <tui-badge
+        class="form-group__item-status"
+        [status]="(valid$ | async) ? 'success' : 'warning'"
+        [value]="(valid$ | async) ? 'Проверено' : 'Не хватает данных'"
+      ></tui-badge>
+    </h3>
+    <p class="form-group__item-desc">
+      Введите УНП вашей организации для получения актуальных данных напрямую из
+      ЕГР. Создать компанию с отличными от ЕГР данными не представляется
+      возможным. В случае возникновения ошибок - пожалуйста, незамедлительно
+      сообщите нашей технической поддержке с указанием всех вводимых данных для
+      дальнейшего исправления ошибок.
+    </p>
+  </div>
+  <div class="tui-form__multi-field form-group__item">
+    <app-company-unp
+      [company]="company$ | async"
+      [canChange]="true"
+    ></app-company-unp>
+  </div>
+</div>

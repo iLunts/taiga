@@ -10,7 +10,7 @@ export class SettingsComponent implements OnInit {
   routing = environment.routing;
   menuList = [
     {
-      label: 'Компании',
+      label: 'Компания',
       url: this.routing.admin.settings.company,
       icon: ''
     },

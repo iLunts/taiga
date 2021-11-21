@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Bank } from 'src/app/models/bank.model';
 
 @Component({
@@ -14,18 +15,17 @@ import { Bank } from 'src/app/models/bank.model';
   templateUrl: './bank-panel.component.html',
   styleUrls: ['./bank-panel.component.less']
 })
-export class BankPanelComponent implements OnInit, OnChanges {
-  @Input() data: Bank;
+export class BankPanelComponent implements OnInit {
   @Input() isLoaded: boolean;
+  @Input() set bank(bank: Bank) {
+    this.bankSubject.next(bank);
+  }
+  private bankSubject = new BehaviorSubject<Bank>(null);
+  bank$: Observable<Bank> = this.bankSubject.asObservable();
+
   @Output() change = new EventEmitter<boolean>();
 
   constructor() {}
 
   ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.data) {
-      // this.companyService.isCompanyValid(changes.data.currentValue);
-    }
-  }
 }

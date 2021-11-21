@@ -31,7 +31,7 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
 
   constructor(private companyService: CompanyService) {
     this.companyService
-      .getCompanyState$()
+      .getCompany$()
       .pipe(takeUntil(this.destroy$))
       .subscribe((company: Company) => {
         this.company = company;
@@ -58,7 +58,9 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
   }
 
   private checkValid(): void {
-    this.isValidCompany = this.companyService.isCompanyInfoValid(this.company);
+    this.isValidCompany = this.companyService.checkCompanyInfoValid(
+      this.company
+    );
 
     if (this.isValidCompany) {
       this.samePostMailControl.enable();

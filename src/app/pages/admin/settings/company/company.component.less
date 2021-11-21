@@ -1,48 +1,51 @@
-@import "~@taiga-ui/core/styles/taiga-ui-local";
+@import '~@taiga-ui/core/styles/taiga-ui-local';
 
-.header {
-  position: sticky;
-  height: 80px;
-  margin: -15px -15px 15px;
-  padding: 15px;
-  border-bottom: 1px solid var(--color-graphite);
-}
+@import '../../../../../theme/page.less';
+@import '../../../../../theme/form-group.less';
 
-.accordion {
-  & &__header {
-    font: var(--tui-font-text-l);
-    display: flex;
-    align-items: center;
+// .header {
+//   position: sticky;
+//   height: 80px;
+//   margin: -15px -15px 15px;
+//   padding: 15px;
+//   border-bottom: 1px solid var(--color-graphite);
+// }
 
-    &-icon {
-      display: inline-flex;
-      flex-shrink: 0;
-      margin: 0 15px 0 0;
-    }
-  }
+// .accordion {
+//   & &__header {
+//     font: var(--tui-font-text-l);
+//     display: flex;
+//     align-items: center;
 
-  & &__title {
-    .text-overflow();
-    margin-right: 24px;
-    flex-grow: 1;
-  }
+//     &-icon {
+//       display: inline-flex;
+//       flex-shrink: 0;
+//       margin: 0 15px 0 0;
+//     }
+//   }
 
-  & &__info {
-    color: var(--tui-text-02);
-    text-align: right;
-  }
+//   & &__title {
+//     .text-overflow();
+//     margin-right: 24px;
+//     flex-grow: 1;
+//   }
 
-  & &__status {
-    font: var(--tui-font-text-s);
+//   & &__info {
+//     color: var(--tui-text-02);
+//     text-align: right;
+//   }
 
-    &._success {
-      color: var(--tui-success-fill);
-    }
-    &._error {
-      color: var(--tui-error-fill);
-    }
-  }
-}
+//   & &__status {
+//     font: var(--tui-font-text-s);
+
+//     &._success {
+//       color: var(--tui-success-fill);
+//     }
+//     &._error {
+//       color: var(--tui-error-fill);
+//     }
+//   }
+// }
 
 // :host
 //   ::ng-deep

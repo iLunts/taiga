@@ -19,7 +19,7 @@ import {
 import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 
-import { Act, ActStatus, TotalSum } from 'src/app/models/act.model';
+import { TotalSum } from 'src/app/models/act.model';
 import { ActService } from 'src/app/services/act.service';
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -71,10 +71,8 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     this.companyService
       .getProfileCompany$()
       .pipe(takeUntil(this.destroySubject))
-      .subscribe((company: Company[]) => {
-        if (company?.length) {
-          this.form.controls.profileCompany.setValue(company[0]);
-        }
+      .subscribe((company: Company) => {
+        this.form.controls.profileCompany.setValue(company[0]);
       });
 
     this.storeService
