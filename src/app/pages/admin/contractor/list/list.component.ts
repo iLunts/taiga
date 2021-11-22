@@ -1,37 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Contractor } from 'src/app/models/company.model';
+import {
+  BehaviorSubject,
+  interval,
+  merge,
+  Observable,
+  of,
+  Subject
+} from 'rxjs';
+import { filter, shareReplay, tap } from 'rxjs/operators';
+
+import { Company } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-contractor-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less'],
+  styleUrls: ['./list.component.less']
 })
 export class ContractorListComponent implements OnInit {
   readonly columns = ['unp', 'name', 'action'];
   routing = environment.routing;
-  contractors$: Observable<Contractor[]>;
-  isOpenAsideContractorCreate: boolean;
+  isOpenAsideContractorView: boolean;
+  private stateInProgressSubject = new BehaviorSubject<boolean>(false);
+  stateInProgress$ = this.stateInProgressSubject.asObservable();
 
-  constructor(private contractorService: ContractorService) {}
-
-  ngOnInit(): void {
-    this.fetch();
+  constructor(private contractorService: ContractorService) {
+    this.stateInProgress$.pipe(
+      filter((data) => !!data),
+      tap((data) => console.log('Data: ', data)),
+      shareReplay()
+    );
   }
 
-  fetch(): void {
-    this.contractors$ = this.contractorService.getAll$();
+  ngOnInit(): void {}
+
+  toggleAsideContractorView(contractor: Company): void {
+    this.isOpenAsideContractorView = !this.isOpenAsideContractorView;
+    this.contractorService.setContractor(contractor);
   }
 
-  delete(item: Contractor): void {
-    if (item) {
-      this.contractorService.delete$(item._id);
-    }
-  }
+  // getTestSubject$(): Observable<boolean> {
+  //   return this.stateInProgressSubject.asObservable();
+  // }
 
-  toggleAsideContractorCreate(): void {
-    this.isOpenAsideContractorCreate = !this.isOpenAsideContractorCreate;
+  test(): void {
+    this.stateInProgressSubject.next(true);
+
+    setTimeout(() => {
+      this.stateInProgressSubject.next(false);
+    }, 5000);
+
+    // const clicks = of(1);
+    // const timer = interval(5000);
+    // const clicksOrTimer = merge(clicks, timer);
+    // clicksOrTimer.subscribe((x) => console.log(x));
   }
 }

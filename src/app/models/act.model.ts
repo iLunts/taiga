@@ -1,6 +1,9 @@
+import * as moment from 'moment';
+
 import { Service } from './service.model';
 import { Contractor } from './company.model';
-import * as moment from 'moment';
+import { Profile } from './profile.model';
+import { Contract } from './contract.model';
 
 export class Act {
   _id: string;
@@ -14,9 +17,10 @@ export class Act {
   contractId: string;
 
   contractor: Contractor;
-  companyProfile: Contractor;
+  contract: Contract;
+  profileCompany: Profile;
 
-  orderList: OrderList[];
+  services: Service[];
   status: ActStatus;
   signature: Signature;
   total: TotalSum;
@@ -28,14 +32,16 @@ export class Act {
     _invoiceId?: string,
     _createdDate?: Date,
     contractor?: Contractor,
-    orderList?: OrderList[],
+    contract?: Contract,
+    services?: Service[],
     number?: string,
     createDate?: string,
     expiredDate?: string,
     status?: ActStatus,
     contractId?: string,
     signature?: Signature,
-    total?: TotalSum
+    total?: TotalSum,
+    profileCompany?: Profile
   ) {
     this._id = _id || null;
     this._userId = _userId || null;
@@ -44,27 +50,40 @@ export class Act {
     this._createdDate = _createdDate || new Date();
     this.number = number || null;
     this.contractor = contractor || null;
-    this.orderList = orderList || [];
+    this.contract = contract || null;
+    this.services = services || [];
     this.createDate = createDate || moment().toString();
     this.expiredDate = expiredDate || moment().add(7, 'days').toString();
     this.status = status || null;
     this.contractId = contractId || null;
     this.signature = signature || new Signature();
     this.total = total || new TotalSum();
+    this.profileCompany = profileCompany || null;
+  }
+
+  isValid(act: Act): boolean {
+    let valid = false;
+
+    valid =
+      act?.services?.length && act?.status && act?.contractor && act?.contract
+        ? true
+        : false;
+
+    return valid;
   }
 }
 
-export class OrderList {
-  date: Date;
-  service: Service;
-  order: number;
+// export class OrderList {
+//   date: Date;
+//   service: Service;
+//   order: number;
 
-  constructor(date?: Date, service?: Service, order?: number) {
-    this.date = date || new Date();
-    this.service = service || null;
-    this.order = order || null;
-  }
-}
+//   constructor(date?: Date, service?: Service, order?: number) {
+//     this.date = date || new Date();
+//     this.service = service || null;
+//     this.order = order || null;
+//   }
+// }
 
 export class ActStatus {
   _id: string;
@@ -85,15 +104,15 @@ export class Price {
   }
 }
 
-export class ActListItem {
-  service: Service;
-  quantity: number;
+// export class ActListItem {
+//   service: Service;
+//   quantity: number;
 
-  constructor(service?: Service, quantity?: number) {
-    this.service = service || null;
-    this.quantity = quantity || 1;
-  }
-}
+//   constructor(service?: Service, quantity?: number) {
+//     this.service = service || null;
+//     this.quantity = quantity || 1;
+//   }
+// }
 
 export class TotalSum {
   totalSum: Price;

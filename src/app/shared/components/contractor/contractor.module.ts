@@ -1,28 +1,39 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TuiDataListModule, TuiLoaderModule } from '@taiga-ui/core';
-import { TuiAvatarModule, TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiLoaderModule
+} from '@taiga-ui/core';
+import {
+  TuiAvatarModule,
+  TuiBadgeModule,
+  TuiDataListWrapperModule,
+  TuiInputModule,
+  TuiSelectModule
+} from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 
 import { ContractorPanelComponent } from './contractor-panel/contractor-panel.component';
+import { ContractorAsideComponent } from './contractor-aside/contractor-aside.component';
 
 @NgModule({
-  declarations: [
-    ContractorPanelComponent
-  ],
+  declarations: [ContractorPanelComponent, ContractorAsideComponent],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     TuiAvatarModule,
+    TuiButtonModule,
+    TuiDataListModule,
+    TuiDataListWrapperModule,
+    TuiInputModule,
     TuiLetModule,
     TuiLoaderModule,
     TuiSelectModule,
-    TuiDataListModule,
-    TuiDataListWrapperModule,
+    TuiBadgeModule
   ],
-  exports: [
-    ContractorPanelComponent
-  ],
+  exports: [ContractorPanelComponent, ContractorAsideComponent]
 })
-export class ContractorModule { }
+export class ContractorModule {}

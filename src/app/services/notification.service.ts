@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NotificationService {
   constructor(

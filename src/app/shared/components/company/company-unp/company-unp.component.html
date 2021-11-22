@@ -1,0 +1,14 @@
+<section>
+  <div *ngIf="!(company$ | async)">
+    <tui-input ngDefaultControl [formControl]="unpControl"> УНП </tui-input>
+    <tui-field-error [formControl]="unpControl"></tui-field-error>
+  </div>
+
+  <app-company-panel
+    *ngIf="company$ | async"
+    [data]="company$ | async"
+    [isLoaded]="company$ | async"
+    [canChange]="canChange"
+    (change)="clearCompanyInfo()"
+  ></app-company-panel>
+</section>

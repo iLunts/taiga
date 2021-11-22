@@ -1,74 +1,106 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Service } from 'src/app/models/service.model';
 import { ServicesService } from 'src/app/services/services.service';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-service-table',
   templateUrl: './service-table.component.html',
   styleUrls: ['./service-table.component.less'],
-  providers: [TuiDestroyService],
+  providers: [TuiDestroyService]
 })
 export class ServiceTableComponent implements OnInit {
+  @Input() set services(services: Service[]) {
+    this.servicesSubject.next(services);
+    // if (services?.length) {
+    //   this.preloadServices(services);
+    // }
+  }
+  // get services(): Service[] {
+  //   return this._services;
+  // }
+  // private _services: Service[];
+  private servicesSubject = new BehaviorSubject<Service[]>(null);
+
   @Output() selected = new EventEmitter<Service[]>();
 
   form: FormGroup;
   columns: ['name', 'date', 'w', 'price'];
-  services$: Observable<Service[]>;
+  serviceListData$: Observable<Service[]>;
 
   constructor(
     private formBuilder: FormBuilder,
     private serviceService: ServicesService,
-    private destroy$: TuiDestroyService
-  ) {}
-
-  ngOnInit(): void {
+    private destroy: TuiDestroyService
+  ) {
     this.createForm();
     this.fetch();
+
+    this.servicesSubject
+      .pipe(
+        filter((services) => !!services),
+        distinctUntilChanged(),
+        tap((services) => {
+          // services.forEach((element) => {
+          //   this.addNewRow();
+          // });
+          // this.form.controls.tableRowArray.patchValue(services);
+        })
+      )
+      .subscribe();
   }
 
+  ngOnInit(): void {}
+
   fetch(): void {
-    this.services$ = this.serviceService.getAll$();
+    this.serviceListData$ = this.serviceService.getAll$();
   }
 
   private createForm(): void {
     this.form = this.formBuilder.group({
-      tableRowArray: this.formBuilder.array([this.createTableRow()]),
+      tableRowArray: this.formBuilder.array([this.createTableRow()])
     });
 
     this.onChanges();
   }
 
-  private createTableRow(): FormGroup {
+  private clearForm(): void {
+    this.form = this.formBuilder.group({
+      tableRowArray: this.formBuilder.array([this.createTableRow()])
+    });
+  }
+
+  private createTableRow(serviceItem?: Service): FormGroup {
     return this.formBuilder.group({
-      name: new FormControl(null, {
-        validators: [Validators.required],
+      name: new FormControl(serviceItem?.name || null, {
+        validators: [Validators.required]
       }),
       date: new FormControl(this.initDate(), {
-        validators: [Validators.required],
+        validators: [Validators.required]
       }),
-      unit: new FormControl('', {
-        validators: [Validators.required],
+      unit: new FormControl(serviceItem?.unit || '', {
+        validators: [Validators.required]
       }),
-      count: new FormControl(null, {
-        validators: [Validators.required],
+      count: new FormControl(serviceItem?.count || null, {
+        validators: [Validators.required]
       }),
-      price: new FormControl(null, {
-        validators: [Validators.required],
+      price: new FormControl(serviceItem?.price || null, {
+        validators: [Validators.required]
       }),
-      amount: new FormControl(null, {
-        validators: [Validators.required],
-      }),
+      amount: new FormControl(serviceItem?.count * serviceItem?.price || null, {
+        validators: [Validators.required]
+      })
     });
   }
 
@@ -76,8 +108,8 @@ export class ServiceTableComponent implements OnInit {
     return this.form.get('tableRowArray') as FormArray;
   }
 
-  addNewRow(): void {
-    this.tableRowArray.push(this.createTableRow());
+  addNewRow(serviceItem?: Service): void {
+    this.tableRowArray.push(this.createTableRow(serviceItem));
   }
 
   deleteRow(rowIndex: number): void {
@@ -117,6 +149,10 @@ export class ServiceTableComponent implements OnInit {
     return 'test';
   }
 
+  getRowArrayValue(): any {
+    return this.form.get('tableRowArray').value;
+  }
+
   doEmit(): void {
     if (this.form.valid) {
       this.selected.emit(this.form.get('tableRowArray').value);
@@ -126,8 +162,21 @@ export class ServiceTableComponent implements OnInit {
   }
 
   onChanges(): void {
-    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val) => {
+    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe((val) => {
+      this.sortTableByDate();
       this.doEmit();
     });
+  }
+
+  preloadServices(services: Service[]): void {
+    // this.tableRowArray.patchValue(services);
+    // this.tableRowArray.setValue(services);
+  }
+
+  sortTableByDate(): void {
+    // const minDate = _.minBy(this.getRowArrayValue(), (service: any) => {
+    //   return  moment(service.date, 'YYYY-MM-DD').toDate();
+    // });
+    // console.log('Sort min: ', minDate);
   }
 }

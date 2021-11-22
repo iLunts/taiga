@@ -1,67 +1,48 @@
-<div class="header">
-  <div class="header__top">
-    <div class="header__account">
-      <tui-avatar
-        class="tui-space_right-3"
-        text="Роман Лунцевич"
-        size="m"
-        [rounded]="true"
-      >
-      </tui-avatar>
-      <div class="header__account-name">
-        <span class="tui-text_h6">ИП Лунцевич Р.В.</span>
-        <span class="tui-text_body-s">УНП: 123 123 123</span>
-      </div>
-    </div>
-    <div class="header__action">
-      <button
-        class="tui-space_left-10"
-        tuiIconButton
-        size="m"
-        icon="tuiIconPlusLarge"
-        title="Add new invoice"
-        shape="rounded"
-        (click)="toggleAsideContractorCreate()"
-      ></button>
-    </div>
-  </div>
+<div class="page-header">
+  <h1 class="tui-text_h3 page-header__title">Контрагенты</h1>
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новый"
+    shape="rounded"
+    [routerLink]="[routing.admin.contractor.create]"
+  >
+    Создать новый
+  </button>
 </div>
 
-<ng-container *ngIf="contractors$ | async as contractors">
-  <table tuiTable [columns]="columns">
-    <thead>
-      <tr tuiThGroup>
-        <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
-        <th *tuiHead="'name'" tuiTh [resizable]="true">Наименование</th>
-        <th *tuiHead="'action'" tuiTh [resizable]="false"></th>
-      </tr>
-    </thead>
-    <tbody tuiTbody [data]="contractors">
-      <tr *tuiRow="let item of contractors; let index = index" tuiTr>
-        <td *tuiCell="'unp'" tuiTd>
-          {{ item?.info?.unp }}
-        </td>
-        <td *tuiCell="'name'" tuiTd>
-          {{ item?.info?.shortName }}
-        </td>
-        <td *tuiCell="'action'" tuiTd>
-          <button
-            tuiIconButton
-            appearance="flat"
-            size="s"
-            icon="tuiIconTrash"
-            title="Удалить"
-            shape="rounded"
-            (click)="delete(item)"
-          ></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</ng-container>
+<section class="page-body">
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Cancel"
+    shape="rounded"
+    [stateInProgress]="stateInProgress$ | async"
+  >
+    Cancel
+  </button>
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новый"
+    shape="rounded"
+    (click)="test()"
+    [stateInProgress]="stateInProgress$ | async"
+  >
+    Test Subject
+  </button>
+</section>
 
-<aside class="aside _right _close" *ngIf="isOpenAsideContractorCreate">
-  <app-contractor-create
-    (close)="toggleAsideContractorCreate()"
-  ></app-contractor-create>
+<aside class="aside _right _close" *ngIf="isOpenAsideContractorView">
+  <div class="aside__panel">
+    <app-contractor-info
+      (close)="toggleAsideContractorView()"
+    ></app-contractor-info>
+  </div>
 </aside>

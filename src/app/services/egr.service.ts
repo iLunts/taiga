@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, from, Observable, of } from 'rxjs';
+import { forkJoin, from, Observable } from 'rxjs';
 import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { CompanyService } from './company.service';
-import { map } from 'lodash';
+import { ContractorService } from './contractor.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EgrService {
   constructor(
     private _http: HttpClient,
-    private _notification: NotificationService,
+    private notificationService: NotificationService,
     private companyService: CompanyService
-  ) {}
+  ) // private contractorService: ContractorService
+  {}
 
   getBaseInfoByRegNum$(UNP: string): Observable<any> {
     return from(
@@ -62,12 +63,12 @@ export class EgrService {
       this.getAddressByRegNum$(UNP),
       this.getJurNamesByRegNum$(UNP),
       this.getVEDByRegNum$(UNP),
-      this.getIPFIOByRegNum$(UNP),
+      this.getIPFIOByRegNum$(UNP)
     ]).subscribe({
       // observable.subscribe({
       next: (response) => {
         if (response.every((element) => element === null)) {
-          this._notification.warning(
+          this.notificationService.warning(
             'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
           );
           this.companyService.clearCompanyInfo();
@@ -96,28 +97,38 @@ export class EgrService {
         const prevCompany = this.companyService.getCompany();
         company.bankAccount = prevCompany.bankAccount;
         company.mailingAddress = prevCompany.mailingAddress;
-        company.person = prevCompany.person;
+        company.responsiblePerson = prevCompany.responsiblePerson;
+        company.contacts = prevCompany.contacts;
 
         this.companyService.setCompany(company);
         return company;
       },
       error: (error) => {
         switch (error.status) {
+          case 0: {
+            this.notificationService.error(
+              'Сервис ЕГР временно не доступен, попробуйте сделать запрос позже',
+              'Временно недоступен'
+            );
+            break;
+          }
           case 400: {
-            this._notification.error(
+            this.notificationService.error(
               'Плохой запрос, проверьте вводимые данные',
               'Плохой запрос'
             );
             break;
           }
           default: {
-            this._notification.error(error.error.message, error.error.error);
+            this.notificationService.error(
+              error.error.message,
+              error.error.error
+            );
             break;
           }
         }
-
         return null;
-      },
+      }
     });
 
     return company;

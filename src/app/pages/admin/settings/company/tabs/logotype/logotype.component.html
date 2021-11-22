@@ -1,36 +1,34 @@
-<tui-accordion class="accordion" [rounded]="false" [closeOthers]="false">
-  <tui-accordion-item borders="all" [showArrow]="true">
-    <div class="accordion__header">
-      <div class="accordion__header-icon">
-        <tui-marker-icon
-          class="operation-icon"
-          src="tuiIconAlertCircleLarge"
-          size="s"
-          mode="primary"
-        ></tui-marker-icon>
-      </div>
-      <div class="accordion__title">Логотип компании</div>
-      <div class="accordion__info">
-        <div
-          class="accordion__status"
-          [class._success]="(uploadedFiles$ | async)?.length"
-        >
-          {{
-            (uploadedFiles$ | async)?.length ? "Проверено" : "Не хватает данных"
-          }}
-        </div>
-      </div>
-    </div>
-    <ng-template tuiAccordionItemContent>
-      <ng-container *ngIf="!(uploadedFiles$ | async)?.length">
-        <!-- <app-upload-image></app-upload-image> -->
-      </ng-container>
+<div class="tui-form__row tui-form__row_multi-fields form-group">
+  <div class="tui-form__multi-field form-group__item form-group__item-info">
+    <h3 class="form-group__item-title">
+      Логотип
+      <tui-badge
+        class="form-group__item-status"
+        [status]="(uploadedFiles$ | async)?.length ? 'success' : 'warning'"
+        [value]="
+          (uploadedFiles$ | async)?.length ? 'Проверено' : 'Не хватает данных'
+        "
+      ></tui-badge>
+    </h3>
+    <p class="form-group__item-desc">
+      Данное изображение будет добавлять на всех документах в качестве
+      брендирования. Это позоляет запоминать вашу компании среди других
+      конкурентов.
+      <br />
+      Соотношение сторон (Ш х В): 20 к 5
+    </p>
+  </div>
+  <div class="tui-form__multi-field form-group__item">
+    <ng-container *ngIf="!(uploadedFiles$ | async)?.length; else logotypeImage">
+      <!-- <app-upload-image></app-upload-image> -->
       <app-uploader></app-uploader>
+    </ng-container>
+    <ng-template #logotypeImage>
       <img
         [src]="item.url"
         alt=""
         *ngFor="let item of uploadedFiles$ | async"
       />
     </ng-template>
-  </tui-accordion-item>
-</tui-accordion>
+  </div>
+</div>

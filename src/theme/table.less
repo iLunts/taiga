@@ -1,0 +1,23 @@
+.tui-table {
+  & &__th {
+    vertical-align: middle;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom-color: var(--tui-base-03);
+    padding: 0.5rem;
+    color: var(--tui-text-03);
+  }
+
+  & &__td {
+    vertical-align: middle;
+    border-left: none;
+    border-right: none;
+    padding: 0.5rem;
+    border-bottom-color: var(--tui-base-03);
+
+    &.tui-table__td--right {
+      text-align: right;
+    }
+  }
+}

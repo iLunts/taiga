@@ -38,9 +38,7 @@
             "styles": [
               "src/styles.less",
               "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-              "node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-              "node_modules/froala-editor/css/froala_style.min.css"
+              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less"
             ],
             "scripts": []
           },
@@ -55,7 +53,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -132,6 +129,7 @@
   },
   "defaultProject": "taiga",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "@ngrx/schematics"
   }
 }

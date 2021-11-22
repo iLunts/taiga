@@ -8,9 +8,7 @@ import { TuiDataListModule, TuiLoaderModule } from '@taiga-ui/core';
 import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
 
 @NgModule({
-  declarations: [
-    StatusPanelComponent
-  ],
+  declarations: [StatusPanelComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -19,10 +17,8 @@ import { TuiDataListWrapperModule, TuiSelectModule } from '@taiga-ui/kit';
     TuiLoaderModule,
     TuiSelectModule,
     TuiDataListModule,
-    TuiDataListWrapperModule,
+    TuiDataListWrapperModule
   ],
-  exports: [
-    StatusPanelComponent
-  ],
+  exports: [StatusPanelComponent]
 })
-export class StatusModule { }
+export class StatusModule {}

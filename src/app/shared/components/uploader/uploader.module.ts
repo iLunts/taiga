@@ -5,10 +5,12 @@ import { UploaderDropZoneDirective } from './uploader-drop-zone.directive';
 import { UploaderTaskComponent } from './uploader-task/uploader-task.component';
 
 @NgModule({
-  declarations: [UploaderComponent, UploaderDropZoneDirective, UploaderTaskComponent],
-  imports: [
-    CommonModule
+  declarations: [
+    UploaderComponent,
+    UploaderDropZoneDirective,
+    UploaderTaskComponent
   ],
-  exports: [UploaderComponent, UploaderDropZoneDirective, UploaderTaskComponent],
+  imports: [CommonModule],
+  exports: [UploaderComponent, UploaderDropZoneDirective, UploaderTaskComponent]
 })
-export class UploaderModule { }
+export class UploaderModule {}

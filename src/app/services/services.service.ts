@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { Service } from '../models/service.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ServicesService {
   private dbPath = '/services';
   servicesRef: AngularFirestoreCollection<Service> = null;
   dbRef: AngularFirestoreCollection<Service> = null;
 
-  constructor(private _fs: AngularFirestore, private _auth: AuthService) {
-    if (this._auth.isLoggedIn) {
+  constructor(private _fs: AngularFirestore, private authService: AuthService) {
+    if (this.authService.isLoggedIn) {
       this.servicesRef = _fs.collection(this.dbPath, (q) =>
-        q.where('_userId', '==', this._auth.getUserId())
+        q.where('_userId', '==', this.authService.getUserId())
       );
     }
   }
@@ -29,14 +29,16 @@ export class ServicesService {
 
   getByName$(name: string): AngularFirestoreCollection<Service> {
     return this._fs.collection(this.dbPath, (q) =>
-      q.where('_userId', '==', this._auth.getUserId()).where('name', '>=', name)
+      q
+        .where('_userId', '==', this.authService.getUserId())
+        .where('name', '>=', name)
     );
   }
 
   add(service: Service) {
     const pushkey = this._fs.createId();
     service._id = pushkey;
-    service._userId = this._auth.getUserId();
+    service._userId = this.authService.getUserId();
     return this._fs
       .collection(this.dbPath)
       .doc(pushkey)

@@ -21,8 +21,8 @@ import { BankPanelComponent } from './bank-panel/bank-panel.component';
     TuiDataListModule,
     TuiAvatarModule,
     TuiLoaderModule,
-    TuiButtonModule,
+    TuiButtonModule
   ],
-  exports: [BankSelectComponent, BankPanelComponent],
+  exports: [BankSelectComponent, BankPanelComponent]
 })
 export class BankModule {}

@@ -1,160 +1,182 @@
-<div class="header">
-  <div class="header__top">
-    <div class="header__account">
-      <tui-avatar
-        class="tui-space_right-3"
-        text="Роман Лунцевич"
-        size="m"
-        [rounded]="true"
-      >
-      </tui-avatar>
-      <div class="header__account-name">
-        <span class="tui-text_h6">ИП Лунцевич Р.В.</span>
-        <span class="tui-text_body-s">УНП: 123 123 123</span>
-      </div>
-    </div>
-    <div class="header__action">
-      <div class="header__action-balance">
-        <p class="tui-space_bottom-0 tui-space_top-0">Активный баланс:</p>
-        <tui-money [value]="2750" [colored]="true" class="tui-text_h6">
-        </tui-money>
-      </div>
-      <button
-        class="tui-space_left-10"
-        tuiIconButton
-        size="m"
-        icon="tuiIconPlusLarge"
-        title="Add new invoice"
-        shape="rounded"
-        [routerLink]="[routing.admin.invoice.create]"
-      ></button>
-    </div>
+<div class="page-header">
+  <div class="page-header__header">
+    <h1 class="tui-text_h3 page-header__title">Счета</h1>
+    <button
+      class="tui-space_left-5"
+      tuiButton
+      size="s"
+      iconRight="tuiIconPlus"
+      title="Создать новый"
+      shape="rounded"
+      [routerLink]="[routing.admin.invoice.create]"
+    >
+      Создать новый
+    </button>
+    <!-- <app-breadcrumbs></app-breadcrumbs> -->
   </div>
+  <tui-tabs-with-more
+    class="page-header__tabs"
+    [activeItemIndex]="getTabActiveIndex"
+    [moreContent]="more"
+  >
+    <ng-container *tuiLet="invoiceStatuses$ | async as invoiceStatuses">
+      <ng-container *ngFor="let status of invoiceStatuses">
+        <button *tuiTab tuiTab (click)="selectTab(status)">
+          {{ status.name }}
+        </button>
+      </ng-container>
+    </ng-container>
+  </tui-tabs-with-more>
 </div>
 
-<!-- <ng-container *ngIf="invoices$ | async; let invoices">
-  <tui-island *ngFor="let item of invoices" class="tui-space_bottom-2">
-    <p class="tui-island__category">
-      № {{ item?.number || 'Б.н.' }} от
-        {{ item?.createDate | date: 'dd MMM yyyy' }}
-    </p>
-    <h3 class="tui-island__title">Some heading</h3>
-    <p class="tui-island__paragraph">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-      do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua.
-    </p>
-    <p class="tui-island__paragraph tui-island__paragraph_link">
-      <a href="/" tuiLink>Link</a>
-    </p>
-  </tui-island>
-</ng-container> -->
+<section class="page-body">
+  <app-empty-panel *ngIf="!(invoices$ | async)?.length"></app-empty-panel>
 
-<ng-container *ngIf="invoices$ | async as invoices">
-  <table tuiTable [columns]="columns">
-    <thead>
-      <tr tuiThGroup>
-        <th *tuiHead="'number'" tuiTh [resizable]="true">Номер</th>
-        <th *tuiHead="'unp'" tuiTh [resizable]="true">УНП</th>
-        <th *tuiHead="'status'" tuiTh [resizable]="true">Статус</th>
-        <th *tuiHead="'price'" tuiTh [resizable]="true">Сумма</th>
-        <th *tuiHead="'action'" tuiTh [resizable]="true"></th>
-        <!-- <th *tuiHead="'actions'" tuiTh [sorter]="null"></th> -->
-      </tr>
-    </thead>
-    <tbody tuiTbody [data]="invoices">
-      <tr *tuiRow="let item of invoices; let index = index" tuiTr>
-        <td *tuiCell="'number'" tuiTd># {{ item?.number }}</td>
-        <td *tuiCell="'unp'" tuiTd>
-          {{ item?.contractor?.info?.unp }}
-        </td>
-        <td *tuiCell="'status'" tuiTd>
-          {{ item?.status?.name }}
-        </td>
-        <td *tuiCell="'price'" tuiTd>
-          {{ item?.total?.totalSum?.amount }}
-        </td>
-        <!-- <td *tuiCell="'email'" tuiTd>
-            <a *ngIf="item.email" tuiLink [href]="'mailto:' + item.email">
-                {{item.email}}
-            </a>
-        </td> -->
-        <!-- <td *tuiCell="'status'" tuiTd>
-            <div [class]="item.status">{{item.status}}</div>
-        </td> -->
-        <!-- <td *tuiCell="'tags'" tuiTd>
-            <tui-tag
-                *ngFor="let tag of item.tags"
-                class="tui-space_right-1"
-                [value]="tag"
-                [autoColor]="true"
-            ></tui-tag>
-        </td> -->
-        <td *tuiCell="'action'" tuiTd>
-          <button
-            tuiIconButton
-            appearance="flat"
-            size="s"
-            icon="tuiIconDownload"
-            title="Скачать PDF"
-            shape="rounded"
-            (click)="downloadPdf(item)"
-          ></button>
-          <button
-            tuiIconButtonц
-            appearance="flat"
-            size="s"
-            icon="tuiIconCopy"
-            title="Создать Акт на основании..."
-            shape="rounded"
-            (click)="create(item)"
-          ></button>
-          <button
-            tuiIconButton
-            appearance="flat"
-            size="s"
-            icon="tuiIconTrash"
-            title="Удалить"
-            shape="rounded"
-            (click)="delete(item)"
-          ></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</ng-container>
-
-<!-- <div class="invoice" *ngIf="selectedInvoice">
-  <div class="invoice__info">
-    <span class="invoice__avatar">
-      <ion-icon class="invoice__avatar-icon" name="receipt-outline"></ion-icon>
-    </span>
-  </div>
-  <div class="invoice__body">
-    <h2 class="invoice__name">
-      № {{ selectedInvoice?.number || 'Б.н.' }} от
-      {{ selectedInvoice?.createDate | date: 'dd MMM yyyy' }}
-    </h2>
-    <p class="invoice__status" [style.color]="selectedInvoice?.status?.color">
-      <span>{{ selectedInvoice?.status?.name }}</span>
-      <span class="invoice__sum">
-        на сумму:
-        <b>{{ selectedInvoice?.total?.totalSum.amount | number: '0.0-2' }}</b>
-        руб.
-      </span>
-    </p>
-    <h3 class="invoice__desc">
-      {{ selectedInvoice?.contractor?.info?.shortName }}
-    </h3>
-
-    <p class="invoice__change">
-      <ion-button
-        class="invoice__change-link"
-        color="light"
-        size="small"
-        (click)="showMore()"
-        >ещё ...</ion-button
-      >
-    </p>
-  </div>
-</div> -->
+  <ng-container
+    *ngIf="(invoices$ | async)?.length && invoices$ | async as invoices"
+  >
+    <table tuiTable [columns]="columns" class="tui-table">
+      <thead>
+        <tr tuiThGroup class="tui-table__tr">
+          <th
+            class="tui-table__th"
+            *tuiHead="'number'"
+            tuiTh
+            [resizable]="true"
+          >
+            Номер
+          </th>
+          <th class="tui-table__th" *tuiHead="'date'" tuiTh [resizable]="true">
+            Дата
+          </th>
+          <th
+            class="tui-table__th"
+            *tuiHead="'status'"
+            tuiTh
+            [resizable]="true"
+          >
+            Статус
+          </th>
+          <th class="tui-table__th" *tuiHead="'price'" tuiTh [resizable]="true">
+            Сумма
+          </th>
+          <th
+            class="tui-table__th"
+            *tuiHead="'action'"
+            tuiTh
+            [resizable]="true"
+          ></th>
+        </tr>
+      </thead>
+      <tbody tuiTbody [data]="invoices">
+        <tr
+          *tuiRow="let item of invoices; let index = index"
+          tuiTr
+          class="tui-table__tr"
+        >
+          <td class="tui-table__td" *tuiCell="'number'" tuiTd>
+            № <b>{{ item?.number }}</b>
+          </td>
+          <td class="tui-table__td" *tuiCell="'date'" tuiTd>
+            <b
+              >{{ item?.dateRange.from | date: 'dd MMM yyyy' }} -
+              {{ item?.dateRange.to | date: 'dd MMM yyyy' }}</b
+            >
+          </td>
+          <td class="tui-table__td" *tuiCell="'status'" tuiTd>
+            <tui-badge
+              [style.background-color]="item?.status?.color"
+              status="custom"
+              [value]="item?.status?.name"
+              *ngIf="item?.status"
+            ></tui-badge>
+            <span *ngIf="!item?.status">не указан</span>
+          </td>
+          <td class="tui-table__td" *tuiCell="'price'" tuiTd>
+            <b>
+              {{ item?.total?.totalSum?.amount | tuiFormatNumber: 2:',' }}
+            </b>
+            {{ 'BYN' | tuiCurrency }}
+          </td>
+          <td
+            class="tui-table__td tui-table__td--right"
+            *tuiCell="'action'"
+            tuiTd
+          >
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconDownload"
+              title="Скачать PDF"
+              shape="rounded"
+              (click)="downloadPdf(item)"
+            ></button>
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconTrash"
+              title="Удалить"
+              shape="rounded"
+              (click)="delete(item)"
+            ></button>
+            <tui-hosted-dropdown #dropdown [content]="content">
+              <button
+                tuiIconButton
+                appearance="flat"
+                size="s"
+                icon="tuiIconMoreVer"
+                type="button"
+                shape="rounded"
+                [pseudoHovered]="dropdown.open || null"
+              ></button>
+            </tui-hosted-dropdown>
+            <ng-template #content let-activeZone>
+              <tui-data-list
+                tuiDataListDropdownManager
+                [tuiActiveZoneParent]="activeZone"
+              >
+                <tui-opt-group>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnContract(item)"
+                    [disabled]="item._contractId"
+                  >
+                    Договор
+                  </button>
+                </tui-opt-group>
+                <tui-opt-group>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnContract(item)"
+                    [disabled]="true"
+                  >
+                    Копировать счёт
+                  </button>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnAct(item)"
+                    [disabled]="false"
+                  >
+                    Акт
+                  </button>
+                  <button
+                    tuiOption
+                    (click)="createBaseOnReference(item)"
+                    [disabled]="true"
+                  >
+                    Справка
+                  </button>
+                </tui-opt-group>
+              </tui-data-list>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</section>
+<ng-template #more>
+  <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
+</ng-template>

@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 // import { ProfileService } from './profile.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   userData: User;
@@ -129,7 +129,7 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
       token: user.idToken,
-      refreshToken: user.refreshToken,
+      refreshToken: user.refreshToken
     };
 
     this.userSubject.next(userData);
@@ -140,7 +140,7 @@ export class AuthService {
   signOut(): any {
     return this._fa.signOut().then(() => {
       localStorage.removeItem('user');
-      this._router.navigate([environment.routing.admin.login]);
+      this._router.navigate([environment.routing.auth.login]);
     });
   }
 
@@ -189,6 +189,6 @@ export class AuthService {
   async logout() {
     await this._fa.signOut();
     localStorage.removeItem('user');
-    this._router.navigate([environment.routing.admin.login]);
+    this._router.navigate([environment.routing.auth.login]);
   }
 }

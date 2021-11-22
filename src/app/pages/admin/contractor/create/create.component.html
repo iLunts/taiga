@@ -1,81 +1,93 @@
-<tui-loader
-  [showLoader]="isLoading"
-  [overlay]="true"
-  size="l"
-  textContent="Ожидайте..."
->
-  <form [formGroup]="form">
-    <h2>Создание контрагента</h2>
+<app-header-create title="Создание контрагента"></app-header-create>
 
-    <section>
-      <h3 class="tui-space_top-10">Информация</h3>
-      <tui-input
-        *ngIf="!isValidCompany"
-        [textMask]="maskUNP"
-        formControlName="unp"
-        (change)="getContractorInformation()"
-      >
-        УНП
-      </tui-input>
-      <tui-field-error formControlName="unp"></tui-field-error>
-
-      <app-company-panel
-        *ngIf="isValidCompany"
-        [data]="contractor"
-        [isLoaded]="isValidCompany"
-        (change)="changeCompany()"
-      ></app-company-panel>
-
-      <tui-checkbox-block
-        class="tui-space_top-5"
-        formControlName="samePostMail"
-        contentAlign="left"
-        nativeId="exSamePostMail"
-        size="l"
-        (change)="changePostAddress()"
-      >
-        <div class="inner inner_flex">
-          Почтовый адрес совпадает с юрид.
-          <!-- <tui-tooltip
-            describeId="example3"
-            content="some tooltip content"
-          ></tui-tooltip> -->
+<div class="page-body">
+  <tui-loader
+    [showLoader]="isLoading"
+    [overlay]="true"
+    size="l"
+    textContent="Ожидайте..."
+  >
+    <div class="tui-container tui-container_full">
+      <!-- УНП -->
+      <div class="tui-form__row tui-form__row_multi-fields form-group">
+        <div
+          class="tui-form__multi-field form-group__item form-group__item-info"
+        >
+          <h3 class="form-group__item-title">Учётный номер плательщика</h3>
+          <p class="form-group__item-desc">
+            единый уникальный номер, присваиваемый каждому плательщику при
+            постановке на учёт в налоговом органе в Беларуси, и используемый по
+            всем налогам, сборам, пошлинам, в том числе по таможенным платежам.
+          </p>
         </div>
-      </tui-checkbox-block>
-    </section>
+        <div class="tui-form__multi-field form-group__item">
+          <app-company-unp></app-company-unp>
+        </div>
+      </div>
 
-    <section>
+      <!-- Адрес -->
+      <div class="tui-form__row tui-form__row_multi-fields form-group">
+        <div
+          class="tui-form__multi-field form-group__item form-group__item-info"
+        >
+          <h3 class="form-group__item-title">Адрес</h3>
+          <p class="form-group__item-desc">
+            необходимо указать реальный юридический адрес контрагента. Данный
+            адрес будет указываться в реквизитах контрагента на всех документах
+          </p>
+        </div>
+        <div class="tui-form__multi-field form-group__item">
+          <app-company-address></app-company-address>
+        </div>
+      </div>
+
+      <!-- Банк -->
+      <div class="tui-form__row tui-form__row_multi-fields form-group">
+        <div
+          class="tui-form__multi-field form-group__item form-group__item-info"
+        >
+          <h3 class="form-group__item-title">Банк</h3>
+          <p class="form-group__item-desc">
+            необходимо указать реальный юридический адрес контрагента. Данный
+            адрес будет указываться в реквизитах контрагента на всех документах
+          </p>
+        </div>
+        <div class="tui-form__multi-field form-group__item">
+          <app-company-bank></app-company-bank>
+        </div>
+      </div>
+
+      <!-- Ответственное лицо -->
+      <div class="tui-form__row tui-form__row_multi-fields form-group">
+        <div
+          class="tui-form__multi-field form-group__item form-group__item-info"
+        >
+          <h3 class="form-group__item-title">Ответственное лицо</h3>
+          <p class="form-group__item-desc">
+            необходимо указать реальный юридический адрес контрагента. Данный
+            адрес будет указываться в реквизитах контрагента на всех документах
+          </p>
+        </div>
+        <div class="tui-form__multi-field form-group__item">
+          <app-responsible-person-panel></app-responsible-person-panel>
+        </div>
+      </div>
+    </div>
+
+    <!-- <section>
+      <h3 class="tui-space_top-10">Адрес</h3>
+      <app-company-address></app-company-address>
+    </section> -->
+
+    <!-- <section>
       <h3 class="tui-space_top-10">Банк</h3>
-      <app-bank-select
-        *ngIf="!isValidBank"
-        (change)="changeBank($event)"
-      ></app-bank-select>
-      <app-bank-panel
-        *ngIf="isValidBank"
-        [data]="contractor.bankAccount.bank"
-        [isLoaded]="isValidBank"
-        (change)="changeBank()"
-      ></app-bank-panel>
-    </section>
+      <app-company-bank></app-company-bank>
+    </section> -->
 
-    <!-- <section formGroupName="juridicalAddress">
-    <h3 class="tui-space_top-10">Юридические данные</h3>
-    <p>123123123</p>
-  </section> -->
-
-    <!-- <section formGroupName="mailingAddress">
-    <h3 class="tui-space_top-10">Почтовые данные</h3>
-    <p>
-      Идентичные юридическим данным
-      <tui-toggle
-        class="tui-space_left-1"
-        size="l"
-        [showIcons]="true"
-      ></tui-toggle>
-    </p>
-
-    <p>123123123</p>
-  </section> -->
+    <!-- <section>
+      <h3 class="tui-space_top-10">Ответственное лицо</h3>
+      <app-responsible-person-panel></app-responsible-person-panel>
+    </section> -->
 
     <section class="tui-space_top-10">
       <button
@@ -94,11 +106,11 @@
         type="button"
         [showLoader]="false"
         [size]="'m'"
-        [disabled]="!isValid"
+        [disabled]="!(valid$ | async)"
         (click)="save()"
       >
         Добавить
       </button>
     </section>
-  </form>
-</tui-loader>
+  </tui-loader>
+</div>

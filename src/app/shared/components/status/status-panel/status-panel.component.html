@@ -1,18 +1,28 @@
-<tui-loader [showLoader]="!(statuses$ | async) && !(statuses$ | async) !== null" [overlay]="true" [inheritColor]="true">
-  <form *tuiLet="statuses$ | async as statuses" class="b-form" [formGroup]="form">
-
-    <tui-select class="b-form" formControlName="status" [valueContent]="itemContent" (ngModelChange)="selected.emit($event)">
+<tui-loader
+  [showLoader]="!(statuses$ | async) && !(statuses$ | async) !== null"
+  [overlay]="true"
+  [inheritColor]="true"
+>
+  <form *tuiLet="statuses$ | async as statuses">
+    <tui-select [formControl]="statusControl" [valueContent]="itemContent">
       Выбрать статус
-      <tui-data-list-wrapper *tuiDataList size="l" [items]="statuses" [itemContent]="itemContent"
-        [disabledItemHandler]="disabledItemHandler"></tui-data-list-wrapper>
+      <tui-data-list-wrapper
+        *tuiDataList
+        size="l"
+        [items]="statuses"
+        [itemContent]="itemContent"
+        [disabledItemHandler]="disabledItemHandler"
+      ></tui-data-list-wrapper>
     </tui-select>
-
   </form>
 </tui-loader>
 
 <ng-template #itemContent let-data>
   <div class="itemContent">
-    <span class="itemContent__badge" [style.background-color]="data?.color"></span>
+    <span
+      class="itemContent__badge"
+      [style.background-color]="data?.color"
+    ></span>
     <div class="itemContent__name">{{ data?.name }}</div>
   </div>
 </ng-template>

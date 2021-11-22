@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreCollection,
+  AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { Invoice, InvoiceStatus } from '../models/invoice.model';
 import { AuthService } from './auth.service';
@@ -10,9 +10,10 @@ import { ContractorService } from './contractor.service';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class InvoiceService {
   private dbPath = '/invoices';
@@ -23,15 +24,15 @@ export class InvoiceService {
 
   constructor(
     private _fs: AngularFirestore,
-    private _auth: AuthService,
-    private _contractor: ContractorService,
-    private _notification: NotificationService,
+    private authService: AuthService,
+    private contractorService: ContractorService,
+    private notificationService: NotificationService,
     private _route: Router
   ) {
-    if (this._auth.isLoggedIn) {
+    if (this.authService.isLoggedIn) {
       this.invoicesRef = _fs.collection(this.dbPath, (q) =>
         q
-          .where('_userId', '==', this._auth.getUserId())
+          .where('_userId', '==', this.authService.getUserId())
           .orderBy('_createdDate', 'desc')
       );
     }
@@ -41,11 +42,24 @@ export class InvoiceService {
     return this.invoicesRef.valueChanges();
   }
 
-  getByI$d(id: string): AngularFirestoreCollection<any> {
-    const collection = this._fs.collection(this.dbPath, (q) =>
-      q.where('_userId', '==', this._auth.getUserId()).where('_id', '==', id)
+  getAllByContractorId$(contractorId: string): Observable<any[]> {
+    const invoicesRef = this._fs.collection(this.dbPath, (q) =>
+      q
+        .where('_userId', '==', this.authService.getUserId())
+        .where('contractor._id', '==', contractorId)
+        .orderBy('_createdDate', 'desc')
     );
-    return collection;
+    return invoicesRef.valueChanges();
+  }
+
+  // getById$(id: string): AngularFirestoreCollection<any> {
+  getById$(id: string): Observable<any> {
+    const collection = this._fs.collection(this.dbPath, (q) =>
+      q
+        .where('_userId', '==', this.authService.getUserId())
+        .where('_id', '==', id)
+    );
+    return collection.valueChanges();
   }
 
   get$(id: string): Observable<any> {
@@ -64,7 +78,7 @@ export class InvoiceService {
     return this._fs
       .collection(this.dbPathStatuses, (q) =>
         q
-          .where('_userId', '==', this._auth.getUserId())
+          .where('_userId', '==', this.authService.getUserId())
           .where('_id', '==', statusId)
       )
       .valueChanges();
@@ -73,11 +87,11 @@ export class InvoiceService {
   getAllByContractor$(): Observable<any[]> {
     this.invoicesForContractorsRef = this._fs.collection(this.dbPath, (q) =>
       q
-        .where('_userId', '==', this._auth.getUserId())
+        .where('_userId', '==', this.authService.getUserId())
         .where(
           'contractor.info.unp',
           '==',
-          this._contractor.getContractor().info.unp
+          this.contractorService.getContractor().info.unp
         )
         .orderBy('_createdDate', 'desc')
     );
@@ -85,9 +99,7 @@ export class InvoiceService {
   }
 
   add$(invoice: Invoice): Observable<any> {
-    // const pushkey = this._fs.createId();
-    // invoice._id = pushkey;
-    invoice._userId = this._auth.getUserId();
+    invoice._userId = this.authService.getUserId();
     invoice._createdDate = new Date();
     invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);
     return from(
@@ -96,8 +108,8 @@ export class InvoiceService {
         .doc(invoice._id)
         .set(JSON.parse(JSON.stringify(invoice)))
         .then(() => {
-          this._notification.success('Счет успешно создан');
-          this._route.navigate(['invoices']);
+          this.notificationService.success('Счет успешно создан');
+          this._route.navigate([environment.routing.admin.invoice.list]);
         })
     );
   }
@@ -108,7 +120,7 @@ export class InvoiceService {
         .doc(_id)
         .delete()
         .then(() => {
-          this._notification.success('Счет успешно удален');
+          this.notificationService.success('Счет успешно удален');
         })
     );
   }

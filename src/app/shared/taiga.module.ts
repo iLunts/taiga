@@ -10,6 +10,7 @@ import {
   TuiDataListModule,
   TuiThemeNightModule,
   TuiModeModule,
+  TuiScrollbarModule
 } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
@@ -20,7 +21,7 @@ import {
   TuiInputModule,
   TuiInputPasswordModule,
   TuiIslandModule,
-  TuiMarkerIconModule,
+  TuiMarkerIconModule
 } from '@taiga-ui/kit';
 import { TuiMoneyModule } from '@taiga-ui/addon-commerce';
 import { TuiTableModule } from '@taiga-ui/addon-table';
@@ -52,9 +53,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TuiMarkerIconModule,
     TuiComboBoxModule,
     TuiDataListWrapperModule,
+    TuiScrollbarModule,
     // TuiSidebarModule,
     // TuiActiveZoneModule,
-    DragDropModule,
+    DragDropModule
   ],
   exports: [
     TuiAccordionModule,
@@ -77,9 +79,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TuiMarkerIconModule,
     TuiComboBoxModule,
     TuiDataListWrapperModule,
+    TuiScrollbarModule,
     // TuiSidebarModule,
     // TuiActiveZoneModule,
-    DragDropModule,
-  ],
+    DragDropModule
+  ]
 })
 export class TaigaModule {}

@@ -1,13 +1,16 @@
-<div class="uploader dropzone" 
-     dropzone
-     (hovered)="toggleHover($event)"
-     (dropped)="onDrop($event)"
-     [class._hovering]="isHovering">
+<div
+  class="uploader dropzone"
+  dropzone
+  (hovered)="toggleHover($event)"
+  (dropped)="onDrop($event)"
+  [class._hovering]="isHovering"
+>
+  <h3 class="uploader__title">Drop your files here or click here</h3>
+  <p class="uploader__desc">
+    Upload images or files what you want. Maximum size 2mb
+  </p>
 
-     <h3 class="uploader__title">Drop your files here or click here</h3>
-     <p class="uploader__desc">Upload images or files what you want. Maximum size 2mb</p>
-
-     <input class="uploader__input" type="file" multiple>
+  <input class="uploader__input" type="file" multiple />
 </div>
 
 <h3>Uploads</h3>

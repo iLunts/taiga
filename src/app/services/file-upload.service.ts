@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { FileUpload } from '../models/fileUpload.model';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { AuthService } from './auth.service';
+import { FileUpload } from '../models/fileUpload.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class FileUploadService {
   private basePath = '/uploads';
@@ -15,11 +16,13 @@ export class FileUploadService {
   constructor(
     private _afStorage: AngularFireStorage,
     private _afDB: AngularFireDatabase,
-    private _auth: AuthService
+    private authService: AuthService
   ) {}
 
   pushFileToStorage(fileUpload: FileUpload): Observable<number> {
-    const filePath = `${this.basePath}/${fileUpload.file.name}`;
+    const filePath = `${this.basePath}/${this.authService.getUserId()}/${
+      fileUpload.file.name
+    }`;
     const storageRef = this._afStorage.ref(filePath);
     const uploadTask = this._afStorage.upload(
       filePath,
@@ -33,7 +36,10 @@ export class FileUploadService {
           storageRef.getDownloadURL().subscribe((downloadURL) => {
             fileUpload.url = downloadURL;
             fileUpload.name = fileUpload.file.name;
-            fileUpload._userId = this._auth.getUserId();
+            fileUpload.type = fileUpload.file.type;
+            fileUpload.size = fileUpload.file.size;
+            fileUpload.lastModified = fileUpload.file.lastModified;
+            fileUpload._userId = this.authService.getUserId();
             this.saveFileData(fileUpload);
           });
         })

@@ -6,7 +6,7 @@ import {
   TuiCheckboxBlockModule,
   TuiFieldErrorModule,
   TuiInputModule,
-  TuiToggleModule,
+  TuiToggleModule
 } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 
@@ -17,34 +17,37 @@ import {
   TuiButtonModule,
   TuiHintControllerModule,
   TuiLoaderModule,
+  TuiScrollbarModule
 } from '@taiga-ui/core';
-// import { ImageCropperModule } from 'ngx-image-cropper';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ContractorInfoComponent } from './info/info.component';
+import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-person/responsible-person.module';
+import { HeaderModule } from 'src/app/shared/components/header/header.module';
 
 @NgModule({
-  declarations: [ContractorListComponent, ContractorCreateComponent],
+  declarations: [
+    ContractorCreateComponent,
+    ContractorInfoComponent,
+    ContractorListComponent
+  ],
   imports: [
     CommonModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
     ContractorRoutingModule,
+    FormsModule,
+    HeaderModule,
+    ReactiveFormsModule,
+    ResponsiblePersonModule,
+    SharedModule,
     TuiAvatarModule,
-    TuiButtonModule,
     TuiButtonModule,
     TuiCheckboxBlockModule,
     TuiFieldErrorModule,
     TuiHintControllerModule,
     TuiInputModule,
     TuiLetModule,
-    TuiToggleModule,
     TuiLoaderModule,
-    // ImageCropperModule,
-    // TuiInputDateRangeModule,
-    // TuiInputNumberModule,
-    // TuiInputDateModule,
-    // TuiDataListModule,
-    // TuiHostedDropdownModule,
-  ],
+    TuiScrollbarModule,
+    TuiToggleModule
+  ]
 })
 export class ContractorModule {}

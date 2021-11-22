@@ -1,5 +1,8 @@
-<form tuiTableMode [formGroup]="form" *tuiLet="services$ | async as services">
-
+<form
+  tuiTableMode
+  [formGroup]="form"
+  *tuiLet="serviceListData$ | async as services"
+>
   <!-- <table class="tui-table table">
     <thead>
       <tr>
@@ -12,35 +15,82 @@
   </table> -->
 
   <div class="table" formArrayName="tableRowArray">
-    <div tuiGroup class="row" [collapsed]="true" *ngFor="let itemRow of form.get('tableRowArray')['controls']; let i=index;let l=last" [formGroupName]="i">
-      <tui-input-date class="cell cell_date" tuiTextfieldSize="m" formControlName="date">
+    <div
+      tuiGroup
+      class="row"
+      [collapsed]="true"
+      *ngFor="
+        let itemRow of form.get('tableRowArray')['controls'];
+        let i = index;
+        let l = last
+      "
+      [formGroupName]="i"
+    >
+      <tui-input-date
+        class="cell cell_date"
+        tuiTextfieldSize="m"
+        formControlName="date"
+      >
         Дата
       </tui-input-date>
-      <tui-select formControlName="name" [valueContent]="valueContent" (ngModelChange)="selectedService($event, i)">
+      <tui-select
+        formControlName="name"
+        [valueContent]="valueContent"
+        (ngModelChange)="selectedService($event, i)"
+      >
         Название
-        <tui-data-list-wrapper *tuiDataList size="l" [items]="services" [itemContent]="itemContent"></tui-data-list-wrapper>
+        <tui-data-list-wrapper
+          *tuiDataList
+          size="l"
+          [items]="services"
+          [itemContent]="itemContent"
+        ></tui-data-list-wrapper>
       </tui-select>
-      <tui-input class="cell cell_count" tuiTextfieldSize="m" [value]="getUnit()" [readOnly]="true">
+      <tui-input
+        class="cell cell_count"
+        tuiTextfieldSize="m"
+        [value]="getUnit()"
+        [readOnly]="true"
+      >
         Ед. изм.
       </tui-input>
-      <tui-input-count class="cell cell_count" tuiTextfieldSize="m" formControlName="count" (ngModelChange)="calculateSum(itemRow, i)">
+      <tui-input-count
+        class="cell cell_count"
+        tuiTextfieldSize="m"
+        formControlName="count"
+        (ngModelChange)="calculateSum(itemRow, i)"
+      >
         Кол-во
       </tui-input-count>
-      <tui-input-number class="cell cell_price" tuiTextfieldSize="m" formControlName="price" [readOnly]="true">
+      <tui-input-number
+        class="cell cell_price"
+        tuiTextfieldSize="m"
+        formControlName="price"
+        [readOnly]="true"
+      >
         Цена
       </tui-input-number>
-      <tui-input-number class="cell cell_price" tuiTextfieldSize="m" formControlName="amount" [readOnly]="true">
+      <tui-input-number
+        class="cell cell_price"
+        tuiTextfieldSize="m"
+        formControlName="amount"
+        [readOnly]="true"
+      >
         Сумма
       </tui-input-number>
       <button
         class="cell cell_delete"
         appearance="buttonDeleteRow"
         tuiIconButton
-        [icon]="form.get('tableRowArray').length === 1 ? 'tuiIconHrLarge' : 'tuiIconTrashLarge'"
+        [icon]="
+          form.get('tableRowArray').length === 1
+            ? 'tuiIconHrLarge'
+            : 'tuiIconTrashLarge'
+        "
         type="button"
         (click)="deleteRow(i)"
-        [disabled]="form.get('tableRowArray').length === 1">
-      </button>
+        [disabled]="form.get('tableRowArray').length === 1"
+      ></button>
     </div>
   </div>
 </form>
@@ -51,7 +101,8 @@
   size="s"
   class="tui-space_right-3 tui-space_bottom-3 tui-space_top-3"
   (click)="addNewRow()"
-  [disabled]="form.invalid">
+  [disabled]="form.invalid"
+>
   Добавить строку
 </button>
 

@@ -1,0 +1,41 @@
+<!-- <h2 class="tui-text_h4">Просмотр контрагента</h2> -->
+
+<p class="tui-text_h5">
+  {{ contractor.info.shortName }}
+</p>
+
+<section>
+  <h3>
+    {{
+      isJuridicalAndMailingAddressSame
+        ? "Юридический и почтовый адрес"
+        : "Юридический адрес"
+    }}
+  </h3>
+
+  <p class="tui-text_body-m" [innerHTML]="getAddressToString('juridical')"></p>
+</section>
+
+<section *ngIf="!isJuridicalAndMailingAddressSame">
+  <h3>Почтовый адрес</h3>
+  <p class="tui-text_body-m" [innerHTML]="getAddressToString('mailing')"></p>
+</section>
+
+<section>
+  <h3>Банковские реквизиты</h3>
+  <p class="tui-text_body-m" [innerHTML]="getBankInfoToString()"></p>
+</section>
+
+<section class="tui-space_top-10">
+  <button
+    class="tui-space_right-3"
+    tuiButton
+    type="button"
+    [showLoader]="false"
+    [size]="'m'"
+    appearance="secondary"
+    (click)="cancel()"
+  >
+    Закрыть
+  </button>
+</section>

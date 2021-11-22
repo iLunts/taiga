@@ -1,33 +1,37 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
-  Output,
-  SimpleChanges,
+  Output
 } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
+
 import { Company } from 'src/app/models/company.model';
-import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-company-panel',
   templateUrl: './company-panel.component.html',
-  styleUrls: ['./company-panel.component.less'],
+  styleUrls: ['./company-panel.component.less']
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CompanyPanelComponent implements OnInit, OnChanges {
-  @Input() data: Company;
+export class CompanyPanelComponent implements OnInit {
+  @Input() set data(data: Company) {
+    this.dataSubject.next(data);
+  }
+  private dataSubject = new BehaviorSubject<Company>(null);
+  data$: Observable<Company> = this.dataSubject.asObservable().pipe(
+    filter((company) => !!company),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+  );
+
   @Input() isLoaded: boolean;
+  @Input() canChange: boolean;
   @Output() change = new EventEmitter<boolean>();
 
-  constructor(private companyService: CompanyService) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.data) {
-      let cl = new Company();
-      this.companyService.isCompanyValid(changes.data.currentValue);
-    }
-  }
 }

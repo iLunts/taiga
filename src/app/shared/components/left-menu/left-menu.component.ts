@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Menu, MenuType } from 'src/app/models/menu';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -7,7 +8,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
-  styleUrls: ['./left-menu.component.less'],
+  styleUrls: ['./left-menu.component.less']
 })
 export class LeftMenuComponent implements OnInit {
   user: User;
@@ -16,72 +17,72 @@ export class LeftMenuComponent implements OnInit {
       name: 'Домашняя',
       url: environment.routing.admin.dashboard,
       icon: 'tuiIconDesktopLarge',
-      type: 'menu',
+      type: 'menu'
     },
     {
       name: 'Контрагенты',
       url: environment.routing.admin.contractor.list,
-      icon: 'tuiIconFileLarge',
-      type: 'menu',
+      icon: 'tuiIconCompanyLarge',
+      type: 'menu'
     },
-    {
-      name: 'Услуги',
-      url: environment.routing.admin.contractor.list,
-      icon: 'tuiIconFileLarge',
-      type: 'menu',
-      disabled: true,
-    },
-    {
-      name: 'Профиль',
-      url: environment.routing.admin.contractor.list,
-      icon: 'tuiIconFileLarge',
-      type: 'menu',
-      disabled: true,
-    },
+    // {
+    //   name: 'Услуги',
+    //   url: environment.routing.admin.contractor.list,
+    //   icon: 'tuiIconFileLarge',
+    //   type: 'menu',
+    //   disabled: true
+    // },
+    // {
+    //   name: 'Профиль',
+    //   url: environment.routing.admin.contractor.list,
+    //   icon: 'tuiIconFileLarge',
+    //   type: 'menu',
+    //   disabled: true
+    // },
     {
       name: '',
       url: '',
       icon: '',
-      type: 'divider',
-    },
-    {
-      name: 'Счета',
-      url: environment.routing.admin.invoice.list,
-      icon: 'tuiIconFileLarge',
-      type: 'menu',
+      type: 'divider'
     },
     {
       name: 'Договора',
       url: environment.routing.admin.contract.list,
-      icon: 'tuiIconFileLarge',
-      type: 'menu',
+      icon: 'tuiIconEditLarge',
+      type: 'menu'
+    },
+    {
+      name: 'Счета',
+      url: environment.routing.admin.invoice.list,
+      icon: 'tuiIconCalendarLarge',
+      type: 'menu'
     },
     {
       name: 'Акты',
-      url: environment.routing.admin.invoice.list,
-      icon: 'tuiIconFileLarge',
+      url: environment.routing.admin.act.list,
+      icon: 'tuiIconExternalLarge',
       type: 'menu',
-      disabled: true,
+      disabled: false
     },
     {
-      name: 'Справки',
-      url: environment.routing.admin.invoice.list,
+      name: 'Справки аренды',
+      url: environment.routing.admin.rentalCertificate.list,
       icon: 'tuiIconFileLarge',
       type: 'menu',
-      disabled: true,
+      disabled: false
     },
     {
       name: '',
       url: '',
       icon: '',
-      type: 'divider',
+      type: 'divider'
     },
     {
       name: 'Настройки',
       url: environment.routing.admin.settings.main,
       icon: 'tuiIconSettingsLarge',
-      type: 'menu',
-    },
+      type: 'menu'
+    }
   ];
   MENU_TYPE: MenuType;
 

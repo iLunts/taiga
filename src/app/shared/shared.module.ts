@@ -11,41 +11,44 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 
-import { environment } from 'src/environments/environment';
-import { ComponentsModule } from './components/components.module';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { ComponentsModule } from './components/components.module';
+import { environment } from 'src/environments/environment';
+import { StateInProgressDirective } from './directives/state-in-progress.directive';
 import { TextMaskModule } from 'angular2-text-mask';
+import { TopMenuModule } from './components/top-menu/top-menu.module';
+import { EmptyModule } from './components/empty/empty.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [StateInProgressDirective],
   imports: [
     AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
-    AngularFireStorageModule,
     AngularFireDatabaseModule,
     AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     CommonModule,
     ComponentsModule,
+    EmptyModule,
     FormsModule,
+    QRCodeModule,
     ReactiveFormsModule,
     TaigaModule,
     TextMaskModule,
-    QRCodeModule,
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
+    TopMenuModule
   ],
   exports: [
     CommonModule,
     ComponentsModule,
+    EmptyModule,
     FormsModule,
+    QRCodeModule,
     ReactiveFormsModule,
+    StateInProgressDirective,
     TaigaModule,
     TextMaskModule,
-    QRCodeModule,
-    FroalaEditorModule,
-    FroalaViewModule,
-  ],
+    TopMenuModule
+  ]
 })
 export class SharedModule {}

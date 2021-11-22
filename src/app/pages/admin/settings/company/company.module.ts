@@ -6,32 +6,37 @@ import { CompanyRoutingModule } from './company-routing.module';
 import { LogotypeComponent } from './tabs/logotype/logotype.component';
 import { InformationComponent } from './tabs/information/information.component';
 import { BanksComponent } from './tabs/banks/banks.component';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiNotificationModule } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
+  TuiBadgeModule,
   TuiInputNumberModule,
   TuiIslandModule,
-  TuiMarkerIconModule,
+  TuiMarkerIconModule
 } from '@taiga-ui/kit';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { HeaderModule } from 'src/app/shared/components/header/header.module';
 
 @NgModule({
   declarations: [
     CompanyComponent,
     LogotypeComponent,
     InformationComponent,
-    BanksComponent,
+    BanksComponent
   ],
   imports: [
     CommonModule,
     CompanyRoutingModule,
+    HeaderModule,
     SharedModule,
-    TuiButtonModule,
     TuiAccordionModule,
+    TuiBadgeModule,
+    TuiButtonModule,
     TuiInputNumberModule,
     TuiIslandModule,
     TuiMarkerIconModule,
+    TuiNotificationModule
   ],
-  exports: [CompanyComponent],
+  exports: [CompanyComponent]
 })
 export class CompanyModule {}

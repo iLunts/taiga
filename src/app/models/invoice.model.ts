@@ -1,9 +1,11 @@
-import { Service } from './service.model';
-import { Contractor } from './company.model';
-import { Profile } from './profile.model';
+import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { TuiDay } from '@taiga-ui/cdk';
+
+import { Contractor } from './company.model';
+import { Profile } from './profile.model';
+import { Service } from './service.model';
+import { ModelHelper } from '../utils/model.helper';
 
 export class Invoice {
   _id: string;
@@ -11,11 +13,12 @@ export class Invoice {
   _contractId: string;
   _createdDate: Date;
   _userId: string;
+  headerImage: HeaderImage;
   contractor: Contractor;
   dateRange: TuiDay;
   description: string;
   number: string;
-  profile: Profile;
+  profileCompany: Profile;
   qrCode: string;
   services: Service[];
   signature: Signature;
@@ -30,11 +33,12 @@ export class Invoice {
     _contractId?: string,
     _createdDate?: Date,
     _userId?: string,
+    headerImage?: HeaderImage,
     contractor?: Contractor,
     dateRange?: TuiDay,
     description?: string,
     number?: string,
-    profile?: Profile,
+    profileCompany?: Profile,
     qrCode?: string,
     services?: Service[],
     signature?: Signature,
@@ -48,9 +52,10 @@ export class Invoice {
     this._contractId = _contractId || null;
     this._actId = _actId || null;
     this._createdDate = _createdDate || new Date();
+    this.headerImage = headerImage || null;
     this.number = number || null;
     this.contractor = contractor || new Contractor();
-    this.profile = profile || new Profile();
+    this.profileCompany = profileCompany || new Profile();
     this.services = services || [];
     this.dateRange =
       dateRange ||
@@ -65,16 +70,13 @@ export class Invoice {
   }
 
   isValid(invoice: Invoice): boolean {
-    let valid = false;
-
-    // console.warn('WARN: ', _.isEmpty(null));
-
-    valid =
-      invoice?.services?.length && invoice?.status && invoice?.contractor
+    let valid =
+      invoice?.services?.length > 0 &&
+      ModelHelper.isValidObject(invoice?.status) &&
+      ModelHelper.isValidObject(invoice?.contractor.info)
         ? true
         : false;
-    // valid = !_.values(invoice.status).every(_.isEmpty);
-    // return invoice?.status ? invoice?.status?.isValid(invoice.status) : false;
+
     return valid;
   }
 }
@@ -149,5 +151,15 @@ export class Signature {
     this.firstName = firstName || null;
     this.lastName = lastName || null;
     this.initials = initials || null;
+  }
+}
+
+export class HeaderImage {
+  url: string;
+  name: string;
+
+  constructor(url?: string, name?: string) {
+    this.url = url || null;
+    this.name = name || null;
   }
 }
