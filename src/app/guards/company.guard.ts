@@ -22,7 +22,7 @@ export class CompanyGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    const status = this.companyService.isCompanyEmpty();
+    const status = this.companyService.getCompanyFromLocalStorage();
 
     if (!status) {
       this.router.navigate([this.routing.admin.settings.company], {

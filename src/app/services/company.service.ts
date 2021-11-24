@@ -41,7 +41,11 @@ export class CompanyService {
         q.where('_userId', '==', this.authService.getUserId())
       );
 
-      this.company$ = this.getProfileCompany$();
+      this.company$ = this.getProfileCompany$().pipe(
+        tap((data) => console.log('Constr - getProfile: ', data))
+      );
+
+      this.setCompanyToLocalStorage();
     }
   }
 
@@ -134,7 +138,6 @@ export class CompanyService {
 
   setCompany(company: Company): void {
     this.companySubject.next(company);
-    console.log('Set company: ', company);
   }
 
   getCompany(): Company {
@@ -248,5 +251,21 @@ export class CompanyService {
 
   isCompanyEmpty(): boolean {
     return this.checkCompanyValid(this.getCompany());
+  }
+
+  get isCompanyNotEmpty(): boolean {
+    const company = JSON.parse(localStorage.getItem('company')) || null;
+    return company !== null ? true : false;
+  }
+
+  setCompanyToLocalStorage(): void {
+    localStorage.setItem(
+      'company',
+      JSON.stringify(this.companySubject.getValue())
+    );
+  }
+
+  getCompanyFromLocalStorage(): Company {
+    return JSON.parse(localStorage.getItem('company')) || null;
   }
 }
