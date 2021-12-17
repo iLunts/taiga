@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection
@@ -18,17 +18,26 @@ import { AuthService } from './auth.service';
 import { Company, CompanyAddress, CompanyInfo } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { Bank, BankAccount } from '../models/bank.model';
-import { filter, first, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  shareReplay,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CompanyService {
+export class CompanyService implements OnDestroy {
   private dbPath = '/companies';
   private companyRef: AngularFirestoreCollection<Company> = null;
   private regexSWIFT = /^[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{20}$/;
   private companySubject = new BehaviorSubject<Company>(new Company());
-  // private companySubject = new Subject<Company>();
+  private readonly destroySubject = new Subject();
   company$: Observable<Company> = this.companySubject.asObservable();
 
   constructor(
@@ -37,45 +46,49 @@ export class CompanyService {
     private notificationService: NotificationService
   ) {
     if (this.authService.isLoggedIn) {
-      this.companyRef = this.afs.collection(this.dbPath, (q) =>
-        q.where('_userId', '==', this.authService.getUserId())
-      );
+      // TODO: Нужно проверить будут ли меняться данные, при повторном выхове сервиса в конструкторе другого компонента
+      const company$ = this.getProfileCompany$();
 
-      this.company$ = this.getProfileCompany$().pipe(
-        tap((data) => console.log('Constr - getProfile: ', data))
-      );
-
-      this.setCompanyToLocalStorage();
+      company$
+        .pipe(
+          filter((company: Company) => !!company),
+          tap((company: Company) => this.companySubject.next(company)),
+          takeUntil(this.destroySubject)
+        )
+        .subscribe();
+    } else {
+      this.clearCompanyFromLocalStorage();
     }
   }
 
-  getAll$(): Observable<Company[]> {
-    return this.companyRef.valueChanges();
+  ngOnDestroy(): void {
+    this.destroySubject.next(null);
+    this.destroySubject.complete();
   }
 
   checkCompanyValid(company: Company): boolean {
     if (company) {
-      return (
-        this.checkCompanyInfoValid(company) &&
-        this.checkCompanyBankValid(company) &&
-        this.checkCompanySwiftValid(company.bankAccount.SWIFT)
-      );
+      // return (
+      //   this.checkCompanyInfoValid(company) &&
+      //   this.checkCompanyBankValid(company) &&
+      //   this.checkCompanySwiftValid(company.bankAccount.SWIFT)
+      // );
     } else {
       return false;
     }
   }
 
   checkCompanyValid$(): Observable<boolean> {
-    return this.company$.pipe(
-      filter((company) => !!company),
-      switchMap((company: Company) =>
-        forkJoin(
-          this.checkCompanyInfoValid$(company),
-          this.checkCompanyBankValid$(company),
-          this.checkCompanySwiftValid$(company.bankAccount.SWIFT)
-        ).pipe(map(([a, b]) => a && b))
-      )
-    );
+    // return this.company$.pipe(
+    //   filter((company) => !!company),
+    //   switchMap((company: Company) =>
+    //     forkJoin().pipe(map(([a, b]) => a && b))
+    //     // this.checkCompanyInfoValid$(company),
+    //     // this.checkCompanyBankValid$(company),
+    //     // this.checkCompanySwiftValid$(company.bankAccount.SWIFT)
+    //   )
+    // );
+    return of(false);
   }
 
   checkCompanyInfoValid(company: Company): boolean {
@@ -112,6 +125,8 @@ export class CompanyService {
     const bank = company?.bankAccount?.bank;
     let status = true;
 
+    console.warn('checkCompanyBankValid$: ', company);
+
     if (
       !bank ||
       !bank.CDBank ||
@@ -122,9 +137,6 @@ export class CompanyService {
     ) {
       status = false;
     }
-
-    console.log('Update valid: ', status);
-
     return of(status);
   }
 
@@ -153,20 +165,33 @@ export class CompanyService {
     return this.companySubject.getValue();
   }
 
+  getCompany$(): Observable<Company> {
+    return this.company$;
+  }
+
+  getCompanyValue(): Company {
+    return this.companySubject.getValue();
+  }
+
   getProfileCompany$(): Observable<Company> {
     const companyRef: AngularFirestoreCollection<Company> = this.afs.collection(
       this.dbPath,
       (q) => q.where('_userId', '==', this.authService.getUserId())
     );
-    return companyRef.valueChanges().pipe(
+
+    const company$ = companyRef.valueChanges().pipe(
       first(),
       map(([company]) => company),
-      tap((company: Company) => this.companySubject.next(company))
-    ) as Observable<Company>;
-  }
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      tap((company: Company) => {
+        this.companySubject.next(company);
+        this.setCompanyToLocalStorage(company);
+      }),
+      // shareReplay()
+      takeUntil(this.destroySubject)
+    );
 
-  getCompany$(): Observable<Company> {
-    return this.companySubject.asObservable();
+    return company$;
   }
 
   clearCompanyInfo(): void {
@@ -181,19 +206,32 @@ export class CompanyService {
   }
 
   clearCompanyBankAccount(): void {
-    let company = this.getCompany();
-
-    company.bankAccount = new BankAccount();
-
-    this.setCompany(company);
+    const company$ = this.getCompany$();
+    company$
+      .pipe(
+        filter((company) => !!company),
+        distinctUntilChanged(),
+        map((company: Company) => ({
+          ...company,
+          bankAccount: new BankAccount()
+        })),
+        tap((company) => {
+          this.setCompany(company);
+        }),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe();
   }
 
   clearCompanyBank(): void {
+    // TODO: нужно сделать merge() и уже внутри rxjs обновлять конкретные данные и прослушивать все изменения
     let company = this.getCompany();
 
     company.bankAccount.bank = new Bank();
 
     this.setCompany(company);
+
+    // this.actionClearCompanyBankSubject.next(null);
   }
 
   clearCompanySwift(): void {
@@ -258,14 +296,20 @@ export class CompanyService {
     return company !== null ? true : false;
   }
 
-  setCompanyToLocalStorage(): void {
+  setCompanyToLocalStorage(company?: Company): void {
     localStorage.setItem(
       'company',
-      JSON.stringify(this.companySubject.getValue())
+      company
+        ? JSON.stringify(company)
+        : JSON.stringify(this.companySubject.getValue())
     );
   }
 
   getCompanyFromLocalStorage(): Company {
     return JSON.parse(localStorage.getItem('company')) || null;
+  }
+
+  clearCompanyFromLocalStorage(): void {
+    localStorage.removeItem('company');
   }
 }

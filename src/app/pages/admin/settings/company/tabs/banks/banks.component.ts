@@ -20,12 +20,12 @@ export class BanksComponent implements OnInit {
   valid$: Observable<boolean>;
 
   constructor(private companyService: CompanyService) {
-    this.valid$ = this.company$.pipe(
-      filter((company) => !!company),
-      switchMap((company) =>
-        this.companyService.checkCompanyBankValid$(company)
-      )
-    );
+    // this.valid$ = this.company$.pipe(
+    //   filter((company) => !!company),
+    //   switchMap((company) =>
+    //     this.companyService.checkCompanyBankValid$(company)
+    //   )
+    // );
   }
 
   ngOnInit(): void {}

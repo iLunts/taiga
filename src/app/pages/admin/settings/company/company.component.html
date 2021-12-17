@@ -1,6 +1,6 @@
 <app-header-create title="Настройка компании"></app-header-create>
 
-<div class="page-body">
+<div class="page-body" *ngIf="company$ | async; let company">
   <section class="tui-container tui-container_full">
     <tui-notification
       class="tui-col_6 tui-col-offset_3"
@@ -11,16 +11,20 @@
       Обязательно заполняйте все поля реальными данными.
     </tui-notification>
 
-    <app-company-settings-logotype
-      [company]="company$ | async"
-    ></app-company-settings-logotype>
+    <p>
+      {{ company | json }}
+    </p>
+
+    <!-- <app-company-settings-logotype
+      [company]="company"
+    ></app-company-settings-logotype> -->
 
     <app-company-settings-information
-      [company]="company$ | async"
+      [company]="company"
     ></app-company-settings-information>
 
     <app-company-settings-banks
-      [company]="company$ | async"
+      [company]="company"
     ></app-company-settings-banks>
 
     <div class="tui-row tui-row_sme">
@@ -32,11 +36,9 @@
           appearance="primary"
           (click)="save()"
         >
-          {{ (company$ | async)?._id ? 'Обновить' : 'Сохранить' }}
+          {{ company._id ? 'Обновить' : 'Сохранить' }}
         </button>
       </div>
     </div>
   </section>
-
-  <p>{{ company$ | async | json }}</p>
 </div>
