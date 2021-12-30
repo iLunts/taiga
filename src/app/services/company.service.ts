@@ -15,7 +15,12 @@ import {
 import * as _ from 'lodash';
 
 import { AuthService } from './auth.service';
-import { Company, CompanyAddress, CompanyInfo } from '../models/company.model';
+import {
+  Company,
+  CompanyAddress,
+  CompanyInfo,
+  ResponsiblePerson
+} from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { Bank, BankAccount } from '../models/bank.model';
 import {
@@ -28,6 +33,7 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
+import { merge } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +52,7 @@ export class CompanyService implements OnDestroy {
     private notificationService: NotificationService
   ) {
     if (this.authService.isLoggedIn) {
-      // TODO: Нужно проверить будут ли меняться данные, при повторном выхове сервиса в конструкторе другого компонента
+      // TODO: Нужно проверить будут ли меняться данные, при повторном вызове сервиса в конструкторе другого компонента
       const company$ = this.getProfileCompany$();
 
       company$
@@ -78,17 +84,11 @@ export class CompanyService implements OnDestroy {
     }
   }
 
-  checkCompanyValid$(): Observable<boolean> {
-    // return this.company$.pipe(
-    //   filter((company) => !!company),
-    //   switchMap((company: Company) =>
-    //     forkJoin().pipe(map(([a, b]) => a && b))
-    //     // this.checkCompanyInfoValid$(company),
-    //     // this.checkCompanyBankValid$(company),
-    //     // this.checkCompanySwiftValid$(company.bankAccount.SWIFT)
-    //   )
-    // );
-    return of(false);
+  checkCompanyValid$(company: Company): Observable<boolean> {
+    return merge(
+      this.checkCompanyInfoValid$(company),
+      this.checkCompanyBankAccountValid$(company)
+    );
   }
 
   checkCompanyInfoValid(company: Company): boolean {
@@ -103,29 +103,9 @@ export class CompanyService implements OnDestroy {
     );
   }
 
-  checkCompanyBankValid(company: Company): boolean {
-    const bank = company?.bankAccount?.bank;
-    let status = true;
-
-    if (
-      !bank ||
-      !bank.CDBank ||
-      !bank.NmBankShort ||
-      !bank.CDHeadBank ||
-      !bank.AdrBank ||
-      bank.CdControl === 'ЗАКР'
-    ) {
-      status = false;
-    }
-
-    return status;
-  }
-
   checkCompanyBankValid$(company: Company): Observable<boolean> {
     const bank = company?.bankAccount?.bank;
     let status = true;
-
-    console.warn('checkCompanyBankValid$: ', company);
 
     if (
       !bank ||
@@ -140,15 +120,19 @@ export class CompanyService implements OnDestroy {
     return of(status);
   }
 
-  checkCompanySwiftValid(swift: string): boolean {
-    return this.regexSWIFT.test(swift?.toUpperCase().replace(/\s/g, ''));
-  }
-
   checkCompanySwiftValid$(swift: string): Observable<boolean> {
     return of(this.regexSWIFT.test(swift?.toUpperCase().replace(/\s/g, '')));
   }
 
+  checkCompanyBankAccountValid$(company: Company): Observable<boolean> {
+    return merge(
+      this.checkCompanyBankValid$(company),
+      this.checkCompanySwiftValid$(company?.bankAccount?.SWIFT)
+    );
+  }
+
   setCompany(company: Company): void {
+    console.log('setCompany: ', company);
     this.companySubject.next(company);
   }
 
@@ -163,6 +147,28 @@ export class CompanyService implements OnDestroy {
       this.setCompany(new Company());
     }
     return this.companySubject.getValue();
+  }
+
+  // TODO: Temporary solution
+  getCompanyData$(): Observable<Company> {
+    const companyRef: AngularFirestoreCollection<Company> = this.afs.collection(
+      this.dbPath,
+      (q) => q.where('_userId', '==', this.authService.getUserId())
+    );
+
+    const company$ = companyRef.valueChanges().pipe(
+      first(),
+      map(([company]) => company),
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      tap((company: Company) => {
+        this.companySubject.next(company);
+        this.setCompanyToLocalStorage(company);
+      }),
+      // shareReplay()
+      takeUntil(this.destroySubject)
+    );
+
+    return company$;
   }
 
   getCompany$(): Observable<Company> {
@@ -283,12 +289,31 @@ export class CompanyService implements OnDestroy {
     );
   }
 
-  isJuridicalAndPostalAddressSame(company: Company): boolean {
-    return _.isEqual(company.juridicalAddress, company.mailingAddress);
+  updateResponsiblePerson(responsiblePerson: ResponsiblePerson): void {
+    // const company$ = this.company$.pipe(
+    this.company$
+      .pipe(
+        map((company: Company) => ({
+          ...company,
+          responsiblePerson
+        })),
+        tap((company: Company) => {
+          console.log('update: ', company);
+          // this.setCompany(company);
+        }),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((company) => this.setCompany(company));
+
+    // company$.subscribe((data) => {
+    //   debugger;
+    // });
+
+    // return company$;
   }
 
-  isCompanyEmpty(): boolean {
-    return this.checkCompanyValid(this.getCompany());
+  isJuridicalAndPostalAddressSame(company: Company): boolean {
+    return _.isEqual(company.juridicalAddress, company.mailingAddress);
   }
 
   get isCompanyNotEmpty(): boolean {

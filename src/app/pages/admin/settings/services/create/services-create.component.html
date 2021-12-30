@@ -1,0 +1,100 @@
+<app-header-create title="Новый товары"></app-header-create>
+
+<div class="page-body">
+  <form class="tui-container tui-container_full" [formGroup]="form">
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
+      <div class="tui-form__multi-field form-group__item form-group__item-info">
+        <h3 class="form-group__item-title">Наименование</h3>
+        <p class="form-group__item-desc">
+          Укажите наименование товара, которое будет отображаться во всех.
+        </p>
+      </div>
+      <div class="tui-form__multi-field form-group__item">
+        <tui-input formControlName="name"> Наименование </tui-input>
+        <tui-field-error formControlName="name"></tui-field-error>
+      </div>
+    </div>
+
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
+      <div class="tui-form__multi-field form-group__item form-group__item-info">
+        <h3 class="form-group__item-title">Описание</h3>
+        <p class="form-group__item-desc">
+          Краткое описание товара, для того, чтобы понимать за что отвечает тот
+          или иной товар. Используется исключительно в качестве подсказов и не
+          отображается в документах
+        </p>
+      </div>
+      <div class="tui-form__multi-field form-group__item">
+        <tui-input formControlName="desc"> Описание </tui-input>
+        <tui-field-error formControlName="desc"></tui-field-error>
+      </div>
+    </div>
+
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
+      <div class="tui-form__multi-field form-group__item form-group__item-info">
+        <h3 class="form-group__item-title">Группа</h3>
+        <p class="form-group__item-desc">
+          Выберите группу к которой будет относится данный товар. Это позволить
+          быстрее осуществлять поиск по списку товаров из-за группировки
+        </p>
+      </div>
+      <div class="tui-form__multi-field form-group__item">
+        <tui-input formControlName="group"> Группа </tui-input>
+        <tui-field-error formControlName="group"></tui-field-error>
+      </div>
+    </div>
+
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
+      <div class="tui-form__multi-field form-group__item form-group__item-info">
+        <h3 class="form-group__item-title">Цена</h3>
+        <p class="form-group__item-desc">Укажите цену за единицу товара</p>
+      </div>
+      <div class="tui-form__multi-field form-group__item">
+        <tui-input-number
+          formControlName="price"
+          [postfix]="'BYN' | tuiCurrency"
+        >
+          Цена
+        </tui-input-number>
+        <tui-field-error formControlName="price"></tui-field-error>
+      </div>
+    </div>
+
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
+      <div class="tui-form__multi-field form-group__item form-group__item-info">
+        <h3 class="form-group__item-title">НДС</h3>
+        <p class="form-group__item-desc">
+          Выберите ставку НДС для вашего товара
+        </p>
+      </div>
+      <div class="tui-form__multi-field form-group__item">
+        <tui-input formControlName="tax"> НДС </tui-input>
+        <tui-field-error formControlName="tax"></tui-field-error>
+      </div>
+    </div>
+
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
+      <button
+        class="tui-space_right-3"
+        tuiButton
+        type="button"
+        [showLoader]="false"
+        [size]="'m'"
+        appearance="secondary"
+        (click)="cancel()"
+      >
+        Отменить
+      </button>
+      <button
+        tuiButton
+        type="button"
+        [showLoader]="false"
+        [size]="'m'"
+        [disabled]="form.invalid"
+        (click)="save()"
+      >
+        Добавить
+      </button>
+    </div>
+  </form>
+</div>

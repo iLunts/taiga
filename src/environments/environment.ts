@@ -51,7 +51,11 @@ export const environment = {
         company: '/admin/settings/company',
         employees: '/admin/settings/employees',
         main: '/admin/settings',
-        templates: '/admin/settings/templates'
+        templates: '/admin/settings/templates',
+        services: {
+          list: '/admin/settings/services',
+          create: '/admin/settings/services/create'
+        }
       }
     }
   }

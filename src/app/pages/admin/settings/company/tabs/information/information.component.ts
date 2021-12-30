@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { filter, switchMap } from 'rxjs/operators';
 
 import { Company } from 'src/app/models/company.model';
@@ -10,7 +10,7 @@ import { CompanyService } from 'src/app/services/company.service';
   templateUrl: './information.component.html',
   styleUrls: ['./information.component.less']
 })
-export class InformationComponent implements OnInit {
+export class InformationComponent implements OnInit, OnDestroy {
   @Input() set company(company: Company) {
     this.companySubject.next(company);
   }
@@ -28,4 +28,8 @@ export class InformationComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.companySubject.complete();
+  }
 }

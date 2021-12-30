@@ -1,0 +1,23 @@
+<div class="tui-form__row tui-form__row_multi-fields form-group">
+  <div class="tui-form__multi-field form-group__item form-group__item-info">
+    <h3 class="form-group__item-title">
+      Ответственный
+      <tui-badge
+        class="form-group__item-status"
+        [status]="(valid$ | async) ? 'success' : 'warning'"
+        [value]="(valid$ | async) ? 'Проверено' : 'Не хватает данных'"
+      ></tui-badge>
+    </h3>
+    <p class="form-group__item-desc">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos repellat
+      sequi exercitationem eligendi ipsa reprehenderit recusandae consectetur
+      illum eum quas ipsam labore, corrupti itaque, fuga ab quasi accusantium,
+      earum rem?
+    </p>
+  </div>
+  <div class="tui-form__multi-field form-group__item">
+    <app-responsible-person-panel
+      (onChange)="setResponsiblePerson($event)"
+    ></app-responsible-person-panel>
+  </div>
+</div>

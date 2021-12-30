@@ -15,18 +15,8 @@ export class SettingsComponent implements OnInit {
       icon: ''
     },
     {
-      label: 'Сотрудники',
-      url: this.routing.admin.settings.employees,
-      icon: ''
-    },
-    {
-      label: 'Мобильные приложения',
-      url: this.routing.admin.settings.apps,
-      icon: ''
-    },
-    {
-      label: 'Шаблоны',
-      url: this.routing.admin.settings.templates,
+      label: 'Товары',
+      url: this.routing.admin.settings.services.list,
       icon: ''
     }
   ];

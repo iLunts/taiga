@@ -1,0 +1,140 @@
+<div class="page-header">
+  <h1 class="tui-text_h3 page-header__title">Товары</h1>
+  <button
+    class="tui-space_left-5"
+    tuiButton
+    size="s"
+    iconRight="tuiIconPlus"
+    title="Создать новый"
+    shape="rounded"
+    [routerLink]="[routing.admin.settings.services.create]"
+  >
+    Создать новый
+  </button>
+
+  <!-- <tui-tabs-with-more
+    class="page-header__tabs"
+    [activeItemIndex]="getTabActiveIndex"
+    [moreContent]="more"
+  >
+    <ng-container *tuiLet="contractStatuses$ | async as contractStatuses">
+      <ng-container *ngFor="let status of contractStatuses">
+        <button *tuiTab tuiTab (click)="selectTab(status)">
+          {{ status.name }}
+        </button>
+      </ng-container>
+    </ng-container>
+  </tui-tabs-with-more> -->
+</div>
+
+<div class="page-body">
+  <app-empty-panel *ngIf="!(services$ | async)?.length"></app-empty-panel>
+  <ng-container
+    *ngIf="(services$ | async)?.length && services$ | async as services"
+  >
+    <table tuiTable [columns]="columns" class="tui-table">
+      <thead>
+        <tr class="tui-table__tr" tuiThGroup>
+          <th class="tui-table__th" *tuiHead="'name'" tuiTh [resizable]="true">
+            Название
+          </th>
+          <th class="tui-table__th" *tuiHead="'desc'" tuiTh [resizable]="true">
+            Описание
+          </th>
+          <th class="tui-table__th" *tuiHead="'count'" tuiTh [resizable]="true">
+            Количество
+          </th>
+          <th class="tui-table__th" *tuiHead="'price'" tuiTh [resizable]="true">
+            Цена
+          </th>
+          <th
+            class="tui-table__th"
+            *tuiHead="'action'"
+            tuiTh
+            [resizable]="false"
+          ></th>
+        </tr>
+      </thead>
+      <tbody tuiTbody [data]="services">
+        <tr
+          class="tui-table__tr"
+          tuiTr
+          *tuiRow="let item of services; let index = index"
+        >
+          <td class="tui-table__td" *tuiCell="'name'" tuiTd>
+            <b>{{ item?.name }}</b>
+            <br *ngIf="item.group?._id" />
+            <span *ngIf="item.group?._id">{{ item.group.name }}</span>
+          </td>
+          <td class="tui-table__td" *tuiCell="'desc'" tuiTd>
+            {{ item?.desc }}
+          </td>
+          <td class="tui-table__td" *tuiCell="'count'" tuiTd>
+            {{ item?.count }}
+          </td>
+          <td class="tui-table__td" *tuiCell="'price'" tuiTd>
+            {{ item?.price }}
+          </td>
+          <td
+            class="tui-table__td tui-table__td--right"
+            *tuiCell="'action'"
+            tuiTd
+          >
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconTrash"
+              title="Remove"
+              shape="rounded"
+              (click)="delete(item)"
+            ></button>
+
+            <button
+              tuiIconButton
+              appearance="flat"
+              size="s"
+              icon="tuiIconEdit"
+              title="Edit"
+              shape="rounded"
+              (click)="edit(item)"
+            ></button>
+
+            <!-- <tui-hosted-dropdown #dropdown [content]="content">
+              <button
+                tuiIconButton
+                appearance="flat"
+                size="s"
+                icon="tuiIconMoreVer"
+                type="button"
+                shape="rounded"
+                [pseudoHovered]="dropdown.open || null"
+              ></button>
+            </tui-hosted-dropdown> -->
+            <!-- <ng-template #content let-activeZone>
+              <tui-data-list
+                tuiDataListDropdownManager
+                [tuiActiveZoneParent]="activeZone"
+              >
+                <button
+                  tuiOption
+                  (click)="createBaseOnInvoice(item)"
+                  [disabled]="false"
+                >
+                  Счёт
+                </button>
+                <button
+                  tuiOption
+                  (click)="createBaseOnAct(item)"
+                  [disabled]="false"
+                >
+                  Акт
+                </button>
+              </tui-data-list>
+            </ng-template> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</div>

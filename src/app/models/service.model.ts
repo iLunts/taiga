@@ -4,11 +4,10 @@ import { Unit } from './unit.model';
 export class Service {
   _id: string;
   _userId: string;
-  _groupId: string;
   date: TuiDay;
   desc: string;
   count: number;
-  groupName: string;
+  group: ServiceGroup;
   name: string;
   price: number;
   tax: number;

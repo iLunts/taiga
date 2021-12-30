@@ -134,10 +134,12 @@ export class Contact {
 export class ResponsiblePerson {
   fullName?: string;
   basis?: string;
+  type?: string;
 
-  constructor(fullName?: string, basis?: string) {
+  constructor(fullName?: string, basis?: string, type?: string) {
     this.fullName = fullName || null;
     this.basis = basis || null;
+    this.type = type || null;
   }
 }
 

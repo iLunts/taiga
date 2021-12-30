@@ -1,6 +1,13 @@
 <app-header-create title="Настройка компании"></app-header-create>
 
-<div class="page-body" *ngIf="company$ | async; let company">
+<!-- <div class="page-body" *ngIf="companyStore.company | async; let company">
+  <p>
+    {{ company | json }}
+  </p>
+</div> -->
+
+<!-- <div class="page-body" *ngIf="company$ | async; let company"> -->
+<div class="page-body" *ngIf="companyStore.company | async; let company">
   <section class="tui-container tui-container_full">
     <tui-notification
       class="tui-col_6 tui-col-offset_3"
@@ -19,13 +26,17 @@
       [company]="company"
     ></app-company-settings-logotype> -->
 
-    <app-company-settings-information
+    <!-- <app-company-settings-information
       [company]="company"
-    ></app-company-settings-information>
+    ></app-company-settings-information> -->
 
-    <app-company-settings-banks
+    <!-- <app-company-settings-banks
       [company]="company"
-    ></app-company-settings-banks>
+    ></app-company-settings-banks> -->
+
+    <app-company-responsible-person
+      [company]="company"
+    ></app-company-responsible-person>
 
     <div class="tui-row tui-row_sme">
       <div class="tui-col_12">
@@ -34,6 +45,7 @@
           type="button"
           class="tui-space_right-3 tui-space_bottom-3"
           appearance="primary"
+          [disabled]="!(valid$ | async)"
           (click)="save()"
         >
           {{ company._id ? 'Обновить' : 'Сохранить' }}
