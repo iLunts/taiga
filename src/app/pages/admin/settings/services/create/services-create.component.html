@@ -25,7 +25,7 @@
         </p>
       </div>
       <div class="tui-form__multi-field form-group__item">
-        <tui-input formControlName="desc"> Описание </tui-input>
+        <tui-text-area formControlName="desc"> Описание </tui-text-area>
         <tui-field-error formControlName="desc"></tui-field-error>
       </div>
     </div>
@@ -39,8 +39,66 @@
         </p>
       </div>
       <div class="tui-form__multi-field form-group__item">
-        <tui-input formControlName="group"> Группа </tui-input>
-        <tui-field-error formControlName="group"></tui-field-error>
+        <tui-select
+          formControlName="group"
+          [valueContent]="groupContent"
+          *ngIf="!newGroupVisible"
+        >
+          Группа
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="group$ | async"
+            [itemContent]="groupContent"
+          ></tui-data-list-wrapper>
+        </tui-select>
+
+        <ng-template #groupContent let-item>
+          {{ item.name }}
+        </ng-template>
+
+        <p class="new-group-btn" *ngIf="!newGroupVisible">
+          <button tuiLink [pseudo]="true" (click)="toggleNewGroup()">
+            Добавить новую группу
+          </button>
+        </p>
+
+        <ng-container *ngIf="newGroupVisible" [formGroup]="formGroup">
+          <tui-input class="tui-space_bottom-4" formControlName="name">
+            Название
+          </tui-input>
+          <tui-field-error
+            class="tui-space_bottom-4"
+            formControlName="name"
+          ></tui-field-error>
+
+          <tui-text-area
+            tuiTextfieldSize="m"
+            tuiAutoFocus
+            class="tui-space_bottom-4"
+            formControlName="desc"
+          >
+            Описание
+          </tui-text-area>
+          <button
+            tuiButton
+            appearance="secondary"
+            type="button"
+            size="m"
+            class="tui-space_right-3"
+            (click)="toggleNewGroup()"
+          >
+            Отменить
+          </button>
+          <button
+            tuiButton
+            type="button"
+            size="m"
+            (click)="createNewGroup()"
+            [disabled]="formGroup.invalid"
+          >
+            Создать
+          </button>
+        </ng-container>
       </div>
     </div>
 
@@ -68,8 +126,70 @@
         </p>
       </div>
       <div class="tui-form__multi-field form-group__item">
-        <tui-input formControlName="tax"> НДС </tui-input>
-        <tui-field-error formControlName="tax"></tui-field-error>
+        <tui-select formControlName="tax" [valueContent]="taxContent">
+          НДС
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="tax$ | async"
+            [itemContent]="taxContent"
+          ></tui-data-list-wrapper>
+        </tui-select>
+
+        <ng-template #taxContent let-item>
+          {{ item.label }}
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
+      <div class="tui-form__multi-field form-group__item form-group__item-info">
+        <h3 class="form-group__item-title">Единицы измерения</h3>
+        <p class="form-group__item-desc">
+          Выберите единицы измерения для товара из списка предложенных
+        </p>
+      </div>
+      <div class="tui-form__multi-field form-group__item">
+        <tui-select formControlName="unit" [valueContent]="unitContent">
+          Ед. измерения
+          <tui-data-list-wrapper
+            *tuiDataList
+            [items]="unit$ | async"
+            [itemContent]="unitContent"
+          ></tui-data-list-wrapper>
+        </tui-select>
+
+        <ng-template #unitContent let-item>
+          {{ item.fullName }} <small>({{ item.shortName }})</small>
+        </ng-template>
+      </div>
+    </div>
+
+    <div
+      class="tui-form__row tui-form__row_multi-fields form-group"
+      formGroupName="count"
+    >
+      <div class="tui-form__multi-field form-group__item form-group__item-info">
+        <h3 class="form-group__item-title">Количество</h3>
+        <p class="form-group__item-desc">
+          Укажите количество, которое будет отображаться в списке услуг. Так же
+          вы можете указать возможность редактирования данного показателя при
+          создании акта или справки.
+        </p>
+      </div>
+      <div class="tui-form__multi-field form-group__item">
+        <tui-input-count formControlName="amount" [min]="1" [max]="999999">
+          Количество
+        </tui-input-count>
+
+        <tui-checkbox-labeled
+          class="tui-space_top-3"
+          formControlName="isEditable"
+        >
+          Возможность редактирования
+          <div class="can-edit">
+            позволяет изменять количество при формировании документа
+          </div>
+        </tui-checkbox-labeled>
       </div>
     </div>
 

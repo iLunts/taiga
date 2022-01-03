@@ -70,37 +70,17 @@
             {{ item?.desc }}
           </td>
           <td class="tui-table__td" *tuiCell="'count'" tuiTd>
-            {{ item?.count }}
+            {{ item?.count?.amount ? item?.count?.amount : item?.count }}
           </td>
           <td class="tui-table__td" *tuiCell="'price'" tuiTd>
             {{ item?.price }}
           </td>
           <td
-            class="tui-table__td tui-table__td--right"
+            class="tui-table__td tui-table__td--action tui-table__td--right"
             *tuiCell="'action'"
             tuiTd
           >
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconTrash"
-              title="Remove"
-              shape="rounded"
-              (click)="delete(item)"
-            ></button>
-
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconEdit"
-              title="Edit"
-              shape="rounded"
-              (click)="edit(item)"
-            ></button>
-
-            <!-- <tui-hosted-dropdown #dropdown [content]="content">
+            <tui-hosted-dropdown #dropdown [content]="content">
               <button
                 tuiIconButton
                 appearance="flat"
@@ -110,28 +90,20 @@
                 shape="rounded"
                 [pseudoHovered]="dropdown.open || null"
               ></button>
-            </tui-hosted-dropdown> -->
-            <!-- <ng-template #content let-activeZone>
+            </tui-hosted-dropdown>
+            <ng-template #content let-activeZone>
               <tui-data-list
                 tuiDataListDropdownManager
                 [tuiActiveZoneParent]="activeZone"
               >
-                <button
-                  tuiOption
-                  (click)="createBaseOnInvoice(item)"
-                  [disabled]="false"
-                >
-                  Счёт
+                <button tuiOption (click)="edit(item)" [disabled]="true">
+                  Редактировать
                 </button>
-                <button
-                  tuiOption
-                  (click)="createBaseOnAct(item)"
-                  [disabled]="false"
-                >
-                  Акт
+                <button tuiOption (click)="delete(item)" [disabled]="false">
+                  Удалить
                 </button>
               </tui-data-list>
-            </ng-template> -->
+            </ng-template>
           </td>
         </tr>
       </tbody>

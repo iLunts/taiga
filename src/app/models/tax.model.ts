@@ -1,18 +1,21 @@
-export class Bank {
+export class Tax {
   _id: string;
-  count: number;
+  amount: number;
   isCalculate: boolean;
-  textValue: string;
+  label: string;
+  desc: string;
 
   constructor(
     _id?: string,
-    count?: number,
+    amount?: number,
     isCalculate?: boolean,
-    textValue?: string
+    label?: string,
+    desc?: string
   ) {
     this._id = _id || null;
-    this.count = count || null;
+    this.amount = amount || null;
     this.isCalculate = isCalculate || null;
-    this.textValue = textValue || null;
+    this.label = label || null;
+    this.desc = desc || null;
   }
 }

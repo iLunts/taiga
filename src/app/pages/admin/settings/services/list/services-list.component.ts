@@ -31,6 +31,6 @@ export class ServicesListComponent implements OnInit {
   edit(service: Service): void {}
 
   delete(service: Service): void {
-    this.serviceService.delete(service._id);
+    this.serviceService.delete$(service._id);
   }
 }

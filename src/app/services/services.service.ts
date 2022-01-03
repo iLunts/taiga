@@ -59,11 +59,15 @@ export class ServicesService {
     );
   }
 
-  delete(_id: string): Promise<void> {
-    if (!_id) {
-      return;
-    }
-    return this.servicesRef.doc(_id).delete();
+  delete$(_id: string): Observable<any> {
+    return from(
+      this.servicesRef
+        .doc(_id)
+        .delete()
+        .then(() => {
+          this.notificationService.success('Товар успешно удалён');
+        })
+    );
   }
 
   update(_id: string, value: any): Promise<void> {
