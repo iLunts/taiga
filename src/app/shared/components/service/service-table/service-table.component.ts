@@ -89,21 +89,76 @@ export class ServiceTableComponent implements OnInit {
       date: new FormControl(this.initDate(), {
         validators: [Validators.required]
       }),
-      unit: new FormControl(serviceItem?.unit || '', {
-        validators: [Validators.required]
-      }),
-      count: new FormControl(serviceItem?.count || null, {
-        validators: [Validators.required]
-      }),
-      price: new FormControl(serviceItem?.price || null, {
-        validators: [Validators.required]
-      }),
-      amount: new FormControl(
-        serviceItem?.count.amount * serviceItem?.price.amount || null,
-        {
+      count: new FormGroup({
+        amount: new FormControl(serviceItem?.count.amount || null, {
           validators: [Validators.required]
-        }
-      )
+        }),
+        isEditable: new FormControl(serviceItem?.count.isEditable, {
+          validators: [Validators.required]
+        })
+      }),
+      price: new FormGroup({
+        amount: new FormControl(
+          { value: serviceItem?.price.amount || null, disabled: true },
+          {
+            validators: [Validators.required]
+          }
+        ),
+        currency: new FormControl(serviceItem?.price.currency, {
+          validators: [Validators.required]
+        })
+      }),
+      unit: new FormGroup({
+        _id: new FormControl(serviceItem?.unit._id, {
+          validators: [Validators.required]
+        }),
+        fullName: new FormControl(serviceItem?.unit.fullName, {
+          validators: [Validators.required]
+        }),
+        shortName: new FormControl(
+          { value: serviceItem?.unit.shortName, disabled: true },
+          {
+            validators: [Validators.required]
+          }
+        )
+      }),
+      totalSum: new FormGroup({
+        amount: new FormControl(
+          { value: null, disabled: true },
+          {
+            validators: [Validators.required]
+          }
+        ),
+        currency: new FormControl(null, {
+          validators: [Validators.required]
+        })
+      }),
+      tax: new FormGroup({
+        _id: new FormControl(null, {
+          validators: [Validators.required]
+        }),
+        amount: new FormControl(null, {
+          validators: [Validators.required]
+        }),
+        desc: new FormControl(null),
+        isCalculate: new FormControl(null, {
+          validators: [Validators.required]
+        }),
+        label: new FormControl(null, {
+          validators: [Validators.required]
+        })
+      }),
+      totalTax: new FormGroup({
+        amount: new FormControl(
+          { value: null, disabled: true },
+          {
+            validators: [Validators.required]
+          }
+        ),
+        currency: new FormControl(null, {
+          validators: [Validators.required]
+        })
+      })
     });
   }
 
@@ -135,25 +190,44 @@ export class ServiceTableComponent implements OnInit {
   selectedService(event: Service, index: number): void {
     const control = this.form.get('tableRowArray')['controls'][index].controls;
 
-    control.count.setValue(event.count);
-    control.price.setValue(event.price);
-    control.amount.setValue(
-      (event.count.amount * event.price.amount).toFixed(2)
-    );
-    control.unit.setValue(event.unit);
+    // Count
+    control.count.controls.amount.setValue(event.count.amount);
+    control.count.controls.isEditable.setValue(event.count.isEditable);
+    !event.count.isEditable
+      ? control.count.controls.amount.disable()
+      : control.count.controls.amount.enable();
 
-    debugger;
+    // Price
+    control.price.controls.amount.setValue(event.price.amount);
+    control.price.controls.currency.setValue(event.price.currency);
+
+    // Unit
+    control.unit.controls._id.setValue(event.unit._id);
+    control.unit.controls.fullName.setValue(event.unit.fullName);
+    control.unit.controls.shortName.setValue(event.unit.shortName);
+
+    // Tax
+    control.tax.controls._id.setValue(event.tax._id);
+    control.tax.controls.amount.setValue(event.tax.amount);
+    control.tax.controls.desc.setValue(event.tax.desc);
+    control.tax.controls.isCalculate.setValue(event.tax.isCalculate);
+    control.tax.controls.label.setValue(event.tax.label);
+
+    // Total
+    control.totalSum.controls.amount.setValue(
+      event.price.amount * event.count.amount
+    );
+    control.total.controls.currency.setValue(event.price.currency);
   }
 
-  calculateSum(event: FormGroup, index: number): void {
+  calculateSum(event: any, index: number): void {
     const control = this.form.get('tableRowArray')['controls'][index].controls;
-    control.amount.setValue(
-      (event.controls.count.value * event.controls.price.value).toFixed(2)
+    control.totalSum.controls.amount.setValue(
+      (
+        event.controls.count.controls.amount.value *
+        event.controls.price.controls.amount.value
+      ).toFixed(2)
     );
-  }
-
-  getUnit(): string {
-    return 'test';
   }
 
   getRowArrayValue(): any {

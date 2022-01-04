@@ -3,17 +3,6 @@
   [formGroup]="form"
   *tuiLet="serviceListData$ | async as services"
 >
-  <!-- <table class="tui-table table">
-    <thead>
-      <tr>
-        <th class="tui-table__th cell_name">Название</th>
-        <th class="tui-table__th cell_date">Дата</th>
-        <th class="tui-table__th cell_quantity">Количество</th>
-        <th class="tui-table__th cell_sum">Сумма, руб.</th>
-      </tr>
-    </thead>
-  </table> -->
-
   <div class="table" formArrayName="tableRowArray">
     <div
       tuiGroup
@@ -33,6 +22,7 @@
       >
         Дата
       </tui-input-date>
+
       <tui-select
         formControlName="name"
         [valueContent]="valueContent"
@@ -46,38 +36,61 @@
           [itemContent]="itemContent"
         ></tui-data-list-wrapper>
       </tui-select>
-      <tui-input
-        class="cell cell_count"
-        tuiTextfieldSize="m"
-        [value]="getUnit()"
-        [readOnly]="true"
-      >
-        Ед. изм.
-      </tui-input>
-      <tui-input-count
-        class="cell cell_count"
-        tuiTextfieldSize="m"
-        formControlName="count"
-        (ngModelChange)="calculateSum(itemRow, i)"
-      >
-        Кол-во
-      </tui-input-count>
-      <tui-input-number
-        class="cell cell_price"
-        tuiTextfieldSize="m"
-        formControlName="price"
-        [readOnly]="true"
-      >
-        Цена
-      </tui-input-number>
-      <tui-input-number
-        class="cell cell_price"
-        tuiTextfieldSize="m"
-        formControlName="amount"
-        [readOnly]="true"
-      >
-        Сумма
-      </tui-input-number>
+
+      <ng-container formGroupName="unit">
+        <tui-input
+          class="cell cell_count"
+          tuiTextfieldSize="m"
+          formControlName="shortName"
+          [readOnly]="true"
+        >
+          Ед. изм.
+        </tui-input>
+      </ng-container>
+
+      <ng-container formGroupName="count">
+        <tui-input-count
+          class="cell cell_count"
+          tuiTextfieldSize="m"
+          formControlName="amount"
+          (ngModelChange)="calculateSum(itemRow, i)"
+        >
+          Кол-во
+        </tui-input-count>
+      </ng-container>
+
+      <ng-container formGroupName="price">
+        <tui-input-number
+          class="cell cell_price"
+          tuiTextfieldSize="m"
+          formControlName="amount"
+          [readOnly]="true"
+        >
+          Цена
+        </tui-input-number>
+      </ng-container>
+
+      <ng-container formGroupName="tax">
+        <tui-input
+          class="cell cell_price"
+          tuiTextfieldSize="m"
+          formControlName="label"
+          [readOnly]="true"
+        >
+          НДС
+        </tui-input>
+      </ng-container>
+
+      <ng-container formGroupName="totalSum">
+        <tui-input-number
+          class="cell cell_price"
+          tuiTextfieldSize="m"
+          formControlName="amount"
+          [readOnly]="true"
+        >
+          Сумма
+        </tui-input-number>
+      </ng-container>
       <button
         class="cell cell_delete"
         appearance="buttonDeleteRow"
@@ -115,6 +128,9 @@
 <ng-template #itemContent let-data>
   <div class="itemContent">
     <div class="itemContent__name">{{ data?.name }}</div>
-    <tui-money class="itemContent__amount" [value]="data.price"></tui-money>
+    <tui-money
+      class="itemContent__amount"
+      [value]="data.price.amount"
+    ></tui-money>
   </div>
 </ng-template>
