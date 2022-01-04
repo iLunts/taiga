@@ -130,6 +130,6 @@ export class InvoiceService {
   }
 
   calculateTotalAmount(invoice: Invoice): number {
-    return _.sumBy(invoice.services, (o) => o.count * o.price);
+    return _.sumBy(invoice.services, (o) => o.count.amount * o.price.amount);
   }
 }

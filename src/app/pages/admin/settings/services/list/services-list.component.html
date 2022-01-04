@@ -41,8 +41,13 @@
           <th class="tui-table__th" *tuiHead="'desc'" tuiTh [resizable]="true">
             Описание
           </th>
-          <th class="tui-table__th" *tuiHead="'count'" tuiTh [resizable]="true">
-            Количество
+          <th
+            class="tui-table__th tui-table__th--center"
+            *tuiHead="'count'"
+            tuiTh
+            [resizable]="true"
+          >
+            Кол-во
           </th>
           <th class="tui-table__th" *tuiHead="'price'" tuiTh [resizable]="true">
             Цена
@@ -64,16 +69,22 @@
           <td class="tui-table__td" *tuiCell="'name'" tuiTd>
             <b>{{ item?.name }}</b>
             <br *ngIf="item.group?._id" />
-            <span *ngIf="item.group?._id">{{ item.group.name }}</span>
+            <i *ngIf="item.group?._id">{{ item.group.name }}</i>
           </td>
           <td class="tui-table__td" *tuiCell="'desc'" tuiTd>
-            {{ item?.desc }}
+            <small>{{ item?.desc }}</small>
           </td>
-          <td class="tui-table__td" *tuiCell="'count'" tuiTd>
-            {{ item?.count?.amount ? item?.count?.amount : item?.count }}
+          <td
+            class="tui-table__td tui-table__td--center"
+            *tuiCell="'count'"
+            tuiTd
+          >
+            {{ item?.count?.amount }}
           </td>
           <td class="tui-table__td" *tuiCell="'price'" tuiTd>
-            {{ item?.price }}
+            <b>{{ item?.price.amount }}</b>
+            &nbsp;
+            <small>{{ item?.price.currency.shortName }}</small>
           </td>
           <td
             class="tui-table__td tui-table__td--action tui-table__td--right"

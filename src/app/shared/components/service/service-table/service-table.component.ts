@@ -98,9 +98,12 @@ export class ServiceTableComponent implements OnInit {
       price: new FormControl(serviceItem?.price || null, {
         validators: [Validators.required]
       }),
-      amount: new FormControl(serviceItem?.count * serviceItem?.price || null, {
-        validators: [Validators.required]
-      })
+      amount: new FormControl(
+        serviceItem?.count.amount * serviceItem?.price.amount || null,
+        {
+          validators: [Validators.required]
+        }
+      )
     });
   }
 
@@ -134,8 +137,12 @@ export class ServiceTableComponent implements OnInit {
 
     control.count.setValue(event.count);
     control.price.setValue(event.price);
-    control.amount.setValue((event.count * event.price).toFixed(2));
+    control.amount.setValue(
+      (event.count.amount * event.price.amount).toFixed(2)
+    );
     control.unit.setValue(event.unit);
+
+    debugger;
   }
 
   calculateSum(event: FormGroup, index: number): void {

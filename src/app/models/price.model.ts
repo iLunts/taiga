@@ -1,12 +1,12 @@
 export class Price {
   amount: number;
-  currency: number;
+  currency: Currency;
 }
 
-export class CurrencyType {
+export class Currency {
   _id: string;
   code: string;
-  currency: number;
+  num: number;
   fullName: string;
   shortName: string;
 }

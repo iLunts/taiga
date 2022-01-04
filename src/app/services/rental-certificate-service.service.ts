@@ -114,6 +114,9 @@ export class RentalCertificateService {
   }
 
   calculateTotalAmount(rentalCertificate: RentalCertificate): number {
-    return _.sumBy(rentalCertificate.services, (o) => o.count * o.price);
+    return _.sumBy(
+      rentalCertificate.services,
+      (o) => o.count.amount * o.price.amount
+    );
   }
 }

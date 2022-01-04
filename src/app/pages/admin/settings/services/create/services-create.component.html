@@ -102,19 +102,39 @@
       </div>
     </div>
 
-    <div class="tui-form__row tui-form__row_multi-fields form-group">
+    <div
+      class="tui-form__row tui-form__row_multi-fields form-group"
+      formGroupName="price"
+    >
       <div class="tui-form__multi-field form-group__item form-group__item-info">
         <h3 class="form-group__item-title">Цена</h3>
         <p class="form-group__item-desc">Укажите цену за единицу товара</p>
       </div>
       <div class="tui-form__multi-field form-group__item">
-        <tui-input-number
-          formControlName="price"
-          [postfix]="'BYN' | tuiCurrency"
-        >
-          Цена
-        </tui-input-number>
-        <tui-field-error formControlName="price"></tui-field-error>
+        <div class="tui-form__row tui-form__row_multi-fields">
+          <div class="tui-form__multi-field">
+            <tui-input-number formControlName="amount"> Цена </tui-input-number>
+            <tui-field-error formControlName="amount"></tui-field-error>
+          </div>
+          <div class="tui-form__multi-field">
+            <tui-select
+              formControlName="currency"
+              [valueContent]="currencyContent"
+            >
+              Валюта
+              <tui-data-list-wrapper
+                *tuiDataList
+                [items]="currency$ | async"
+                [itemContent]="currencyContent"
+              ></tui-data-list-wrapper>
+            </tui-select>
+            <tui-field-error formControlName="currency"></tui-field-error>
+
+            <ng-template #currencyContent let-item>
+              {{ item.code }} - <small>{{ item.fullName }}</small>
+            </ng-template>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -184,6 +204,7 @@
         <tui-checkbox-labeled
           class="tui-space_top-3"
           formControlName="isEditable"
+          size="m"
         >
           Возможность редактирования
           <div class="can-edit">

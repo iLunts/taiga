@@ -127,6 +127,6 @@ export class ActService {
   }
 
   calculateTotalAmount(act: Act): number {
-    return _.sumBy(act.services, (o) => o.count * o.price);
+    return _.sumBy(act.services, (o) => o.count.amount * o.price.amount);
   }
 }

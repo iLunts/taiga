@@ -13,6 +13,8 @@ import { Tax } from 'src/app/models/tax.model';
 import { TaxService } from 'src/app/services/tax.service';
 import { Unit } from 'src/app/models/unit.model';
 import { UnitService } from 'src/app/services/unit.service';
+import { CurrencyService } from 'src/app/services/currency.service';
+import { Currency } from 'src/app/models/price.model';
 
 @Component({
   selector: 'app-services-create',
@@ -26,6 +28,7 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
   group$: Observable<ServiceGroup[]>;
   tax$: Observable<Tax[]>;
   unit$: Observable<Unit[]>;
+  currency$: Observable<Currency[]>;
   newGroupVisible: boolean;
 
   form: FormGroup;
@@ -37,6 +40,7 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
     private servicesGroupService: ServicesGroupService,
     private taxService: TaxService,
     private unitService: UnitService,
+    private currencyService: CurrencyService,
     private route: Router
   ) {
     this.initForm();
@@ -63,6 +67,7 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
     this.group$ = this.servicesGroupService.getAll$();
     this.tax$ = this.taxService.getAll$();
     this.unit$ = this.unitService.getAll$();
+    this.currency$ = this.currencyService.getAll$();
   }
 
   ngOnInit(): void {}
@@ -80,7 +85,10 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
       _userId: new FormControl(null, []),
       desc: new FormControl(null, []),
       name: new FormControl(null, [Validators.required]),
-      price: new FormControl(0, [Validators.required]),
+      price: new FormGroup({
+        amount: new FormControl(0, [Validators.required]),
+        currency: new FormControl(null, [Validators.required])
+      }),
       tax: new FormControl(null, [Validators.required]),
       unit: new FormControl(null, [Validators.required]),
       group: new FormControl(null, []),
