@@ -12,7 +12,7 @@ import { Unit } from '../models/unit.model';
   providedIn: 'root'
 })
 export class UnitService {
-  private dbPath = '/utitTypes';
+  private dbPath = '/units';
   unitRef: AngularFirestoreCollection<Unit> = null;
 
   constructor(private _fs: AngularFirestore, private authService: AuthService) {
