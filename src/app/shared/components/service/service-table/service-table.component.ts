@@ -59,6 +59,20 @@ export class ServiceTableComponent implements OnInit {
         })
       )
       .subscribe();
+
+    // this.form.valueChanges
+    //   .pipe(
+    //     // distinctUntilChanged((a, b) => _.isEqual(a, b)),
+    //     tap((data) => {
+    //       debugger;
+    //     }),
+    //     takeUntil(this.destroy)
+    //   )
+    //   .subscribe(() => {
+    //     this.sortTableByDate();
+    //     debugger;
+    //     this.doEmit();
+    //   });
   }
 
   ngOnInit(): void {}
@@ -72,7 +86,7 @@ export class ServiceTableComponent implements OnInit {
       tableRowArray: this.formBuilder.array([this.createTableRow()])
     });
 
-    this.onChanges();
+    // this.onChanges();
   }
 
   private clearForm(): void {
@@ -98,12 +112,9 @@ export class ServiceTableComponent implements OnInit {
         })
       }),
       price: new FormGroup({
-        amount: new FormControl(
-          { value: serviceItem?.price.amount || null, disabled: true },
-          {
-            validators: [Validators.required]
-          }
-        ),
+        amount: new FormControl(null, {
+          validators: [Validators.required]
+        }),
         currency: new FormControl(serviceItem?.price.currency, {
           validators: [Validators.required]
         })
@@ -115,20 +126,14 @@ export class ServiceTableComponent implements OnInit {
         fullName: new FormControl(serviceItem?.unit.fullName, {
           validators: [Validators.required]
         }),
-        shortName: new FormControl(
-          { value: serviceItem?.unit.shortName, disabled: true },
-          {
-            validators: [Validators.required]
-          }
-        )
+        shortName: new FormControl(serviceItem?.unit.shortName, {
+          validators: [Validators.required]
+        })
       }),
       totalSum: new FormGroup({
-        amount: new FormControl(
-          { value: null, disabled: true },
-          {
-            validators: [Validators.required]
-          }
-        ),
+        amount: new FormControl(null, {
+          validators: [Validators.required]
+        }),
         currency: new FormControl(null, {
           validators: [Validators.required]
         })
@@ -149,12 +154,9 @@ export class ServiceTableComponent implements OnInit {
         })
       }),
       totalTax: new FormGroup({
-        amount: new FormControl(
-          { value: null, disabled: true },
-          {
-            validators: [Validators.required]
-          }
-        ),
+        amount: new FormControl(null, {
+          validators: [Validators.required]
+        }),
         currency: new FormControl(null, {
           validators: [Validators.required]
         })
@@ -191,43 +193,66 @@ export class ServiceTableComponent implements OnInit {
     const control = this.form.get('tableRowArray')['controls'][index].controls;
 
     // Count
-    control.count.controls.amount.setValue(event.count.amount);
-    control.count.controls.isEditable.setValue(event.count.isEditable);
+    control.count.setValue(event.count);
+    // control.count.controls.amount.setValue(event.count.amount);
+    // control.count.controls.isEditable.setValue(event.count.isEditable);
     !event.count.isEditable
       ? control.count.controls.amount.disable()
       : control.count.controls.amount.enable();
 
     // Price
-    control.price.controls.amount.setValue(event.price.amount);
-    control.price.controls.currency.setValue(event.price.currency);
+    control.price.setValue(event.price);
+    // control.price.controls.amount.disable();
+    // control.price.controls.amount.setValue(event.price.amount);
+    // control.price.controls.currency.setValue(event.price.currency);
 
     // Unit
-    control.unit.controls._id.setValue(event.unit._id);
-    control.unit.controls.fullName.setValue(event.unit.fullName);
-    control.unit.controls.shortName.setValue(event.unit.shortName);
+    control.unit.setValue(event.unit);
+    // control.unit.controls.shortName.disable();
+    // control.unit.controls._id.setValue(event.unit._id);
+    // control.unit.controls.fullName.setValue(event.unit.fullName);
+    // control.unit.controls.shortName.setValue(event.unit.shortName);
 
     // Tax
-    control.tax.controls._id.setValue(event.tax._id);
-    control.tax.controls.amount.setValue(event.tax.amount);
-    control.tax.controls.desc.setValue(event.tax.desc);
-    control.tax.controls.isCalculate.setValue(event.tax.isCalculate);
-    control.tax.controls.label.setValue(event.tax.label);
+    control.tax.setValue(event.tax);
+    // control.tax.controls.label.disable();
+    // control.tax.controls._id.setValue(event.tax._id);
+    // control.tax.controls.amount.setValue(event.tax.amount);
+    // control.tax.controls.desc.setValue(event.tax.desc);
+    // control.tax.controls.isCalculate.setValue(event.tax.isCalculate);
+    // control.tax.controls.label.setValue(event.tax.label);
 
     // Total
     control.totalSum.controls.amount.setValue(
       event.price.amount * event.count.amount
     );
-    control.total.controls.currency.setValue(event.price.currency);
+    control.totalSum.controls.currency.setValue(event.price.currency);
+    // control.totalSum.controls.amount.disable();
+
+    // TotalTax
+    control.totalTax.controls.currency.setValue(event.price.currency);
   }
 
   calculateSum(event: any, index: number): void {
     const control = this.form.get('tableRowArray')['controls'][index].controls;
-    control.totalSum.controls.amount.setValue(
+
+    control.totalSum.controls.amount.patchValue(
       (
         event.controls.count.controls.amount.value *
         event.controls.price.controls.amount.value
       ).toFixed(2)
     );
+
+    control.totalTax.controls.amount.patchValue(
+      (
+        event.controls.count.controls.amount.value *
+        event.controls.price.controls.amount.value *
+        event.controls.tax.controls.amount.value
+      ).toFixed(2)
+    );
+
+    console.log('calculateSum: ', this.form.value);
+    this.doEmit();
   }
 
   getRowArrayValue(): any {
@@ -242,12 +267,13 @@ export class ServiceTableComponent implements OnInit {
     }
   }
 
-  onChanges(): void {
-    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe((val) => {
-      this.sortTableByDate();
-      this.doEmit();
-    });
-  }
+  // onChanges(): void {
+  //   this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
+  //     this.sortTableByDate();
+  //     debugger;
+  //     this.doEmit();
+  //   });
+  // }
 
   preloadServices(services: Service[]): void {
     // this.tableRowArray.patchValue(services);

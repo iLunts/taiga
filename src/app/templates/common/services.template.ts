@@ -17,10 +17,10 @@ export const SERVICES_TEMPLATE_TABLE = `
       <td class="table-cell table-cell-regular" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{getIndex @index}}</td>
       <td class="table-cell table-cell-regular" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.name.name}}</td>
       <td class="table-cell table-cell-regular table-cell-center" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.unit.shortName}}</td>
-      <td class="table-cell table-cell-regular table-cell-center" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.count}}</td>
-      <td class="table-cell table-cell-regular table-cell-center" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.price}}</td>
-      <td class="table-cell table-cell-regular table-cell-center" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.tax}}</td>
-      <td class="table-cell table-cell-sum" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.amount}}</td>
+      <td class="table-cell table-cell-regular table-cell-center" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.count.amount}}</td>
+      <td class="table-cell table-cell-regular table-cell-center" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.price.amount}}</td>
+      <td class="table-cell table-cell-regular table-cell-center" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.tax.label}}</td>
+      <td class="table-cell table-cell-sum" style="border: none; padding: 5px 15px; margin: 4px 10px; border-bottom: 1px solid #F5F6FA;">{{this.totalSum.amount}}</td>
     </tr>
     {{/each}}
     <tr>
