@@ -52,8 +52,10 @@ export class ContractorAsideComponent implements OnInit {
       map(([contractors, search]) => {
         return contractors.filter(
           (contractor: Contractor) =>
-            contractor.info.fullName.includes(search) ||
-            contractor.info.unp.includes(search)
+            contractor.info.fullName
+              .toLowerCase()
+              .includes(search.toLowerCase()) ||
+            contractor.info.unp.toLowerCase().includes(search.toLowerCase())
         );
       })
     );
