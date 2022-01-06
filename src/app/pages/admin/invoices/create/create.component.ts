@@ -1,11 +1,5 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
   FormBuilder,
@@ -15,26 +9,18 @@ import {
 } from '@angular/forms';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
-import { Observable, Subject } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  shareReplay,
-  takeUntil,
-  tap
-} from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
-import { Invoice, InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
+import { InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
 import { QueryParams } from '@ngrx/data';
-// import { ContractorService } from 'src/app/services/contractor.service';
-// import { ContractService } from 'src/app/services/contract.service';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -52,7 +38,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isEditingNumber: boolean;
   queryParams: QueryParams;
-  company$: Observable<Company>;
+  // company$: Observable<Company>;
 
   constructor(
     private afs: AngularFirestore,
@@ -60,33 +46,16 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     private router: Router,
     private formBuilder: FormBuilder,
     private companyService: CompanyService,
-    // private route: ActivatedRoute,
-    // private contractorService: ContractorService,
-    // private contractService: ContractService,
     private storeService: StoreService
   ) {
     this.initForm();
 
-    // this.route.queryParams
-    //   .pipe(filter((params) => params?.contractorId))
-    //   .subscribe((params) => {
-    //     this.queryParams = params;
-    //   });
-
-    // this.initQueryParams();
-
-    this.company$ = this.companyService
+    this.companyService
       .getProfileCompany$()
-      .pipe(
-        tap((company) => this.form.controls.profileCompany.setValue(company))
-      );
-
-    // .pipe(takeUntil(this.destroySubject))
-    // .subscribe((company: Company[]) => {
-    //   if (company?.length) {
-    //     this.form.controls.profileCompany.setValue(company[0]);
-    //   }
-    // });
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe((company: Company) => {
+        this.form.controls.profileCompany.setValue(company);
+      });
 
     this.storeService
       .getContractor$()
@@ -125,23 +94,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       type: new FormControl(1, [Validators.required])
     });
   }
-
-  // initQueryParams(): void {
-  //   if (this.queryParams?.contractorId) {
-  //     this.contractorService
-  //       .getById$(this.queryParams.contractorId.toString())
-  //       .pipe(takeUntil(this.destroySubject))
-  //       .subscribe((contractor: Contractor[]) => {
-  //         if (contractor.length) {
-  //           this.form.controls.contractor.setValue(contractor[0]);
-  //           this.invoice.contractor = contractor[0];
-  //           this.form.controls._contractId.setValue(
-  //             this.queryParams?.contractorId
-  //           );
-  //         }
-  //       });
-  //   }
-  // }
 
   get f(): any {
     return this.form.controls;

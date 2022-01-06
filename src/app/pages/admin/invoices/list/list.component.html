@@ -30,7 +30,10 @@
 </div>
 
 <section class="page-body">
-  <app-empty-panel *ngIf="!(invoices$ | async)?.length"></app-empty-panel>
+  <app-empty-panel
+    *ngIf="!(invoices$ | async)?.length"
+    [link]="routing.admin.invoice.create"
+  ></app-empty-panel>
 
   <ng-container
     *ngIf="(invoices$ | async)?.length && invoices$ | async as invoices"

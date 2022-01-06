@@ -194,43 +194,27 @@ export class ServiceTableComponent implements OnInit {
 
     // Count
     control.count.setValue(event.count);
-    // control.count.controls.amount.setValue(event.count.amount);
-    // control.count.controls.isEditable.setValue(event.count.isEditable);
-    !event.count.isEditable
-      ? control.count.controls.amount.disable()
-      : control.count.controls.amount.enable();
 
     // Price
     control.price.setValue(event.price);
-    // control.price.controls.amount.disable();
-    // control.price.controls.amount.setValue(event.price.amount);
-    // control.price.controls.currency.setValue(event.price.currency);
 
     // Unit
     control.unit.setValue(event.unit);
-    // control.unit.controls.shortName.disable();
-    // control.unit.controls._id.setValue(event.unit._id);
-    // control.unit.controls.fullName.setValue(event.unit.fullName);
-    // control.unit.controls.shortName.setValue(event.unit.shortName);
 
     // Tax
     control.tax.setValue(event.tax);
-    // control.tax.controls.label.disable();
-    // control.tax.controls._id.setValue(event.tax._id);
-    // control.tax.controls.amount.setValue(event.tax.amount);
-    // control.tax.controls.desc.setValue(event.tax.desc);
-    // control.tax.controls.isCalculate.setValue(event.tax.isCalculate);
-    // control.tax.controls.label.setValue(event.tax.label);
 
     // Total
     control.totalSum.controls.amount.setValue(
       event.price.amount * event.count.amount
     );
     control.totalSum.controls.currency.setValue(event.price.currency);
-    // control.totalSum.controls.amount.disable();
 
     // TotalTax
     control.totalTax.controls.currency.setValue(event.price.currency);
+
+    // Calculate
+    this.calculate(index);
   }
 
   calculateSum(event: any, index: number): void {
@@ -251,7 +235,25 @@ export class ServiceTableComponent implements OnInit {
       ).toFixed(2)
     );
 
-    console.log('calculateSum: ', this.form.value);
+    this.doEmit();
+  }
+
+  calculate(index: number): void {
+    const control = this.form.get('tableRowArray')['controls'][index].controls;
+
+    control.totalSum.controls.amount.patchValue(
+      (control.count.value.amount * control.price.value.amount).toFixed(2)
+    );
+
+    control.totalTax.controls.amount.patchValue(
+      (
+        control.count.value.amount *
+        control.price.value.amount *
+        control.tax.value.amount
+      ).toFixed(2)
+    );
+
+    console.log('calculate: ', this.form.value);
     this.doEmit();
   }
 

@@ -27,7 +27,10 @@
 </div>
 
 <section class="page-body">
-  <app-empty-panel *ngIf="!(acts$ | async)?.length"></app-empty-panel>
+  <app-empty-panel
+    *ngIf="!(acts$ | async)?.length"
+    [link]="routing.admin.act.create"
+  ></app-empty-panel>
   <ng-container *ngIf="(acts$ | async)?.length && acts$ | async as acts">
     <table tuiTable [columns]="columns" class="tui-table">
       <thead>

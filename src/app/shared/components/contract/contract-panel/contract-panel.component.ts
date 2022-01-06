@@ -7,8 +7,14 @@ import {
   Output
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { Contract } from 'src/app/models/contract.model';
@@ -23,15 +29,10 @@ import { Router } from '@angular/router';
 })
 export class ContractPanelComponent implements OnInit, OnDestroy {
   @Input() set contractor(value: Contractor) {
-    if (value) {
-      this._contractor = value;
-      this.fetch();
-    }
+    this.contractorSubject.next(value);
+    this.form.reset();
   }
-  get contractor(): Contractor {
-    return this._contractor;
-  }
-  private _contractor: Contractor;
+  private contractorSubject = new BehaviorSubject<Contractor>(null);
 
   @Output() selected = new EventEmitter<Contract>();
 
@@ -42,33 +43,41 @@ export class ContractPanelComponent implements OnInit, OnDestroy {
   });
   routing = environment.routing;
 
-  readonly contract = new FormControl(null);
-
   constructor(
     private contractService: ContractService,
     private router: Router
-  ) {}
+  ) {
+    this.contracts$ = this.contractorSubject.pipe(
+      filter((contractor) => !!contractor),
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+      switchMap((contractor) =>
+        this.contractService.getAllByContractorUNP$(contractor.info.unp)
+      ),
+      takeUntil(this.destroy$)
+    );
+  }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
+    this.contractorSubject.complete();
   }
 
-  fetch(): void {
-    this.contracts$ = this.contractService
-      .getAllByContractorUNP$(this.contractor.info.unp)
-      .pipe(
-        tap((contracts: Contract[]) => {
-          if (contracts?.length) {
-            this.selected.emit(contracts[0]);
-            this.form.controls.contract.setValue(contracts[0]);
-          }
-        }),
-        takeUntil(this.destroy$)
-      );
-  }
+  // fetch(): void {
+  //   this.contracts$ = this.contractService
+  //     .getAllByContractorUNP$(this.contractor.info.unp)
+  //     .pipe(
+  //       tap((contracts: Contract[]) => {
+  //         if (contracts?.length) {
+  //           this.selected.emit(contracts[0]);
+  //           this.form.controls.contract.setValue(contracts[0]);
+  //         }
+  //       }),
+  //       takeUntil(this.destroy$)
+  //     );
+  // }
 
   openContractCreatePage(): void {
     // TODO: Need add queryParams with selected contractor

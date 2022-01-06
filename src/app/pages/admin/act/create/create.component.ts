@@ -67,12 +67,11 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    // TODO: Need found another way how we can quicly get current Company
     this.companyService
       .getProfileCompany$()
       .pipe(takeUntil(this.destroySubject))
       .subscribe((company: Company) => {
-        this.form.controls.profileCompany.setValue(company[0]);
+        this.form.controls.profileCompany.setValue(company);
       });
 
     this.storeService

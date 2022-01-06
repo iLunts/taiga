@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class EmptyPanelComponent implements OnInit {
   @Input() title = 'Данные отсутствуют!';
   @Input() buttonText = 'Добавить';
-  @Input() link = '123';
+  @Input() link;
 
   routing = environment.routing;
 

@@ -97,9 +97,11 @@
 
     <p class="empty-container__title">{{ title }}</p>
     <p class="empty-container__text">
-      Пока тут ничего нет, возможно вы ничего не создали,
+      Пока тут ничего нет, возможно вы ничего не создали
       <br />
-      но вы можете изменить это, нажав на кнопку "добавить".
+      <span *ngIf="link"
+        >но вы можете изменить это, нажав на кнопку "добавить".
+      </span>
     </p>
 
     <p class="empty-container__link" *ngIf="link">
@@ -109,7 +111,7 @@
         size="m"
         iconRight="tuiIconPlus"
         [title]="buttonText"
-        [routerLink]="[routing.admin.rentalCertificate.create]"
+        [routerLink]="[link]"
       >
         {{ buttonText }}
       </button>
