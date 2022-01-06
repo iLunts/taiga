@@ -189,6 +189,10 @@ export class ServiceTableComponent implements OnInit {
     }
   }
 
+  getFormArray(index: number): FormArray {
+    return this.form.get('tableRowArray')['controls'][index].controls;
+  }
+
   selectedService(event: Service, index: number): void {
     const control = this.form.get('tableRowArray')['controls'][index].controls;
 
