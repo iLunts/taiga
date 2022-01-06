@@ -3,10 +3,12 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import {
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
   shareReplay,
+  startWith,
   tap
 } from 'rxjs/operators';
 
@@ -27,6 +29,7 @@ export class ContractorAsideComponent implements OnInit {
 
   filter$: Observable<string>;
   contractors$: Observable<Contractor[]>;
+  filteredContractors$: Observable<Contractor[]>;
   contractorSelected$: Observable<Contractor>;
 
   constructor(
@@ -34,33 +37,25 @@ export class ContractorAsideComponent implements OnInit {
     private storeService: StoreService,
     private router: Router
   ) {
-    // this.filter$ = this.filterControl.valueChanges;
-
-    // const contractorsData$ = this.contractorService.getAll$();
-    // .pipe
-    // filter((contractors) => !!contractors),
-    // distinctUntilChanged()
-    // tap((contractors) => this.selectContractor(contractors[0]))
-    // ();
-
-    // this.contractors$ = combineLatest(contractorsData$, this.filter$).pipe(
-    //   tap((value) => {
-    //     debugger;
-    //   }),
-    //   map(([contractors, filterString]) =>
-    //     contractors.filter(
-    //       (contractor) =>
-    //         contractor.info.unp
-    //           .toLowerCase()
-    //           .indexOf(filterString.toLowerCase()) !== -1
-    //     )
-    //   )
-    // );
-
     this.contractors$ = this.contractorService.getAll$().pipe(
       filter((contractors) => !!contractors),
       distinctUntilChanged(),
       tap((contractors) => this.selectContractor(contractors[0]))
+    );
+
+    this.filteredContractors$ = combineLatest([
+      this.contractors$,
+      this.filterControl.valueChanges.pipe(startWith(''), debounceTime(400))
+    ]).pipe(
+      distinctUntilChanged(),
+      filter(([contractors, search]) => Boolean(contractors)),
+      map(([contractors, search]) => {
+        return contractors.filter(
+          (contractor: Contractor) =>
+            contractor.info.fullName.includes(search) ||
+            contractor.info.unp.includes(search)
+        );
+      })
     );
 
     this.storeService

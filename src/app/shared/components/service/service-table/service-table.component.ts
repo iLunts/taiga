@@ -257,7 +257,6 @@ export class ServiceTableComponent implements OnInit {
       ).toFixed(2)
     );
 
-    console.log('calculate: ', this.form.value);
     this.doEmit();
   }
 
