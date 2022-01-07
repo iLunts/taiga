@@ -13,9 +13,8 @@ export class EgrService {
   constructor(
     private _http: HttpClient,
     private notificationService: NotificationService,
-    private companyService: CompanyService
-  ) // private contractorService: ContractorService
-  {}
+    private companyService: CompanyService // private contractorService: ContractorService
+  ) {}
 
   getBaseInfoByRegNum$(UNP: string): Observable<any> {
     return from(

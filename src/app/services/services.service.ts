@@ -9,6 +9,7 @@ import { from, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,18 @@ export class ServicesService {
     );
   }
 
+  getById$(id: string): Observable<Service> {
+    return from(
+      this._fs
+        .collection(this.dbPath, (q) =>
+          q
+            .where('_userId', '==', this.authService.getUserId())
+            .where('_id', '==', id)
+        )
+        .valueChanges()
+    ).pipe(first()) as Observable<Service>;
+  }
+
   add$(service: Service): Observable<any> {
     service._userId = this.authService.getUserId();
     return from(
@@ -70,7 +83,12 @@ export class ServicesService {
     );
   }
 
-  update(_id: string, value: any): Promise<void> {
-    return this.servicesRef.doc(_id).update(value);
+  update$(_id: string, data: Service): Observable<any> {
+    return from(
+      this.servicesRef
+        .doc(_id)
+        .update(data)
+        .then(() => this.notificationService.info('Товар успешно обновлен'))
+    );
   }
 }

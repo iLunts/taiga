@@ -54,7 +54,8 @@ export const environment = {
         templates: '/admin/settings/templates',
         services: {
           list: '/admin/settings/services',
-          create: '/admin/settings/services/create'
+          create: '/admin/settings/services/create',
+          edit: '/admin/settings/services/edit'
         }
       }
     }

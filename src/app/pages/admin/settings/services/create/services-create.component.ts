@@ -1,13 +1,21 @@
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { iif, Observable, Subject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {
+  filter,
+  first,
+  map,
+  mergeMap,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ServicesService } from 'src/app/services/services.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { ServiceGroup } from 'src/app/models/service.model';
+import { Service, ServiceGroup } from 'src/app/models/service.model';
 import { ServicesGroupService } from 'src/app/services/services-group.service';
 import { Tax } from 'src/app/models/tax.model';
 import { TaxService } from 'src/app/services/tax.service';
@@ -30,7 +38,7 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
   unit$: Observable<Unit[]>;
   currency$: Observable<Currency[]>;
   newGroupVisible: boolean;
-
+  isEdit: boolean;
   form: FormGroup;
   formGroup: FormGroup;
 
@@ -41,15 +49,37 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
     private taxService: TaxService,
     private unitService: UnitService,
     private currencyService: CurrencyService,
-    private route: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.initForm();
     this.initFormGroup();
 
+    this.route.paramMap
+      .pipe(
+        map((params: any) => params.params),
+        filter((params) => params.id),
+        switchMap((params) => this.servicesService.getById$(params.id)),
+        first(),
+        map((service) => service[0]),
+        filter((service) => !!service),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((service) => {
+        this.setForm(service);
+        this.isEdit = true;
+      });
+
     this.actionSaveSubject
       .pipe(
         filter((form: FormGroup) => form.valid),
-        switchMap((form: FormGroup) => this.servicesService.add$(form.value)),
+        mergeMap((form: FormGroup) =>
+          iif(
+            () => !!this.isEdit,
+            this.servicesService.update$(form.value._id, form.value),
+            this.servicesService.add$(form.value)
+          )
+        ),
         takeUntil(this.destroySubject)
       )
       .subscribe();
@@ -108,12 +138,16 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
     });
   }
 
+  setForm(service: Service): void {
+    this.form.setValue(service);
+  }
+
   save(): void {
     this.actionSaveSubject.next(this.form);
   }
 
   cancel(): void {
-    this.route.navigate([environment.routing.admin.settings.services.list]);
+    this.router.navigate([environment.routing.admin.settings.services.list]);
   }
 
   toggleNewGroup(): void {

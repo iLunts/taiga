@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Service } from 'src/app/models/service.model';
@@ -16,19 +17,18 @@ export class ServicesListComponent implements OnInit {
   readonly columns = ['name', 'desc', 'count', 'price', 'action'];
   // tabsList = ['Товары', 'Группы'];
 
-  constructor(private serviceService: ServicesService) {
+  constructor(private serviceService: ServicesService, private router: Router) {
     this.services$ = this.serviceService.getAll$();
   }
 
   ngOnInit(): void {}
 
-  // get getTabActiveIndex(): number {
-  //   return this.tabsList.findIndex(
-  //     (status: ContractStatus) => status._id === this.tabActive._id
-  //   );
-  // }
-
-  edit(service: Service): void {}
+  edit(service: Service): void {
+    this.router.navigate([
+      this.routing.admin.settings.services.edit,
+      service._id
+    ]);
+  }
 
   delete(service: Service): void {
     this.serviceService.delete$(service._id);

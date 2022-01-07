@@ -1,4 +1,6 @@
-<app-header-create title="Новый товары"></app-header-create>
+<app-header-create
+  [title]="isEdit ? 'Редактирование товара' : 'Новый товары'"
+></app-header-create>
 
 <div class="page-body">
   <form class="tui-container tui-container_full" [formGroup]="form">
@@ -234,7 +236,7 @@
         [disabled]="form.invalid"
         (click)="save()"
       >
-        Добавить
+        {{ isEdit ? 'Изменить' : 'Добавить' }}
       </button>
     </div>
   </form>
