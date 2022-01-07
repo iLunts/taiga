@@ -137,17 +137,11 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       this.invoiceService
         .getById$(this.queryParams?.invoiceId.toString())
         .pipe(takeUntil(this.destroySubject))
-        .subscribe((invoices: Invoice[]) => {
-          if (invoices?.length) {
-            const invoice: Invoice = invoices[0];
-
-            this.form.controls.number.setValue(invoice.number);
-            this.form.controls.contractor.setValue(invoice.contractor);
-            this.form.controls._invoiceId.setValue(this.queryParams?.invoiceId);
-
-            // TODO: Need connect this part
-            // this.setService(invoice.services);
-          }
+        .subscribe((response: Invoice) => {
+          const invoice: Invoice = response;
+          this.form.controls.number.setValue(invoice.number);
+          this.form.controls.contractor.setValue(invoice.contractor);
+          this.form.controls._invoiceId.setValue(this.queryParams?.invoiceId);
         });
     }
   }

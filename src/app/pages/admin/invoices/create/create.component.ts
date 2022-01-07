@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
@@ -10,17 +10,24 @@ import {
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
-import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
+import {
+  filter,
+  first,
+  map,
+  shareReplay,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import { Company, Contractor } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
-import { InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
+import { Invoice, InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
-import { QueryParams } from '@ngrx/data';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -34,18 +41,17 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   @ViewChild('inputNumber') inputNumber: any;
 
   private readonly destroySubject = new Subject();
-  // invoice: Invoice = new Invoice(this.afs.createId());
   form: FormGroup;
+  isEdit: boolean;
   isEditingNumber: boolean;
-  queryParams: QueryParams;
-  // company$: Observable<Company>;
 
   constructor(
     private afs: AngularFirestore,
-    private invoiceService: InvoiceService,
-    private router: Router,
-    private formBuilder: FormBuilder,
     private companyService: CompanyService,
+    private formBuilder: FormBuilder,
+    private invoiceService: InvoiceService,
+    private route: ActivatedRoute,
+    private router: Router,
     private storeService: StoreService
   ) {
     this.initForm();
@@ -66,6 +72,19 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
         shareReplay()
       )
       .subscribe();
+
+    this.route.paramMap
+      .pipe(
+        map((params: any) => params.params),
+        filter((params) => params.id),
+        switchMap((params) => this.invoiceService.getById$(params.id)),
+        filter((invoice) => !!invoice),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((invoice: Invoice) => {
+        this.setForm(invoice);
+        this.isEdit = true;
+      });
   }
 
   ngOnInit(): void {}
@@ -78,6 +97,8 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   initForm(): void {
     this.form = this.formBuilder.group({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
+      _userId: new FormControl(null, []),
+      _createdDate: new FormControl(new Date(), []),
       _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       dateRange: new FormControl(
@@ -106,24 +127,15 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   }
 
   setStatus(data: InvoiceStatus): void {
-    // if (this.invoice) {
-    //   this.invoice.status = data;
     this.form.controls.status.setValue(data);
-    // }
   }
 
   setContractor(data: Contractor): void {
-    // if (this.invoice) {
-    //   this.invoice.contractor = data;
     this.form.controls.contractor.setValue(data);
-    // }
   }
 
   setService(data: Service[]): void {
-    // if (this.invoice) {
-    //   this.invoice.services = data;
     this.form.controls.services.setValue(data);
-    // }
   }
 
   save(): void {
@@ -172,5 +184,9 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     if (!focused) {
       this.isEditingNumber = false;
     }
+  }
+
+  setForm(invoice: Invoice): void {
+    this.form.setValue(invoice);
   }
 }

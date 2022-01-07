@@ -9,7 +9,7 @@ import { from, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +53,10 @@ export class ServicesService {
             .where('_id', '==', id)
         )
         .valueChanges()
-    ).pipe(first()) as Observable<Service>;
+    ).pipe(
+      first(),
+      map((service) => service[0])
+    ) as Observable<Service>;
   }
 
   add$(service: Service): Observable<any> {

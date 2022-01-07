@@ -10,10 +10,11 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    component: InvoicesCreateComponent,
-    data: {
-      contract: 'test data contract'
-    }
+    component: InvoicesCreateComponent
+  },
+  {
+    path: 'edit/:id',
+    component: InvoicesCreateComponent
   }
 ];
 

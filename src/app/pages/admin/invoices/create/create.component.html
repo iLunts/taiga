@@ -1,4 +1,6 @@
-<app-header-create title="Создание счета"></app-header-create>
+<app-header-create
+  [title]="isEdit ? 'Редактирование счета' : 'Создание счета'"
+></app-header-create>
 
 <section class="page-body">
   <form class="tui-container tui-container_full" [formGroup]="form">
@@ -109,7 +111,7 @@
           (click)="save()"
           [disabled]="!isInvoiceValid"
         >
-          Создать
+          {{ isEdit ? 'Изменить' : 'Создать' }}
         </button>
       </div>
     </div>

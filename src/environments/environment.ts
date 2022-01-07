@@ -28,7 +28,8 @@ export const environment = {
       dashboard: '/admin/dashboard',
       invoice: {
         list: '/admin/invoices',
-        create: '/admin/invoices/create'
+        create: '/admin/invoices/create',
+        edit: '/admin/invoices/edit'
       },
       contractor: {
         list: '/admin/contractor',

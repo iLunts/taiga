@@ -60,8 +60,6 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
         map((params: any) => params.params),
         filter((params) => params.id),
         switchMap((params) => this.servicesService.getById$(params.id)),
-        first(),
-        map((service) => service[0]),
         filter((service) => !!service),
         takeUntil(this.destroySubject)
       )
@@ -70,10 +68,11 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
         this.isEdit = true;
       });
 
+    // TODO: Need check why called two Observables when we editing data
     this.actionSaveSubject
       .pipe(
         filter((form: FormGroup) => form.valid),
-        mergeMap((form: FormGroup) =>
+        switchMap((form: FormGroup) =>
           iif(
             () => !!this.isEdit,
             this.servicesService.update$(form.value._id, form.value),

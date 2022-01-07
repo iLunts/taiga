@@ -11,6 +11,7 @@ import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
+import { first, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -52,14 +53,16 @@ export class InvoiceService {
     return invoicesRef.valueChanges();
   }
 
-  // getById$(id: string): AngularFirestoreCollection<any> {
-  getById$(id: string): Observable<any> {
+  getById$(id: string): Observable<Invoice> {
     const collection = this._fs.collection(this.dbPath, (q) =>
       q
         .where('_userId', '==', this.authService.getUserId())
         .where('_id', '==', id)
     );
-    return collection.valueChanges();
+    return collection.valueChanges().pipe(
+      first(),
+      map((service) => service[0])
+    ) as Observable<Invoice>;
   }
 
   get$(id: string): Observable<any> {

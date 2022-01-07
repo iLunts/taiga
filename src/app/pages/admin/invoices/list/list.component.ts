@@ -105,4 +105,8 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   }
 
   createBaseOnReference(invoice: Invoice): void {}
+
+  edit(invoice: Invoice): void {
+    this.router.navigate([this.routing.admin.invoice.edit, invoice._id]);
+  }
 }
