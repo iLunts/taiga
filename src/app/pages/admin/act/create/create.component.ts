@@ -6,8 +6,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParams } from '@ngrx/data';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -45,7 +44,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   // act: Act = new Act(this.afs.createId());
   form: FormGroup;
   isEditingNumber: boolean;
-  queryParams: QueryParams;
+  queryParams: Params;
 
   constructor(
     private afs: AngularFirestore,
@@ -113,7 +112,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     });
   }
 
-  initQueryParams(queryParams: QueryParams): void {
+  initQueryParams(queryParams: Params): void {
     this.queryParams = queryParams;
 
     if (this.queryParams?.rentalCertificateId) {

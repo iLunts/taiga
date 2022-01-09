@@ -8,10 +8,10 @@ import { AsyncPipe, registerLocaleData } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './guards/auth.guard';
-import { DefaultDataServiceConfig } from '@ngrx/data';
+// import { DefaultDataServiceConfig } from '@ngrx/data';
 import { LayoutsModule } from './layouts/layouts.module';
 import { SharedModule } from './shared/shared.module';
-import { StoreModule } from '@ngrx/store';
+// import { StoreModule } from '@ngrx/store';
 import { TaigaModule } from './shared/taiga.module';
 import localeRu from '@angular/common/locales/ru';
 
@@ -27,9 +27,9 @@ import { CompanyGuard } from './guards/company.guard';
 // import { MessagingService } from './services/messaging.service';
 // import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-const defaultDataServiceConfig: DefaultDataServiceConfig = {
-  root: 'crud'
-};
+// const defaultDataServiceConfig: DefaultDataServiceConfig = {
+//   root: 'crud'
+// };
 
 registerLocaleData(localeRu);
 
@@ -48,7 +48,7 @@ registerLocaleData(localeRu);
     HttpClientModule,
     LayoutsModule,
     SharedModule,
-    StoreModule.forRoot({}, {}),
+    // StoreModule.forRoot({}, {}),
     TaigaModule
     // StoreDevtoolsModule.instrument({
     //   maxAge: 25,
@@ -65,10 +65,10 @@ registerLocaleData(localeRu);
       provide: TUI_ICONS_PATH,
       useValue: iconsPathFactory('assets/taiga-ui/icons/')
     },
-    {
-      provide: DefaultDataServiceConfig,
-      useValue: defaultDataServiceConfig
-    },
+    // {
+    //   provide: DefaultDataServiceConfig,
+    //   useValue: defaultDataServiceConfig
+    // },
     { provide: LOCALE_ID, useValue: 'ru' }
     // MessagingService,
   ],

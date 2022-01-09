@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { QueryParams } from '@ngrx/data';
+// import { QueryParams } from '@ngrx/data';
 import { Subject } from 'rxjs';
 import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
@@ -40,7 +40,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   isEditingNumber: boolean;
-  queryParams: QueryParams;
+  queryParams: Params;
 
   constructor(
     private afs: AngularFirestore,

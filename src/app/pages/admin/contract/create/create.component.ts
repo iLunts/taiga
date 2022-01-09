@@ -12,8 +12,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParams } from '@ngrx/data';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   defaultEditorExtensions,
   tiptapEditorStyles,
@@ -61,7 +60,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   private readonly destroySubject = new Subject();
   templateContent = CONTRACT_TEMPLATE_ALL;
   form: FormGroup;
-  queryParams: QueryParams;
+  queryParams: Params;
 
   constructor(
     private afs: AngularFirestore,
