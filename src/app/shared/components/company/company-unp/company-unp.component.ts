@@ -28,7 +28,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
 
   @Input() canChange: boolean;
 
-  @Output() return = new EventEmitter<CompanyInfo>();
+  @Output() onChange = new EventEmitter<CompanyInfo>();
 
   isValidCompany: boolean;
   unpControl: FormControl = new FormControl('', [
@@ -36,7 +36,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
     Validators.minLength(9),
     Validators.maxLength(9)
   ]);
-  destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  destroySubject: ReplaySubject<any> = new ReplaySubject<any>(1);
   // company = new Company();
 
   constructor(
@@ -52,7 +52,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.unpControl.valueChanges
-      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
+      .pipe(takeUntil(this.destroySubject), distinctUntilChanged())
       .subscribe((response: string) => {
         if (this.unpControl.valid) {
           this.getContractorInformation();
@@ -61,8 +61,8 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(null);
-    this.destroy$.complete();
+    this.destroySubject.next(null);
+    this.destroySubject.complete();
   }
 
   private getContractorInformation(): void {
@@ -76,5 +76,9 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
   clearCompanyInfo(): void {
     this.unpControl.setValue(null);
     this.companyService.clearCompanyInfo();
+  }
+
+  setCompanyInfo(companyInfo: CompanyInfo): void {
+    this.onChange.emit(companyInfo);
   }
 }

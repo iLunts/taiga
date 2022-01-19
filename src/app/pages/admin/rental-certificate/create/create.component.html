@@ -46,7 +46,7 @@
         <h5>Арендодатель</h5>
         <app-company-panel
           *ngIf="f.profileCompany.value"
-          [data]="f.profileCompany.value"
+          [company]="f.profileCompany.value"
           [isLoaded]="f.profileCompany.value"
           [canChange]="false"
         ></app-company-panel>

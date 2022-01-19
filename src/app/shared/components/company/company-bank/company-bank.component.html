@@ -6,8 +6,8 @@
 
   <app-bank-panel
     [bank]="company.bankAccount?.bank"
-    [isLoaded]="validBank$ | async"
-    *ngIf="validBank$ | async"
+    [isLoaded]="validBank"
+    *ngIf="validBank$ | async; let validBank"
     (onChange)="clearBank($event)"
   ></app-bank-panel>
 

@@ -22,9 +22,10 @@
       [company]="company"
     ></app-company-settings-logotype> -->
 
-    <!-- <app-company-settings-information
+    <app-company-settings-information
       [company]="company"
-    ></app-company-settings-information> -->
+      (onChange)="setCompanyInfo($event)"
+    ></app-company-settings-information>
 
     <app-company-settings-banks
       [company]="company"

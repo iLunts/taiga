@@ -1,4 +1,4 @@
-<ng-container *tuiLet="data$ | async as company">
+<ng-container *tuiLet="company$ | async as company">
   <div class="company" *ngIf="company?.info?.unp">
     <tui-avatar
       class="company__avatar"
@@ -32,8 +32,7 @@
       class="tui-space_left-3"
       appearance="outline"
       size="m"
-      disabled="true"
-      (click)="change.emit(true)"
+      (click)="clearCompanyUnp()"
     >
       Изменить
     </button>

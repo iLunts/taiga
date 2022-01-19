@@ -1,8 +1,15 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import { filter, switchMap } from 'rxjs/operators';
 
-import { Company } from 'src/app/models/company.model';
+import { Company, CompanyInfo } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
@@ -15,6 +22,9 @@ export class InformationComponent implements OnInit, OnDestroy {
     this.companySubject.next(company);
   }
   private companySubject = new BehaviorSubject<Company>(null);
+
+  @Output() onChange = new EventEmitter<CompanyInfo>();
+
   company$: Observable<Company> = this.companySubject.asObservable();
   valid$: Observable<boolean>;
 
@@ -31,5 +41,9 @@ export class InformationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.companySubject.complete();
+  }
+
+  changeCompany(companyInfo: CompanyInfo): void {
+    this.onChange.emit(companyInfo);
   }
 }

@@ -155,6 +155,7 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
   }
 
   clearBank(bank: Bank): void {
+    this.swiftControl.setValue(null);
     this.actionChangeBankSubject.next(bank);
   }
 }

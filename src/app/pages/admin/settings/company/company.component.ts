@@ -22,7 +22,11 @@ import {
 } from 'rxjs';
 import * as _ from 'lodash';
 
-import { Company, ResponsiblePerson } from 'src/app/models/company.model';
+import {
+  Company,
+  CompanyInfo,
+  ResponsiblePerson
+} from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
 import { CompanyStore } from 'src/app/stores/company.store';
 import { CompanyStoreService } from 'src/app/services/company.store.service';
@@ -39,6 +43,9 @@ export class CompanyComponent implements OnInit, OnDestroy {
   private readonly destroySubject = new Subject();
   private actionSaveSubject = new Subject<void>();
   private actionChangeBankSubject = new BehaviorSubject<BankAccount>(null);
+  private actionChangeCompanyInfoSubject = new BehaviorSubject<CompanyInfo>(
+    null
+  );
 
   company$: Observable<Company>;
   valid$: Observable<boolean>;
@@ -80,6 +87,20 @@ export class CompanyComponent implements OnInit, OnDestroy {
       .subscribe((company: Company) =>
         this.companyStorageService.setCompany(company)
       );
+
+    this.actionChangeCompanyInfoSubject
+      .pipe(
+        filter((info: CompanyInfo) => !!info),
+        withLatestFrom(this.company$),
+        map(([info, company]) => ({
+          ...company,
+          info
+        })),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((company: Company) =>
+        this.companyStorageService.setCompany(company)
+      );
   }
 
   ngOnInit(): void {}
@@ -91,6 +112,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
 
     this.actionSaveSubject.complete();
     this.actionChangeBankSubject.complete();
+    this.actionChangeCompanyInfoSubject.complete();
   }
 
   save(): void {
@@ -103,5 +125,9 @@ export class CompanyComponent implements OnInit, OnDestroy {
 
   setBank(bank: BankAccount): void {
     this.actionChangeBankSubject.next(bank);
+  }
+
+  setCompanyInfo(companyInfo: CompanyInfo): void {
+    this.actionChangeCompanyInfoSubject.next(companyInfo);
   }
 }

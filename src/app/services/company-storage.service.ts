@@ -82,7 +82,7 @@ export class CompanyStorageService implements OnDestroy {
       this.afs
         .collection(this.dbPath)
         .doc(_id)
-        .update(company)
+        .update(JSON.parse(JSON.stringify(company)))
         .then(() => {
           this.notificationService.success('Компания успешно обнавлена');
         })

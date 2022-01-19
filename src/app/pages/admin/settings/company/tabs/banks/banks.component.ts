@@ -7,7 +7,7 @@ import {
   Output
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BankAccount } from 'src/app/models/bank.model';
 
 import { Company } from 'src/app/models/company.model';
@@ -31,8 +31,8 @@ export class BanksComponent implements OnInit, OnDestroy {
 
   constructor(private companyService: CompanyService) {
     this.valid$ = this.companySubject.pipe(
-      filter((company) => !!company),
-      switchMap((company) =>
+      filter((company: Company) => !!company),
+      switchMap((company: Company) =>
         this.companyService.checkCompanyBankAccountValid$(company)
       ),
       takeUntil(this.destroySubject)

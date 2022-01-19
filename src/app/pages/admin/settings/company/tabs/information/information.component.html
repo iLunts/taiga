@@ -20,6 +20,7 @@
     <app-company-unp
       [company]="company$ | async"
       [canChange]="true"
+      (onChange)="changeCompany($event)"
     ></app-company-unp>
   </div>
 </div>
