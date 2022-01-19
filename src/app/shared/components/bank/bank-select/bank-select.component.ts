@@ -15,7 +15,7 @@ import { BankService } from 'src/app/services/bank.service';
   styleUrls: ['./bank-select.component.less']
 })
 export class BankSelectComponent implements OnInit {
-  @Output() change = new EventEmitter<Bank>();
+  @Output() onChange = new EventEmitter<Bank>();
 
   constructor(private bankService: BankService) {
     this.bankService.getAllBank$().subscribe({
@@ -58,7 +58,7 @@ export class BankSelectComponent implements OnInit {
   }
 
   select(bank: Bank): void {
-    this.change.emit(bank);
+    this.onChange.emit(bank);
     this.bankControl.setValue(bank.NmBankShort + ' (' + bank.CDBank + ')');
   }
 }

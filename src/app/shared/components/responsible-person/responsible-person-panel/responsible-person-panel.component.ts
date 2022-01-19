@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output
@@ -12,10 +13,16 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Company, ResponsiblePerson } from 'src/app/models/company.model';
-import { CompanyService } from 'src/app/services/company.service';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
+import { Company } from 'src/app/models/company.model';
 
 @Component({
   selector: 'app-responsible-person-panel',
@@ -24,33 +31,64 @@ import { CompanyService } from 'src/app/services/company.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResponsiblePersonPanelComponent implements OnInit, OnDestroy {
-  @Output() onChange = new EventEmitter<ResponsiblePerson>();
+  @Input() set company(company: Company) {
+    this.companySubject.next(company);
+  }
+  private companySubject = new BehaviorSubject<Company>(null);
 
-  private readonly destroy$ = new Subject();
+  @Output() onChange = new EventEmitter<Company>();
+
+  private readonly destroySubject = new Subject();
   form: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.initForm();
 
-    this.form.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((form: ResponsiblePerson) => {
-        this.onChange.next(form);
+    this.companySubject
+      .pipe(
+        filter((company: Company) => !!company),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((company: Company) =>
+        this.form.patchValue(company.responsiblePerson)
+      );
+
+    combineLatest([this.companySubject.pipe(), this.form.valueChanges])
+      .pipe(
+        debounceTime(400),
+        map(([company, form]) => ({
+          ...company,
+          responsiblePerson: form
+        })),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+      )
+      .subscribe((company: Company) => {
+        this.onChange.next(company);
       });
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroySubject.next();
+    this.destroySubject.complete();
+    this.companySubject.complete();
   }
 
   initForm(): void {
     this.form = this.formBuilder.group({
-      fullName: new FormControl(null, [Validators.required]),
-      basis: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required])
+      fullName: new FormControl(null, {
+        validators: [Validators.required],
+        updateOn: 'blur'
+      }),
+      basis: new FormControl(null, {
+        validators: [Validators.required],
+        updateOn: 'blur'
+      }),
+      type: new FormControl(null, {
+        validators: [Validators.required],
+        updateOn: 'blur'
+      })
     });
   }
 }

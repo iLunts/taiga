@@ -1,14 +1,14 @@
 <ng-container *ngIf="company$ | async; let company">
   <app-bank-select
     *ngIf="!(validBank$ | async)"
-    (change)="setBank($event)"
+    (onChange)="setBank($event)"
   ></app-bank-select>
 
   <app-bank-panel
     [bank]="company.bankAccount?.bank"
     [isLoaded]="validBank$ | async"
     *ngIf="validBank$ | async"
-    (change)="clearBank()"
+    (onChange)="clearBank($event)"
   ></app-bank-panel>
 
   <section class="tui-space_top-5">

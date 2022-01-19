@@ -1,6 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { BankAccount } from 'src/app/models/bank.model';
 
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -14,9 +22,11 @@ export class BanksComponent implements OnInit, OnDestroy {
   @Input() set company(company: Company) {
     this.companySubject.next(company);
   }
+  @Output() onChange = new EventEmitter<BankAccount>();
+
   private companySubject = new BehaviorSubject<Company>(null);
-  company$: Observable<Company> = this.companySubject.asObservable();
   private readonly destroySubject = new Subject();
+  company$: Observable<Company> = this.companySubject.asObservable();
   valid$: Observable<boolean>;
 
   constructor(private companyService: CompanyService) {
@@ -35,5 +45,9 @@ export class BanksComponent implements OnInit, OnDestroy {
     this.destroySubject.next(null);
     this.destroySubject.complete();
     this.companySubject.complete();
+  }
+
+  changeBank(bank: BankAccount): void {
+    this.onChange.emit(bank);
   }
 }

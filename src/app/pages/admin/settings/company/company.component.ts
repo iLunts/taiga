@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   distinctUntilChanged,
   filter,
+  first,
   map,
   shareReplay,
   switchMap,
@@ -10,12 +11,23 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { iif, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  iif,
+  merge,
+  Observable,
+  Subject,
+  zip
+} from 'rxjs';
 import * as _ from 'lodash';
 
-import { Company } from 'src/app/models/company.model';
+import { Company, ResponsiblePerson } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
 import { CompanyStore } from 'src/app/stores/company.store';
+import { CompanyStoreService } from 'src/app/services/company.store.service';
+import { CompanyStorageService } from 'src/app/services/company-storage.service';
+import { BankAccount } from 'src/app/models/bank.model';
 
 @Component({
   selector: 'app-company',
@@ -26,50 +38,48 @@ import { CompanyStore } from 'src/app/stores/company.store';
 export class CompanyComponent implements OnInit, OnDestroy {
   private readonly destroySubject = new Subject();
   private actionSaveSubject = new Subject<void>();
-  company$: Observable<Company> = new Observable<Company>();
+  private actionChangeBankSubject = new BehaviorSubject<BankAccount>(null);
+
+  company$: Observable<Company>;
   valid$: Observable<boolean>;
   isCannotBeEmpty: boolean;
 
   constructor(
-    // private companyService: CompanyService,
-    public companyStore: CompanyStore,
+    private companyStorageService: CompanyStorageService,
     private route: ActivatedRoute
   ) {
+    this.company$ = this.companyStorageService.company$;
+
     this.route.queryParams
       .pipe(filter((params) => params.cannotBeEmpty))
       .subscribe((params) => {
         this.isCannotBeEmpty = true;
       });
 
-    this.company$ = this.companyStore.company$;
+    this.actionSaveSubject
+      .pipe(
+        withLatestFrom(this.company$),
+        filter((company) => !!company),
+        switchMap(([, company]) =>
+          this.companyStorageService.update$(company._id, company)
+        ),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe();
 
-    // this.company$ = this.companyService.getCompany$().pipe(
-    //   distinctUntilChanged((a, b) => _.isEqual(a, b)),
-    //   // tap((data) => console.warn('Settings company - main call: ', data)),
-    //   // debug(LogginLevel.DEBUG, "Loading participant from backend"),
-    //   shareReplay()
-    // );
-
-    // this.actionSaveSubject
-    //   .pipe(
-    //     withLatestFrom(this.company$),
-    //     map(([, company]) => company),
-    //     switchMap((company: Company) =>
-    //       iif(
-    //         () => !!company._id,
-    //         this.companyService.add$(company),
-    //         this.companyService.update$(company._id, company)
-    //       )
-    //     ),
-    //     takeUntil(this.destroySubject)
-    //   )
-    //   .subscribe();
-
-    // this.valid$ = this.company$.pipe(
-    //   filter((company) => !!company),
-    //   switchMap((company) => this.companyService.checkCompanyValid$(company)),
-    //   takeUntil(this.destroySubject)
-    // );
+    this.actionChangeBankSubject
+      .pipe(
+        filter((bank) => !!bank),
+        withLatestFrom(this.company$),
+        map(([bank, company]) => ({
+          ...company,
+          bankAccount: bank
+        })),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((company: Company) =>
+        this.companyStorageService.setCompany(company)
+      );
   }
 
   ngOnInit(): void {}
@@ -80,9 +90,18 @@ export class CompanyComponent implements OnInit, OnDestroy {
     // this.companyService.clearCompany();
 
     this.actionSaveSubject.complete();
+    this.actionChangeBankSubject.complete();
   }
 
   save(): void {
     this.actionSaveSubject.next();
+  }
+
+  setResponsiblePerson(company: Company): void {
+    this.companyStorageService.setCompany(company);
+  }
+
+  setBank(bank: BankAccount): void {
+    this.actionChangeBankSubject.next(bank);
   }
 }

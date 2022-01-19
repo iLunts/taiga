@@ -14,7 +14,7 @@ export class LogotypeComponent implements OnInit {
   @Input() set company(value: any) {
     if (value?.length) {
       this._company = value[0];
-      this.companyService.setCompany(this._company);
+      this.companyService.setCompany$(this._company);
     } else {
       this._company = this.companyService.getCompany();
     }

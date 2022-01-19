@@ -394,6 +394,9 @@ MIT
 @ngrx/store
 MIT
 
+@ngrx/store-devtools
+MIT
+
 @taiga-ui/addon-commerce
 Apache-2.0
                                  Apache License

@@ -17,6 +17,7 @@
   </div>
   <div class="tui-form__multi-field form-group__item">
     <app-responsible-person-panel
+      [company]="company$ | async"
       (onChange)="setResponsiblePerson($event)"
     ></app-responsible-person-panel>
   </div>

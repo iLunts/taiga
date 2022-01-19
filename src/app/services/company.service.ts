@@ -44,7 +44,10 @@ export class CompanyService implements OnDestroy {
   private regexSWIFT = /^[A-Z]{2}[0-9]{2}[A-Z]{4}[0-9]{20}$/;
   private companySubject = new BehaviorSubject<Company>(new Company());
   private readonly destroySubject = new Subject();
-  company$: Observable<Company> = this.companySubject.asObservable();
+  // company$: Observable<Company> = this.companySubject.asObservable();
+  company$: Observable<Company>;
+  companies$: Observable<any[]>;
+  company: Company;
 
   constructor(
     private authService: AuthService,
@@ -52,19 +55,33 @@ export class CompanyService implements OnDestroy {
     private notificationService: NotificationService
   ) {
     if (this.authService.isLoggedIn) {
-      // TODO: Нужно проверить будут ли меняться данные, при повторном вызове сервиса в конструкторе другого компонента
-      const company$ = this.getProfileCompany$();
-
-      company$
-        .pipe(
-          filter((company: Company) => !!company),
-          tap((company: Company) => this.companySubject.next(company)),
-          takeUntil(this.destroySubject)
+      this.companies$ = this.afs
+        .collection(this.dbPath, (q) =>
+          q.where('_userId', '==', this.authService.getUserId())
         )
-        .subscribe();
+        .valueChanges();
+      // .pipe(
+      //   first(),
+      //   map((company: Company[]) => company[0])
+      // ) as Observable<Company>;
+
+      // TODO: Нужно проверить будут ли меняться данные, при повторном вызове сервиса в конструкторе другого компонента
+      // const company$ = this.getProfileCompany$();
+
+      // company$
+      //   .pipe(
+      //     filter((company: Company) => !!company),
+      //     tap((company: Company) => this.companySubject.next(company)),
+      //     takeUntil(this.destroySubject)
+      //   )
+      //   .subscribe();
     } else {
       this.clearCompanyFromLocalStorage();
     }
+  }
+
+  getCompanies$(): Observable<Company[]> {
+    return this.companies$;
   }
 
   ngOnDestroy(): void {
@@ -131,9 +148,12 @@ export class CompanyService implements OnDestroy {
     );
   }
 
-  setCompany(company: Company): void {
-    console.log('setCompany: ', company);
+  setCompany$(company: Company): void {
     this.companySubject.next(company);
+  }
+
+  setCompany(company: Company): void {
+    this.company = company;
   }
 
   getCompany(): Company {
@@ -149,26 +169,30 @@ export class CompanyService implements OnDestroy {
     return this.companySubject.getValue();
   }
 
-  // TODO: Temporary solution
   getCompanyData$(): Observable<Company> {
     const companyRef: AngularFirestoreCollection<Company> = this.afs.collection(
       this.dbPath,
       (q) => q.where('_userId', '==', this.authService.getUserId())
     );
 
-    const company$ = companyRef.valueChanges().pipe(
+    return companyRef.valueChanges().pipe(
       first(),
-      map(([company]) => company),
-      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-      tap((company: Company) => {
-        this.companySubject.next(company);
-        this.setCompanyToLocalStorage(company);
-      }),
-      // shareReplay()
-      takeUntil(this.destroySubject)
-    );
+      map((company: Company[]) => company[0])
+    ) as Observable<Company>;
 
-    return company$;
+    // const company$ = companyRef.valueChanges().pipe(
+    //   first(),
+    //   map(([company]) => company),
+    //   distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    //   tap((company: Company) => {
+    //     this.companySubject.next(company);
+    //     this.setCompanyToLocalStorage(company);
+    //   }),
+    //   // shareReplay()
+    //   takeUntil(this.destroySubject)
+    // );
+
+    // return company$;
   }
 
   getCompany$(): Observable<Company> {
@@ -185,7 +209,8 @@ export class CompanyService implements OnDestroy {
       (q) => q.where('_userId', '==', this.authService.getUserId())
     );
 
-    const company$ = companyRef.valueChanges().pipe(
+    // const company$ = companyRef.valueChanges().pipe(
+    return companyRef.valueChanges().pipe(
       first(),
       map(([company]) => company),
       distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
@@ -193,11 +218,11 @@ export class CompanyService implements OnDestroy {
         this.companySubject.next(company);
         this.setCompanyToLocalStorage(company);
       }),
-      // shareReplay()
-      takeUntil(this.destroySubject)
+      shareReplay()
+      // takeUntil(this.destroySubject)
     );
 
-    return company$;
+    // return company$;
   }
 
   clearCompanyInfo(): void {
@@ -248,7 +273,7 @@ export class CompanyService implements OnDestroy {
   }
 
   clearMailingAddress(): void {
-    let company = this.getCompany();
+    const company = this.getCompany();
 
     company.mailingAddress = new CompanyAddress();
 
@@ -289,6 +314,18 @@ export class CompanyService implements OnDestroy {
     );
   }
 
+  update(): Observable<any> {
+    return from(
+      this.afs
+        .collection(this.dbPath)
+        .doc(this.company._id)
+        .update(this.company)
+        .then(() => {
+          this.notificationService.success('Компания успешно обнавлена');
+        })
+    );
+  }
+
   updateResponsiblePerson(responsiblePerson: ResponsiblePerson): void {
     // const company$ = this.company$.pipe(
     this.company$
@@ -298,12 +335,11 @@ export class CompanyService implements OnDestroy {
           responsiblePerson
         })),
         tap((company: Company) => {
-          console.log('update: ', company);
           // this.setCompany(company);
         }),
         takeUntil(this.destroySubject)
       )
-      .subscribe((company) => this.setCompany(company));
+      .subscribe((company: Company) => this.setCompany(company));
 
     // company$.subscribe((data) => {
     //   debugger;

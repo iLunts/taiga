@@ -16,9 +16,13 @@ export class BankPanelComponent implements OnInit {
   private bankSubject = new BehaviorSubject<Bank>(null);
   bank$: Observable<Bank> = this.bankSubject.asObservable();
 
-  @Output() change = new EventEmitter<boolean>();
+  @Output() onChange = new EventEmitter<Bank>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  clearBank(): void {
+    this.onChange.emit(new Bank());
+  }
 }

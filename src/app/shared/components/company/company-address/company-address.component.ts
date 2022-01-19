@@ -50,7 +50,7 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
   changePostAddress(): void {
     if (this.samePostMailControl.value) {
       this.company.mailingAddress = this.company.juridicalAddress;
-      this.companyService.setCompany(this.company);
+      this.companyService.setCompany$(this.company);
     } else {
       this.companyService.clearMailingAddress();
     }

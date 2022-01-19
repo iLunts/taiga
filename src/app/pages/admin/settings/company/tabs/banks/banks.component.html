@@ -15,6 +15,9 @@
     </p>
   </div>
   <div class="tui-form__multi-field form-group__item">
-    <app-company-bank [company]="company$ | async"></app-company-bank>
+    <app-company-bank
+      [company]="company$ | async"
+      (onChange)="changeBank($event)"
+    ></app-company-bank>
   </div>
 </div>
