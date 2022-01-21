@@ -43,7 +43,7 @@ export class InformationComponent implements OnInit, OnDestroy {
     this.companySubject.complete();
   }
 
-  changeCompany(companyInfo: CompanyInfo): void {
+  changeCompanyInfo(companyInfo: CompanyInfo): void {
     this.onChange.emit(companyInfo);
   }
 }

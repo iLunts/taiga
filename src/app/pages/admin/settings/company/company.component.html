@@ -1,7 +1,5 @@
 <app-header-create title="Настройка компании"></app-header-create>
 
-<!-- <h3>Company: {{ company$ | async | json }}</h3> -->
-
 <div class="page-body" *ngIf="company$ | async; let company">
   <!-- <div class="page-body" *ngIf="companyStore.company$ | async; let company"> -->
   <section class="tui-container tui-container_full">
@@ -13,10 +11,6 @@
       Для дальнейшей работы Вам необходимо обязательно создать компанию.
       Обязательно заполняйте все поля реальными данными.
     </tui-notification>
-
-    <p>
-      {{ company | json }}
-    </p>
 
     <!-- <app-company-settings-logotype
       [company]="company"

@@ -1,35 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  distinctUntilChanged,
   filter,
-  first,
   map,
-  shareReplay,
   switchMap,
   takeUntil,
-  tap,
   withLatestFrom
 } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import {
-  BehaviorSubject,
-  combineLatest,
-  iif,
-  merge,
-  Observable,
-  Subject,
-  zip
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import * as _ from 'lodash';
 
-import {
-  Company,
-  CompanyInfo,
-  ResponsiblePerson
-} from 'src/app/models/company.model';
-import { CompanyService } from 'src/app/services/company.service';
-import { CompanyStore } from 'src/app/stores/company.store';
-import { CompanyStoreService } from 'src/app/services/company.store.service';
+import { Company, CompanyInfo } from 'src/app/models/company.model';
 import { CompanyStorageService } from 'src/app/services/company-storage.service';
 import { BankAccount } from 'src/app/models/bank.model';
 
@@ -98,9 +79,9 @@ export class CompanyComponent implements OnInit, OnDestroy {
         })),
         takeUntil(this.destroySubject)
       )
-      .subscribe((company: Company) =>
-        this.companyStorageService.setCompany(company)
-      );
+      .subscribe((company: Company) => {
+        this.companyStorageService.setCompany(company);
+      });
   }
 
   ngOnInit(): void {}

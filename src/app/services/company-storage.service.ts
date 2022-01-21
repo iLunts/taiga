@@ -73,11 +73,16 @@ export class CompanyStorageService implements OnDestroy {
     return this.company$;
   }
 
+  getCompanyValue(): Company {
+    return this.companySubject.getValue();
+  }
+
   setCompany(company: Company): void {
     this.companySubject.next(company);
   }
 
   update$(_id: string, company: any): Observable<void> {
+    debugger;
     return from(
       this.afs
         .collection(this.dbPath)

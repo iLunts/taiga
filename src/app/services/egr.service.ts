@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, from, Observable } from 'rxjs';
+import { forkJoin, from, Observable, of } from 'rxjs';
 import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
 import { NotificationService } from './notification.service';
 import { CompanyService } from './company.service';
 import { ContractorService } from './contractor.service';
+import { map, tap } from 'rxjs/operators';
+import { CompanyStorageService } from './company-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,8 @@ export class EgrService {
   constructor(
     private _http: HttpClient,
     private notificationService: NotificationService,
-    private companyService: CompanyService // private contractorService: ContractorService
+    // private companyService: CompanyService,
+    private companyStorageService: CompanyStorageService
   ) {}
 
   getBaseInfoByRegNum$(UNP: string): Observable<any> {
@@ -54,83 +57,99 @@ export class EgrService {
     );
   }
 
-  getAllByUnp(UNP: string): Company {
-    let company: Company = new Company();
+  getAllByUnp$(UNP: string): Observable<Company> {
+    // let company: Company = new Company();
+    // debugger;
 
-    forkJoin([
+    return forkJoin([
       this.getBaseInfoByRegNum$(UNP),
       this.getAddressByRegNum$(UNP),
       this.getJurNamesByRegNum$(UNP),
       this.getVEDByRegNum$(UNP),
       this.getIPFIOByRegNum$(UNP)
-    ]).subscribe({
-      // observable.subscribe({
-      next: (response) => {
-        if (response.every((element) => element === null)) {
-          this.notificationService.warning(
-            'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
-          );
-          this.companyService.clearCompanyInfo();
-          return;
-        }
+    ]).pipe(
+      map(
+        ([
+          getBaseInfoByRegNum,
+          getAddressByRegNum,
+          getJurNamesByRegNum,
+          getVEDByRegNum,
+          getIPFIOByRegNum
+        ]) =>
+          this.mappingCompany(
+            getBaseInfoByRegNum,
+            getAddressByRegNum,
+            getJurNamesByRegNum,
+            getVEDByRegNum,
+            getIPFIOByRegNum,
+            UNP
+          )
+      )
+    );
+    // .subscribe({
+    //   next: (response) => {
+    //     // if (response.every((element) => element === null)) {
+    //     //   this.notificationService.warning(
+    //     //     'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
+    //     //   );
+    //     //   // this.companyService.clearCompanyInfo();
+    //     //   return;
+    //     // }
+    //     // let baseInfoByRegNum = response[0];
+    //     // let addressByRegNum = response[1];
+    //     // let jurNamesByRegNum = response[2];
+    //     // let VEDByRegNum = response[3];
+    //     // let IPFIOByRegNum = response[4];
+    //     // company._type = baseInfoByRegNum[0].nsi00211.nkvob;
+    //     // // 1 - Юр. лицо ; 2 - ИП
+    //     // if (company._type === 1) {
+    //     //   company.info = this.mappingJurNames(jurNamesByRegNum[0]);
+    //     //   company.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
+    //     // } else {
+    //     //   company.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
+    //     // }
+    //     // company.ved = VEDByRegNum[0];
+    //     // company.info.unp = UNP;
+    //     // const prevCompany = this.companyStorageService.getCompanyValue();
+    //     // // const prevCompany = this.companyService.getCompany();
+    //     // company.bankAccount = prevCompany.bankAccount;
+    //     // company.mailingAddress = prevCompany.mailingAddress;
+    //     // company.responsiblePerson = prevCompany.responsiblePerson;
+    //     // company.contacts = prevCompany.contacts;
+    //     // // this.companyService.setCompany(company);
+    //     // this.companyStorageService.setCompany(company);
+    //     // return company;
+    //   },
+    //   error: (error) => {
+    //     switch (error.status) {
+    //       case 0: {
+    //         this.notificationService.error(
+    //           'Сервис ЕГР временно не доступен, попробуйте сделать запрос позже',
+    //           'Временно недоступен'
+    //         );
+    //         break;
+    //       }
+    //       case 400: {
+    //         this.notificationService.error(
+    //           'Плохой запрос, проверьте вводимые данные',
+    //           'Плохой запрос'
+    //         );
+    //         break;
+    //       }
+    //       default: {
+    //         this.notificationService.error(
+    //           error.error.message,
+    //           error.error.error
+    //         );
+    //         break;
+    //       }
+    //     }
+    //     return null;
+    //   }
+    // });
 
-        let baseInfoByRegNum = response[0];
-        let addressByRegNum = response[1];
-        let jurNamesByRegNum = response[2];
-        let VEDByRegNum = response[3];
-        let IPFIOByRegNum = response[4];
-
-        company._type = baseInfoByRegNum[0].nsi00211.nkvob;
-
-        // 1 - Юр. лицо ; 2 - ИП
-        if (company._type === 1) {
-          company.info = this.mappingJurNames(jurNamesByRegNum[0]);
-        } else {
-          company.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
-        }
-
-        company.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
-        company.ved = VEDByRegNum[0];
-        company.info.unp = UNP;
-
-        const prevCompany = this.companyService.getCompany();
-        company.bankAccount = prevCompany.bankAccount;
-        company.mailingAddress = prevCompany.mailingAddress;
-        company.responsiblePerson = prevCompany.responsiblePerson;
-        company.contacts = prevCompany.contacts;
-
-        this.companyService.setCompany(company);
-        return company;
-      },
-      error: (error) => {
-        switch (error.status) {
-          case 0: {
-            this.notificationService.error(
-              'Сервис ЕГР временно не доступен, попробуйте сделать запрос позже',
-              'Временно недоступен'
-            );
-            break;
-          }
-          case 400: {
-            this.notificationService.error(
-              'Плохой запрос, проверьте вводимые данные',
-              'Плохой запрос'
-            );
-            break;
-          }
-          default: {
-            this.notificationService.error(
-              error.error.message,
-              error.error.error
-            );
-            break;
-          }
-        }
-        return null;
-      }
-    });
-
-    return company;
+    // debugger;
+    // return of(company);
   }
 
   private mappingJurAddress(data: any): CompanyAddress {
@@ -184,5 +203,60 @@ export class EgrService {
     info.unp = data.ngrn;
 
     return info;
+  }
+
+  private mappingCompany(
+    getBaseInfoByRegNum,
+    getAddressByRegNum,
+    getJurNamesByRegNum,
+    getVEDByRegNum,
+    getIPFIOByRegNum,
+    UNP
+  ): Company {
+    if (
+      [
+        getBaseInfoByRegNum,
+        getAddressByRegNum,
+        getJurNamesByRegNum,
+        getVEDByRegNum,
+        getIPFIOByRegNum
+      ].every((element) => element === null)
+    ) {
+      this.notificationService.warning(
+        'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
+      );
+      return;
+    }
+
+    let company: Company = new Company();
+    let baseInfoByRegNum = getBaseInfoByRegNum;
+    let addressByRegNum = getAddressByRegNum;
+    let jurNamesByRegNum = getJurNamesByRegNum;
+    let VEDByRegNum = getVEDByRegNum;
+    let IPFIOByRegNum = getIPFIOByRegNum;
+
+    company._type = baseInfoByRegNum[0].nsi00211.nkvob;
+
+    // 1 - Юр. лицо ; 2 - ИП
+    if (company._type === 1) {
+      company.info = this.mappingJurNames(jurNamesByRegNum[0]);
+      company.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
+    } else {
+      company.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
+    }
+
+    company.ved = VEDByRegNum[0];
+    company.info.unp = UNP;
+
+    const prevCompany = this.companyStorageService.getCompanyValue();
+    // const prevCompany = this.companyService.getCompany();
+    company.bankAccount = prevCompany.bankAccount;
+    company.mailingAddress = prevCompany.mailingAddress;
+    company.responsiblePerson = prevCompany.responsiblePerson;
+    company.contacts = prevCompany.contacts;
+
+    // this.companyService.setCompany(company);
+    // this.companyStorageService.setCompany(company);
+    return company;
   }
 }
