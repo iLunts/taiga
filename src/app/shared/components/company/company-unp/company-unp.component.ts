@@ -35,7 +35,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
 
   @Input() canChange: boolean;
 
-  @Output() onChange = new EventEmitter<CompanyInfo>();
+  @Output() onChange = new EventEmitter<Company>();
 
   isValidCompany: boolean;
   unpControl: FormControl = new FormControl('', [
@@ -57,9 +57,9 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
         switchMap((unp: string) => this.egrService.getAllByUnp$(unp)),
         takeUntil(this.destroySubject)
       )
-      .subscribe((company) => {
+      .subscribe((company: Company) => {
         this.companySubject.next(company);
-        this.setCompanyInfo(company.info);
+        this.setCompany(company);
       });
   }
 
@@ -75,7 +75,7 @@ export class CompanyUnpComponent implements OnInit, OnDestroy {
     this.companyService.clearCompanyInfo();
   }
 
-  setCompanyInfo(companyInfo: CompanyInfo): void {
-    this.onChange.emit(companyInfo);
+  setCompany(company: Company): void {
+    this.onChange.emit(company);
   }
 }

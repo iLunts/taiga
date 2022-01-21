@@ -33,25 +33,25 @@ export class CompanyPanelComponent implements OnInit {
     filter((company) => !!company),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
   );
-  private actionCompanySubject = new BehaviorSubject<CompanyInfo>(null);
+  private actionCompanySubject = new BehaviorSubject<Company>(null);
   private readonly destroySubject = new Subject();
 
   @Input() isLoaded: boolean;
   @Input() canChange: boolean;
-  @Output() onChange = new EventEmitter<CompanyInfo>();
+  @Output() onChange = new EventEmitter<Company>();
 
   constructor() {
     this.actionCompanySubject
       .pipe(
-        filter((companyInfo: CompanyInfo) => !!companyInfo),
+        filter((company: Company) => !!company),
         takeUntil(this.destroySubject)
       )
-      .subscribe((companyInfo: CompanyInfo) => this.onChange.emit(companyInfo));
+      .subscribe((company: Company) => this.onChange.emit(company));
   }
 
   ngOnInit(): void {}
 
   clearCompanyUnp(): void {
-    this.actionCompanySubject.next(new CompanyInfo());
+    this.actionCompanySubject.next(new Company());
   }
 }

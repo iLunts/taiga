@@ -9,7 +9,7 @@
     [company]="company"
     [isLoaded]="company"
     [canChange]="canChange"
-    (onChange)="setCompanyInfo($event)"
+    (onChange)="setCompany($event)"
   ></app-company-panel>
 
   <p *ngIf="(company$ | async)?._type === 2">

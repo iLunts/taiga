@@ -23,7 +23,7 @@ export class InformationComponent implements OnInit, OnDestroy {
   }
   private companySubject = new BehaviorSubject<Company>(null);
 
-  @Output() onChange = new EventEmitter<CompanyInfo>();
+  @Output() onChange = new EventEmitter<Company>();
 
   company$: Observable<Company> = this.companySubject.asObservable();
   valid$: Observable<boolean>;
@@ -43,7 +43,7 @@ export class InformationComponent implements OnInit, OnDestroy {
     this.companySubject.complete();
   }
 
-  changeCompanyInfo(companyInfo: CompanyInfo): void {
-    this.onChange.emit(companyInfo);
+  changeCompany(company: Company): void {
+    this.onChange.emit(company);
   }
 }

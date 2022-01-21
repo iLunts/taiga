@@ -24,9 +24,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
   private readonly destroySubject = new Subject();
   private actionSaveSubject = new Subject<void>();
   private actionChangeBankSubject = new BehaviorSubject<BankAccount>(null);
-  private actionChangeCompanyInfoSubject = new BehaviorSubject<CompanyInfo>(
-    null
-  );
+  private actionChangeCompanyInfoSubject = new BehaviorSubject<Company>(null);
 
   company$: Observable<Company>;
   valid$: Observable<boolean>;
@@ -71,11 +69,12 @@ export class CompanyComponent implements OnInit, OnDestroy {
 
     this.actionChangeCompanyInfoSubject
       .pipe(
-        filter((info: CompanyInfo) => !!info),
+        filter((company: Company) => !!company),
         withLatestFrom(this.company$),
-        map(([info, company]) => ({
+        map(([companyInfo, company]) => ({
           ...company,
-          info
+          _type: companyInfo._type,
+          info: companyInfo.info
         })),
         takeUntil(this.destroySubject)
       )
@@ -108,7 +107,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
     this.actionChangeBankSubject.next(bank);
   }
 
-  setCompanyInfo(companyInfo: CompanyInfo): void {
-    this.actionChangeCompanyInfoSubject.next(companyInfo);
+  setCompanyInfo(company: Company): void {
+    this.actionChangeCompanyInfoSubject.next(company);
   }
 }
