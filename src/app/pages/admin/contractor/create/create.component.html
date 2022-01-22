@@ -44,7 +44,10 @@
           </p>
         </div>
         <div class="tui-form__multi-field form-group__item">
-          <app-company-address [company]="contractor"></app-company-address>
+          <app-company-address
+            [company]="contractor"
+            (onChange)="changeAddress($event)"
+          ></app-company-address>
         </div>
       </div>
 

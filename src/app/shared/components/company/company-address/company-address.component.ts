@@ -3,12 +3,11 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 import { Company } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
@@ -18,7 +17,7 @@ import { CompanyService } from 'src/app/services/company.service';
   templateUrl: './company-address.component.html',
   styleUrls: ['./company-address.component.less']
 })
-export class CompanyAddressComponent implements OnInit, OnDestroy {
+export class CompanyAddressComponent implements OnDestroy {
   @Input() set company(company: Company) {
     this.companySubject.next(company);
   }
@@ -67,8 +66,6 @@ export class CompanyAddressComponent implements OnInit, OnDestroy {
         this.onChange.emit(company);
       });
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroySubject.next();

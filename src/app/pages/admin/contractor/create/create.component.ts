@@ -34,6 +34,7 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
     null
   );
   private actionChangeBankSubject = new BehaviorSubject<BankAccount>(null);
+  private actionChangeAddressSubject = new BehaviorSubject<Company>(null);
   contractor$: Observable<Contractor>;
 
   constructor(
@@ -65,6 +66,21 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
         map(([bank, contractor]) => ({
           ...contractor,
           bankAccount: bank
+        })),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((contractor: Contractor) =>
+        this.contractorStorageService.setContractor(contractor)
+      );
+
+    this.actionChangeAddressSubject
+      .pipe(
+        // filter((bank) => !!bank),
+        withLatestFrom(this.contractor$),
+        map(([companyAddress, contractor]) => ({
+          ...contractor,
+          juridicalAddress: companyAddress.juridicalAddress,
+          mailingAddress: companyAddress.mailingAddress
         })),
         takeUntil(this.destroySubject)
       )
@@ -109,5 +125,9 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
   changeBank(bank: BankAccount): void {
     debugger;
     this.actionChangeBankSubject.next(bank);
+  }
+
+  changeAddress(company: Company): void {
+    this.actionChangeAddressSubject.next(company);
   }
 }
