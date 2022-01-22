@@ -49,7 +49,8 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
         map(([contractorInfo, contractor]) => ({
           ...contractor,
           _type: contractorInfo._type,
-          info: contractorInfo.info
+          info: contractorInfo.info,
+          juridicalAddress: contractorInfo.juridicalAddress
         })),
         takeUntil(this.destroySubject)
       )
