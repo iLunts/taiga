@@ -7,7 +7,14 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { filter, map, takeUntil, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  takeUntil,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 import { BankAccount } from 'src/app/models/bank.model';
 
 import { Company, Contractor } from 'src/app/models/company.model';
@@ -35,6 +42,7 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
   );
   private actionChangeBankSubject = new BehaviorSubject<BankAccount>(null);
   private actionChangeAddressSubject = new BehaviorSubject<Company>(null);
+  private actionSaveSubject = new Subject();
   contractor$: Observable<Contractor>;
 
   constructor(
@@ -87,11 +95,21 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
       .subscribe((contractor: Contractor) =>
         this.contractorStorageService.setContractor(contractor)
       );
+
+    this.valid$ = this.contractorService.checkContractorValid$();
+
+    this.actionSaveSubject
+      .pipe(
+        tap(() => (this.isLoading = true)),
+        withLatestFrom(this.contractor$),
+        switchMap(([, contractor]) => this.contractorService.add$(contractor)),
+        tap(() => (this.isLoading = false)),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe();
   }
 
-  ngOnInit(): void {
-    this.valid$ = this.contractorService.checkContractorValid$();
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroySubject.next(null);
@@ -101,11 +119,8 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
     this.actionChangeBankSubject.complete();
   }
 
-  checkValid(): void {
-    // this.isValid = this.companyService.isCompanyValid(this.contractor);
-  }
-
   save(): void {
+    this.actionSaveSubject.next();
     // this.isLoading = true;
     // this.contractorService.add$(this.contractor).subscribe(() => {
     //   this.isLoading = false;
@@ -114,7 +129,7 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
   }
 
   cancel(): void {
-    this.contractorService.clearContractor();
+    // this.contractorService.clearContractor();
     this.close.emit(true);
   }
 
