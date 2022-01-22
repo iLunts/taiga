@@ -7,7 +7,10 @@
     size="l"
     textContent="Ожидайте..."
   >
-    <div class="tui-container tui-container_full">
+    <div
+      class="tui-container tui-container_full"
+      *ngIf="contractor$ | async; let contractor"
+    >
       <!-- УНП -->
       <div class="tui-form__row tui-form__row_multi-fields form-group">
         <div
@@ -21,7 +24,11 @@
           </p>
         </div>
         <div class="tui-form__multi-field form-group__item">
-          <app-company-unp></app-company-unp>
+          <app-company-unp
+            [company]="contractor"
+            [canChange]="true"
+            (onChange)="changeCompanyInfo($event)"
+          ></app-company-unp>
         </div>
       </div>
 
@@ -37,7 +44,7 @@
           </p>
         </div>
         <div class="tui-form__multi-field form-group__item">
-          <app-company-address></app-company-address>
+          <app-company-address [company]="contractor"></app-company-address>
         </div>
       </div>
 
@@ -53,7 +60,10 @@
           </p>
         </div>
         <div class="tui-form__multi-field form-group__item">
-          <app-company-bank></app-company-bank>
+          <!-- <app-company-bank
+            [company]="contractor"
+            (onChange)="changeBank($event)"
+          ></app-company-bank> -->
         </div>
       </div>
 

@@ -31,7 +31,6 @@ import { CompanyService } from 'src/app/services/company.service';
 export class CompanyBankComponent implements OnInit, OnDestroy {
   @Input() set company(company: Company) {
     this.companySubject.next(company);
-    console.log('CompanyBankComponent send company: ', company);
   }
 
   @Output() onChange = new EventEmitter<BankAccount>();
@@ -115,22 +114,34 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
       tap((status) => this.toggleBankDisable(status))
     );
 
-    const swiftValueChanges$ = this.swiftControl.valueChanges.pipe(
+    let swiftValueChanges$ = this.swiftControl.valueChanges.pipe(
       filter((data) => !!data),
       distinctUntilChanged((a, b) => a === b)
     );
 
-    const actionChangeBank$ = this.actionChangeBankSubject.pipe(
+    let actionChangeBank$ = this.actionChangeBankSubject.pipe(
       filter((bank: Bank) => !!bank),
       distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
     );
+
+    // actionChangeBank$
+    //   .pipe(
+    //     tap((data) => {
+    //       debugger;
+    //     })
+    //   )
+    //   .subscribe();
 
     combineLatest([actionChangeBank$, swiftValueChanges$])
       .pipe(
         map(([bank, swift]) => new BankAccount(bank, swift)),
         takeUntil(this.destroySubject)
+        // tap((data) => {
+        //   debugger;
+        // })
       )
       .subscribe((bankAccount: BankAccount) => {
+        // debugger;
         this.onChange.emit(bankAccount);
       });
   }

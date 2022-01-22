@@ -58,9 +58,6 @@ export class EgrService {
   }
 
   getAllByUnp$(UNP: string): Observable<Company> {
-    // let company: Company = new Company();
-    // debugger;
-
     return forkJoin([
       this.getBaseInfoByRegNum$(UNP),
       this.getAddressByRegNum$(UNP),
@@ -248,15 +245,13 @@ export class EgrService {
     company.ved = VEDByRegNum[0];
     company.info.unp = UNP;
 
-    const prevCompany = this.companyStorageService.getCompanyValue();
+    // const prevCompany = this.companyStorageService.getCompanyValue();
     // const prevCompany = this.companyService.getCompany();
-    company.bankAccount = prevCompany.bankAccount;
-    company.mailingAddress = prevCompany.mailingAddress;
-    company.responsiblePerson = prevCompany.responsiblePerson;
-    company.contacts = prevCompany.contacts;
+    // company.bankAccount = prevCompany.bankAccount;
+    // company.mailingAddress = prevCompany.mailingAddress;
+    // company.responsiblePerson = prevCompany.responsiblePerson;
+    // company.contacts = prevCompany.contacts;
 
-    // this.companyService.setCompany(company);
-    // this.companyStorageService.setCompany(company);
     return company;
   }
 }

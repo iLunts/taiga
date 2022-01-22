@@ -23,7 +23,7 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'date', 'status', 'price', 'action'];
-  private readonly destroy$ = new Subject();
+  private readonly destroySubject = new Subject();
   invoices$: Observable<any>;
   invoiceStatuses$: Observable<any>;
   invoiceStatuses: InvoiceStatus[] = [];
@@ -43,8 +43,8 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroy$.next(null);
-    this.destroy$.complete();
+    this.destroySubject.next(null);
+    this.destroySubject.complete();
   }
 
   get getTabActiveIndex(): number {

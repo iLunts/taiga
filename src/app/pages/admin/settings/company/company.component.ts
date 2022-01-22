@@ -88,7 +88,6 @@ export class CompanyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroySubject.next();
     this.destroySubject.complete();
-    // this.companyService.clearCompany();
 
     this.actionSaveSubject.complete();
     this.actionChangeBankSubject.complete();
