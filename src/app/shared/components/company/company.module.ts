@@ -7,7 +7,8 @@ import { TuiButtonModule } from '@taiga-ui/core/components/button';
 import {
   TuiCheckboxBlockModule,
   TuiFieldErrorModule,
-  TuiInputModule
+  TuiInputModule,
+  TuiInputPhoneModule
 } from '@taiga-ui/kit';
 import { TuiLoaderModule } from '@taiga-ui/core/components/loader';
 
@@ -16,19 +17,22 @@ import { CompanyPanelComponent } from './company-panel/company-panel.component';
 import { CompanyUnpComponent } from './company-unp/company-unp.component';
 import {
   TuiExpandModule,
+  TuiHintModule,
   TuiNotificationModule,
   TuiTooltipModule
 } from '@taiga-ui/core';
 import { CompanyBankComponent } from './company-bank/company-bank.component';
 import { BankModule } from '../bank/bank.module';
 import { TuiLetModule } from '@taiga-ui/cdk';
+import { CompanyAddressFieldsComponent } from './company-address-fields/company-address-fields.component';
 
 @NgModule({
   declarations: [
     CompanyPanelComponent,
     CompanyUnpComponent,
     CompanyAddressComponent,
-    CompanyBankComponent
+    CompanyBankComponent,
+    CompanyAddressFieldsComponent
   ],
   imports: [
     BankModule,
@@ -45,13 +49,16 @@ import { TuiLetModule } from '@taiga-ui/cdk';
     TuiLetModule,
     TuiLoaderModule,
     TuiNotificationModule,
-    TuiTooltipModule
+    TuiTooltipModule,
+    TuiInputPhoneModule,
+    TuiHintModule
   ],
   exports: [
     CompanyPanelComponent,
     CompanyUnpComponent,
     CompanyAddressComponent,
-    CompanyBankComponent
+    CompanyBankComponent,
+    CompanyAddressFieldsComponent
   ]
 })
 export class CompanyModule {}

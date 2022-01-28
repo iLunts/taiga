@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -16,7 +17,7 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { Company, CompanyInfo } from 'src/app/models/company.model';
+import { Company } from 'src/app/models/company.model';
 
 import { CompanyService } from 'src/app/services/company.service';
 import { EgrService } from 'src/app/services/egr.service';
@@ -24,7 +25,8 @@ import { EgrService } from 'src/app/services/egr.service';
 @Component({
   selector: 'app-company-unp',
   templateUrl: './company-unp.component.html',
-  styleUrls: ['./company-unp.component.less']
+  styleUrls: ['./company-unp.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyUnpComponent implements OnInit, OnDestroy {
   @Input() set company(company: Company) {

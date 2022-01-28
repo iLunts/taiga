@@ -11,6 +11,10 @@
       class="tui-container tui-container_full"
       *ngIf="contractor$ | async; let contractor"
     >
+      <p>
+        {{ contractor | json }}
+      </p>
+
       <!-- УНП -->
       <div class="tui-form__row tui-form__row_multi-fields form-group">
         <div
@@ -48,6 +52,24 @@
             [company]="contractor"
             (onChange)="changeAddress($event)"
           ></app-company-address>
+        </div>
+      </div>
+
+      <!-- Почтовый Адрес -->
+      <div class="tui-form__row tui-form__row_multi-fields form-group">
+        <div
+          class="tui-form__multi-field form-group__item form-group__item-info"
+        >
+          <h3 class="form-group__item-title">Почтовый адрес</h3>
+          <p class="form-group__item-desc">
+            необходимо указать реальный юридический адрес контрагента. Данный
+            адрес будет указываться в реквизитах контрагента на всех документах
+          </p>
+        </div>
+        <div class="tui-form__multi-field form-group__item">
+          <app-company-address-fields
+            [company]="contractor"
+          ></app-company-address-fields>
         </div>
       </div>
 

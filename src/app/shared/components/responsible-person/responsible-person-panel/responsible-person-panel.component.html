@@ -1,11 +1,19 @@
 <form [formGroup]="form">
-  <tui-input formControlName="type"> Тип ответственного лица </tui-input>
+  <tui-input formControlName="type">
+    Тип ответственного лица
+    <span class="tui-required"></span>
+  </tui-input>
+  <tui-field-error formControlName="type"></tui-field-error>
 
   <tui-input class="tui-space_top-5" formControlName="fullName">
     ФИО ответственного лица
+    <span class="tui-required"></span>
   </tui-input>
+  <tui-field-error formControlName="fullName"></tui-field-error>
 
   <tui-input class="tui-space_top-5" formControlName="basis">
     На основании...
+    <span class="tui-required"></span>
   </tui-input>
+  <tui-field-error formControlName="basis"></tui-field-error>
 </form>

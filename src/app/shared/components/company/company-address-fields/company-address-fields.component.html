@@ -1,0 +1,54 @@
+<form [formGroup]="form">
+  <div class="tui-form__row tui-form__row_multi-fields">
+    <div class="tui-form__multi-field">
+      <tui-input
+        tuiTextfieldExampleText="220000"
+        formControlName="zipCode"
+        tuiHintContent="Почтовый индекс, обычно состоит из 6 цифр"
+      >
+        Индекс
+        <span class="tui-required"></span>
+      </tui-input>
+      <tui-field-error formControlName="zipCode"></tui-field-error>
+    </div>
+    <div class="tui-form__multi-field">
+      <tui-input
+        tuiTextfieldExampleText="Беларусь"
+        formControlName="country"
+        tuiHintContent="Почтовый индекс, обычно состоит из 6 цифр"
+      >
+        Страна
+        <span class="tui-required"></span>
+      </tui-input>
+      <tui-field-error formControlName="country"></tui-field-error>
+    </div>
+  </div>
+
+  <div class="tui-form__row tui-form__row_multi-fields">
+    <div class="tui-form__multi-field">
+      <!-- <tui-select formControlName="personValue">
+        Choose a person
+        <tui-data-list-wrapper
+          *tuiDataList
+          [items]="persons"
+        ></tui-data-list-wrapper>
+      </tui-select>
+      <ng-template #personValueContent let-data>
+        <div class="uppercase-name">
+          {{ data.firstName }} {{ data.lastName }}
+        </div>
+      </ng-template>
+      <tui-field-error formControlName="personValue"></tui-field-error> -->
+    </div>
+    <div class="tui-form__multi-field">
+      <tui-input-phone
+        formControlName="phone"
+        countryCode="+375"
+        phoneMaskAfterCountryCode="(##) ###-##-##"
+      >
+        Телефон
+      </tui-input-phone>
+      <tui-field-error formControlName="phone"></tui-field-error>
+    </div>
+  </div>
+</form>

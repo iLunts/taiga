@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -6,16 +7,24 @@ import {
   Output
 } from '@angular/core';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
-import { Company } from 'src/app/models/company.model';
+import { Company, CompanyAddress } from 'src/app/models/company.model';
 import { CompanyService } from 'src/app/services/company.service';
 
 @Component({
   selector: 'app-company-address',
   templateUrl: './company-address.component.html',
-  styleUrls: ['./company-address.component.less']
+  styleUrls: ['./company-address.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyAddressComponent implements OnDestroy {
   @Input() set company(company: Company) {
@@ -52,13 +61,14 @@ export class CompanyAddressComponent implements OnDestroy {
 
     this.samePostMailControl.valueChanges
       .pipe(
+        distinctUntilChanged(),
         withLatestFrom(this.companySubject),
         filter(([, company]) => !!company),
         map(([control, company]) => ({
           ...company,
           mailingAddress: control
             ? company.juridicalAddress
-            : company.mailingAddress
+            : new CompanyAddress()
         }))
       )
       .subscribe((company: Company) => {

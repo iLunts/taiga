@@ -1,12 +1,12 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   OnDestroy,
   OnInit,
   Output
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   filter,
   map,
@@ -16,17 +16,17 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 import { BankAccount } from 'src/app/models/bank.model';
+import * as _ from 'lodash';
 
 import { Company, Contractor } from 'src/app/models/company.model';
-import { CompanyStorageService } from 'src/app/services/company-storage.service';
-import { CompanyService } from 'src/app/services/company.service';
-import { ContractorStorageService } from 'src/app/services/contractor-storage.service';
 import { ContractorService } from 'src/app/services/contractor.service';
+import { ContractorStorageService } from 'src/app/services/contractor-storage.service';
 
 @Component({
   selector: 'app-contractor-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.less']
+  styleUrls: ['./create.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContractorCreateComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<boolean>();
@@ -83,7 +83,7 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
 
     this.actionChangeAddressSubject
       .pipe(
-        // filter((bank) => !!bank),
+        filter((companyAddress: Company) => !!companyAddress),
         withLatestFrom(this.contractor$),
         map(([companyAddress, contractor]) => ({
           ...contractor,
@@ -144,5 +144,15 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
 
   changeAddress(company: Company): void {
     this.actionChangeAddressSubject.next(company);
+  }
+
+  isSameMailingAddress(contractor: Company): boolean {
+    if (_.some(contractor.juridicalAddress, _.isEmpty)) {
+      console.log('Same: ', contractor.juridicalAddress);
+      return false;
+    } else {
+      console.log('Compare: ', contractor.juridicalAddress);
+      return _.isEqual(contractor.juridicalAddress, contractor.mailingAddress);
+    }
   }
 }
