@@ -18,7 +18,11 @@ import {
 import { BankAccount } from 'src/app/models/bank.model';
 import * as _ from 'lodash';
 
-import { Company, Contractor } from 'src/app/models/company.model';
+import {
+  Company,
+  CompanyAddress,
+  Contractor
+} from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { ContractorStorageService } from 'src/app/services/contractor-storage.service';
 
@@ -154,5 +158,9 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
       console.log('Compare: ', contractor.juridicalAddress);
       return _.isEqual(contractor.juridicalAddress, contractor.mailingAddress);
     }
+  }
+
+  isEmptyAddress(address: CompanyAddress): boolean {
+    return _.values(address).every(_.isEmpty);
   }
 }
