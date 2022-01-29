@@ -3,36 +3,20 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import {
-  BehaviorSubject,
-  combineLatest,
-  forkJoin,
-  from,
-  Observable,
-  of,
-  Subject
-} from 'rxjs';
-import * as _ from 'lodash';
-
-import { AuthService } from './auth.service';
-import {
-  Company,
-  CompanyAddress,
-  CompanyInfo,
-  ResponsiblePerson
-} from '../models/company.model';
-import { NotificationService } from './notification.service';
-import { Bank, BankAccount } from '../models/bank.model';
+import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   first,
   map,
-  shareReplay,
-  switchMap,
   takeUntil,
   tap
 } from 'rxjs/operators';
+import * as _ from 'lodash';
+
+import { AuthService } from './auth.service';
+import { Company } from '../models/company.model';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -90,6 +74,14 @@ export class CompanyStorageService implements OnDestroy {
         .then(() => {
           this.notificationService.success('Компания успешно обнавлена');
         })
+    );
+  }
+
+  checkResponsiblePersonValid$(company: Company): Observable<boolean> {
+    return of(company).pipe(
+      filter((company: Company) => !!company && !!company.responsiblePerson),
+      map((company: Company) => !_.some(company.responsiblePerson, _.isEmpty)),
+      distinctUntilChanged()
     );
   }
 }

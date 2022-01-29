@@ -3,15 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import {
-  BehaviorSubject,
-  combineLatest,
-  forkJoin,
-  from,
-  Observable,
-  of,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import * as _ from 'lodash';
 
 import { AuthService } from './auth.service';
@@ -29,7 +21,6 @@ import {
   first,
   map,
   shareReplay,
-  switchMap,
   takeUntil,
   tap
 } from 'rxjs/operators';

@@ -1,12 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { forkJoin, from, Observable, of } from 'rxjs';
 import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
-import { NotificationService } from './notification.service';
-import { CompanyService } from './company.service';
-import { ContractorService } from './contractor.service';
-import { map, tap } from 'rxjs/operators';
 import { CompanyStorageService } from './company-storage.service';
+import { forkJoin, from, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'

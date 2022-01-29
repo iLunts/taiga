@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import {
   Component,
   EventEmitter,
@@ -7,11 +7,16 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 
 import { Company, ResponsiblePerson } from 'src/app/models/company.model';
-import { CompanyService } from 'src/app/services/company.service';
-import { CompanyStoreService } from 'src/app/services/company.store.service';
+import { CompanyStorageService } from 'src/app/services/company-storage.service';
+import {
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-company-responsible-person',
@@ -26,38 +31,39 @@ export class ResponsiblePersonComponent implements OnInit, OnDestroy {
 
   @Output() onChange = new EventEmitter();
 
+  private destroySubject = new Subject();
   private actionSetResponsiblePerson = new ReplaySubject<ResponsiblePerson>(1);
   company$: Observable<Company> = this.companySubject.asObservable();
   valid$: Observable<boolean>;
 
-  constructor(
-    private companyService: CompanyService,
-    private companyStoreService: CompanyStoreService
-  ) {
-    this.valid$ = this.company$.pipe(
+  constructor(private companyStorageService: CompanyStorageService) {
+    this.valid$ = this.companySubject.pipe(
       filter((company) => !!company),
+      distinctUntilChanged(
+        (a, b) =>
+          JSON.stringify(a.responsiblePerson) ===
+          JSON.stringify(b.responsiblePerson)
+      ),
       switchMap((company) =>
-        this.companyService.checkCompanyInfoValid$(company)
-      )
+        this.companyStorageService.checkResponsiblePersonValid$(company)
+      ),
+      takeUntil(this.destroySubject)
     );
-
-    // this.actionSetResponsiblePerson.pipe(
-    //   distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-    //   switchMap((responsiblePerson) =>
-    //     this.companyService.updateResponsiblePerson(responsiblePerson)
-    //   )
-    // );
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
+    this.destroySubject.next(null);
+    this.destroySubject.complete();
+
     this.companySubject.complete();
     this.actionSetResponsiblePerson.complete();
   }
 
-  setResponsiblePerson(data): void {
-    this.onChange.emit(data);
-    // this.companyService.updateResponsiblePerson(data);
+  setResponsiblePerson(company: Company): void {
+    this.onChange.emit(company);
+    // this.valid$ =
+    //   this.companyStorageService.checkResponsiblePersonValid$(company);
   }
 }
