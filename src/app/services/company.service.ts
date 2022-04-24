@@ -357,6 +357,18 @@ export class CompanyService implements OnDestroy {
     );
   }
 
+  setCompanyToLocalStorage$(company?: Company): Observable<Company> {
+    this.clearCompanyFromLocalStorage();
+    localStorage.setItem(
+      'company',
+      company
+        ? JSON.stringify(company)
+        : JSON.stringify(this.companySubject.getValue())
+    );
+
+    return of(company);
+  }
+
   getCompanyFromLocalStorage(): Company {
     return JSON.parse(localStorage.getItem('company')) || null;
   }
