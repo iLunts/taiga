@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LeftMenuComponent } from './left-menu.component';
 import { RouterModule } from '@angular/router';
 import { TuiAvatarModule, TuiBadgedContentModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiHintModule,
+  TuiScrollbarModule
+} from '@taiga-ui/core';
+
+import { LeftMenuComponent } from './left-menu.component';
 
 @NgModule({
   declarations: [LeftMenuComponent],
@@ -13,7 +18,8 @@ import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
     TuiAvatarModule,
     TuiBadgedContentModule,
     TuiButtonModule,
-    TuiHintModule
+    TuiHintModule,
+    TuiScrollbarModule
   ],
   exports: [LeftMenuComponent]
 })

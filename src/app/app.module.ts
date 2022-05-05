@@ -11,6 +11,10 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
 import { TaigaModule } from './shared/taiga.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from '@taiga-ui/i18n';
 import localeRu from '@angular/common/locales/ru';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
@@ -19,10 +23,8 @@ import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { CompanyGuard } from './guards/company.guard';
 import { entityConfig } from './entity-metadata';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { of } from 'rxjs';
 
 const defaultDataServiceConfig: DefaultDataServiceConfig = {
   root: 'https://invoices-244bd.firebaseio.com/',
@@ -67,7 +69,11 @@ registerLocaleData(localeRu);
       provide: DefaultDataServiceConfig,
       useValue: defaultDataServiceConfig
     },
-    { provide: LOCALE_ID, useValue: 'ru' }
+    { provide: LOCALE_ID, useValue: 'ru' },
+    {
+      provide: TUI_LANGUAGE,
+      useValue: of(TUI_RUSSIAN_LANGUAGE)
+    }
     // MessagingService,
   ],
   bootstrap: [AppComponent]

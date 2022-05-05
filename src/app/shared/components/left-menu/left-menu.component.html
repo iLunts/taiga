@@ -1,6 +1,7 @@
 <section class="left-menu">
   <div class="left-menu__logo">Logo</div>
-  <nav class="left-menu__menu">
+  <tui-scrollbar class="left-menu__menu">
+    <!-- <nav class="left-menu__menu"> -->
     <ng-container *ngFor="let item of menu">
       <div class="left-menu__menu-item" routerLinkActive="_active">
         <button
@@ -25,7 +26,8 @@
         <hr class="left-menu__menu-divider" *ngIf="item.type === 'divider'" />
       </div>
     </ng-container>
-  </nav>
+    <!-- </nav> -->
+  </tui-scrollbar>
   <div class="left-menu__account">
     <tui-badged-content
       *ngIf="getUserDisplayName"

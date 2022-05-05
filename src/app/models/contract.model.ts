@@ -9,9 +9,10 @@ export class Contract {
   _invoiceId: string;
 
   contractor: Contractor;
+  date: string;
+  number: number;
   profile: Profile;
   status: ContractStatus;
-  date: string;
   template: string;
 
   constructor(
@@ -23,7 +24,8 @@ export class Contract {
     contractor?: Contractor,
     profile?: Profile,
     status?: ContractStatus,
-    date?: string
+    date?: string,
+    number?: number
   ) {
     this._id = this._id || null;
     this._userId = this._userId || null;
@@ -34,6 +36,7 @@ export class Contract {
     this.profile = profile || null;
     this.status = status || null;
     this.date = date || null;
+    this.number = number || null;
   }
 }
 

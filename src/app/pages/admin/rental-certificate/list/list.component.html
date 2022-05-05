@@ -24,124 +24,141 @@
         | async as rentalCertificates
     "
   >
-    <table tuiTable [columns]="columns" class="tui-table">
-      <thead>
-        <tr class="tui-table__tr" tuiThGroup>
-          <th
-            class="tui-table__th"
-            *tuiHead="'number'"
-            tuiTh
-            [resizable]="true"
-          >
-            Номер
-          </th>
-          <th class="tui-table__th" *tuiHead="'date'" tuiTh [resizable]="true">
-            Дата
-          </th>
-          <th
-            class="tui-table__th"
-            *tuiHead="'status'"
-            tuiTh
-            [resizable]="true"
-          >
-            Статус
-          </th>
-          <th class="tui-table__th" *tuiHead="'sum'" tuiTh [resizable]="true">
-            Сумма
-          </th>
-          <th
-            class="tui-table__th"
-            *tuiHead="'action'"
-            tuiTh
-            [resizable]="true"
-          ></th>
-        </tr>
-      </thead>
-      <tbody tuiTbody [data]="rentalCertificates">
-        <tr
-          class="tui-table__tr"
-          *tuiRow="let item of rentalCertificates; let index = index"
-          tuiTr
-        >
-          <td class="tui-table__td" *tuiCell="'number'" tuiTd>
-            № <b>{{ item?.number || 'Б.н.' }}</b>
-          </td>
-          <td class="tui-table__td" *tuiCell="'date'" tuiTd>
-            <b
-              >{{ item?.dateRange[0] | date: 'dd MMM yyyy' }} -
-              {{ item?.dateRange[1] | date: 'dd MMM yyyy' }}</b
-            >
-          </td>
-          <td class="tui-table__td" *tuiCell="'status'" tuiTd>
-            <tui-badge
-              [style.background-color]="item?.status?.color"
-              status="custom"
-              [value]="item?.status?.name"
-              *ngIf="item?.status"
-            ></tui-badge>
-          </td>
-          <td class="tui-table__td" *tuiCell="'sum'" tuiTd>
-            <b>
-              {{ item?.total?.totalSum?.amount | tuiFormatNumber: 2:',' }}
-            </b>
-            {{ 'BYN' | tuiCurrency }}
-          </td>
-          <td
-            class="tui-table__td tui-table__td--right"
-            *tuiCell="'action'"
-            tuiTd
-          >
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconDownload"
-              title="Скачать PDF"
-              shape="rounded"
-              (click)="downloadPdf(item)"
-            ></button>
-            <button
-              tuiIconButton
-              appearance="flat"
-              size="s"
-              icon="tuiIconTrash"
-              title="Удалить"
-              shape="rounded"
-              (click)="delete(item)"
-            ></button>
-            <tui-hosted-dropdown #dropdown [content]="content">
-              <button
-                tuiIconButton
-                appearance="flat"
-                size="s"
-                icon="tuiIconMoreVer"
-                type="button"
-                shape="rounded"
-                [pseudoHovered]="dropdown.open || null"
-              ></button>
-            </tui-hosted-dropdown>
-            <ng-template #content let-activeZone>
-              <tui-data-list
-                tuiDataListDropdownManager
-                [tuiActiveZoneParent]="activeZone"
+    <section class="tui-container tui-container_full">
+      <div class="tui-row tui-row_adaptive">
+        <div class="tui-col_xs-12 tui-col_s-12 tui-col_sm-12 tui-col_md-12">
+          <table tuiTable [columns]="columns" class="tui-table">
+            <thead>
+              <tr class="tui-table__tr" tuiThGroup>
+                <th
+                  class="tui-table__th"
+                  *tuiHead="'number'"
+                  tuiTh
+                  [resizable]="true"
+                >
+                  Номер
+                </th>
+                <th
+                  class="tui-table__th"
+                  *tuiHead="'date'"
+                  tuiTh
+                  [resizable]="true"
+                >
+                  Дата
+                </th>
+                <th
+                  class="tui-table__th"
+                  *tuiHead="'status'"
+                  tuiTh
+                  [resizable]="true"
+                >
+                  Статус
+                </th>
+                <th
+                  class="tui-table__th"
+                  *tuiHead="'sum'"
+                  tuiTh
+                  [resizable]="true"
+                >
+                  Сумма
+                </th>
+                <th
+                  class="tui-table__th"
+                  *tuiHead="'action'"
+                  tuiTh
+                  [resizable]="true"
+                ></th>
+              </tr>
+            </thead>
+            <tbody tuiTbody [data]="rentalCertificates">
+              <tr
+                class="tui-table__tr"
+                *tuiRow="let item of rentalCertificates; let index = index"
+                tuiTr
               >
-                <tui-opt-group>
-                  <button
-                    tuiOption
-                    (click)="createBaseOnAct(item)"
-                    [disabled]="false"
+                <td class="tui-table__td" *tuiCell="'number'" tuiTd>
+                  № <b>{{ item?.number || 'Б.н.' }}</b>
+                </td>
+                <td class="tui-table__td" *tuiCell="'date'" tuiTd>
+                  <b
+                    >{{ item?.dateRange[0] | date: 'dd MMM yyyy' }} -
+                    {{ item?.dateRange[1] | date: 'dd MMM yyyy' }}</b
                   >
-                    Акт
-                  </button>
-                </tui-opt-group>
-              </tui-data-list>
-            </ng-template>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                </td>
+                <td class="tui-table__td" *tuiCell="'status'" tuiTd>
+                  <tui-badge
+                    [style.background-color]="item?.status?.color"
+                    status="custom"
+                    [value]="item?.status?.name"
+                    *ngIf="item?.status"
+                  ></tui-badge>
+                </td>
+                <td class="tui-table__td" *tuiCell="'sum'" tuiTd>
+                  <b>
+                    {{ item?.total?.totalSum?.amount | tuiFormatNumber: 2:',' }}
+                  </b>
+                  {{ 'BYN' | tuiCurrency }}
+                </td>
+                <td
+                  class="tui-table__td tui-table__td--right"
+                  *tuiCell="'action'"
+                  tuiTd
+                >
+                  <button
+                    tuiIconButton
+                    appearance="flat"
+                    size="s"
+                    icon="tuiIconDownload"
+                    title="Скачать PDF"
+                    shape="rounded"
+                    (click)="downloadPdf(item)"
+                  ></button>
+                  <button
+                    tuiIconButton
+                    appearance="flat"
+                    size="s"
+                    icon="tuiIconTrash"
+                    title="Удалить"
+                    shape="rounded"
+                    (click)="delete(item)"
+                  ></button>
+                  <tui-hosted-dropdown #dropdown [content]="content">
+                    <button
+                      tuiIconButton
+                      appearance="flat"
+                      size="s"
+                      icon="tuiIconMoreVer"
+                      type="button"
+                      shape="rounded"
+                      [pseudoHovered]="dropdown.open || null"
+                    ></button>
+                  </tui-hosted-dropdown>
+                  <ng-template #content let-activeZone>
+                    <tui-data-list
+                      tuiDataListDropdownManager
+                      [tuiActiveZoneParent]="activeZone"
+                    >
+                      <tui-opt-group>
+                        <button
+                          tuiOption
+                          (click)="createBaseOnAct(item)"
+                          [disabled]="false"
+                        >
+                          Акт
+                        </button>
+                      </tui-opt-group>
+                    </tui-data-list>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </ng-container>
 </section>
+
 <ng-template #more>
   <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
 </ng-template>

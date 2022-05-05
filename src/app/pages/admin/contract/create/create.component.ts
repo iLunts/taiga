@@ -65,7 +65,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   constructor(
     private afs: AngularFirestore,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private contractService: ContractService,
     private contractorService: ContractorService,
@@ -92,10 +92,11 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
         this.form.controls.profileCompany.setValue(company);
       });
 
-    this.route.queryParams
-      .pipe(filter((params) => params?.contractorId))
+    this.activatedRoute.queryParams
+      // .pipe(filter((params) => params?.contractorId))
       .subscribe((params) => {
         this.queryParams = params;
+        this.form?.patchValue({ number: +params?.lastIndex + 1 });
       });
 
     this.initQueryParams();
@@ -114,7 +115,9 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
       date: new FormControl(DateHelper.initDate(), [Validators.required]),
       contractor: new FormControl(null, [Validators.required]),
       description: new FormControl(null),
-      number: new FormControl(1, [Validators.required]),
+      number: new FormControl(+this.queryParams?.lastIndex || 1, [
+        Validators.required
+      ]),
       profileCompany: new FormControl(null, [Validators.required]),
       qrCode: new FormControl(null, [Validators.required]),
       signature: new FormControl(null, [Validators.required]),

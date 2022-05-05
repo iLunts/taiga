@@ -42,6 +42,23 @@ button {
   }
 }
 
+tui-wrapper[data-appearance='accent'] {
+  background: var(--tui-accent);
+  color: var(--tui-accent-text);
+
+  &[data-state='hovered'] {
+    background: var(--tui-accent-hover);
+  }
+
+  &[data-state='pressed'] {
+    background: var(--tui-accent-active);
+  }
+
+  &[data-state='disabled'] {
+    background: #eaecee;
+  }
+}
+
 @keyframes loading-bar-spinner {
   0% {
     transform: rotate(0);

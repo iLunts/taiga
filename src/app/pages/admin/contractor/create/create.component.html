@@ -1,6 +1,6 @@
 <app-header-create title="Создание контрагента"></app-header-create>
 
-<div class="page-body">
+<tui-scrollbar class="page-body page-body--header-footer">
   <tui-loader
     [showLoader]="isLoading"
     [overlay]="true"
@@ -11,10 +11,6 @@
       class="tui-container tui-container_full"
       *ngIf="contractor$ | async; let contractor"
     >
-      <!-- <p>
-        {{ contractor | json }}
-      </p> -->
-
       <!-- УНП -->
       <div class="tui-form__row tui-form__row_multi-fields form-group">
         <div
@@ -145,7 +141,7 @@
       <app-responsible-person-panel></app-responsible-person-panel>
     </section> -->
 
-    <section class="tui-space_top-10">
+    <!-- <section class="tui-space_top-10">
       <button
         class="tui-space_right-3"
         tuiButton
@@ -167,6 +163,30 @@
       >
         Добавить
       </button>
-    </section>
+    </section> -->
   </tui-loader>
+</tui-scrollbar>
+
+<div class="page-footer">
+  <button
+    class="tui-space_right-3"
+    tuiButton
+    type="button"
+    [showLoader]="false"
+    [size]="'m'"
+    appearance="secondary"
+    (click)="cancel()"
+  >
+    Отменить
+  </button>
+  <button
+    tuiButton
+    type="button"
+    [showLoader]="false"
+    [size]="'m'"
+    [disabled]="!(valid$ | async)"
+    (click)="save()"
+  >
+    Добавить
+  </button>
 </div>

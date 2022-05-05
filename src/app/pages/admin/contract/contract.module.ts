@@ -5,7 +5,8 @@ import {
   TuiDataListModule,
   TuiHintControllerModule,
   TuiHostedDropdownModule,
-  TuiLoaderModule
+  TuiLoaderModule,
+  TuiScrollbarModule
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
@@ -23,10 +24,10 @@ import { TuiEditorModule } from '@taiga-ui/addon-editor';
 
 import { ContractCreateComponent } from './create/create.component';
 import { ContractListComponent } from './list/list.component';
+import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
 import { ContractRoutingModule } from './contract-routing.module';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
 
 @NgModule({
   declarations: [ContractCreateComponent, ContractListComponent],
@@ -50,6 +51,7 @@ import { ContractorModule } from 'src/app/shared/components/contractor/contracto
     TuiInputNumberModule,
     TuiLetModule,
     TuiLoaderModule,
+    TuiScrollbarModule,
     TuiTabsModule,
     TuiTextAreaModule
   ]

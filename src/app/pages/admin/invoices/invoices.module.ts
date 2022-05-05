@@ -20,7 +20,8 @@ import {
   TuiButtonModule,
   TuiFormatNumberPipeModule,
   TuiHintControllerModule,
-  TuiHostedDropdownModule
+  TuiHostedDropdownModule,
+  TuiScrollbarModule
 } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
@@ -49,7 +50,8 @@ import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcr
     TuiInputNumberModule,
     TuiLetModule,
     TuiTabsModule,
-    TuiTextAreaModule
+    TuiTextAreaModule,
+    TuiScrollbarModule
   ]
 })
 export class InvoicesModule {}

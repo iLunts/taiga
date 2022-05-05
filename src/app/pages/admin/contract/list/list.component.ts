@@ -1,16 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  map,
   shareReplay,
-  switchMap,
-  takeUntil,
-  tap
+  switchMap
 } from 'rxjs/operators';
+import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import * as _ from 'lodash';
+
 import { Contract, ContractStatus } from 'src/app/models/contract.model';
-import { Invoice } from 'src/app/models/invoice.model';
 import { ContractService } from 'src/app/services/contract.service';
 import { StoreService } from 'src/app/services/store.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
@@ -19,25 +28,40 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-contract-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.less']
+  styleUrls: ['./list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContractListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'date', 'status', 'dateCreation', 'action'];
-  private readonly destroy$ = new Subject();
-  contracts$: Observable<Contract[]>;
-  contractStatuses$: Observable<ContractStatus[]>;
   contractStatuses: ContractStatus[] = [];
   isLoaded: boolean;
   routing = environment.routing;
   tabActive: ContractStatus;
+  indicator: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
+  selectedContract: Contract;
+
+  private readonly destroy$ = new Subject();
+  contracts$: Observable<Contract[]>;
+  contractStatuses$: Observable<ContractStatus[]>;
+  contractsLastIndex$: Observable<Contract>;
 
   constructor(
     private contractService: ContractService,
     private templatePdfService: TemplatePdfService,
     private router: Router,
-    private storeService: StoreService
+    private storeService: StoreService,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
   ) {
     this.fetch();
+
+    this.contractsLastIndex$ = this.contracts$.pipe(
+      filter((contracts) => !!contracts),
+      map((contracts) =>
+        _.maxBy(contracts, function (c) {
+          return c.number;
+        })
+      )
+    );
   }
 
   ngOnInit(): void {}
@@ -68,7 +92,28 @@ export class ContractListComponent implements OnInit, OnDestroy {
     );
   }
 
-  delete(item: Invoice): void {
+  openDeleteModal(
+    item: Contract,
+    content: PolymorpheusContent<TuiDialogContext>
+  ): void {
+    this.selectedContract = item;
+    this.dialogService
+      .open(content, {
+        label: 'Удаление',
+        size: 'm',
+        required: false,
+        data: item
+      })
+      .pipe(indicate(this.indicator))
+      .subscribe({
+        next: (data) => {
+          this.delete(item);
+        },
+        complete: () => {}
+      });
+  }
+
+  delete(item: Contract): void {
     if (item) {
       this.contractService.delete$(item._id);
     }
