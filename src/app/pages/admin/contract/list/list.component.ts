@@ -37,13 +37,13 @@ export class ContractListComponent implements OnInit, OnDestroy {
   isLoaded: boolean;
   routing = environment.routing;
   tabActive: ContractStatus;
-  indicator: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
   selectedContract: Contract;
 
   private readonly destroy$ = new Subject();
   contracts$: Observable<Contract[]>;
   contractStatuses$: Observable<ContractStatus[]>;
-  contractsLastIndex$: Observable<Contract>;
+  lastIndex$: Observable<Contract>;
+  indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
 
   constructor(
     private contractService: ContractService,
@@ -54,13 +54,9 @@ export class ContractListComponent implements OnInit, OnDestroy {
   ) {
     this.fetch();
 
-    this.contractsLastIndex$ = this.contracts$.pipe(
+    this.lastIndex$ = this.contracts$.pipe(
       filter((contracts) => !!contracts),
-      map((contracts) =>
-        _.maxBy(contracts, function (c) {
-          return c.number;
-        })
-      )
+      map((contracts) => _.maxBy(contracts, (c) => c.number))
     );
   }
 
@@ -104,7 +100,7 @@ export class ContractListComponent implements OnInit, OnDestroy {
         required: false,
         data: item
       })
-      .pipe(indicate(this.indicator))
+      .pipe(indicate(this.indicator$))
       .subscribe({
         next: (data) => {
           this.delete(item);

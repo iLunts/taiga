@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
@@ -44,13 +44,14 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isEdit: boolean;
   isEditingNumber: boolean;
+  queryParams: Params;
 
   constructor(
     private afs: AngularFirestore,
     private companyService: CompanyService,
     private formBuilder: FormBuilder,
     private invoiceService: InvoiceService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private storeService: StoreService
   ) {
@@ -73,7 +74,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.route.paramMap
+    this.activatedRoute.paramMap
       .pipe(
         map((params: any) => params.params),
         filter((params) => params.id),
@@ -85,6 +86,11 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
         this.setForm(invoice);
         this.isEdit = true;
       });
+
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.queryParams = params;
+      this.form?.patchValue({ number: +params?.lastIndex + 1 });
+    });
   }
 
   ngOnInit(): void {}

@@ -9,6 +9,8 @@
       title="Создать новый"
       shape="rounded"
       [routerLink]="[routing.admin.invoice.create]"
+      [queryParams]="{ lastIndex: (lastIndex$ | async)?.number }"
+      [disabled]="(indicator$ | async)?.loading"
     >
       Создать новый
     </button>
@@ -126,6 +128,7 @@
                     icon="tuiIconDownload"
                     title="Скачать PDF"
                     shape="rounded"
+                    [disabled]="(indicator$ | async)?.loading"
                     (click)="downloadPdf(item)"
                   ></button>
                   <button
@@ -135,7 +138,8 @@
                     icon="tuiIconTrash"
                     title="Удалить"
                     shape="rounded"
-                    (click)="delete(item)"
+                    [disabled]="(indicator$ | async)?.loading"
+                    (click)="openDeleteModal(item, dialogDelete)"
                   ></button>
                   <tui-hosted-dropdown #dropdown [content]="content">
                     <button
@@ -145,6 +149,7 @@
                       icon="tuiIconMoreVer"
                       type="button"
                       shape="rounded"
+                      [disabled]="(indicator$ | async)?.loading"
                       [pseudoHovered]="dropdown.open || null"
                     ></button>
                   </tui-hosted-dropdown>
@@ -203,6 +208,38 @@
     </section>
   </ng-container>
 </section>
+
 <ng-template #more>
   <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
+</ng-template>
+
+<ng-template #dialogDelete let-observer>
+  <section class="modal-dialog">
+    <p>
+      Вы действительно хотите удалить счет: №
+      <b>{{ selectedInvoice?.number }}</b>
+      от <b>{{ selectedInvoice?.date | date: 'dd MMM yyyy' }}</b> ?
+    </p>
+    <div class="modal-dialog__actions">
+      <button
+        tuiButton
+        type="button"
+        size="m"
+        appearance="outline"
+        (click)="observer.complete()"
+      >
+        Отменить
+      </button>
+      <button
+        tuiButton
+        type="button"
+        appearance="accent"
+        size="m"
+        class="tui-space_left-3"
+        (click)="delete(selectedInvoice); observer.complete()"
+      >
+        Удалить
+      </button>
+    </div>
+  </section>
 </ng-template>

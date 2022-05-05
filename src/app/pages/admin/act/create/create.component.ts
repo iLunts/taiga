@@ -115,6 +115,8 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   initQueryParams(queryParams: Params): void {
     this.queryParams = queryParams;
 
+    this.form.patchValue({ number: +queryParams?.lastIndex + 1 });
+
     if (this.queryParams?.rentalCertificateId) {
       this.rentalCertificateService
         .getById$(this.queryParams?.rentalCertificateId.toString())

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 import { Invoice, InvoiceStatus } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
@@ -9,12 +10,12 @@ import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import {
   distinctUntilChanged,
   filter,
+  map,
   shareReplay,
-  switchMap,
-  takeUntil,
-  tap
+  switchMap
 } from 'rxjs/operators';
 import { StoreService } from 'src/app/services/store.service';
+import { IndicatorBehaviorSubject } from 'ngx-ready-set-go';
 
 @Component({
   selector: 'app-invoices-list',
@@ -23,13 +24,17 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'date', 'status', 'price', 'action'];
-  private readonly destroySubject = new Subject();
-  invoices$: Observable<any>;
-  invoiceStatuses$: Observable<any>;
   invoiceStatuses: InvoiceStatus[] = [];
   isLoaded: boolean;
   routing = environment.routing;
   tabActive: InvoiceStatus;
+  selectedInvoice: Invoice;
+
+  private readonly destroySubject = new Subject();
+  invoices$: Observable<any>;
+  invoiceStatuses$: Observable<any>;
+  lastIndex$: Observable<Invoice>;
+  indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
 
   constructor(
     private invoiceService: InvoiceService,
@@ -38,6 +43,11 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.fetch();
+
+    this.lastIndex$ = this.invoices$.pipe(
+      filter((contracts) => !!contracts),
+      map((contracts) => _.maxBy(contracts, (c) => c.number))
+    );
   }
 
   ngOnInit(): void {}

@@ -8,8 +8,8 @@
     title="Создать новый"
     shape="rounded"
     [routerLink]="[routing.admin.contract.create]"
-    [queryParams]="{ lastIndex: (contractsLastIndex$ | async)?.number }"
-    [disabled]="(indicator | async)?.loading"
+    [queryParams]="{ lastIndex: (lastIndex$ | async)?.number }"
+    [disabled]="(indicator$ | async)?.loading"
   >
     Создать новый
   </button>
