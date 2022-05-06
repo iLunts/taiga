@@ -96,7 +96,8 @@
                   *tuiRow="let item of contracts; let index = index"
                 >
                   <td class="tui-table__td" *tuiCell="'number'" tuiTd>
-                    № <b>{{ item?.number }}</b>
+                    <b *ngIf="!!item?.number">№ {{ item?.number }}</b>
+                    <small *ngIf="item?.number == null">Без номера</small>
                   </td>
                   <td class="tui-table__td" *tuiCell="'date'" tuiTd>
                     <b>{{ item?.date | date: 'dd MMM yyyy' }}</b>
