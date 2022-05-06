@@ -11,6 +11,7 @@ import {
 import {
   TuiAvatarModule,
   TuiBadgeModule,
+  TuiCheckboxLabeledModule,
   TuiInputDateModule,
   TuiInputDateRangeModule,
   TuiInputFileModule,
@@ -40,6 +41,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiAvatarModule,
     TuiBadgeModule,
     TuiButtonModule,
+    TuiCheckboxLabeledModule,
     TuiDataListModule,
     TuiEditorModule,
     TuiHintControllerModule,

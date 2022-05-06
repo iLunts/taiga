@@ -4,12 +4,18 @@
 <tui-scrollbar class="page-body page-body--header-footer">
   <form class="tui-container tui-container_full" [formGroup]="form">
     <div class="tui-row tui-row_adaptive">
-      <tui-input-number
-        class="tui-col_xs-12 tui-col_s-1 tui-col_sm-4 tui-col_md-3"
-        formControlName="number"
-      >
-        Номер договора
-      </tui-input-number>
+      <div class="tui-col_xs-12 tui-col_s-1 tui-col_sm-4 tui-col_md-3">
+        <tui-input-number formControlName="number">
+          Номер договора
+        </tui-input-number>
+        <tui-checkbox-labeled
+          class="tui-space_top-3"
+          [formControl]="withoutNumberControl"
+          size="m"
+        >
+          Без номера
+        </tui-checkbox-labeled>
+      </div>
       <tui-input-date
         class="tui-col_xs-12 tui-col_s-1 tui-col_sm-4 tui-col_md-4"
         formControlName="date"

@@ -24,7 +24,8 @@ import {
   filter,
   shareReplay,
   takeUntil,
-  tap
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -54,13 +55,14 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class ContractCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
-  // public stateInProgress = new EventEmitter<boolean>(false);
-  stateInProgress = false;
 
   private readonly destroySubject = new Subject();
-  templateContent = CONTRACT_TEMPLATE_ALL;
-  form: FormGroup;
   queryParams: Params;
+  stateInProgress = false;
+  templateContent = CONTRACT_TEMPLATE_ALL;
+
+  form: FormGroup;
+  withoutNumberControl: FormControl = new FormControl(false);
 
   constructor(
     private afs: AngularFirestore,
@@ -92,12 +94,20 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
         this.form.controls.profileCompany.setValue(company);
       });
 
-    this.activatedRoute.queryParams
-      // .pipe(filter((params) => params?.contractorId))
-      .subscribe((params) => {
-        this.queryParams = params;
-        this.form?.patchValue({ number: +params?.lastIndex + 1 });
-      });
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.queryParams = params;
+      this.form?.patchValue({ number: +params?.lastIndex + 1 });
+    });
+
+    this.withoutNumberControl.valueChanges.subscribe((response) => {
+      if (response) {
+        this.form.controls.number.disable();
+        this.form.controls.number.setValue(null);
+      } else {
+        this.form.controls.number.enable();
+        this.form.controls.number.setValue(+this.queryParams?.lastIndex + 1);
+      }
+    });
 
     this.initQueryParams();
   }
