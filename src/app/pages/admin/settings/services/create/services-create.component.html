@@ -2,7 +2,7 @@
   [title]="isEdit ? 'Редактирование товара' : 'Новый товары'"
 ></app-header-create>
 
-<div class="page-body">
+<tui-scrollbar class="page-body page-body--header-footer">
   <form class="tui-container tui-container_full" [formGroup]="form">
     <div class="tui-form__row tui-form__row_multi-fields form-group">
       <div class="tui-form__multi-field form-group__item form-group__item-info">
@@ -218,29 +218,29 @@
         </tui-checkbox-labeled>
       </div>
     </div>
-
-    <div class="tui-form__row tui-form__row_multi-fields form-group">
-      <button
-        class="tui-space_right-3"
-        tuiButton
-        type="button"
-        [showLoader]="false"
-        [size]="'m'"
-        appearance="secondary"
-        (click)="cancel()"
-      >
-        Отменить
-      </button>
-      <button
-        tuiButton
-        type="button"
-        [showLoader]="false"
-        [size]="'m'"
-        [disabled]="form.invalid"
-        (click)="save()"
-      >
-        {{ isEdit ? 'Изменить' : 'Добавить' }}
-      </button>
-    </div>
   </form>
-</div>
+</tui-scrollbar>
+
+<footer class="page-footer">
+  <button
+    class="tui-space_right-3"
+    tuiButton
+    type="button"
+    [showLoader]="false"
+    [size]="'m'"
+    appearance="secondary"
+    (click)="cancel()"
+  >
+    Отменить
+  </button>
+  <button
+    tuiButton
+    type="button"
+    [showLoader]="false"
+    [size]="'m'"
+    [disabled]="form.invalid"
+    (click)="save()"
+  >
+    {{ isEdit ? 'Изменить' : 'Добавить' }}
+  </button>
+</footer>

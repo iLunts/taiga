@@ -6,11 +6,11 @@ import {
   TuiIslandModule,
   TuiMarkerIconModule
 } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiScrollbarModule } from '@taiga-ui/core';
 
 import { SettingsComponent } from './settings.component';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { TuiButtonModule } from '@taiga-ui/core';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
@@ -24,7 +24,8 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     TuiAccordionModule,
     TuiInputNumberModule,
     TuiIslandModule,
-    TuiMarkerIconModule
+    TuiMarkerIconModule,
+    TuiScrollbarModule
   ],
   exports: [SettingsComponent]
 })

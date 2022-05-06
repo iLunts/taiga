@@ -2,7 +2,7 @@
 
 <tui-scrollbar class="page-body page-body--header-footer">
   <tui-loader
-    [showLoader]="isLoading"
+    [showLoader]="!(indicator$ | async)?.loading"
     [overlay]="true"
     size="l"
     textContent="Ожидайте..."
@@ -102,10 +102,10 @@
           </p>
         </div>
         <div class="tui-form__multi-field form-group__item">
-          <!-- <app-company-bank
+          <app-company-bank
             [company]="contractor"
             (onChange)="changeBank($event)"
-          ></app-company-bank> -->
+          ></app-company-bank>
         </div>
       </div>
 
@@ -125,45 +125,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <section>
-      <h3 class="tui-space_top-10">Адрес</h3>
-      <app-company-address></app-company-address>
-    </section> -->
-
-    <!-- <section>
-      <h3 class="tui-space_top-10">Банк</h3>
-      <app-company-bank></app-company-bank>
-    </section> -->
-
-    <!-- <section>
-      <h3 class="tui-space_top-10">Ответственное лицо</h3>
-      <app-responsible-person-panel></app-responsible-person-panel>
-    </section> -->
-
-    <!-- <section class="tui-space_top-10">
-      <button
-        class="tui-space_right-3"
-        tuiButton
-        type="button"
-        [showLoader]="false"
-        [size]="'m'"
-        appearance="secondary"
-        (click)="cancel()"
-      >
-        Отменить
-      </button>
-      <button
-        tuiButton
-        type="button"
-        [showLoader]="false"
-        [size]="'m'"
-        [disabled]="!(valid$ | async)"
-        (click)="save()"
-      >
-        Добавить
-      </button>
-    </section> -->
   </tui-loader>
 </tui-scrollbar>
 
@@ -182,7 +143,7 @@
   <button
     tuiButton
     type="button"
-    [showLoader]="false"
+    [showLoader]="!(indicator$ | async)?.loading"
     [size]="'m'"
     [disabled]="!(valid$ | async)"
     (click)="save()"

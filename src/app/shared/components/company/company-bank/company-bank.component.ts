@@ -12,6 +12,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  startWith,
   switchMap,
   takeUntil,
   tap
@@ -89,13 +90,6 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
   };
 
   constructor(private companyService: CompanyService) {
-    // this.valid$ = this.company$.pipe(
-    //   filter((company: Company) => !!company),
-    //   switchMap((company: Company) =>
-    //     this.companyService.checkCompanyBankValid$(company)
-    //   )
-    // );
-
     this.companySubject
       .pipe(
         filter((company: Company) => !!company),
@@ -124,24 +118,16 @@ export class CompanyBankComponent implements OnInit, OnDestroy {
       distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
     );
 
-    // actionChangeBank$
-    //   .pipe(
-    //     tap((data) => {
-    //       debugger;
-    //     })
-    //   )
-    //   .subscribe();
+    this.swiftControl.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((response) => this.onChange.emit(response));
 
-    combineLatest([actionChangeBank$, swiftValueChanges$])
+    combineLatest([actionChangeBank$, swiftValueChanges$.pipe(startWith(''))])
       .pipe(
         map(([bank, swift]) => new BankAccount(bank, swift)),
         takeUntil(this.destroySubject)
-        // tap((data) => {
-        //   debugger;
-        // })
       )
       .subscribe((bankAccount: BankAccount) => {
-        // debugger;
         this.onChange.emit(bankAccount);
       });
   }

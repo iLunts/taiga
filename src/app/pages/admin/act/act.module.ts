@@ -51,9 +51,9 @@ import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
     TuiInputInlineModule,
     TuiInputNumberModule,
     TuiLetModule,
+    TuiScrollbarModule,
     TuiTabsModule,
-    TuiTextAreaModule,
-    TuiScrollbarModule
+    TuiTextAreaModule
   ],
   exports: [ActCreateComponent, ActListComponent]
 })

@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  BehaviorSubject,
-  interval,
-  merge,
-  Observable,
-  of,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { filter, shareReplay, tap } from 'rxjs/operators';
 
 import { Company } from 'src/app/models/company.model';
@@ -50,10 +43,5 @@ export class ContractorListComponent implements OnInit {
     setTimeout(() => {
       this.stateInProgressSubject.next(false);
     }, 5000);
-
-    // const clicks = of(1);
-    // const timer = interval(5000);
-    // const clicksOrTimer = merge(clicks, timer);
-    // clicksOrTimer.subscribe((x) => console.log(x));
   }
 }

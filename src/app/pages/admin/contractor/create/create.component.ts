@@ -25,6 +25,7 @@ import {
 } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { ContractorStorageService } from 'src/app/services/contractor-storage.service';
+import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
 
 @Component({
   selector: 'app-contractor-create',
@@ -35,11 +36,6 @@ import { ContractorStorageService } from 'src/app/services/contractor-storage.se
 export class ContractorCreateComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<boolean>();
 
-  // contractor: Contractor = new Contractor();
-  isValid: boolean;
-  valid$: Observable<boolean>;
-  isLoading = false;
-
   private readonly destroySubject = new Subject();
   private actionChangeContractorInfoSubject = new BehaviorSubject<Company>(
     null
@@ -47,7 +43,12 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
   private actionChangeBankSubject = new BehaviorSubject<BankAccount>(null);
   private actionChangeAddressSubject = new BehaviorSubject<Company>(null);
   private actionSaveSubject = new Subject();
+
   contractor$: Observable<Contractor>;
+  valid$: Observable<boolean>;
+  indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
+
+  isValid: boolean;
 
   constructor(
     private contractorService: ContractorService,
@@ -100,14 +101,19 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
         this.contractorStorageService.setContractor(contractor)
       );
 
-    this.valid$ = this.contractorService.checkContractorValid$();
+    this.valid$ = this.contractor$.pipe(
+      switchMap((contractor: Contractor) =>
+        this.contractorService.checkContractorValid$(contractor)
+      )
+    );
 
     this.actionSaveSubject
       .pipe(
-        tap(() => (this.isLoading = true)),
+        indicate(this.indicator$),
+        // tap(() => (this.isLoading = true)),
         withLatestFrom(this.contractor$),
         switchMap(([, contractor]) => this.contractorService.add$(contractor)),
-        tap(() => (this.isLoading = false)),
+        // tap(() => (this.isLoading = false)),
         takeUntil(this.destroySubject)
       )
       .subscribe();
@@ -125,15 +131,9 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
 
   save(): void {
     this.actionSaveSubject.next();
-    // this.isLoading = true;
-    // this.contractorService.add$(this.contractor).subscribe(() => {
-    //   this.isLoading = false;
-    //   this.cancel();
-    // });
   }
 
   cancel(): void {
-    // this.contractorService.clearContractor();
     this.close.emit(true);
   }
 
@@ -142,7 +142,6 @@ export class ContractorCreateComponent implements OnInit, OnDestroy {
   }
 
   changeBank(bank: BankAccount): void {
-    debugger;
     this.actionChangeBankSubject.next(bank);
   }
 

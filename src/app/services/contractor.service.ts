@@ -181,13 +181,13 @@ export class ContractorService {
     return bankInfo;
   }
 
-  checkContractorValid$(): Observable<boolean> {
-    return this.contractor$.pipe(
+  checkContractorValid$(contractor: Contractor): Observable<boolean> {
+    return of(contractor).pipe(
       filter((contractor) => !!contractor),
       switchMap((contractor: Contractor) =>
         of(
-          this.checkContractorInfoValid(contractor) &&
-            this.checkContractorBankValid(contractor) &&
+          // this.checkContractorInfoValid(contractor) &&
+          this.checkContractorBankValid(contractor) &&
             this.checkContractorSwiftValid(contractor.bankAccount.SWIFT)
         )
       )

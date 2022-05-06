@@ -35,11 +35,11 @@
   textContent="Загружается..."
   size="l"
 >
-  <section class="page-body">
-    <app-empty-panel
-      *ngIf="!(contracts$ | async)?.length"
-      [link]="routing.admin.contract.create"
-    ></app-empty-panel>
+  <section class="page-body" *ngIf="!(contracts$ | async)?.length">
+    <app-empty-panel [link]="routing.admin.contract.create"></app-empty-panel>
+  </section>
+
+  <tui-scrollbar class="page-body" *ngIf="(contracts$ | async)?.length">
     <ng-container
       *ngIf="(contracts$ | async)?.length && contracts$ | async as contracts"
     >
@@ -193,7 +193,7 @@
         </div>
       </section>
     </ng-container>
-  </section>
+  </tui-scrollbar>
 </tui-loader>
 
 <ng-template #more>
