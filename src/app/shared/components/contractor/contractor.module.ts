@@ -4,7 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiButtonModule,
   TuiDataListModule,
-  TuiLoaderModule
+  TuiLoaderModule,
+  TuiScrollbarModule
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
@@ -32,7 +33,8 @@ import { ContractorAsideComponent } from './contractor-aside/contractor-aside.co
     TuiLetModule,
     TuiLoaderModule,
     TuiSelectModule,
-    TuiBadgeModule
+    TuiBadgeModule,
+    TuiScrollbarModule
   ],
   exports: [ContractorPanelComponent, ContractorAsideComponent]
 })
