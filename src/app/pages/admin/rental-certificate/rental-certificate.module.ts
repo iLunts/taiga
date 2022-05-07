@@ -5,7 +5,8 @@ import {
   TuiButtonModule,
   TuiFormatNumberPipeModule,
   TuiHintControllerModule,
-  TuiHostedDropdownModule
+  TuiHostedDropdownModule,
+  TuiScrollbarModule
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
@@ -52,7 +53,8 @@ import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
     TuiInputNumberModule,
     TuiLetModule,
     TuiTabsModule,
-    TuiTextAreaModule
+    TuiTextAreaModule,
+    TuiScrollbarModule
   ]
 })
 export class RentalCertificateModule {}

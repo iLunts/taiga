@@ -1,7 +1,13 @@
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import {
   FormBuilder,
   FormControl,
@@ -15,7 +21,7 @@ import * as moment from 'moment';
 
 import { CompanyService } from 'src/app/services/company.service';
 import { Contract } from 'src/app/models/contract.model';
-import { Contractor } from 'src/app/models/company.model';
+import { Company, Contractor } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
 import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/utils/date.helper';
@@ -26,6 +32,7 @@ import {
 } from 'src/app/models/rental-certificate.model';
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { Service } from 'src/app/models/service.model';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-rental-certificate-create',
@@ -50,7 +57,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private companyService: CompanyService,
     private contractorService: ContractorService,
-    private contractService: ContractService
+    private storeService: StoreService
   ) {
     this.initForm();
 
@@ -60,19 +67,24 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
         this.queryParams = params;
       });
 
-    this.initQueryParams();
-
     this.companyService
       .getProfileCompany$()
+      .pipe(takeUntil(this.destroySubject))
+      .subscribe((company: Company) => {
+        this.form.controls.profileCompany.setValue(company);
+      });
+
+    this.storeService
+      .getContractor$()
       .pipe(
-        filter((company) => !!company),
-        distinctUntilChanged(),
-        tap((company) =>
-          this.form.controls.profileCompany.setValue(company[0])
-        ),
-        takeUntil(this.destroySubject)
+        filter((contractor) => !!contractor),
+        tap((contractor) => this.form.controls.contractor.setValue(contractor)),
+        takeUntil(this.destroySubject),
+        shareReplay()
       )
       .subscribe();
+
+    this.initQueryParams();
   }
 
   ngOnInit(): void {}
