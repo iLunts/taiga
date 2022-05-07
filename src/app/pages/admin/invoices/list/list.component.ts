@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import * as _ from 'lodash';
 
 import { Invoice, InvoiceStatus } from 'src/app/models/invoice.model';
@@ -15,7 +16,8 @@ import {
   switchMap
 } from 'rxjs/operators';
 import { StoreService } from 'src/app/services/store.service';
-import { IndicatorBehaviorSubject } from 'ngx-ready-set-go';
+import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-invoices-list',
@@ -40,7 +42,8 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     private invoiceService: InvoiceService,
     private templatePdfService: TemplatePdfService,
     private storeService: StoreService,
-    private router: Router
+    private router: Router,
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
   ) {
     this.fetch();
 
@@ -79,13 +82,26 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
     );
   }
 
-  // fetchFilterByStatus(): void {
-  //   this.invoices$ = this.invoiceService.getAll$().pipe(
-  //     filter((invoices) => {
-  //       return invoices.filter((x) => x.status._id === this.tabActive._id);
-  //     })
-  //   );
-  // }
+  openDeleteModal(
+    item: Invoice,
+    content: PolymorpheusContent<TuiDialogContext>
+  ): void {
+    this.selectedInvoice = item;
+    this.dialogService
+      .open(content, {
+        label: 'Удаление',
+        size: 'm',
+        required: false,
+        data: item
+      })
+      .pipe(indicate(this.indicator$))
+      .subscribe({
+        next: (data) => {
+          this.delete(item);
+        },
+        complete: () => {}
+      });
+  }
 
   delete(item: Invoice): void {
     if (item) {
