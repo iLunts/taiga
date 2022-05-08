@@ -1,59 +1,47 @@
 <app-header-create title="Настройка компании"></app-header-create>
 
-<div class="page-body" *ngIf="company$ | async; let company">
-  <!-- <div class="page-body" *ngIf="companyStore.company$ | async; let company"> -->
-  <section class="tui-container tui-container_full">
-    <tui-notification
-      class="tui-col_6 tui-col-offset_3"
-      status="warning"
-      *ngIf="isCannotBeEmpty"
-    >
-      Для дальнейшей работы Вам необходимо обязательно создать компанию.
-      Обязательно заполняйте все поля реальными данными.
-    </tui-notification>
+<ng-container *ngIf="company$ | async; let company">
+  <tui-scrollbar class="page-body page-body--header-footer">
+    <section class="tui-container tui-container_full">
+      <tui-notification
+        class="tui-col_6 tui-col-offset_3"
+        status="warning"
+        *ngIf="isCannotBeEmpty"
+      >
+        Для дальнейшей работы Вам необходимо обязательно создать компанию.
+        Обязательно заполняйте все поля реальными данными.
+      </tui-notification>
 
-    <!-- <app-company-settings-logotype
+      <!-- <app-company-settings-logotype
       [company]="company"
     ></app-company-settings-logotype> -->
 
-    <app-company-settings-information
-      [company]="company"
-      (onChange)="setCompanyInfo($event)"
-    ></app-company-settings-information>
+      <app-company-settings-information
+        [company]="company"
+        (onChange)="setCompanyInfo($event)"
+      ></app-company-settings-information>
 
-    <app-company-settings-banks
-      [company]="company"
-      (onChange)="setBank($event)"
-    ></app-company-settings-banks>
+      <app-company-settings-banks
+        [company]="company"
+        (onChange)="setBank($event)"
+      ></app-company-settings-banks>
 
-    <app-company-responsible-person
-      [company]="company"
-      (onChange)="setResponsiblePerson($event)"
-    ></app-company-responsible-person>
+      <app-company-responsible-person
+        [company]="company"
+        (onChange)="setResponsiblePerson($event)"
+      ></app-company-responsible-person>
+    </section>
+  </tui-scrollbar>
 
-    <div class="tui-row tui-row_sme">
-      <div class="tui-col_12">
-        <button
-          tuiButton
-          type="button"
-          class="tui-space_right-3 tui-space_bottom-3"
-          appearance="primary"
-          (click)="save()"
-        >
-          {{ company._id ? 'Обновить' : 'Сохранить' }}
-        </button>
-
-        <!-- <button
-          tuiButton
-          type="button"
-          class="tui-space_right-3 tui-space_bottom-3"
-          appearance="primary"
-          [disabled]="!(valid$ | async)"
-          (click)="save()"
-        >
-          {{ company._id ? 'Обновить' : 'Сохранить' }}
-        </button> -->
-      </div>
-    </div>
-  </section>
-</div>
+  <footer class="page-footer">
+    <button
+      tuiButton
+      type="button"
+      class="tui-space_right-3"
+      appearance="primary"
+      (click)="save()"
+    >
+      {{ company._id ? 'Обновить' : 'Сохранить' }}
+    </button>
+  </footer>
+</ng-container>

@@ -1,78 +1,81 @@
-	
 // @import '~@taiga-ui/core/styles/taiga-ui-local';
- 
+
 // .form {
 //     .createStackingContext();
 // }
- 
+
 // .table {
 //     width: 824px;
 // }
- 
+
 // .row {
 //     position: static;
 //     margin-top: -1px;
 // }
 
-.row{
-    // background: var(--tui-base-09);
-    background: #fff;
+.row {
+  // background: var(--tui-base-09);
+  background: #fff;
 }
- 
+
 .cell {
-    padding: 0;
- 
-    &_date {
-        width: 145px;
-        flex: 0 0 145px;
-    }
- 
-    &_color {
-        width: 100px;
-        flex: 0 0 100px;
-    }
- 
-    &_count {
-        width: 90px;
-        flex: 0 0 90px;
-        text-align: right;
-    }
- 
-    &_price {
-        width: 150px;
-        flex: 0 0 150px;
-        text-align: right;
-    }
+  padding: 0;
 
-    &_delete{
-			max-width: 56px;
-			border: 1px solid var(--tui-base-04);
-			border-radius: 0 !important;
-			color: var(--tui-base-05);
+  &_date {
+    width: 145px;
+    flex: 0 0 145px;
+  }
 
-			&._hovered {
-				color: var(--tui-base-03);
-			}
-			&._pressed{
-				color: var(--tui-accent-active);
-			}
+  &_color {
+    width: 100px;
+    flex: 0 0 100px;
+  }
+
+  &_count {
+    width: 90px;
+    flex: 0 0 90px;
+    text-align: right;
+  }
+
+  &_price {
+    width: 150px;
+    flex: 0 0 150px;
+    text-align: right;
+  }
+
+  &_delete {
+    max-width: 56px;
+    border: 1px solid var(--tui-base-04);
+    border-radius: 0 !important;
+    color: var(--tui-base-05);
+
+    &._hovered {
+      color: var(--tui-base-03);
     }
+    &._pressed {
+      color: var(--tui-accent-active);
+    }
+  }
 }
 
-.itemContent{
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.itemContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-	& &__name{
-		font-weight: 600;
-	}
+  & &__name {
+    font-weight: 600;
+  }
 
-	& &__amount{
-		color: var(--tui-text-03);
-	}
+  & &__amount {
+    color: var(--tui-text-03);
+  }
 }
 
 // :host ::ng-deep tui-wwrapper[data-appearance='buttonDeleteRow'] {
 // 	color: var(--tui-base-05);
 // }
+
+:host ::ng-deep ._isEditable tui-wrapper[data-appearance='table'] .input {
+  font-weight: 600;
+}

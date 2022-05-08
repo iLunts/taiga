@@ -1,4 +1,4 @@
-<app-header-create title="Создание справки аренды"></app-header-create>
+<app-header-create title="Создание справки аренды "></app-header-create>
 
 <tui-scrollbar class="page-body page-body--header-footer">
   <form class="tui-container tui-container_full" [formGroup]="form">
@@ -27,8 +27,14 @@
           (changed)="selectStatus($event)"
         ></app-status-panel>
       </div>
+      <tui-input-date
+        class="tui-col_xs-12 tui-col_s-1 tui-col_sm-4 tui-col_md-4"
+        [formControl]="dateRangeControl"
+      >
+        Дата
+      </tui-input-date>
       <div
-        class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-8 tui-col_lg-8"
+        class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-4 tui-col_lg-4"
       >
         <tui-text-area formControlName="description" [expandable]="true">
           Краткое описание
@@ -38,35 +44,6 @@
         class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-3 tui-col_lg-3"
       ></div>
     </div>
-
-    <!-- <div class="tui-row tui-row_adaptive">
-      <div
-        class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6"
-      >
-        <h5>Арендодатель</h5>
-        <app-company-panel
-          *ngIf="f.profileCompany.value"
-          [company]="f.profileCompany.value"
-          [isLoaded]="f.profileCompany.value"
-          [canChange]="false"
-        ></app-company-panel>
-      </div>
-      <div
-        class="tui-col_xs-12 tui-col_s-1 tui-col_sm-1 tui-col_md-6 tui-col_lg-6"
-      >
-        <h5>Арендатор</h5>
-        <app-contractor-panel
-          [contractor]="form.controls.contractor.value"
-          (selected)="selectContractor($event)"
-        ></app-contractor-panel>
-
-        <app-contract-panel
-          class="tui-col_xs-4 tui-col_s-4 tui-col_sm-4 tui-col_md-4"
-          [contractor]="form.controls.contractor.value"
-          (selected)="setContract($event)"
-        ></app-contract-panel>
-      </div>
-    </div> -->
 
     <div class="tui-form__row tui-form__row_multi-fields">
       <div class="tui-form__multi-field">

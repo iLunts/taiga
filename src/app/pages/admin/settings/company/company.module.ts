@@ -6,7 +6,11 @@ import { CompanyRoutingModule } from './company-routing.module';
 import { LogotypeComponent } from './tabs/logotype/logotype.component';
 import { InformationComponent } from './tabs/information/information.component';
 import { BanksComponent } from './tabs/banks/banks.component';
-import { TuiButtonModule, TuiNotificationModule } from '@taiga-ui/core';
+import {
+  TuiButtonModule,
+  TuiNotificationModule,
+  TuiScrollbarModule
+} from '@taiga-ui/core';
 import {
   TuiAccordionModule,
   TuiBadgeModule,
@@ -39,7 +43,8 @@ import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-p
     TuiInputNumberModule,
     TuiIslandModule,
     TuiMarkerIconModule,
-    TuiNotificationModule
+    TuiNotificationModule,
+    TuiScrollbarModule
   ],
   exports: [CompanyComponent]
 })

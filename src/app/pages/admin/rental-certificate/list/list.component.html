@@ -16,7 +16,7 @@
 <section class="page-body">
   <app-empty-panel
     *ngIf="!(rentalCertificates$ | async)?.length"
-    [link]="routing.admin.invoice.create"
+    [link]="routing.admin.rentalCertificate.create"
   ></app-empty-panel>
   <ng-container
     *ngIf="

@@ -51,6 +51,9 @@
       <ng-container formGroupName="count">
         <tui-input-count
           class="cell cell_count"
+          [class._isEditable]="
+            getFormArray(i)?.count?.controls?.isEditable.value
+          "
           tuiTextfieldSize="m"
           formControlName="amount"
           [readOnly]="!getFormArray(i)?.count?.controls?.isEditable.value"
@@ -63,9 +66,11 @@
       <ng-container formGroupName="price">
         <tui-input-number
           class="cell cell_price"
+          [class._isEditable]="getFormArray(i)?.isFreePrice?.value"
           tuiTextfieldSize="m"
           formControlName="amount"
-          [readOnly]="true"
+          [readOnly]="getFormArray(i)?.isFreePrice?.value != true"
+          (ngModelChange)="calculateSum(itemRow, i)"
         >
           Цена
         </tui-input-number>

@@ -48,6 +48,10 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isEditingNumber: boolean;
   queryParams: Params;
+  dateRangeControl: FormControl = new FormControl({
+    value: null,
+    disabled: true
+  });
 
   constructor(
     private afs: AngularFirestore,

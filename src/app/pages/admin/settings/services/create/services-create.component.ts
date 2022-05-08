@@ -124,7 +124,8 @@ export class ServicesCreateComponent implements OnInit, OnDestroy {
       count: new FormGroup({
         amount: new FormControl(1, [Validators.required]),
         isEditable: new FormControl(true)
-      })
+      }),
+      isFreePrice: new FormControl(false)
     });
   }
 

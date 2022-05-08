@@ -104,10 +104,7 @@
       </div>
     </div>
 
-    <div
-      class="tui-form__row tui-form__row_multi-fields form-group"
-      formGroupName="price"
-    >
+    <div class="tui-form__row tui-form__row_multi-fields form-group">
       <div class="tui-form__multi-field form-group__item form-group__item-info">
         <h3 class="form-group__item-title">Цена</h3>
         <p class="form-group__item-desc">
@@ -116,10 +113,23 @@
         </p>
       </div>
       <div class="tui-form__multi-field form-group__item">
-        <div class="tui-form__row tui-form__row_multi-fields">
+        <div
+          class="tui-form__row tui-form__row_multi-fields"
+          formGroupName="price"
+        >
           <div class="tui-form__multi-field">
             <tui-input-number formControlName="amount"> Цена </tui-input-number>
             <tui-field-error formControlName="amount"></tui-field-error>
+            <!-- <tui-checkbox-labeled
+              class="tui-space_top-3"
+              formControlName="isFreePrice"
+              size="m"
+            >
+              Возможность редактирования
+              <div class="can-edit">
+                позволяет изменять количество при формировании документа
+              </div>
+            </tui-checkbox-labeled> -->
           </div>
           <div class="tui-form__multi-field">
             <tui-select
@@ -138,6 +148,17 @@
             <ng-template #currencyContent let-item>
               {{ item.code }} - <small>{{ item.fullName }}</small>
             </ng-template>
+          </div>
+        </div>
+
+        <div class="tui-form__row tui-form__row_multi-fields">
+          <div class="tui-form__multi-field">
+            <tui-checkbox-labeled formControlName="isFreePrice" size="m">
+              Возможность редактирования цены
+              <div class="can-edit">
+                позволяет изменять количество при формировании документа
+              </div>
+            </tui-checkbox-labeled>
           </div>
         </div>
       </div>

@@ -27,6 +27,7 @@ import { RentalCertificateListComponent } from './list/list.component';
 import { RentalCertificateRoutingModule } from './rental-certificate-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
     CommonModule,
     ContractModule,
     ContractorModule,
+    FormsModule,
     HeaderModule,
+    ReactiveFormsModule,
     RentalCertificateRoutingModule,
     SharedModule,
     TuiAvatarModule,

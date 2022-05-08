@@ -160,7 +160,8 @@ export class ServiceTableComponent implements OnInit {
         currency: new FormControl(null, {
           validators: [Validators.required]
         })
-      })
+      }),
+      isFreePrice: new FormControl(serviceItem?.isFreePrice || null)
     });
   }
 
@@ -201,6 +202,9 @@ export class ServiceTableComponent implements OnInit {
 
     // Price
     control.price.setValue(event.price);
+
+    // isFreePrice
+    control.isFreePrice.setValue(event.isFreePrice);
 
     // Unit
     control.unit.setValue(event.unit);
