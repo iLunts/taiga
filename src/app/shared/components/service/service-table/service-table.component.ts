@@ -7,7 +7,12 @@ import {
   Validators
 } from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  takeUntil
+} from 'rxjs/operators';
 import { Service } from 'src/app/models/service.model';
 import { ServicesService } from 'src/app/services/services.service';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
@@ -21,8 +26,10 @@ import * as _ from 'lodash';
   providers: [TuiDestroyService]
 })
 export class ServiceTableComponent implements OnInit {
-  @Input() set services(services: Service[]) {
-    this.servicesSubject.next(services);
+  @Input() set services(value: Service[]) {
+    if (value?.length) {
+      this.servicesSubject.next(value);
+    }
   }
   private servicesSubject = new BehaviorSubject<Service[]>(null);
 
@@ -33,7 +40,6 @@ export class ServiceTableComponent implements OnInit {
   serviceListData$: Observable<Service[]>;
 
   constructor(
-    private formBuilder: FormBuilder,
     private serviceService: ServicesService,
     private destroy$: TuiDestroyService
   ) {
@@ -43,16 +49,31 @@ export class ServiceTableComponent implements OnInit {
     this.servicesSubject
       .pipe(
         filter((services) => !!services),
+        distinctUntilChanged(
+          (a, b) =>
+            JSON.stringify(this.form.get('tableRowArray').value) ===
+            JSON.stringify(b)
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: (services) => {
           services.forEach((element, index) => {
             this.addNewRow(element);
-            // this.calculate(index + 1);
           });
           this.deleteRow(0);
         }
+      });
+
+    this.form
+      .get('tableRowArray')
+      .valueChanges.pipe(
+        debounceTime(500),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: () => this.doEmit()
       });
   }
 
@@ -63,26 +84,22 @@ export class ServiceTableComponent implements OnInit {
   }
 
   private createForm(): void {
-    this.form = this.formBuilder.group({
-      tableRowArray: this.formBuilder.array([this.createTableRow()])
-    });
-  }
-
-  private clearForm(): void {
-    this.form = this.formBuilder.group({
-      tableRowArray: this.formBuilder.array([this.createTableRow()])
+    this.form = new FormGroup({
+      tableRowArray: new FormArray([this.createTableRow()])
     });
   }
 
   private createTableRow(serviceItem?: Service): FormGroup {
-    // debugger;
-    return this.formBuilder.group({
+    return new FormGroup({
       name: new FormControl(serviceItem?.name || null, {
         validators: [Validators.required]
       }),
-      date: new FormControl(this.initDate(), {
-        validators: [Validators.required]
-      }),
+      date: new FormControl(
+        serviceItem ? this.convertDate(serviceItem?.date) : this.initDate(),
+        {
+          validators: [Validators.required]
+        }
+      ),
       count: new FormGroup({
         amount: new FormControl(serviceItem?.count.amount || null, {
           validators: [Validators.required]
@@ -170,6 +187,18 @@ export class ServiceTableComponent implements OnInit {
     }
   }
 
+  convertDate(date): TuiDay {
+    if (date) {
+      if (typeof date === 'string') {
+        return TuiDay.jsonParse(date.toString());
+      } else {
+        return date;
+      }
+    } else {
+      return null;
+    }
+  }
+
   getFormArray(index: number): FormArray {
     return this.form.get('tableRowArray')['controls'][index].controls;
   }
@@ -222,8 +251,6 @@ export class ServiceTableComponent implements OnInit {
         event.controls.tax.controls.amount.value
       ).toFixed(2)
     );
-
-    this.doEmit();
   }
 
   calculate(index: number): void {
@@ -240,8 +267,6 @@ export class ServiceTableComponent implements OnInit {
         control.tax.value.amount
       ).toFixed(2)
     );
-
-    this.doEmit();
   }
 
   getRowArrayValue(): any {
@@ -252,7 +277,7 @@ export class ServiceTableComponent implements OnInit {
     if (this.form.valid) {
       this.selected.emit(this.form.get('tableRowArray').value);
     } else {
-      this.selected.emit([]);
+      this.selected.emit(null);
     }
   }
 

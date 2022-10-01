@@ -1,13 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -56,11 +51,10 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     private afs: AngularFirestore,
     private actService: ActService,
     private router: Router,
-    private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
     private invoiceService: InvoiceService,
-    private rentalCertificateService: RentalCertificateService,
+    // private rentalCertificateService: RentalCertificateService,
     private storeService: StoreService
   ) {
     this.initForm();
@@ -116,7 +110,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
-    this.form = this.formBuilder.group({
+    this.form = new FormGroup({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _contractId: new FormControl(null),
       _invoiceId: new FormControl(null),
@@ -126,38 +120,14 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
       profileCompany: new FormControl(null, [Validators.required]),
-      qrCode: new FormControl(null, [Validators.required]),
+      qrCode: new FormControl(null),
       services: new FormControl(null, [Validators.required]),
-      signature: new FormControl(null, [Validators.required]),
+      signature: new FormControl(null),
       status: new FormControl(null, [Validators.required]),
       total: new FormControl(new TotalSum(), [Validators.required]),
       type: new FormControl(1, [Validators.required])
     });
   }
-
-  // initQueryParams(queryParams: Params): void {
-  // this.queryParams = queryParams;
-
-  // this.form.patchValue({ number: +queryParams?.lastIndex + 1 });
-
-  // if (this.queryParams?.rentalCertificateId) {
-  //   this.rentalCertificateService
-  //     .getById$(this.queryParams?.rentalCertificateId.toString())
-  //     .pipe(
-  //       filter((rentalCertificate) => !!rentalCertificate),
-  //       tap((rentalCertificate) => {
-  //         this.form.controls.status.setValue(rentalCertificate[0].status);
-
-  //         // TODO: Need connect this part
-  //         // this.form.controls.services.patchValue(
-  //         //   rentalCertificate[0].services
-  //         // );
-  //       }),
-  //       takeUntil(this.destroySubject)
-  //     )
-  //     .subscribe();
-  // }
-  // }
 
   get f(): any {
     return this.form.controls;
@@ -185,8 +155,19 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   }
 
   setService(data: Service[]): void {
-    this.form.controls.services.setValue(data);
+    this.form.controls.services.patchValue(data);
     this.form.controls.services.markAsDirty();
+
+    if (data) {
+      const tuiDayList = [];
+      data.forEach((element) => {
+        tuiDayList.push(
+          new Date(element.date.year, element.date.month, element.date.day)
+        );
+      });
+
+      this.form.get('date').setValue(this.getLastDay(tuiDayList));
+    }
   }
 
   save(): void {
@@ -199,17 +180,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   }
 
   cancel(): void {
-    // if (this.form.dirty) {
-    // } else {
-    //   this.router.navigate([environment.routing.admin.invoice.list]);
-    // }
-
     this.router.navigate([environment.routing.admin.act.list]);
-  }
-
-  get isActValid(): boolean {
-    // TODO: Need add function for checking Act data
-    return true;
   }
 
   get getQrCode(): any {
@@ -226,13 +197,10 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     );
   }
 
-  toggleInvoiceNumber(): void {
-    this.isEditingNumber = !this.isEditingNumber;
-  }
-
-  onFocusedChange(focused: boolean): void {
-    if (!focused) {
-      this.isEditingNumber = false;
-    }
+  getLastDay(days: Date[]): TuiDay {
+    const sortedAsc = days.sort(
+      (objA, objB) => objA.getTime() - objB.getTime()
+    );
+    return TuiDay.fromLocalNativeDate(sortedAsc[sortedAsc.length - 1]);
   }
 }

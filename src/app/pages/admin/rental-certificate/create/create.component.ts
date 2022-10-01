@@ -9,6 +9,7 @@ import {
   tap
 } from 'rxjs/operators';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -170,7 +171,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   }
 
   selectService(data: Service[]): void {
-    this.form.controls.services.setValue(data);
+    this.form.controls.services.patchValue(data);
   }
 
   save(): void {

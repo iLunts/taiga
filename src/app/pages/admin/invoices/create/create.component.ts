@@ -1,18 +1,12 @@
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import {
   filter,
-  first,
   map,
   shareReplay,
   switchMap,
@@ -38,7 +32,6 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class InvoicesCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
-  @ViewChild('inputNumber') inputNumber: any;
 
   private readonly destroySubject = new Subject();
   form: FormGroup;
@@ -49,7 +42,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   constructor(
     private afs: AngularFirestore,
     private companyService: CompanyService,
-    private formBuilder: FormBuilder,
     private invoiceService: InvoiceService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -89,7 +81,9 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.queryParams.subscribe((params) => {
       this.queryParams = params;
-      this.form?.patchValue({ number: +params?.lastIndex + 1 });
+      this.form?.patchValue({
+        number: params?.lastIndex ? +params?.lastIndex + 1 : 1
+      });
     });
   }
 
@@ -101,21 +95,22 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
-    this.form = this.formBuilder.group({
+    this.form = new FormGroup({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _userId: new FormControl(null, []),
       _createdDate: new FormControl(new Date(), []),
       _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       dateRange: new FormControl(
-        new TuiDayRange(DateHelper.initDate(), DateHelper.initDate(6))
+        new TuiDayRange(DateHelper.initDate(), DateHelper.initDate(6)),
+        [Validators.required]
       ),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
       profileCompany: new FormControl(null, [Validators.required]),
-      qrCode: new FormControl(null, [Validators.required]),
+      qrCode: new FormControl(null),
       services: new FormControl(null, [Validators.required]),
-      signature: new FormControl(null, [Validators.required]),
+      signature: new FormControl(null),
       status: new FormControl(null, [Validators.required]),
       total: new FormControl(new TotalSum(), [Validators.required]),
       type: new FormControl(1, [Validators.required])
@@ -141,7 +136,8 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   }
 
   setService(data: Service[]): void {
-    this.form.controls.services.setValue(data);
+    this.form.controls.services.patchValue(data);
+    this.form.controls.services.markAsDirty();
   }
 
   save(): void {
@@ -157,17 +153,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     this.router.navigate([environment.routing.admin.invoice.list]);
   }
 
-  get isInvoiceValid(): boolean {
-    // if (this.invoice) {
-    //   return this.invoice.isValid(this.invoice);
-    // } else {
-    //   return false;
-    // }
-
-    // TODO: Need add checing function
-    return true;
-  }
-
   get getQrCode(): any {
     if (this.isQrCodeValid) {
       return this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
@@ -180,10 +165,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     return (
       this.qrBlock && this.qrBlock.qrcElement.nativeElement.childNodes.length
     );
-  }
-
-  toggleInvoiceNumber(): void {
-    this.isEditingNumber = !this.isEditingNumber;
   }
 
   onFocusedChange(focused: boolean): void {

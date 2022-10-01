@@ -98,7 +98,7 @@
     type="button"
     class="tui-space_right-3"
     (click)="save()"
-    [disabled]="!isActValid"
+    [disabled]="form.invalid"
   >
     Создать
   </button>

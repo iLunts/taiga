@@ -55,6 +55,13 @@ export class ContractPanelComponent implements OnInit, OnDestroy {
       ),
       takeUntil(this.destroy$)
     );
+
+    // Preselected contract if list of contracts == 1
+    this.contracts$
+      .pipe(filter((contracts) => !!contracts && contracts.length == 1))
+      .subscribe({
+        next: (contracts) => this.form.get('contract').setValue(contracts[0])
+      });
   }
 
   ngOnInit(): void {}

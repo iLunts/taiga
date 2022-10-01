@@ -102,7 +102,7 @@
     type="button"
     class="tui-space_right-3"
     (click)="save()"
-    [disabled]="!isInvoiceValid"
+    [disabled]="!form.valid"
   >
     {{ isEdit ? 'Изменить' : 'Создать' }}
   </button>
