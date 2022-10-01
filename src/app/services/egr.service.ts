@@ -1,9 +1,10 @@
-import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
-import { CompanyStorageService } from './company-storage.service';
 import { forkJoin, from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+
+import { Company, CompanyInfo, CompanyAddress } from '../models/company.model';
+import { CompanyStorageService } from './company-storage.service';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -81,88 +82,25 @@ export class EgrService {
           )
       )
     );
-    // .subscribe({
-    //   next: (response) => {
-    //     // if (response.every((element) => element === null)) {
-    //     //   this.notificationService.warning(
-    //     //     'Введенный вами УНП не был найден в базе ЕГР и скорее всего является ошибочным. Пожалуйста, проверьте правильность ввода всех данных'
-    //     //   );
-    //     //   // this.companyService.clearCompanyInfo();
-    //     //   return;
-    //     // }
-    //     // let baseInfoByRegNum = response[0];
-    //     // let addressByRegNum = response[1];
-    //     // let jurNamesByRegNum = response[2];
-    //     // let VEDByRegNum = response[3];
-    //     // let IPFIOByRegNum = response[4];
-    //     // company._type = baseInfoByRegNum[0].nsi00211.nkvob;
-    //     // // 1 - Юр. лицо ; 2 - ИП
-    //     // if (company._type === 1) {
-    //     //   company.info = this.mappingJurNames(jurNamesByRegNum[0]);
-    //     //   company.juridicalAddress = this.mappingJurAddress(addressByRegNum[0]);
-    //     // } else {
-    //     //   company.info = this.mappingIPFIOByRegNum(IPFIOByRegNum[0]);
-    //     // }
-    //     // company.ved = VEDByRegNum[0];
-    //     // company.info.unp = UNP;
-    //     // const prevCompany = this.companyStorageService.getCompanyValue();
-    //     // // const prevCompany = this.companyService.getCompany();
-    //     // company.bankAccount = prevCompany.bankAccount;
-    //     // company.mailingAddress = prevCompany.mailingAddress;
-    //     // company.responsiblePerson = prevCompany.responsiblePerson;
-    //     // company.contacts = prevCompany.contacts;
-    //     // // this.companyService.setCompany(company);
-    //     // this.companyStorageService.setCompany(company);
-    //     // return company;
-    //   },
-    //   error: (error) => {
-    //     switch (error.status) {
-    //       case 0: {
-    //         this.notificationService.error(
-    //           'Сервис ЕГР временно не доступен, попробуйте сделать запрос позже',
-    //           'Временно недоступен'
-    //         );
-    //         break;
-    //       }
-    //       case 400: {
-    //         this.notificationService.error(
-    //           'Плохой запрос, проверьте вводимые данные',
-    //           'Плохой запрос'
-    //         );
-    //         break;
-    //       }
-    //       default: {
-    //         this.notificationService.error(
-    //           error.error.message,
-    //           error.error.error
-    //         );
-    //         break;
-    //       }
-    //     }
-    //     return null;
-    //   }
-    // });
-
-    // debugger;
-    // return of(company);
   }
 
   private mappingJurAddress(data: any): CompanyAddress {
     let juridicalAddress = new CompanyAddress();
 
     juridicalAddress.city = data.vnp;
-    juridicalAddress.cityType = data.nsi00239.vntnpk;
-    juridicalAddress.country = data.nsi00201.vnstranp;
+    juridicalAddress.cityType = data.nsi00239?.vntnpk;
+    juridicalAddress.country = data.nsi00201?.vnstranp;
     juridicalAddress.houseNumber = data.vdom;
     juridicalAddress.office = data.vpom;
     juridicalAddress.officeType = data.nsi00227?.vntpomk || null;
     juridicalAddress.street = data.vulitsa;
-    juridicalAddress.streetType = data.nsi00226.vntulk;
+    juridicalAddress.streetType = data.nsi00226?.vntulk;
     juridicalAddress.zipCode = data.nindex;
-    juridicalAddress.phone = data.vtels?.replace(/\s/g, '') || null;
+    juridicalAddress.phone =
+      data.vtels?.replace(/\s/g, '').replace('-', '') || null;
     juridicalAddress.email = data.vemail;
     juridicalAddress.fax = data.vfax;
-    juridicalAddress.vnsfull = data.nsi00202.vnsfull;
+    juridicalAddress.vnsfull = data.nsi00202?.vnsfull;
 
     return juridicalAddress;
   }

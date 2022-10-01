@@ -6,11 +6,11 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Service } from 'src/app/models/service.model';
 import { ServicesService } from 'src/app/services/services.service';
-import { distinctUntilChanged, filter, takeUntil, tap } from 'rxjs/operators';
+import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
@@ -23,14 +23,7 @@ import * as _ from 'lodash';
 export class ServiceTableComponent implements OnInit {
   @Input() set services(services: Service[]) {
     this.servicesSubject.next(services);
-    // if (services?.length) {
-    //   this.preloadServices(services);
-    // }
   }
-  // get services(): Service[] {
-  //   return this._services;
-  // }
-  // private _services: Service[];
   private servicesSubject = new BehaviorSubject<Service[]>(null);
 
   @Output() selected = new EventEmitter<Service[]>();
@@ -42,7 +35,7 @@ export class ServiceTableComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private serviceService: ServicesService,
-    private destroy: TuiDestroyService
+    private destroy$: TuiDestroyService
   ) {
     this.createForm();
     this.fetch();
@@ -50,29 +43,17 @@ export class ServiceTableComponent implements OnInit {
     this.servicesSubject
       .pipe(
         filter((services) => !!services),
-        distinctUntilChanged(),
-        tap((services) => {
-          // services.forEach((element) => {
-          //   this.addNewRow();
-          // });
-          // this.form.controls.tableRowArray.patchValue(services);
-        })
+        takeUntil(this.destroy$)
       )
-      .subscribe();
-
-    // this.form.valueChanges
-    //   .pipe(
-    //     // distinctUntilChanged((a, b) => _.isEqual(a, b)),
-    //     tap((data) => {
-    //       debugger;
-    //     }),
-    //     takeUntil(this.destroy)
-    //   )
-    //   .subscribe(() => {
-    //     this.sortTableByDate();
-    //     debugger;
-    //     this.doEmit();
-    //   });
+      .subscribe({
+        next: (services) => {
+          services.forEach((element, index) => {
+            this.addNewRow(element);
+            // this.calculate(index + 1);
+          });
+          this.deleteRow(0);
+        }
+      });
   }
 
   ngOnInit(): void {}
@@ -85,8 +66,6 @@ export class ServiceTableComponent implements OnInit {
     this.form = this.formBuilder.group({
       tableRowArray: this.formBuilder.array([this.createTableRow()])
     });
-
-    // this.onChanges();
   }
 
   private clearForm(): void {
@@ -96,6 +75,7 @@ export class ServiceTableComponent implements OnInit {
   }
 
   private createTableRow(serviceItem?: Service): FormGroup {
+    // debugger;
     return this.formBuilder.group({
       name: new FormControl(serviceItem?.name || null, {
         validators: [Validators.required]
@@ -112,7 +92,7 @@ export class ServiceTableComponent implements OnInit {
         })
       }),
       price: new FormGroup({
-        amount: new FormControl(null, {
+        amount: new FormControl(serviceItem?.price.amount || null, {
           validators: [Validators.required]
         }),
         currency: new FormControl(serviceItem?.price.currency, {
@@ -131,33 +111,33 @@ export class ServiceTableComponent implements OnInit {
         })
       }),
       totalSum: new FormGroup({
-        amount: new FormControl(null, {
+        amount: new FormControl(serviceItem?.totalSum.amount || null, {
           validators: [Validators.required]
         }),
-        currency: new FormControl(null, {
+        currency: new FormControl(serviceItem?.totalSum.currency || null, {
           validators: [Validators.required]
         })
       }),
       tax: new FormGroup({
-        _id: new FormControl(null, {
+        _id: new FormControl(serviceItem?.tax._id || null, {
           validators: [Validators.required]
         }),
-        amount: new FormControl(null, {
-          validators: [Validators.required]
+        amount: new FormControl(serviceItem?.tax.amount || null, {
+          // validators: [Validators.required]
         }),
-        desc: new FormControl(null),
-        isCalculate: new FormControl(null, {
-          validators: [Validators.required]
+        desc: new FormControl(serviceItem?.tax.desc || null),
+        isCalculate: new FormControl(serviceItem?.tax.isCalculate || null, {
+          // validators: [Validators.required]
         }),
-        label: new FormControl(null, {
+        label: new FormControl(serviceItem?.tax.label || null, {
           validators: [Validators.required]
         })
       }),
       totalTax: new FormGroup({
-        amount: new FormControl(null, {
+        amount: new FormControl(serviceItem?.totalTax.amount || null, {
           validators: [Validators.required]
         }),
-        currency: new FormControl(null, {
+        currency: new FormControl(serviceItem?.totalTax.currency || null, {
           validators: [Validators.required]
         })
       }),

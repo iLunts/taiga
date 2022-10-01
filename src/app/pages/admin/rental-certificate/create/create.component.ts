@@ -14,7 +14,6 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-// import { QueryParams } from '@ngrx/data';
 import { Subject } from 'rxjs';
 import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
@@ -23,7 +22,6 @@ import { CompanyService } from 'src/app/services/company.service';
 import { Contract } from 'src/app/models/contract.model';
 import { Company, Contractor } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
-import { ContractService } from 'src/app/services/contract.service';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import {
@@ -33,6 +31,7 @@ import {
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { Service } from 'src/app/models/service.model';
 import { StoreService } from 'src/app/services/store.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-rental-certificate-create',
@@ -85,6 +84,18 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
         tap((contractor) => this.form.controls.contractor.setValue(contractor)),
         takeUntil(this.destroySubject),
         shareReplay()
+      )
+      .subscribe();
+
+    this.form.valueChanges
+      .pipe(
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        filter((form) => !!form && !!form.services && !form.services.length),
+        tap((form) => {
+          const temp = this.getRangeDate();
+          console.log('Date ranges: ', temp);
+          // console.log('Form changed: ', form);
+        })
       )
       .subscribe();
 

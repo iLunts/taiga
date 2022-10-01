@@ -43,8 +43,8 @@ registerLocaleData(localeRu);
   ],
   imports: [
     AppRoutingModule,
-    BrowserAnimationsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     EffectsModule.forRoot([]),
     EntityDataModule.forRoot(entityConfig),
     HttpClientModule,

@@ -7,11 +7,12 @@ import {
   Validators
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   shareReplay,
+  switchMap,
   takeUntil,
   tap
 } from 'rxjs/operators';
@@ -44,14 +45,19 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   // act: Act = new Act(this.afs.createId());
   form: FormGroup;
   isEditingNumber: boolean;
-  queryParams: Params;
+  // queryParams: Params;
+
+  queryParams$: Observable<Params>;
+  invoice$: Observable<Invoice>;
+
+  // private invoiceSubject = new BehaviorSubject<any>(null);
 
   constructor(
     private afs: AngularFirestore,
     private actService: ActService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
     private invoiceService: InvoiceService,
     private rentalCertificateService: RentalCertificateService,
@@ -59,12 +65,9 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   ) {
     this.initForm();
 
-    this.route.queryParams
-      .pipe(
-        tap((queryParams) => this.initQueryParams(queryParams)),
-        takeUntil(this.destroySubject)
-      )
-      .subscribe();
+    this.queryParams$ = this.activatedRoute.queryParams.pipe(
+      filter((queryParams) => !!queryParams)
+    );
 
     this.companyService
       .getProfileCompany$()
@@ -83,6 +86,26 @@ export class ActCreateComponent implements OnInit, OnDestroy {
         shareReplay()
       )
       .subscribe();
+
+    this.invoice$ = this.queryParams$.pipe(
+      filter((params) => !!params && params.invoiceId),
+      switchMap((params) => this.invoiceService.getById$(params.invoiceId)),
+      takeUntil(this.destroySubject)
+    );
+
+    this.invoice$
+      .pipe(
+        filter((invoice) => !!invoice),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe({
+        next: (invoice) => {
+          this.form.controls.number.setValue(invoice.number);
+          this.form.controls.contractor.setValue(invoice.contractor);
+          this.form.controls._invoiceId.setValue(invoice._id);
+          this.form.controls.services.setValue(invoice.services);
+        }
+      });
   }
 
   ngOnInit(): void {}
@@ -112,40 +135,29 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     });
   }
 
-  initQueryParams(queryParams: Params): void {
-    this.queryParams = queryParams;
+  // initQueryParams(queryParams: Params): void {
+  // this.queryParams = queryParams;
 
-    this.form.patchValue({ number: +queryParams?.lastIndex + 1 });
+  // this.form.patchValue({ number: +queryParams?.lastIndex + 1 });
 
-    if (this.queryParams?.rentalCertificateId) {
-      this.rentalCertificateService
-        .getById$(this.queryParams?.rentalCertificateId.toString())
-        .pipe(
-          filter((rentalCertificate) => !!rentalCertificate),
-          tap((rentalCertificate) => {
-            this.form.controls.status.setValue(rentalCertificate[0].status);
+  // if (this.queryParams?.rentalCertificateId) {
+  //   this.rentalCertificateService
+  //     .getById$(this.queryParams?.rentalCertificateId.toString())
+  //     .pipe(
+  //       filter((rentalCertificate) => !!rentalCertificate),
+  //       tap((rentalCertificate) => {
+  //         this.form.controls.status.setValue(rentalCertificate[0].status);
 
-            // TODO: Need connect this part
-            // this.form.controls.services.patchValue(
-            //   rentalCertificate[0].services
-            // );
-          }),
-          takeUntil(this.destroySubject)
-        )
-        .subscribe();
-    }
-    if (this.queryParams?.invoiceId) {
-      this.invoiceService
-        .getById$(this.queryParams?.invoiceId.toString())
-        .pipe(takeUntil(this.destroySubject))
-        .subscribe((response: Invoice) => {
-          const invoice: Invoice = response;
-          this.form.controls.number.setValue(invoice.number);
-          this.form.controls.contractor.setValue(invoice.contractor);
-          this.form.controls._invoiceId.setValue(this.queryParams?.invoiceId);
-        });
-    }
-  }
+  //         // TODO: Need connect this part
+  //         // this.form.controls.services.patchValue(
+  //         //   rentalCertificate[0].services
+  //         // );
+  //       }),
+  //       takeUntil(this.destroySubject)
+  //     )
+  //     .subscribe();
+  // }
+  // }
 
   get f(): any {
     return this.form.controls;

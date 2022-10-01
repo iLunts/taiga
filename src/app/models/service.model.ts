@@ -1,4 +1,5 @@
 import { TuiDay } from '@taiga-ui/cdk';
+import { TotalSum } from './invoice.model';
 import { Price } from './price.model';
 import { Tax } from './tax.model';
 import { Unit } from './unit.model';
@@ -15,6 +16,9 @@ export class Service {
   tax: Tax;
   unit: Unit;
   isFreePrice: boolean;
+  totalSum: Price;
+  totalTax: Price;
+  taxSum: Price;
 }
 
 export class ServiceGroup {

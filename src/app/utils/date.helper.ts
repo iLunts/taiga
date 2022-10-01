@@ -1,9 +1,7 @@
 import { TuiDay } from '@taiga-ui/cdk';
+import { Service } from '../models/service.model';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { Service } from '../models/service.model';
-import { of } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 export class DateHelper {
   public static initDate(increment?: number): TuiDay {
@@ -38,16 +36,21 @@ export class DateHelper {
   }
 
   public static getDatesArrayFromServices(services: Service[]): Date[] {
-    const arrDates = [];
-    services.forEach((service: Service) => {
-      arrDates.push(
-        moment(
-          [service.date.year, service.date.month, service.date.day],
-          'YYYY-MM-DD'
-        ).toDate()
-      );
-    });
-    return arrDates;
+    debugger;
+    if (services?.length) {
+      const arrDates = [];
+      services.forEach((service: Service) => {
+        arrDates.push(
+          moment(
+            [service.date.year, service.date.month, service.date.day],
+            'YYYY-MM-DD'
+          ).toDate()
+        );
+      });
+      return arrDates;
+    } else {
+      return [];
+    }
   }
 
   public static convertTuiDateToDate(date: TuiDay): Date {
