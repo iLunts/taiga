@@ -5,6 +5,7 @@ import {
   distinctUntilChanged,
   filter,
   shareReplay,
+  switchMap,
   takeUntil,
   tap
 } from 'rxjs/operators';
@@ -15,7 +16,7 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 
@@ -33,6 +34,8 @@ import { RentalCertificateService } from 'src/app/services/rental-certificate-se
 import { Service } from 'src/app/models/service.model';
 import { StoreService } from 'src/app/services/store.service';
 import * as _ from 'lodash';
+import { Invoice } from 'src/app/models/invoice.model';
+import { InvoiceService } from 'src/app/services/invoice.service';
 
 @Component({
   selector: 'app-rental-certificate-create',
@@ -47,29 +50,43 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   isEditingNumber: boolean;
-  queryParams: Params;
+  // queryParams: Params;
   dateRangeControl: FormControl = new FormControl({
     value: null,
     disabled: true
   });
+
+  queryParams$: Observable<Params>;
+  invoice$: Observable<Invoice>;
 
   constructor(
     private afs: AngularFirestore,
     private rentalCertificateService: RentalCertificateService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
     private contractorService: ContractorService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private invoiceService: InvoiceService
   ) {
     this.initForm();
 
-    this.route.queryParams
-      .pipe(filter((params) => params?.contractorId))
-      .subscribe((params) => {
-        this.queryParams = params;
-      });
+    this.queryParams$ = this.activatedRoute.queryParams.pipe(
+      filter((queryParams) => !!queryParams)
+    );
+
+    this.invoice$ = this.queryParams$.pipe(
+      filter((params) => !!params && params.invoiceId),
+      switchMap((params) => this.invoiceService.getById$(params.invoiceId)),
+      takeUntil(this.destroySubject)
+    );
+
+    // this.route.queryParams
+    //   .pipe(filter((params) => params?.contractorId))
+    //   .subscribe((params) => {
+    //     this.queryParams = params;
+    //   });
 
     this.companyService
       .getProfileCompany$()
@@ -88,19 +105,39 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.form.valueChanges
-      .pipe(
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        filter((form) => !!form && !!form.services && !form.services.length),
-        tap((form) => {
-          const temp = this.getRangeDate();
-          console.log('Date ranges: ', temp);
-          // console.log('Form changed: ', form);
-        })
-      )
-      .subscribe();
+    // this.form.valueChanges
+    //   .pipe(
+    //     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    //     filter((form) => !!form && !!form.services && !form.services.length),
+    //     tap((form) => {
+    //       const temp = this.getRangeDate();
+    //       console.log('Date ranges: ', temp);
+    //       // console.log('Form changed: ', form);
+    //     })
+    //   )
+    //   .subscribe();
 
-    this.initQueryParams();
+    this.invoice$
+      .pipe(
+        filter((invoice) => !!invoice),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe({
+        next: (invoice) => {
+          this.form.controls.number.setValue(invoice.number);
+          this.form.controls.contractor.setValue(invoice.contractor);
+          this.form.controls._invoiceId.setValue(invoice._id);
+          // this.form.controls.services.setValue(invoice.services);
+          this.form.controls.description.setValue(invoice.description);
+          this.form.controls.description.setValue(invoice.description);
+
+          this.setService(invoice.services);
+
+          // this.initDate();
+        }
+      });
+
+    // this.initQueryParams();
   }
 
   ngOnInit(): void {}
@@ -114,53 +151,39 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _contractId: new FormControl(null),
+      _invoiceId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       contract: new FormControl(null, [Validators.required]),
-      dateRange: new FormControl(null),
+      dateRange: new FormControl(null, [Validators.required]),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
       profileCompany: new FormControl(null, [Validators.required]),
-      qrCode: new FormControl(null, [Validators.required]),
+      qrCode: new FormControl(null),
       services: new FormControl(null, [Validators.required]),
-      signature: new FormControl(null, [Validators.required]),
+      signature: new FormControl(null),
       status: new FormControl(null, [Validators.required]),
       total: new FormControl(new TotalSum(), [Validators.required]),
       type: new FormControl(1, [Validators.required])
     });
   }
 
-  initQueryParams(): void {
-    if (this.queryParams?.contractorId) {
-      this.contractorService
-        .getById$(this.queryParams.contractorId.toString())
-        .pipe(takeUntil(this.destroySubject))
-        .subscribe((contractor: Contractor[]) => {
-          if (contractor.length) {
-            this.form.controls.contractor.setValue(contractor[0]);
-            // this.rentalCertificate.contractor = contractor[0];
-            this.form.controls._contractId.setValue(
-              this.queryParams?.contractorId
-            );
-          }
-        });
-    }
-  }
-
   get f(): any {
     return this.form.controls;
   }
 
-  initDate(increment: number): TuiDay {
-    return TuiDay.normalizeParse(
-      moment().add(increment, 'day').format('DD.MM.YYYY')
-    );
-  }
+  // initDate(): TuiDay {
+  //   // this.
+  //   // return TuiDay.normalizeParse(moment().add(1, 'day').format('DD.MM.YYYY'));
 
-  selectStatus(data: RentalCertificateStatus): void {
+  //   // return GetLastDay();
+  //   return null;
+  // }
+
+  setStatus(data: RentalCertificateStatus): void {
     this.form.controls.status.setValue(data);
   }
 
-  selectContractor(data: Contractor): void {
+  setContractor(data: Contractor): void {
     this.form.controls.contractor.setValue(data);
     this.form.controls.contract.reset();
   }
@@ -170,8 +193,29 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     this.form.controls._contractId.setValue(data._id);
   }
 
-  selectService(data: Service[]): void {
+  setService(data: Service[]): void {
     this.form.controls.services.patchValue(data);
+    this.form.controls.services.markAsDirty();
+
+    if (data && data.length) {
+      // const tuiDayList = [];
+      // const tuiDateList = DateHelper.getTuiDateArrayFromService(data);
+
+      // this.form.get('dateRange').patchValue({
+      //   from: DateHelper.getFirstTuiDay(tuiDateList),
+      //   to: DateHelper.getLastTuiDay(tuiDateList)
+      // });
+      this.form
+        .get('dateRange')
+        .patchValue(DateHelper.getTuiDayRangeFromServices(data));
+
+      this.form.get('dateRange').value;
+      // this.dateRangeControl.setValue(
+      //   DateHelper.getTuiDayRangeFromServices(data)
+      // );
+      // console.log('dateRange: ', this.form.get('dateRange').value);
+      // debugger;
+    }
   }
 
   save(): void {
@@ -185,31 +229,6 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
 
   cancel(): void {
     this.router.navigate([environment.routing.admin.rentalCertificate.list]);
-  }
-
-  get isRentalCertificateValid(): boolean {
-    // if (this.rentalCertificate) {
-    // return this.rentalCertificate.isValid(this.rentalCertificate);
-    // } else {
-    //   return false;
-    // }
-    // TODO: Need to change
-    // return this.form.valid;
-    return true;
-  }
-
-  get getQrCode(): any {
-    if (this.isQrCodeValid) {
-      return this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
-    } else {
-      return null;
-    }
-  }
-
-  get isQrCodeValid(): boolean {
-    return (
-      this.qrBlock && this.qrBlock.qrcElement.nativeElement.childNodes.length
-    );
   }
 
   getRangeDate(): Date[] {
@@ -229,6 +248,16 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleRentalCertificateNumber(): void {
+    this.isEditingNumber = !this.isEditingNumber;
+  }
+
+  onFocusedChange(focused: boolean): void {
+    if (!focused) {
+      this.isEditingNumber = false;
+    }
+  }
+
   get getRangeDatesString(): string {
     const dates = this.getRangeDate();
     const format = 'DD MMM yyyy';
@@ -242,13 +271,17 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       : 'за ' + moment(dates[0]).format(format);
   }
 
-  toggleRentalCertificateNumber(): void {
-    this.isEditingNumber = !this.isEditingNumber;
+  get getQrCode(): any {
+    if (this.isQrCodeValid) {
+      return this.qrBlock.qrcElement.nativeElement.childNodes[0].currentSrc;
+    } else {
+      return null;
+    }
   }
 
-  onFocusedChange(focused: boolean): void {
-    if (!focused) {
-      this.isEditingNumber = false;
-    }
+  get isQrCodeValid(): boolean {
+    return (
+      this.qrBlock && this.qrBlock.qrcElement.nativeElement.childNodes.length
+    );
   }
 }

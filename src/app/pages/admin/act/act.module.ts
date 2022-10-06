@@ -10,6 +10,7 @@ import {
   TuiFormatNumberPipeModule,
   TuiHintControllerModule,
   TuiHostedDropdownModule,
+  TuiNotificationModule,
   TuiScrollbarModule
 } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
@@ -53,7 +54,8 @@ import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
     TuiLetModule,
     TuiScrollbarModule,
     TuiTabsModule,
-    TuiTextAreaModule
+    TuiTextAreaModule,
+    TuiNotificationModule
   ],
   exports: [ActCreateComponent, ActListComponent]
 })

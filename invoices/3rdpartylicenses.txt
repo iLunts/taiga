@@ -2975,6 +2975,9 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 
+ngx-ready-set-go
+BSD-2-Clause
+
 orderedmap
 MIT
 Copyright (C) 2016 by Marijn Haverbeke <marijnh@gmail.com> and others

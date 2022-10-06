@@ -11,7 +11,8 @@ import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
-import { first, map } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
+import { DateHelper } from '../utils/date.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +40,12 @@ export class InvoiceService {
     }
   }
 
-  getAll$(): Observable<any> {
-    return this.invoicesRef.valueChanges();
+  getAll$(): Observable<Invoice[]> {
+    debugger;
+
+    return this.invoicesRef
+      .valueChanges()
+      .pipe(tap((data) => console.log(data)));
   }
 
   getAllByContractorId$(contractorId: string): Observable<any[]> {
@@ -105,6 +110,7 @@ export class InvoiceService {
     invoice._userId = this.authService.getUserId();
     invoice._createdDate = new Date();
     invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);
+
     return from(
       this._fs
         .collection(this.dbPath)

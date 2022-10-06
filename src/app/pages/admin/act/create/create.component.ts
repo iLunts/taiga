@@ -23,9 +23,9 @@ import { environment } from 'src/environments/environment';
 import { Invoice } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
-import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { StoreService } from 'src/app/services/store.service';
 import { Status } from 'src/app/models/status.model';
+import { DateHelper } from 'src/app/utils/date.helper';
 
 @Component({
   selector: 'app-act-create',
@@ -54,7 +54,6 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
     private invoiceService: InvoiceService,
-    // private rentalCertificateService: RentalCertificateService,
     private storeService: StoreService
   ) {
     this.initForm();
@@ -166,7 +165,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
         );
       });
 
-      this.form.get('date').setValue(this.getLastDay(tuiDayList));
+      this.form.get('date').setValue(DateHelper.getLastDay(tuiDayList));
     }
   }
 
@@ -195,12 +194,5 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     return (
       this.qrBlock && this.qrBlock.qrcElement.nativeElement.childNodes.length
     );
-  }
-
-  getLastDay(days: Date[]): TuiDay {
-    const sortedAsc = days.sort(
-      (objA, objB) => objA.getTime() - objB.getTime()
-    );
-    return TuiDay.fromLocalNativeDate(sortedAsc[sortedAsc.length - 1]);
   }
 }

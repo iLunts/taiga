@@ -3,16 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from 'src/app/layouts/admin-layout/admin-layout.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
-import { ContractorAsideLayoutComponent } from 'src/app/layouts/contractor-aside-layout/contractor-aside-layout.component';
 import { CompanyGuard } from 'src/app/guards/company.guard';
-// import { ContractorAsideLayoutComponent } from 'src/app/layouts/contractor-aside-layout/contractor-aside-layout.component';
+import { ContractorAsideLayoutComponent } from 'src/app/layouts/contractor-aside-layout/contractor-aside-layout.component';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'dashboard',
-  //   pathMatch: 'full',
-  // },
   {
     path: '',
     component: AdminLayoutComponent,

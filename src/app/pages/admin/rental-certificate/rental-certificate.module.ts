@@ -6,6 +6,7 @@ import {
   TuiFormatNumberPipeModule,
   TuiHintControllerModule,
   TuiHostedDropdownModule,
+  TuiNotificationModule,
   TuiScrollbarModule
 } from '@taiga-ui/core';
 import {
@@ -57,7 +58,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TuiLetModule,
     TuiTabsModule,
     TuiTextAreaModule,
-    TuiScrollbarModule
+    TuiScrollbarModule,
+    TuiNotificationModule
   ]
 })
 export class RentalCertificateModule {}

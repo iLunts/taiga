@@ -1,20 +1,21 @@
-import { TuiDay } from '@taiga-ui/cdk';
-import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import { Contractor } from './company.model';
+import { ModelHelper } from '../utils/model.helper';
 import { Profile } from './profile.model';
 import { Service } from './service.model';
-import { ModelHelper } from '../utils/model.helper';
+import { TuiDayRange } from '@taiga-ui/cdk';
 
 export class RentalCertificate {
   _id: string;
   _actId: string;
   _contractId: string;
+  _invoiceId: string;
   _createdDate: Date;
   _userId: string;
   contractor: Contractor;
-  dateRange: Date[];
+  // dateRange: Date[];
+  dateRange: TuiDayRange[];
   description: string;
   number: string;
   profileCompany: Profile;
@@ -30,10 +31,12 @@ export class RentalCertificate {
     _id?: string,
     _actId?: string,
     _contractId?: string,
+    _invoiceId?: string,
     _createdDate?: Date,
     _userId?: string,
     contractor?: Contractor,
-    dateRange?: Date[],
+    // dateRange?: Date[],
+    dateRange?: TuiDayRange[],
     description?: string,
     number?: string,
     profileCompany?: Profile,
@@ -48,6 +51,7 @@ export class RentalCertificate {
     this._id = _id || null;
     this._userId = _userId || null;
     this._contractId = _contractId || null;
+    this._invoiceId = _invoiceId || null;
     this._actId = _actId || null;
     this._createdDate = _createdDate || new Date();
     this.number = number || null;

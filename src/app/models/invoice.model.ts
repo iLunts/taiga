@@ -11,6 +11,7 @@ export class Invoice {
   _id: string;
   _actId: string;
   _contractId: string;
+  _rentalCertificateId: string;
   _createdDate: Date;
   _userId: string;
   headerImage: HeaderImage;
@@ -31,6 +32,7 @@ export class Invoice {
     _id?: string,
     _actId?: string,
     _contractId?: string,
+    _rentalCertificateId?: string,
     _createdDate?: Date,
     _userId?: string,
     headerImage?: HeaderImage,
@@ -50,6 +52,7 @@ export class Invoice {
     this._id = _id || null;
     this._userId = _userId || null;
     this._contractId = _contractId || null;
+    this._rentalCertificateId = _rentalCertificateId || null;
     this._actId = _actId || null;
     this._createdDate = _createdDate || new Date();
     this.headerImage = headerImage || null;
