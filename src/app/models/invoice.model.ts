@@ -6,6 +6,7 @@ import { Contractor } from './company.model';
 import { Profile } from './profile.model';
 import { Service } from './service.model';
 import { ModelHelper } from '../utils/model.helper';
+import { DateRange } from './date-range.model';
 
 export class Invoice {
   _id: string;
@@ -16,7 +17,8 @@ export class Invoice {
   _userId: string;
   headerImage: HeaderImage;
   contractor: Contractor;
-  dateRange: TuiDay;
+  // dateRange: TuiDay;
+  dateRange: DateRange;
   description: string;
   number: string;
   profileCompany: Profile;
@@ -37,7 +39,8 @@ export class Invoice {
     _userId?: string,
     headerImage?: HeaderImage,
     contractor?: Contractor,
-    dateRange?: TuiDay,
+    // dateRange?: TuiDay,
+    dateRange?: DateRange,
     description?: string,
     number?: string,
     profileCompany?: Profile,
@@ -60,9 +63,10 @@ export class Invoice {
     this.contractor = contractor || new Contractor();
     this.profileCompany = profileCompany || new Profile();
     this.services = services || [];
-    this.dateRange =
-      dateRange ||
-      TuiDay.normalizeParse(moment().add(7, 'day').format('DD.MM.YYYY'));
+    this.dateRange = dateRange || null;
+    // this.dateRange =
+    //   dateRange ||
+    //   TuiDay.normalizeParse(moment().add(7, 'day').format('DD.MM.YYYY'));
     this.status = status || null;
     this.description = description || null;
     this.type = type || null;

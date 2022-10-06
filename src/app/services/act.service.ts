@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { ContractorService } from './contractor.service';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
+import { DateHelper } from '../utils/date.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -99,6 +100,10 @@ export class ActService {
     act._userId = this._auth.getUserId();
     act._createdDate = new Date();
     act.total.totalSum.amount = this.calculateTotalAmount(act);
+
+    act.services = DateHelper.convertServicesTuiDayToDate(act.services);
+    act.date = DateHelper.convertTuiDayToDate(act.date);
+
     return from(
       this._fs
         .collection(this.dbPath)

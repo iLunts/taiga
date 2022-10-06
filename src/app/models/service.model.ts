@@ -1,5 +1,3 @@
-import { TuiDay } from '@taiga-ui/cdk';
-import { TotalSum } from './invoice.model';
 import { Price } from './price.model';
 import { Tax } from './tax.model';
 import { Unit } from './unit.model';
@@ -7,7 +5,7 @@ import { Unit } from './unit.model';
 export class Service {
   _id: string;
   _userId: string;
-  date: TuiDay;
+  date: Date | any;
   desc: string;
   count: Count;
   group: ServiceGroup;

@@ -122,7 +122,7 @@ export class ContractCreateComponent implements OnInit, OnDestroy {
   initForm(): void {
     this.form = this.formBuilder.group({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
-      date: new FormControl(DateHelper.initDate(), [Validators.required]),
+      date: new FormControl(DateHelper.initTuiDay(), [Validators.required]),
       contractor: new FormControl(null, [Validators.required]),
       description: new FormControl(null),
       number: new FormControl(+this.queryParams?.lastIndex || 1, [

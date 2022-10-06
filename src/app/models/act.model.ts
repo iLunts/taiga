@@ -1,9 +1,10 @@
+import { TuiDay } from '@taiga-ui/cdk';
 import * as moment from 'moment';
 
-import { Service } from './service.model';
+import { Contract } from './contract.model';
 import { Contractor } from './company.model';
 import { Profile } from './profile.model';
-import { Contract } from './contract.model';
+import { Service } from './service.model';
 
 export class Act {
   _id: string;
@@ -12,6 +13,7 @@ export class Act {
   _createdDate: Date;
   _invoiceId: string;
   number: string;
+  date: Date | TuiDay;
   createDate: string;
   expiredDate: string;
   contractId: string;
@@ -34,6 +36,7 @@ export class Act {
     contractor?: Contractor,
     contract?: Contract,
     services?: Service[],
+    date?: Date | TuiDay,
     number?: string,
     createDate?: string,
     expiredDate?: string,
@@ -49,6 +52,7 @@ export class Act {
     this._invoiceId = _invoiceId || null;
     this._createdDate = _createdDate || new Date();
     this.number = number || null;
+    this.date = date || null;
     this.contractor = contractor || null;
     this.contract = contract || null;
     this.services = services || [];

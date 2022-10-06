@@ -127,13 +127,10 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
           this.form.controls.number.setValue(invoice.number);
           this.form.controls.contractor.setValue(invoice.contractor);
           this.form.controls._invoiceId.setValue(invoice._id);
-          // this.form.controls.services.setValue(invoice.services);
           this.form.controls.description.setValue(invoice.description);
           this.form.controls.description.setValue(invoice.description);
 
           this.setService(invoice.services);
-
-          // this.initDate();
         }
       });
 
@@ -171,14 +168,6 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     return this.form.controls;
   }
 
-  // initDate(): TuiDay {
-  //   // this.
-  //   // return TuiDay.normalizeParse(moment().add(1, 'day').format('DD.MM.YYYY'));
-
-  //   // return GetLastDay();
-  //   return null;
-  // }
-
   setStatus(data: RentalCertificateStatus): void {
     this.form.controls.status.setValue(data);
   }
@@ -205,9 +194,10 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       //   from: DateHelper.getFirstTuiDay(tuiDateList),
       //   to: DateHelper.getLastTuiDay(tuiDateList)
       // });
-      this.form
-        .get('dateRange')
-        .patchValue(DateHelper.getTuiDayRangeFromServices(data));
+
+      // this.form
+      //   .get('dateRange')
+      //   .patchValue(DateHelper.getTuiDayRangeFromServices(data));
 
       this.form.get('dateRange').value;
       // this.dateRangeControl.setValue(

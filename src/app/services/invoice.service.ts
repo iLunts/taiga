@@ -3,16 +3,18 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { Invoice, InvoiceStatus } from '../models/invoice.model';
-import { AuthService } from './auth.service';
+import { first, map, tap } from 'rxjs/operators';
 import { from, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+
+import { Invoice } from '../models/invoice.model';
+import { AuthService } from './auth.service';
 import { ContractorService } from './contractor.service';
 import { NotificationService } from './notification.service';
-import { Router } from '@angular/router';
-import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
-import { first, map, tap } from 'rxjs/operators';
 import { DateHelper } from '../utils/date.helper';
+import * as _ from 'lodash';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,6 @@ export class InvoiceService {
   private dbPathStatuses = '/invoiceStatuses';
   invoicesRef: AngularFirestoreCollection<Invoice> = null;
   invoicesForContractorsRef: AngularFirestoreCollection<Invoice> = null;
-  // invoiceList: Observable<Invoice[]>;
 
   constructor(
     private _fs: AngularFirestore,
@@ -41,8 +42,6 @@ export class InvoiceService {
   }
 
   getAll$(): Observable<Invoice[]> {
-    debugger;
-
     return this.invoicesRef
       .valueChanges()
       .pipe(tap((data) => console.log(data)));
@@ -110,6 +109,11 @@ export class InvoiceService {
     invoice._userId = this.authService.getUserId();
     invoice._createdDate = new Date();
     invoice.total.totalSum.amount = this.calculateTotalAmount(invoice);
+
+    invoice.services = DateHelper.convertServicesTuiDayToDate(invoice.services);
+    invoice.dateRange = DateHelper.convertDateRangeTuiDayToDate(
+      invoice.dateRange
+    );
 
     return from(
       this._fs

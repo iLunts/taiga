@@ -115,7 +115,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       _invoiceId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       contract: new FormControl(null, [Validators.required]),
-      date: new FormControl(this.initDate(0)),
+      date: new FormControl(DateHelper.initTuiDay(0)),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
       profileCompany: new FormControl(null, [Validators.required]),
@@ -130,12 +130,6 @@ export class ActCreateComponent implements OnInit, OnDestroy {
 
   get f(): any {
     return this.form.controls;
-  }
-
-  initDate(increment: number): TuiDay {
-    return TuiDay.normalizeParse(
-      moment().add(increment, 'day').format('DD.MM.YYYY')
-    );
   }
 
   setStatus(data: Status): void {
@@ -161,6 +155,11 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       const tuiDayList = [];
       data.forEach((element) => {
         tuiDayList.push(
+          // moment([
+          //   element.date.year,
+          //   element.date.month,
+          //   element.date.day
+          // ]).format()
           new Date(element.date.year, element.date.month, element.date.day)
         );
       });

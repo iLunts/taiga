@@ -38,6 +38,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   isEdit: boolean;
   isEditingNumber: boolean;
   queryParams: Params;
+  initDay = DateHelper.initTuiDay();
 
   constructor(
     private afs: AngularFirestore,
@@ -102,7 +103,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       dateRange: new FormControl(
-        new TuiDayRange(DateHelper.initDate(), DateHelper.initDate(6)),
+        new TuiDayRange(DateHelper.initTuiDay(), DateHelper.initTuiDay(6)),
         [Validators.required]
       ),
       description: new FormControl(null),
@@ -119,12 +120,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
 
   get f(): any {
     return this.form.controls;
-  }
-
-  initDate(increment: number): TuiDay {
-    return TuiDay.normalizeParse(
-      moment().add(increment, 'day').format('DD.MM.YYYY')
-    );
   }
 
   setStatus(data: InvoiceStatus): void {
