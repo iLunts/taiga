@@ -155,11 +155,6 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       const tuiDayList = [];
       data.forEach((element) => {
         tuiDayList.push(
-          // moment([
-          //   element.date.year,
-          //   element.date.month,
-          //   element.date.day
-          // ]).format()
           new Date(element.date.year, element.date.month, element.date.day)
         );
       });

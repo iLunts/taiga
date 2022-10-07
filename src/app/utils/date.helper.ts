@@ -5,13 +5,23 @@ import * as _ from 'lodash';
 import { DateRange } from '../models/date-range.model';
 
 export class DateHelper {
-  public static initTuiDay(increment?: number): TuiDay {
+  public static initTuiDay(incrementDay?: number): TuiDay {
     return TuiDay.normalizeParse(
       moment()
-        .add(increment || 0, 'day')
-        .format()
-      // .format('DD.MM.YYYY')
+        .add(incrementDay || 0, 'day')
+        .format('DD-MM-YYYY')
     );
+  }
+
+  public static initTuiDayRange(incrementDay?: number): TuiDayRange {
+    const from = TuiDay.normalizeParse(moment().format('DD-MM-YYYY'));
+    const to = TuiDay.normalizeParse(
+      moment()
+        .add(incrementDay || 1, 'day')
+        .format('DD-MM-YYYY')
+    );
+
+    return new TuiDayRange(from, to);
   }
 
   public static getMinDayFromServices(services: Service[]): Date {

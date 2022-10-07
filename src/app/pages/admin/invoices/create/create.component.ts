@@ -102,10 +102,9 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       _createdDate: new FormControl(new Date(), []),
       _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
-      dateRange: new FormControl(
-        new TuiDayRange(DateHelper.initTuiDay(), DateHelper.initTuiDay(6)),
-        [Validators.required]
-      ),
+      dateRange: new FormControl(DateHelper.initTuiDayRange(6), [
+        Validators.required
+      ]),
       description: new FormControl(null),
       number: new FormControl(1, [Validators.required]),
       profileCompany: new FormControl(null, [Validators.required]),
