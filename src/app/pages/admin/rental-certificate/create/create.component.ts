@@ -4,6 +4,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   distinctUntilChanged,
   filter,
+  map,
   shareReplay,
   switchMap,
   takeUntil,
@@ -27,6 +28,7 @@ import { ContractorService } from 'src/app/services/contractor.service';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import {
+  RentalCertificate,
   RentalCertificateStatus,
   TotalSum
 } from 'src/app/models/rental-certificate.model';
@@ -47,6 +49,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
   @ViewChild('inputNumber') inputNumber: any;
 
+  isEdit = false;
   form: FormGroup;
 
   queryParams$: Observable<Params>;
@@ -57,7 +60,6 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private afs: AngularFirestore,
     private companyService: CompanyService,
-    private formBuilder: FormBuilder,
     private invoiceService: InvoiceService,
     private rentalCertificateService: RentalCertificateService,
     private router: Router,
@@ -113,6 +115,23 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
         shareReplay()
       )
       .subscribe();
+
+    this.activatedRoute.paramMap
+      .pipe(
+        map((params: any) => params.params),
+        filter((params) => params.id),
+        switchMap((params) =>
+          this.rentalCertificateService
+            .getById$(params.id)
+            .pipe(swallowErrors())
+        ),
+        filter((rentalCertificate) => !!rentalCertificate),
+        takeUntil(this.destroySubject)
+      )
+      .subscribe((rentalCertificate: RentalCertificate) => {
+        this.setForm(rentalCertificate);
+        this.isEdit = true;
+      });
   }
 
   ngOnInit(): void {}
@@ -123,7 +142,7 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   }
 
   initForm(): void {
-    this.form = this.formBuilder.group({
+    this.form = new FormGroup({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _contractId: new FormControl(null),
       _invoiceId: new FormControl(null),
@@ -163,6 +182,13 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
   setService(data: Service[]): void {
     this.form.controls.services.patchValue(data);
     this.form.controls.services.markAsDirty();
+  }
+
+  setForm(data: RentalCertificate): void {
+    this.form.patchValue(data);
+    this.form
+      .get('dateRange')
+      .setValue(DateHelper.convertDateRangeToTuiDayRange(data.dateRange));
   }
 
   save(): void {

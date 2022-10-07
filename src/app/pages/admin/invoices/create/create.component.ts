@@ -70,7 +70,9 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       .pipe(
         map((params: any) => params.params),
         filter((params) => params.id),
-        switchMap((params) => this.invoiceService.getById$(params.id)),
+        switchMap((params) =>
+          this.invoiceService.getById$(params.id).pipe(swallowErrors())
+        ),
         filter((invoice) => !!invoice),
         takeUntil(this.destroySubject)
       )
@@ -111,8 +113,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   initForm(): void {
     this.form = new FormGroup({
       _id: new FormControl(this.afs.createId(), [Validators.required]),
-      _userId: new FormControl(null, []),
-      _createdDate: new FormControl(new Date(), []),
       _contractId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       dateRange: new FormControl(DateHelper.initTuiDayRange(6), [
@@ -157,7 +157,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   }
 
   setForm(invoice: Invoice): void {
-    this.form.setValue(invoice);
+    this.form.patchValue(invoice);
     this.form
       .get('dateRange')
       .setValue(DateHelper.convertDateRangeToTuiDayRange(invoice.dateRange));

@@ -13,6 +13,7 @@ import { NotificationService } from './notification.service';
 import { RentalCertificate } from '../models/rental-certificate.model';
 import * as _ from 'lodash';
 import { DateHelper } from '../utils/date.helper';
+import { first, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -52,13 +53,17 @@ export class RentalCertificateService {
     return rentalCertificateRef.valueChanges();
   }
 
-  getById$(id: string): Observable<any> {
+  getById$(id: string): Observable<RentalCertificate> {
     const collection = this._fs.collection(this.dbPath, (q) =>
       q
         .where('_userId', '==', this.authService.getUserId())
         .where('_id', '==', id)
     );
-    return collection.valueChanges();
+
+    return collection.valueChanges().pipe(
+      first(),
+      map((rentalCertificate) => rentalCertificate[0])
+    ) as Observable<RentalCertificate>;
   }
 
   get$(id: string): Observable<any> {
