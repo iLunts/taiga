@@ -77,20 +77,20 @@
                 tuiTr
               >
                 <td class="tui-table__td" *tuiCell="'number'" tuiTd>
-                  № <b>{{ item?.number || 'Б.н.' }}</b>
+                  № <b>{{ item.number || 'Б.н.' }}</b>
                 </td>
                 <td class="tui-table__td" *tuiCell="'date'" tuiTd>
                   <b
-                    >{{ item?.dateRange[0] | date: 'dd MMM yyyy' }} -
-                    {{ item?.dateRange[1] | date: 'dd MMM yyyy' }}</b
+                    >{{ item.dateRange.from | date: 'dd MMM yyyy' }} -
+                    {{ item.dateRange.to | date: 'dd MMM yyyy' }}</b
                   >
                 </td>
                 <td class="tui-table__td" *tuiCell="'status'" tuiTd>
                   <tui-badge
-                    [style.background-color]="item?.status?.color"
+                    [style.background-color]="item.status.color"
                     status="custom"
-                    [value]="item?.status?.name"
-                    *ngIf="item?.status"
+                    [value]="item.status.name"
+                    *ngIf="item.status"
                   ></tui-badge>
                 </td>
                 <td class="tui-table__td" *tuiCell="'sum'" tuiTd>
@@ -145,6 +145,27 @@
                           [disabled]="false"
                         >
                           Акт
+                        </button>
+                      </tui-opt-group>
+                      <tui-opt-group>
+                        <button
+                          tuiOption
+                          [routerLink]="[routing.admin.rentalCertificate.clone]"
+                          [queryParams]="{
+                            cloneId: item._id,
+                            lastIndex: (lastIndex$ | async)?.number
+                          }"
+                        >
+                          Клонировать
+                        </button>
+                        <button
+                          tuiOption
+                          [routerLink]="[
+                            routing.admin.rentalCertificate.edit,
+                            item._id
+                          ]"
+                        >
+                          Изменить
                         </button>
                       </tui-opt-group>
                     </tui-data-list>

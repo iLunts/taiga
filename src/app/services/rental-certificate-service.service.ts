@@ -12,6 +12,7 @@ import { Invoice } from '../models/invoice.model';
 import { NotificationService } from './notification.service';
 import { RentalCertificate } from '../models/rental-certificate.model';
 import * as _ from 'lodash';
+import { DateHelper } from '../utils/date.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +84,13 @@ export class RentalCertificateService {
     rentalCertificate._createdDate = new Date();
     rentalCertificate.total.totalSum.amount =
       this.calculateTotalAmount(rentalCertificate);
+
+    rentalCertificate.services = DateHelper.convertServicesTuiDayToDate(
+      rentalCertificate.services
+    );
+    rentalCertificate.dateRange = DateHelper.convertDateRangeTuiDayToDate(
+      rentalCertificate.dateRange
+    );
 
     return from(
       this._fs

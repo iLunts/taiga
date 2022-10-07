@@ -11,7 +11,8 @@ import {
   shareReplay,
   switchMap,
   takeUntil,
-  tap
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
 import * as _ from 'lodash';
 
@@ -89,10 +90,14 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
         filter((params) => !!params.cloneId),
         switchMap((params) =>
           this.invoiceService.getById$(params.cloneId).pipe(swallowErrors())
-        )
+        ),
+        withLatestFrom(this.activatedRoute.queryParams)
       )
-      .subscribe((invoice) => {
+      .subscribe(([invoice, params]) => {
         this.setForm(invoice);
+        this.form?.patchValue({
+          number: params?.lastIndex ? +params?.lastIndex + 1 : 1
+        });
       });
   }
 

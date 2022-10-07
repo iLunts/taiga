@@ -46,7 +46,9 @@ export const environment = {
       },
       rentalCertificate: {
         list: '/admin/rental-certificate',
-        create: '/admin/rental-certificate/create'
+        create: '/admin/rental-certificate/create',
+        edit: '/admin/rental-certificate/edit',
+        clone: '/admin/rental-certificate/clone'
       },
       settings: {
         apps: '/admin/settings/apps',

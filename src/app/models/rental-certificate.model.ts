@@ -5,6 +5,7 @@ import { ModelHelper } from '../utils/model.helper';
 import { Profile } from './profile.model';
 import { Service } from './service.model';
 import { TuiDayRange } from '@taiga-ui/cdk';
+import { DateRange } from './date-range.model';
 
 export class RentalCertificate {
   _id: string;
@@ -14,8 +15,7 @@ export class RentalCertificate {
   _createdDate: Date;
   _userId: string;
   contractor: Contractor;
-  // dateRange: Date[];
-  dateRange: TuiDayRange[];
+  dateRange: DateRange;
   description: string;
   number: string;
   profileCompany: Profile;
@@ -35,8 +35,7 @@ export class RentalCertificate {
     _createdDate?: Date,
     _userId?: string,
     contractor?: Contractor,
-    // dateRange?: Date[],
-    dateRange?: TuiDayRange[],
+    dateRange?: DateRange,
     description?: string,
     number?: string,
     profileCompany?: Profile,

@@ -11,8 +11,6 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { TuiDay } from '@taiga-ui/cdk';
-import * as moment from 'moment';
 
 import { TotalSum } from 'src/app/models/act.model';
 import { ActService } from 'src/app/services/act.service';
@@ -26,6 +24,7 @@ import { Service } from 'src/app/models/service.model';
 import { StoreService } from 'src/app/services/store.service';
 import { Status } from 'src/app/models/status.model';
 import { DateHelper } from 'src/app/utils/date.helper';
+import { swallowErrors } from 'src/app/utils/rxjs.helper';
 
 @Component({
   selector: 'app-act-create',
@@ -82,7 +81,9 @@ export class ActCreateComponent implements OnInit, OnDestroy {
 
     this.invoice$ = this.queryParams$.pipe(
       filter((params) => !!params && params.invoiceId),
-      switchMap((params) => this.invoiceService.getById$(params.invoiceId)),
+      switchMap((params) =>
+        this.invoiceService.getById$(params.invoiceId).pipe(swallowErrors())
+      ),
       takeUntil(this.destroySubject)
     );
 

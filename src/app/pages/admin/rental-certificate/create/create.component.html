@@ -39,7 +39,8 @@
       </div>
       <tui-input-date-range
         class="tui-col_xs-12 tui-col_s-1 tui-col_sm-6 tui-col_md-6"
-        [formControl]="dateRangeControl"
+        formControlName="dateRange"
+        [readOnly]="true"
       >
         Дата аренды
       </tui-input-date-range>
@@ -74,6 +75,12 @@
           [company]="f.contractor.value"
           [isLoaded]="true"
         ></app-company-panel>
+
+        <app-contract-panel
+          class="tui-space_top-4"
+          [contractor]="f.contractor.value"
+          (selected)="setContract($event)"
+        ></app-contract-panel>
       </div>
     </div>
 
