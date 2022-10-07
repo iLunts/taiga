@@ -1,10 +1,10 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import {
   filter,
   map,
@@ -21,6 +21,7 @@ import { Invoice, InvoiceStatus, TotalSum } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Service } from 'src/app/models/service.model';
 import { StoreService } from 'src/app/services/store.service';
+import { swallowErrors } from 'src/app/utils/rxjs.helper';
 
 @Component({
   selector: 'app-invoices-create',
@@ -33,17 +34,15 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
 
   private readonly destroySubject = new Subject();
   form: FormGroup;
-  isEdit: boolean;
-  // isEditMode$: Observable<boolean>;
-  // queryParams: Params;
-  isEditingNumber: boolean;
   initDay = DateHelper.initTuiDay();
+  isEdit: boolean;
+  isEditingNumber: boolean;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private afs: AngularFirestore,
     private companyService: CompanyService,
     private invoiceService: InvoiceService,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private storeService: StoreService
   ) {
@@ -84,6 +83,17 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
         number: params?.lastIndex ? +params?.lastIndex + 1 : 1
       });
     });
+
+    this.activatedRoute.queryParams
+      .pipe(
+        filter((params) => !!params.cloneId),
+        switchMap((params) =>
+          this.invoiceService.getById$(params.cloneId).pipe(swallowErrors())
+        )
+      )
+      .subscribe((invoice) => {
+        this.setForm(invoice);
+      });
   }
 
   ngOnInit(): void {}

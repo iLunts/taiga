@@ -103,7 +103,7 @@
     type="button"
     class="tui-space_right-3"
     (click)="save()"
-    [disabled]="!form.valid"
+    [disabled]="!form.valid && form.pristine"
   >
     {{ isEdit ? 'Изменить' : 'Создать' }}
   </button>

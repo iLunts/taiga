@@ -10,21 +10,25 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    component: InvoicesCreateComponent
+    children: [
+      {
+        path: '',
+        component: InvoicesCreateComponent
+      },
+      {
+        path: ':id',
+        component: InvoicesCreateComponent
+      }
+    ]
   },
   {
     path: 'edit/:id',
     component: InvoicesCreateComponent
+  },
+  {
+    path: 'clone',
+    component: InvoicesCreateComponent
   }
-  // {
-  //   path: 'edit',
-  //   children: [
-  //     {
-  //       path: ':id',
-  //       component: InvoicesCreateComponent
-  //     }
-  //   ]
-  // }
 ];
 
 @NgModule({

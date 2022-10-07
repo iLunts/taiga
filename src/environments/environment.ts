@@ -29,7 +29,8 @@ export const environment = {
       invoice: {
         list: '/admin/invoices',
         create: '/admin/invoices/create',
-        edit: '/admin/invoices/edit'
+        edit: '/admin/invoices/edit',
+        clone: '/admin/invoices/clone'
       },
       contractor: {
         list: '/admin/contractor',

@@ -166,15 +166,6 @@
                         >
                           Договор
                         </button>
-                      </tui-opt-group>
-                      <tui-opt-group>
-                        <button
-                          tuiOption
-                          (click)="createBaseOnContract(item)"
-                          [disabled]="true"
-                        >
-                          Копировать счёт
-                        </button>
                         <button
                           tuiOption
                           (click)="createBaseOnAct(item)"
@@ -189,10 +180,21 @@
                         >
                           Справка
                         </button>
+                      </tui-opt-group>
+                      <tui-opt-group>
+                        <button
+                          tuiOption
+                          [routerLink]="[routing.admin.invoice.clone]"
+                          [queryParams]="{
+                            cloneId: item._id,
+                            lastIndex: (lastIndex$ | async)?.number
+                          }"
+                        >
+                          Клонировать
+                        </button>
                         <button
                           tuiOption
                           [routerLink]="[routing.admin.invoice.edit, item._id]"
-                          [disabled]="false"
                         >
                           Изменить
                         </button>
