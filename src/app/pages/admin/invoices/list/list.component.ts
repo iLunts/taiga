@@ -25,10 +25,10 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
   styleUrls: ['./list.component.less']
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
+  readonly routing = environment.routing;
   readonly columns = ['number', 'date', 'status', 'price', 'action'];
   invoiceStatuses: InvoiceStatus[] = [];
   isLoaded: boolean;
-  routing = environment.routing;
   tabActive: InvoiceStatus;
   selectedInvoice: Invoice;
 

@@ -16,6 +16,15 @@ const routes: Routes = [
     path: 'edit/:id',
     component: InvoicesCreateComponent
   }
+  // {
+  //   path: 'edit',
+  //   children: [
+  //     {
+  //       path: ':id',
+  //       component: InvoicesCreateComponent
+  //     }
+  //   ]
+  // }
 ];
 
 @NgModule({

@@ -221,22 +221,25 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     this.router.navigate([environment.routing.admin.rentalCertificate.list]);
   }
 
-  getRangeDate(): Date[] {
-    if (this.f.services?.value?.length > 1) {
-      let dates: Date[] = DateHelper.getRangeDaysFromServices(
-        this.f.services.value
-      );
-      if (moment(dates[0]).isSame(dates[1])) {
-        dates = [dates[0]];
-      }
-      this.f.dateRange.setValue(dates);
-      return dates;
-    } else {
-      const date = [DateHelper.getMinDayFromServices(this.f.services.value)];
-      this.f.dateRange.setValue(date);
-      return date;
-    }
-  }
+  // getRangeDate(): Date[] {
+  //   if (this.f.services?.value?.length > 1) {
+  //     let dates: Date[] = DateHelper.getRangeDaysFromServices(
+  //       this.f.services.value
+  //     );
+  //     if (moment(dates[0]).isSame(dates[1])) {
+  //       dates = [dates[0]];
+  //     }
+  //     this.f.dateRange.setValue(dates);
+  //     return dates;
+  //   } else {
+  //     return null;
+  //   }
+  //   // else {
+  //   //   const date = [DateHelper.getMinDayFromServices(this.f.services.value)];
+  //   //   this.f.dateRange.setValue(date);
+  //   //   return date;
+  //   // }
+  // }
 
   toggleRentalCertificateNumber(): void {
     this.isEditingNumber = !this.isEditingNumber;
@@ -248,18 +251,18 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  get getRangeDatesString(): string {
-    const dates = this.getRangeDate();
-    const format = 'DD MMM yyyy';
-    moment.locale('ru');
+  // get getRangeDatesString(): string {
+  //   const dates = this.getRangeDate();
+  //   const format = 'DD MMM yyyy';
+  //   moment.locale('ru');
 
-    return dates.length > 1
-      ? 'c ' +
-          moment(dates[0]).format(format) +
-          ' по ' +
-          moment(dates[1]).format(format)
-      : 'за ' + moment(dates[0]).format(format);
-  }
+  //   return dates.length > 1
+  //     ? 'c ' +
+  //         moment(dates[0]).format(format) +
+  //         ' по ' +
+  //         moment(dates[1]).format(format)
+  //     : 'за ' + moment(dates[0]).format(format);
+  // }
 
   get getQrCode(): any {
     if (this.isQrCodeValid) {

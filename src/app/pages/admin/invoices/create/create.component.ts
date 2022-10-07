@@ -4,7 +4,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   filter,
   map,
@@ -13,8 +13,6 @@ import {
   takeUntil,
   tap
 } from 'rxjs/operators';
-import { TuiDay, TuiDayRange } from '@taiga-ui/cdk';
-import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import { Company, Contractor } from 'src/app/models/company.model';
@@ -36,8 +34,9 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
   private readonly destroySubject = new Subject();
   form: FormGroup;
   isEdit: boolean;
+  // isEditMode$: Observable<boolean>;
+  // queryParams: Params;
   isEditingNumber: boolean;
-  queryParams: Params;
   initDay = DateHelper.initTuiDay();
 
   constructor(
@@ -81,7 +80,6 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
       });
 
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.queryParams = params;
       this.form?.patchValue({
         number: params?.lastIndex ? +params?.lastIndex + 1 : 1
       });
@@ -143,6 +141,13 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     });
   }
 
+  setForm(invoice: Invoice): void {
+    this.form.setValue(invoice);
+    this.form
+      .get('dateRange')
+      .setValue(DateHelper.convertDateRangeToTuiDayRange(invoice.dateRange));
+  }
+
   cancel(): void {
     this.router.navigate([environment.routing.admin.invoice.list]);
   }
@@ -165,9 +170,5 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
     if (!focused) {
       this.isEditingNumber = false;
     }
-  }
-
-  setForm(invoice: Invoice): void {
-    this.form.setValue(invoice);
   }
 }

@@ -191,8 +191,8 @@
                         </button>
                         <button
                           tuiOption
-                          (click)="edit(item)"
-                          [disabled]="true"
+                          [routerLink]="[routing.admin.invoice.edit, item._id]"
+                          [disabled]="false"
                         >
                           Изменить
                         </button>

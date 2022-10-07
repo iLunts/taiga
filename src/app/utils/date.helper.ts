@@ -78,6 +78,18 @@ export class DateHelper {
     return moment([date.year, date.month, date.day]).format();
   }
 
+  public static convertDateToTuiDay(date: Date | any): TuiDay {
+    if (!date) {
+      return null;
+    }
+
+    return new TuiDay(
+      moment(date).year(),
+      moment(date).month(),
+      moment(date).date()
+    );
+  }
+
   public static convertServicesTuiDayToDate(services: Service[]): Service[] {
     if (!services) {
       return [];
@@ -114,5 +126,14 @@ export class DateHelper {
     ]).format();
 
     return dateRange;
+  }
+
+  public static convertDateRangeToTuiDayRange(
+    dateRange: DateRange
+  ): TuiDayRange {
+    return new TuiDayRange(
+      this.convertDateToTuiDay(dateRange.from),
+      this.convertDateToTuiDay(dateRange.to)
+    );
   }
 }

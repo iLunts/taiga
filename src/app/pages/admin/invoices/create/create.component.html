@@ -69,6 +69,7 @@
         <div class="tui-form__row">
           <div class="tui-form__field">
             <app-service-table
+              [services]="f.services.value"
               (selected)="setService($event)"
             ></app-service-table>
           </div>
