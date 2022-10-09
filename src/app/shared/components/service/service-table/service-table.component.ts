@@ -131,7 +131,7 @@ export class ServiceTableComponent implements OnInit {
       }),
       totalSum: new FormGroup({
         amount: new FormControl(serviceItem?.totalSum.amount || null, {
-          validators: [Validators.required]
+          // validators: [Validators.required]
         }),
         currency: new FormControl(serviceItem?.totalSum.currency || null, {
           validators: [Validators.required]
@@ -154,7 +154,7 @@ export class ServiceTableComponent implements OnInit {
       }),
       totalTax: new FormGroup({
         amount: new FormControl(serviceItem?.totalTax.amount || null, {
-          validators: [Validators.required]
+          // validators: [Validators.required]
         }),
         currency: new FormControl(serviceItem?.totalTax.currency || null, {
           validators: [Validators.required]
