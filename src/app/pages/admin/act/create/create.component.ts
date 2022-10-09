@@ -149,6 +149,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       _id: new FormControl(this.afs.createId(), [Validators.required]),
       _contractId: new FormControl(null),
       _invoiceId: new FormControl(null),
+      _rentalCertificateId: new FormControl(null),
       contractor: new FormControl(null, [Validators.required]),
       contract: new FormControl(null, [Validators.required]),
       date: new FormControl(DateHelper.initTuiDay(0)),
