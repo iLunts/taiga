@@ -78,12 +78,4 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
   downloadPdf(data: RentalCertificate): void {
     this.templatePdfService.downloadPdf('rental-certificate', data);
   }
-
-  createBaseOnAct(rentalCertificate: RentalCertificate): void {
-    this.router.navigate([this.routing.admin.act.create], {
-      queryParams: {
-        rentalCertificateId: rentalCertificate._id
-      }
-    });
-  }
 }

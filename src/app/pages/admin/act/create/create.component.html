@@ -75,6 +75,7 @@
           <div class="tui-form__field">
             <app-service-table
               [services]="f.services.value"
+              [hideDateColumn]="true"
               (selected)="setService($event)"
             ></app-service-table>
           </div>

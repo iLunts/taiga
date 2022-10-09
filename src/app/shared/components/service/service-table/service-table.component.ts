@@ -33,6 +33,8 @@ export class ServiceTableComponent implements OnInit {
   }
   private servicesSubject = new BehaviorSubject<Service[]>(null);
 
+  @Input() hideDateColumn = false;
+
   @Output() selected = new EventEmitter<Service[]>();
 
   form: FormGroup;

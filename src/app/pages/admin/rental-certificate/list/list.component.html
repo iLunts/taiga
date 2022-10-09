@@ -141,8 +141,10 @@
                       <tui-opt-group>
                         <button
                           tuiOption
-                          (click)="createBaseOnAct(item)"
-                          [disabled]="false"
+                          [routerLink]="[routing.admin.act.create]"
+                          [queryParams]="{
+                            rentalCertificateId: item._id
+                          }"
                         >
                           Акт
                         </button>

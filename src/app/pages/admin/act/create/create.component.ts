@@ -25,6 +25,8 @@ import { StoreService } from 'src/app/services/store.service';
 import { Status } from 'src/app/models/status.model';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { swallowErrors } from 'src/app/utils/rxjs.helper';
+import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
+import { ServiceHelper } from 'src/app/utils/service.helper';
 
 @Component({
   selector: 'app-act-create',
@@ -35,16 +37,12 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   @ViewChild('qrBlock') qrBlock: any;
   @ViewChild('inputNumber') inputNumber: any;
 
-  private readonly destroySubject = new Subject();
-  // act: Act = new Act(this.afs.createId());
   form: FormGroup;
   isEditingNumber: boolean;
-  // queryParams: Params;
 
+  private destroySubject = new Subject();
   queryParams$: Observable<Params>;
   invoice$: Observable<Invoice>;
-
-  // private invoiceSubject = new BehaviorSubject<any>(null);
 
   constructor(
     private afs: AngularFirestore,
@@ -53,6 +51,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
     private invoiceService: InvoiceService,
+    private rentalCertificateService: RentalCertificateService,
     private storeService: StoreService
   ) {
     this.initForm();
@@ -99,6 +98,31 @@ export class ActCreateComponent implements OnInit, OnDestroy {
           this.form.controls._invoiceId.setValue(invoice._id);
           this.form.controls.services.setValue(invoice.services);
         }
+      });
+
+    this.activatedRoute.queryParams
+      .pipe(
+        filter((params) => !!params.rentalCertificateId),
+        switchMap((params) =>
+          this.rentalCertificateService
+            .getById$(params.rentalCertificateId)
+            .pipe(swallowErrors())
+        )
+      )
+      .subscribe((rentalCertificate) => {
+        // this.setForm(invoice);
+        this.form
+          .get('services')
+          .setValue(
+            ServiceHelper.convertServicesToSummaryServices(
+              rentalCertificate.services
+            )
+          );
+        this.form
+          .get('date')
+          .setValue(
+            DateHelper.convertDateToTuiDay(rentalCertificate.dateRange.to)
+          );
       });
   }
 
