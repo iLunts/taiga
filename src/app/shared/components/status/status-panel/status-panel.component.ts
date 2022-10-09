@@ -9,15 +9,18 @@ import {
 import {
   distinctUntilChanged,
   filter,
+  map,
   switchMap,
   takeUntil,
-  tap
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
 import { FormControl, Validators } from '@angular/forms';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
 
 import { Status } from 'src/app/models/status.model';
 import { StatusService } from 'src/app/services/status.service';
+import { swallowErrors } from 'src/app/utils/rxjs.helper';
 
 @Component({
   selector: 'app-status-panel',
@@ -51,30 +54,57 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
       distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
       switchMap((type: string) =>
         this.statusesService.getAll$(type).pipe(
-          filter((statuses) => !!statuses),
+          filter((statuses) => !!statuses && !this.statusControl.value),
           tap((statuses: Status[]) => this.selectStatus(statuses[0]))
+          // swallowErrors()
         )
       )
-      // shareReplay()
     );
 
-    this.statusSubject
-      .pipe(
-        filter((status) => !!status),
-        tap((status) => this.selectStatus(status)),
-        takeUntil(this.destroySubject)
-      )
-      .subscribe();
+    // this.statusSubject
+    //   .pipe(
+    //     filter((status) => !!status),
+    //     tap((status) => {
+    //       this.statusControl.patchValue(status);
+    //     }),
+    //     takeUntil(this.destroySubject)
+    //   )
+    //   .subscribe();
+
+    // combineLatest([this.statuses$, this.statusSubject])
+    //   .pipe(
+    //     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    //     filter(([all, status]) => !!all && !!status),
+    //     tap(([, status]) => {
+    //       this.statusControl.patchValue(status);
+    //       debugger;
+    //     }),
+    //     takeUntil(this.destroySubject)
+    //   )
+    //   .subscribe();
+
+    this.statuses$.pipe(
+      filter((statuses) => !!statuses),
+      switchMap(() => this.statusSubject),
+      // withLatestFrom(this.statusSubject),
+      // map(([status]) => status),
+      tap((status) => this.statusControl.patchValue(status)),
+      takeUntil(this.destroySubject)
+    );
+    // .subscribe();
+    // .subscribe({
+    //   next: (status) => this.statusControl.patchValue(status)
+    // });
 
     // TODO: Need to check twiceCall
-    this.statusControl.valueChanges
-      .pipe(
-        filter((status: Status) => !!status),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        tap((status: Status) => this.selectStatus(status)),
-        takeUntil(this.destroySubject)
-      )
-      .subscribe();
+    // this.statusControl.valueChanges
+    //   .pipe(
+    //     filter((status: Status) => !!status),
+    //     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    //     tap((status: Status) => this.selectStatus(status)),
+    //     takeUntil(this.destroySubject)
+    //   )
+    //   .subscribe();
   }
 
   ngOnInit(): void {}

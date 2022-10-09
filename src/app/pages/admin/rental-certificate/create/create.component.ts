@@ -2,29 +2,21 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
-  distinctUntilChanged,
   filter,
   map,
   shareReplay,
   switchMap,
   takeUntil,
-  tap
+  tap,
+  withLatestFrom
 } from 'rxjs/operators';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { TuiDay } from '@taiga-ui/cdk';
-import * as moment from 'moment';
+import * as _ from 'lodash';
 
 import { CompanyService } from 'src/app/services/company.service';
 import { Contract } from 'src/app/models/contract.model';
 import { Company, Contractor } from 'src/app/models/company.model';
-import { ContractorService } from 'src/app/services/contractor.service';
 import { DateHelper } from 'src/app/utils/date.helper';
 import { environment } from 'src/environments/environment';
 import {
@@ -35,7 +27,6 @@ import {
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { Service } from 'src/app/models/service.model';
 import { StoreService } from 'src/app/services/store.service';
-import * as _ from 'lodash';
 import { Invoice } from 'src/app/models/invoice.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { swallowErrors } from 'src/app/utils/rxjs.helper';
@@ -131,6 +122,23 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
       .subscribe((rentalCertificate: RentalCertificate) => {
         this.setForm(rentalCertificate);
         this.isEdit = true;
+      });
+
+    this.activatedRoute.queryParams
+      .pipe(
+        filter((params) => !!params.cloneId),
+        switchMap((params) =>
+          this.rentalCertificateService
+            .getById$(params.cloneId)
+            .pipe(swallowErrors())
+        ),
+        withLatestFrom(this.activatedRoute.queryParams)
+      )
+      .subscribe(([rentalCertificate, params]) => {
+        this.setForm(rentalCertificate);
+        this.form?.patchValue({
+          number: params?.lastIndex ? +params?.lastIndex + 1 : 1
+        });
       });
   }
 

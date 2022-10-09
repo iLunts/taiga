@@ -20,6 +20,7 @@
       >
         <app-status-panel
           type="rentalCertificate"
+          [status]="f.status.value"
           (changed)="setStatus($event)"
         ></app-status-panel>
       </div>
