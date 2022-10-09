@@ -30,14 +30,14 @@
           <table tuiTable [columns]="columns" class="tui-table">
             <thead>
               <tr class="tui-table__tr" tuiThGroup>
-                <th
+                <!-- <th
                   class="tui-table__th"
                   *tuiHead="'number'"
                   tuiTh
                   [resizable]="true"
                 >
                   Номер
-                </th>
+                </th> -->
                 <th
                   class="tui-table__th"
                   *tuiHead="'date'"
@@ -76,9 +76,9 @@
                 *tuiRow="let item of rentalCertificates; let index = index"
                 tuiTr
               >
-                <td class="tui-table__td" *tuiCell="'number'" tuiTd>
+                <!-- <td class="tui-table__td" *tuiCell="'number'" tuiTd>
                   № <b>{{ item.number || 'Б.н.' }}</b>
-                </td>
+                </td> -->
                 <td class="tui-table__td" *tuiCell="'date'" tuiTd>
                   <b
                     >{{ item.dateRange.from | date: 'dd MMM yyyy' }} -

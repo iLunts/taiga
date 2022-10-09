@@ -23,7 +23,7 @@ import {
   styleUrls: ['./list.component.less']
 })
 export class RentalCertificateListComponent implements OnInit, OnDestroy {
-  readonly columns = ['number', 'date', 'status', 'sum', 'action'];
+  readonly columns = ['date', 'status', 'sum', 'action'];
   private readonly destroy$ = new Subject();
   rentalCertificates$: Observable<any>;
   rentalCertificateStatuses$: Observable<any>;

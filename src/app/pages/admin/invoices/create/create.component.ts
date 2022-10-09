@@ -96,6 +96,7 @@ export class InvoicesCreateComponent implements OnInit, OnDestroy {
         withLatestFrom(this.activatedRoute.queryParams)
       )
       .subscribe(([invoice, params]) => {
+        invoice._id = this.afs.createId();
         this.setForm(invoice);
         this.form?.patchValue({
           number: params?.lastIndex ? +params?.lastIndex + 1 : 1

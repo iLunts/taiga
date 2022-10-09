@@ -7,8 +7,7 @@ import {
   shareReplay,
   switchMap,
   takeUntil,
-  tap,
-  withLatestFrom
+  tap
 } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
@@ -131,14 +130,11 @@ export class RentalCertificateCreateComponent implements OnInit, OnDestroy {
           this.rentalCertificateService
             .getById$(params.cloneId)
             .pipe(swallowErrors())
-        ),
-        withLatestFrom(this.activatedRoute.queryParams)
+        )
       )
-      .subscribe(([rentalCertificate, params]) => {
+      .subscribe((rentalCertificate) => {
+        rentalCertificate._id = this.afs.createId();
         this.setForm(rentalCertificate);
-        this.form?.patchValue({
-          number: params?.lastIndex ? +params?.lastIndex + 1 : 1
-        });
       });
   }
 
