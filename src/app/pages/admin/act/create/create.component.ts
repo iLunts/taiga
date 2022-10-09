@@ -27,6 +27,7 @@ import { DateHelper } from 'src/app/utils/date.helper';
 import { swallowErrors } from 'src/app/utils/rxjs.helper';
 import { RentalCertificateService } from 'src/app/services/rental-certificate-service.service';
 import { ServiceHelper } from 'src/app/utils/service.helper';
+import { RentalCertificate } from 'src/app/models/rental-certificate.model';
 
 @Component({
   selector: 'app-act-create',
@@ -43,6 +44,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
   private destroySubject = new Subject();
   queryParams$: Observable<Params>;
   invoice$: Observable<Invoice>;
+  rentalCertificate$: Observable<RentalCertificate>;
 
   constructor(
     private afs: AngularFirestore,
@@ -86,6 +88,16 @@ export class ActCreateComponent implements OnInit, OnDestroy {
       takeUntil(this.destroySubject)
     );
 
+    this.rentalCertificate$ = this.queryParams$.pipe(
+      filter((params) => !!params && params.rentalCertificateId),
+      switchMap((params) =>
+        this.rentalCertificateService
+          .getById$(params.rentalCertificateId)
+          .pipe(swallowErrors())
+      ),
+      takeUntil(this.destroySubject)
+    );
+
     this.invoice$
       .pipe(
         filter((invoice) => !!invoice),
@@ -96,33 +108,32 @@ export class ActCreateComponent implements OnInit, OnDestroy {
           this.form.controls.number.setValue(invoice.number);
           this.form.controls.contractor.setValue(invoice.contractor);
           this.form.controls._invoiceId.setValue(invoice._id);
-          this.form.controls.services.setValue(invoice.services);
+          this.form.controls.services.setValue(
+            ServiceHelper.convertServicesToSummaryServices(invoice.services)
+          );
+          this.form.controls.date.setValue(
+            DateHelper.convertDateToTuiDay(invoice.dateRange.to)
+          );
         }
       });
 
-    this.activatedRoute.queryParams
+    this.rentalCertificate$
       .pipe(
-        filter((params) => !!params.rentalCertificateId),
-        switchMap((params) =>
-          this.rentalCertificateService
-            .getById$(params.rentalCertificateId)
-            .pipe(swallowErrors())
-        )
+        filter((rentalCertificate) => !!rentalCertificate),
+        takeUntil(this.destroySubject)
       )
       .subscribe((rentalCertificate) => {
-        // this.setForm(invoice);
-        this.form
-          .get('services')
-          .setValue(
-            ServiceHelper.convertServicesToSummaryServices(
-              rentalCertificate.services
-            )
-          );
-        this.form
-          .get('date')
-          .setValue(
-            DateHelper.convertDateToTuiDay(rentalCertificate.dateRange.to)
-          );
+        this.form.controls.number.setValue(rentalCertificate.number);
+        this.form.controls.contractor.setValue(rentalCertificate.contractor);
+        this.form.controls._rentalCertificateId.setValue(rentalCertificate._id);
+        this.form.controls.services.setValue(
+          ServiceHelper.convertServicesToSummaryServices(
+            rentalCertificate.services
+          )
+        );
+        this.form.controls.date.setValue(
+          DateHelper.convertDateToTuiDay(rentalCertificate.dateRange.to)
+        );
       });
   }
 

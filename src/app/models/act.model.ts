@@ -12,6 +12,7 @@ export class Act {
   _contractId: string;
   _createdDate: Date;
   _invoiceId: string;
+  _rentalCertificateId: string;
   number: string;
   date: Date | TuiDay;
   createDate: string;
@@ -32,6 +33,7 @@ export class Act {
     _userId?: string,
     _contractId?: string,
     _invoiceId?: string,
+    _rentalCertificateId?: string,
     _createdDate?: Date,
     contractor?: Contractor,
     contract?: Contract,
@@ -50,6 +52,7 @@ export class Act {
     this._userId = _userId || null;
     this._contractId = _contractId || null;
     this._invoiceId = _invoiceId || null;
+    this._rentalCertificateId = _rentalCertificateId || null;
     this._createdDate = _createdDate || new Date();
     this.number = number || null;
     this.date = date || null;
