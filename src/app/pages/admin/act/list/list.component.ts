@@ -121,16 +121,5 @@ export class ActListComponent implements OnInit, OnDestroy {
     this.templatePdfService.downloadPdf('act', act);
   }
 
-  createBaseOnContract(invoice: Act): void {
-    this.router.navigate([this.routing.admin.contract.create], {
-      queryParams: {
-        contractorId: invoice.contractor._id
-        // contractId: invoice._id,
-      }
-    });
-  }
-
-  createBaseOnAct(act: Act): void {}
-
   createBaseOnReference(act: Act): void {}
 }

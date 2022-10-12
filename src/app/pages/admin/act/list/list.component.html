@@ -151,29 +151,6 @@
                       <tui-opt-group>
                         <button
                           tuiOption
-                          (click)="createBaseOnContract(item)"
-                          [disabled]="item._contractId"
-                        >
-                          Договор
-                        </button>
-                      </tui-opt-group>
-                      <tui-opt-group>
-                        <button
-                          tuiOption
-                          (click)="createBaseOnContract(item)"
-                          [disabled]="true"
-                        >
-                          Счёт
-                        </button>
-                        <button
-                          tuiOption
-                          (click)="createBaseOnAct(item)"
-                          [disabled]="true"
-                        >
-                          Акт
-                        </button>
-                        <button
-                          tuiOption
                           (click)="createBaseOnReference(item)"
                           [disabled]="true"
                         >

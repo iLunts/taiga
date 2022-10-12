@@ -109,7 +109,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
           this.form.controls.contractor.setValue(invoice.contractor);
           this.form.controls._invoiceId.setValue(invoice._id);
           this.form.controls.services.setValue(
-            ServiceHelper.convertServicesToSummaryServices(invoice.services)
+            ServiceHelper.unionDuplicateServices(invoice.services)
           );
           this.form.controls.date.setValue(
             DateHelper.convertDateToTuiDay(invoice.dateRange.to)
@@ -127,9 +127,7 @@ export class ActCreateComponent implements OnInit, OnDestroy {
         this.form.controls.contractor.setValue(rentalCertificate.contractor);
         this.form.controls._rentalCertificateId.setValue(rentalCertificate._id);
         this.form.controls.services.setValue(
-          ServiceHelper.convertServicesToSummaryServices(
-            rentalCertificate.services
-          )
+          ServiceHelper.unionDuplicateServices(rentalCertificate.services)
         );
         this.form.controls.date.setValue(
           DateHelper.convertDateToTuiDay(rentalCertificate.dateRange.to)

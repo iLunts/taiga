@@ -24,6 +24,7 @@ export class CompanyGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     const status = this.companyService.getCompanyFromLocalStorage();
 
+    // TODO: Need added checker for valid Company
     if (!status) {
       this.router.navigate([this.routing.admin.settings.company], {
         queryParams: { cannotBeEmpty: true }

@@ -370,7 +370,13 @@ export class CompanyService implements OnDestroy {
   }
 
   getCompanyFromLocalStorage(): Company {
-    return JSON.parse(localStorage.getItem('company')) || null;
+    let company;
+    try {
+      company = JSON.parse(localStorage.getItem('company'));
+    } catch (error) {
+      this.clearCompany();
+    }
+    return !!company ? company : null;
   }
 
   clearCompanyFromLocalStorage(): void {

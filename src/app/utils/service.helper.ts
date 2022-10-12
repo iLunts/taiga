@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { Service } from '../models/service.model';
 
 export class ServiceHelper {
-  public static convertServicesToSummaryServices(services: Service[]): any {
+  public static unionDuplicateServices(services: Service[]): any {
     const servicesSummary: Service[] = [];
 
     services.forEach((element) => {
