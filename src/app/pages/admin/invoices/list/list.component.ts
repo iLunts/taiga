@@ -56,11 +56,11 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
 
   constructor(
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private invoiceService: InvoiceService,
     private templatePdfService: TemplatePdfService,
     private storeService: StoreService,
-    private router: Router,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
+    private router: Router
   ) {
     this.fetch();
 

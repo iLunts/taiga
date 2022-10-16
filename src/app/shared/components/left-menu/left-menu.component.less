@@ -2,23 +2,26 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  // justify-content: space-between;
   height: 100vh;
   max-height: 100vh;
+  border-right: 1px solid var(--color-graphite);
   overflow: hidden;
 
   & &__logo {
-    display: block;
-    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--page-header-height);
     border-bottom: 1px solid var(--color-graphite);
+    // background: #f4f7ff;
     padding: 15px;
     padding-bottom: 15px;
     font-weight: 600;
   }
 
   & &__menu {
-    height: calc(100vh - 80px);
-    background: #f4f7ff;
+    height: calc(100vh - var(--page-header-height));
+    // background: #f4f7ff;
 
     &-item {
       margin: 0 15px;

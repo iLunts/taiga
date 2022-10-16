@@ -113,7 +113,7 @@
                     shape="rounded"
                     (click)="downloadPdf(item)"
                   ></button>
-                  <button
+                  <!-- <button
                     tuiIconButton
                     appearance="flat"
                     size="s"
@@ -121,7 +121,7 @@
                     title="Удалить"
                     shape="rounded"
                     (click)="delete(item)"
-                  ></button>
+                  ></button> -->
                   <tui-hosted-dropdown #dropdown [content]="content">
                     <button
                       tuiIconButton
@@ -150,7 +150,7 @@
                         </button>
                       </tui-opt-group>
                       <tui-opt-group>
-                        <button
+                        <!-- <button
                           tuiOption
                           [routerLink]="[routing.admin.rentalCertificate.clone]"
                           [queryParams]="{
@@ -159,7 +159,7 @@
                           }"
                         >
                           Клонировать
-                        </button>
+                        </button> -->
                         <button
                           tuiOption
                           [routerLink]="[
@@ -168,6 +168,14 @@
                           ]"
                         >
                           Изменить
+                        </button>
+                        <button
+                          class="btn-delete"
+                          tuiOption
+                          (click)="openDeleteModal(item, dialogDelete)"
+                          [disabled]="(indicator$ | async)?.loading"
+                        >
+                          Удалить
                         </button>
                       </tui-opt-group>
                     </tui-data-list>
@@ -184,4 +192,40 @@
 
 <ng-template #more>
   <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
+</ng-template>
+
+<ng-template #dialogDelete let-observer>
+  <section class="modal-dialog">
+    <p>
+      Вы действительно хотите удалить справку аренду: №
+      <b>{{ selectedRentalCertificate.number }}</b>
+      от
+      <b
+        >{{ selectedRentalCertificate.dateRange.from | date: 'dd MMM yyyy' }} -
+        {{ selectedRentalCertificate.dateRange.to | date: 'dd MMM yyyy' }}</b
+      >
+      ?
+    </p>
+    <div class="modal-dialog__actions">
+      <button
+        tuiButton
+        type="button"
+        size="m"
+        appearance="outline"
+        (click)="observer.complete()"
+      >
+        Отменить
+      </button>
+      <button
+        tuiButton
+        type="button"
+        appearance="accent"
+        size="m"
+        class="tui-space_left-3"
+        (click)="delete(selectedInvoice); observer.complete()"
+      >
+        Удалить
+      </button>
+    </div>
+  </section>
 </ng-template>

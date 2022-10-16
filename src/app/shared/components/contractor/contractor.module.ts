@@ -9,6 +9,7 @@ import {
 } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
+  TuiBadgedContentModule,
   TuiBadgeModule,
   TuiDataListWrapperModule,
   TuiInputModule,
@@ -34,7 +35,8 @@ import { ContractorAsideComponent } from './contractor-aside/contractor-aside.co
     TuiLoaderModule,
     TuiSelectModule,
     TuiBadgeModule,
-    TuiScrollbarModule
+    TuiScrollbarModule,
+    TuiBadgedContentModule
   ],
   exports: [ContractorPanelComponent, ContractorAsideComponent]
 })

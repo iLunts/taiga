@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 
 import {
   RentalCertificate,
@@ -18,6 +19,8 @@ import {
 } from 'rxjs/operators';
 import { Status } from 'src/app/models/status.model';
 import { StatusHelper } from 'src/app/utils/status.helper';
+import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
+import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-rental-certificate-list',
@@ -25,16 +28,20 @@ import { StatusHelper } from 'src/app/utils/status.helper';
   styleUrls: ['./list.component.less']
 })
 export class RentalCertificateListComponent implements OnInit, OnDestroy {
-  readonly columns = ['date', 'status', 'sum', 'action'];
   private readonly destroy$ = new Subject();
   rentalCertificates$: Observable<any>;
   rentalCertificateStatuses$: Observable<any>;
+  indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
+
+  readonly columns = ['date', 'status', 'sum', 'action'];
   rentalCertificateStatuses: RentalCertificateStatus[] = [];
+  selectedRentalCertificate: RentalCertificate;
   isLoaded: boolean;
   routing = environment.routing;
   tabActive: RentalCertificateStatus;
 
   constructor(
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private rentalCertificateService: RentalCertificateService,
     private templatePdfService: TemplatePdfService,
     private storeService: StoreService,
@@ -83,5 +90,26 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
 
   getStatusClass(status: Status): string {
     return StatusHelper.getStatusClassName(status);
+  }
+
+  openDeleteModal(
+    item: RentalCertificate,
+    content: PolymorpheusContent<TuiDialogContext>
+  ): void {
+    this.selectedRentalCertificate = item;
+    this.dialogService
+      .open(content, {
+        label: 'Удаление',
+        size: 'm',
+        required: false,
+        data: item
+      })
+      .pipe(indicate(this.indicator$))
+      .subscribe({
+        next: (data) => {
+          this.delete(item);
+        },
+        complete: () => {}
+      });
   }
 }

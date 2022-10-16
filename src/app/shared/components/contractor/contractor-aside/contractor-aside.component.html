@@ -44,13 +44,20 @@
         *ngFor="let item of filteredContractors$ | async"
       >
         <div class="contractor-card__top">
-          <tui-avatar
-            class="contractor-card__avatar tui-space_right-2"
-            [text]="item.info.name"
-            [autoColor]="true"
+          <tui-badged-content
+            colorBottom="var(--tui-success-fill)"
+            size="m"
+            class="tui-space_right-2"
             [rounded]="true"
-            size="s"
-          ></tui-avatar>
+          >
+            <tui-avatar
+              [text]="item.info.name"
+              size="m"
+              [rounded]="true"
+              [autoColor]="true"
+            ></tui-avatar>
+          </tui-badged-content>
+
           <p class="contractor-card__info">
             <span class="contractor-card__info-name">{{ item.info.name }}</span>
             <small class="contractor-card__info-unp"
@@ -58,7 +65,7 @@
             >
           </p>
         </div>
-        <div class="contractor-card__bottom">
+        <!-- <div class="contractor-card__bottom">
           <tui-badge
             class="tui-space_right-2"
             status="success"
@@ -87,7 +94,7 @@
               (click)="delete(item)"
             ></button>
           </div>
-        </div>
+        </div> -->
       </div>
     </tui-scrollbar>
   </aside>

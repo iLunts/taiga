@@ -11,8 +11,10 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
+  map,
   takeUntil
 } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Service } from 'src/app/models/service.model';
 import { ServicesService } from 'src/app/services/services.service';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
@@ -37,6 +39,7 @@ export class ServiceTableComponent implements OnInit {
 
   @Output() selected = new EventEmitter<Service[]>();
 
+  routing = environment.routing;
   form: FormGroup;
   columns: ['name', 'date', 'w', 'price'];
   serviceListData$: Observable<Service[]>;
@@ -77,12 +80,20 @@ export class ServiceTableComponent implements OnInit {
       .subscribe({
         next: () => this.doEmit()
       });
+
+    this.serviceListData$
+      .pipe(filter((data) => !!data))
+      .subscribe((data) => this.groupService(data));
   }
 
   ngOnInit(): void {}
 
   fetch(): void {
-    this.serviceListData$ = this.serviceService.getAll$();
+    // this.serviceListData$ = this.serviceService.getAll$();
+    this.serviceListData$ = this.serviceService.getAll$().pipe(
+      filter((data) => !!data),
+      map((services) => this.groupService(services))
+    );
   }
 
   private createForm(): void {
@@ -301,5 +312,16 @@ export class ServiceTableComponent implements OnInit {
     //   return  moment(service.date, 'YYYY-MM-DD').toDate();
     // });
     // console.log('Sort min: ', minDate);
+  }
+
+  groupService(services: Service[]): any[] {
+    const groupedByGroupName = services.reduce((groupedList, product) => {
+      const groupName = product.group.name as any;
+      groupedList[groupName] = groupedList[groupName] ?? [];
+      groupedList[groupName].push(product);
+      return groupedList;
+    }, {});
+
+    return Object.entries(groupedByGroupName);
   }
 }

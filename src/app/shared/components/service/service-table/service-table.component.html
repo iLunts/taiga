@@ -25,17 +25,38 @@
       </tui-input-date>
 
       <tui-select
+        #select
         formControlName="name"
         [valueContent]="valueContent"
         (ngModelChange)="selectedService($event, i)"
       >
         Название
-        <tui-data-list-wrapper
-          *tuiDataList
-          size="l"
-          [items]="services"
-          [itemContent]="itemContent"
-        ></tui-data-list-wrapper>
+        <tui-data-list *tuiDataList>
+          <tui-opt-group
+            [label]="serviceGroups[0]"
+            *ngFor="let serviceGroups of services"
+          >
+            <button
+              *ngFor="let service of serviceGroups[1]"
+              tuiOption
+              [value]="service"
+              class="btn-menu-item"
+            >
+              {{ service.name }}
+            </button>
+          </tui-opt-group>
+          <!-- <a
+            tuiOption
+            role="menuitem"
+            [routerLink]="[routing.admin.settings.services.create]"
+          >
+            <tui-svg
+              src="tuiIconPlusCircleLarge"
+              class="tui-space_right-2"
+            ></tui-svg>
+            Добавить новый
+          </a> -->
+        </tui-data-list>
       </tui-select>
 
       <ng-container formGroupName="unit">
@@ -119,7 +140,7 @@
   tuiButton
   type="button"
   size="s"
-  class="tui-space_right-3 tui-space_bottom-3 tui-space_top-3 button-add"
+  class="tui-space_right-3 tui-space_bottom-3 tui-space_top-3 btn-add"
   (click)="addNewRow()"
   [disabled]="form.invalid"
 >
@@ -132,7 +153,7 @@
   </div>
 </ng-template>
 
-<ng-template #itemContent let-data>
+<!-- <ng-template #itemContent let-data>
   <div class="itemContent">
     <div class="itemContent__name">{{ data?.name }}</div>
     <tui-money
@@ -140,4 +161,4 @@
       [value]="data.price.amount"
     ></tui-money>
   </div>
-</ng-template>
+</ng-template> -->

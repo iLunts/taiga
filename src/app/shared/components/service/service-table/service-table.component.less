@@ -72,15 +72,26 @@
   }
 }
 
-// :host ::ng-deep tui-wwrapper[data-appearance='buttonDeleteRow'] {
-// 	color: var(--tui-base-05);
-// }
-
 :host ::ng-deep ._isEditable tui-wrapper[data-appearance='table'] .input {
   font-weight: 600;
 }
 
-.button-add {
+.btn-add {
   width: 100%;
   border-radius: 5px;
+}
+
+::ng-deep {
+  .btn-menu-item[data-size='m'] {
+    white-space: normal;
+    border-bottom-width: 1rem;
+    font-weight: 500;
+    padding: 0.25rem 1rem;
+  }
+
+  tui-opt-group:not(:empty) ~ tui-opt-group:before {
+    padding-top: 0 !important;
+    font-weight: 900;
+    background: var(--tui-base-03);
+  }
 }

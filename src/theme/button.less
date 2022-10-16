@@ -1,5 +1,8 @@
 button {
-  // background: red;
+  &[data-tui-host-size='m'],
+  &[data-tui-host-size='s'] {
+    border-radius: 5px;
+  }
 
   &._disabled-loader {
     position: relative;

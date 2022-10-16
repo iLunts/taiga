@@ -21,11 +21,12 @@ import * as _ from 'lodash';
 
 import { Contract, ContractStatus } from 'src/app/models/contract.model';
 import { ContractService } from 'src/app/services/contract.service';
-import { StoreService } from 'src/app/services/store.service';
-import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import { environment } from 'src/environments/environment';
 import { Status } from 'src/app/models/status.model';
 import { StatusHelper } from 'src/app/utils/status.helper';
+import { StoreService } from 'src/app/services/store.service';
+import { TabItem } from 'src/app/models/tabs.model';
+import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 
 @Component({
   selector: 'app-contract-list',
@@ -38,8 +39,22 @@ export class ContractListComponent implements OnInit, OnDestroy {
   contractStatuses: ContractStatus[] = [];
   isLoaded: boolean;
   routing = environment.routing;
-  tabActive: ContractStatus;
   selectedContract: Contract;
+  tabs: TabItem[] = [
+    {
+      name: 'Все',
+      disabled: false
+    },
+    {
+      name: 'Отправленные',
+      disabled: true
+    },
+    {
+      name: 'Подписанные',
+      disabled: true
+    }
+  ];
+  tabActive: TabItem = this.tabs[0];
 
   private readonly destroy$ = new Subject();
   contracts$: Observable<Contract[]>;
@@ -70,13 +85,11 @@ export class ContractListComponent implements OnInit, OnDestroy {
   }
 
   get getTabActiveIndex(): number {
-    return this.contractStatuses.findIndex(
-      (status: ContractStatus) => status._id === this.tabActive._id
-    );
+    return this.tabs.findIndex((item: TabItem) => item === this.tabActive);
   }
 
-  selectTab(status: ContractStatus): void {
-    this.tabActive = status;
+  selectTab(activeElement: TabItem): void {
+    this.tabActive = activeElement;
   }
 
   fetch(): void {
