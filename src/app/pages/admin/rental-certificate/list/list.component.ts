@@ -16,6 +16,8 @@ import {
   shareReplay,
   switchMap
 } from 'rxjs/operators';
+import { Status } from 'src/app/models/status.model';
+import { StatusHelper } from 'src/app/utils/status.helper';
 
 @Component({
   selector: 'app-rental-certificate-list',
@@ -77,5 +79,9 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
 
   downloadPdf(data: RentalCertificate): void {
     this.templatePdfService.downloadPdf('rental-certificate', data);
+  }
+
+  getStatusClass(status: Status): string {
+    return StatusHelper.getStatusClassName(status);
   }
 }

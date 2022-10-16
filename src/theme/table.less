@@ -4,9 +4,24 @@
     border-left: none;
     border-right: none;
     border-top: none;
-    border-bottom-color: var(--tui-base-03);
+    // border-bottom-color: var(--tui-base-03);
+    border-bottom-color: transparent;
     padding: 0.5rem;
-    color: var(--tui-text-03);
+    // color: var(--tui-text-03);
+
+    background: #f7f7f7;
+    color: #7d8994;
+
+    &:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      padding-left: 1rem;
+    }
+
+    &:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
 
     &.tui-table__th--center {
       text-align: center;

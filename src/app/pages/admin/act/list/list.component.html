@@ -28,7 +28,7 @@
   </tui-tabs-with-more>
 </div>
 
-<section class="page-body" *ngIf="!(acts$ | async)?.length">
+<section class="page-body" *ngIf="!(acts$ | async)?.length" fluidHeight>
   <app-empty-panel [link]="routing.admin.act.create"></app-empty-panel>
 </section>
 
@@ -94,7 +94,7 @@
                 </td>
                 <td class="tui-table__td" *tuiCell="'status'" tuiTd>
                   <tui-badge
-                    [style.background-color]="item?.status?.color"
+                    [class]="getStatusClass(item.status)"
                     status="custom"
                     [value]="item?.status?.name"
                     *ngIf="item?.status"
@@ -131,7 +131,7 @@
                     [disabled]="(indicator | async)?.loading"
                     (click)="openDeleteModal(item, dialogDelete)"
                   ></button>
-                  <tui-hosted-dropdown #dropdown [content]="content">
+                  <!-- <tui-hosted-dropdown #dropdown [content]="content">
                     <button
                       tuiIconButton
                       appearance="flat"
@@ -158,7 +158,7 @@
                         </button>
                       </tui-opt-group>
                     </tui-data-list>
-                  </ng-template>
+                  </ng-template> -->
                 </td>
               </tr>
             </tbody>

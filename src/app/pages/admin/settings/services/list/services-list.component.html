@@ -27,7 +27,7 @@
   </tui-tabs-with-more> -->
 </div>
 
-<div class="page-body">
+<div class="page-body" fluidHeight>
   <app-empty-panel *ngIf="!(services$ | async)?.length"></app-empty-panel>
   <ng-container
     *ngIf="(services$ | async)?.length && services$ | async as services"

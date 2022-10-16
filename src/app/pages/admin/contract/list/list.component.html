@@ -104,7 +104,7 @@
                   </td>
                   <td class="tui-table__td" *tuiCell="'status'" tuiTd>
                     <tui-badge
-                      [style.background-color]="item?.status?.color"
+                      [class]="getStatusClass(item.status)"
                       status="custom"
                       [value]="item?.status?.name"
                       *ngIf="item?.status"

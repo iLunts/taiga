@@ -24,6 +24,8 @@ import { ContractService } from 'src/app/services/contract.service';
 import { StoreService } from 'src/app/services/store.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import { environment } from 'src/environments/environment';
+import { Status } from 'src/app/models/status.model';
+import { StatusHelper } from 'src/app/utils/status.helper';
 
 @Component({
   selector: 'app-contract-list',
@@ -144,5 +146,9 @@ export class ContractListComponent implements OnInit, OnDestroy {
         contractId: contract._id
       }
     });
+  }
+
+  getStatusClass(status: Status): string {
+    return StatusHelper.getStatusClassName(status);
   }
 }

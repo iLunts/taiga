@@ -18,9 +18,10 @@ import { StateInProgressDirective } from './directives/state-in-progress.directi
 import { TextMaskModule } from 'angular2-text-mask';
 import { TopMenuModule } from './components/top-menu/top-menu.module';
 import { EmptyModule } from './components/empty/empty.module';
+import { FluidHeightDirective } from './directives/fluid-height.directive';
 
 @NgModule({
-  declarations: [StateInProgressDirective],
+  declarations: [StateInProgressDirective, FluidHeightDirective],
   imports: [
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -46,6 +47,7 @@ import { EmptyModule } from './components/empty/empty.module';
     QRCodeModule,
     ReactiveFormsModule,
     StateInProgressDirective,
+    FluidHeightDirective,
     TaigaModule,
     TextMaskModule,
     TopMenuModule

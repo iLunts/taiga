@@ -18,6 +18,8 @@ import { StoreService } from 'src/app/services/store.service';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import { environment } from 'src/environments/environment';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { Status } from 'src/app/models/status.model';
+import { StatusHelper } from 'src/app/utils/status.helper';
 
 @Component({
   selector: 'app-act-list',
@@ -122,4 +124,8 @@ export class ActListComponent implements OnInit, OnDestroy {
   }
 
   createBaseOnReference(act: Act): void {}
+
+  getStatusClass(status: Status): string {
+    return StatusHelper.getStatusClassName(status);
+  }
 }

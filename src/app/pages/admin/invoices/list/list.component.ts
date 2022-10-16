@@ -18,6 +18,9 @@ import {
 import { StoreService } from 'src/app/services/store.service';
 import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { TabItem } from 'src/app/models/tabs.model';
+import { Status } from 'src/app/models/status.model';
+import { StatusHelper } from 'src/app/utils/status.helper';
 
 @Component({
   selector: 'app-invoices-list',
@@ -29,8 +32,22 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   readonly columns = ['number', 'date', 'status', 'price', 'action'];
   invoiceStatuses: InvoiceStatus[] = [];
   isLoaded: boolean;
-  tabActive: InvoiceStatus;
   selectedInvoice: Invoice;
+  tabs: TabItem[] = [
+    {
+      name: 'Все',
+      disabled: false
+    },
+    {
+      name: 'Оплаченные',
+      disabled: true
+    },
+    {
+      name: 'Просроченные',
+      disabled: true
+    }
+  ];
+  tabActive: TabItem = this.tabs[0];
 
   private readonly destroySubject = new Subject();
   invoices$: Observable<any>;
@@ -61,12 +78,13 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   }
 
   get getTabActiveIndex(): number {
-    return this.invoiceStatuses.findIndex(
-      (status: InvoiceStatus) => status._id === this.tabActive._id
-    );
+    // return this.invoiceStatuses.findIndex(
+    //   (status: InvoiceStatus) => status._id === this.tabActive._id
+    // );
+    return this.tabs.findIndex((item: TabItem) => item === this.tabActive);
   }
 
-  selectTab(activeElement: InvoiceStatus): void {
+  selectTab(activeElement: TabItem): void {
     this.tabActive = activeElement;
     // this.fetchFilterByStatus();
   }
@@ -140,5 +158,9 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
 
   edit(invoice: Invoice): void {
     this.router.navigate([this.routing.admin.invoice.edit, invoice._id]);
+  }
+
+  getStatusClass(status: Status): string {
+    return StatusHelper.getStatusClassName(status);
   }
 }

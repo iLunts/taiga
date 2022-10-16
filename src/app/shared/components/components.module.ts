@@ -8,6 +8,7 @@ import { ContractorModule } from './contractor/contractor.module';
 import { EmptyModule } from './empty/empty.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { LeftMenuModule } from './left-menu/left-menu.module';
+import { PagesModule } from '../pages/pages.module';
 import { ServiceModule } from './service/service.module';
 import { StatusModule } from './status/status.module';
 import { UploaderModule } from './uploader/uploader.module';
@@ -23,6 +24,7 @@ import { UploadImageModule } from './upload-image/upload-image.module';
     EmptyModule,
     InvoiceModule,
     LeftMenuModule,
+    PagesModule,
     RouterModule,
     ServiceModule,
     StatusModule,
@@ -36,6 +38,7 @@ import { UploadImageModule } from './upload-image/upload-image.module';
     EmptyModule,
     InvoiceModule,
     LeftMenuModule,
+    PagesModule,
     RouterModule,
     ServiceModule,
     StatusModule,
