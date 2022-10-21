@@ -74,7 +74,6 @@ registerLocaleData(localeRu);
       provide: TUI_LANGUAGE,
       useValue: of(TUI_RUSSIAN_LANGUAGE)
     }
-    // MessagingService,
   ],
   bootstrap: [AppComponent]
 })
