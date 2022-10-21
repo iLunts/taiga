@@ -1,6 +1,6 @@
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AsyncPipe, registerLocaleData } from '@angular/common';
+import { AsyncPipe, CommonModule, registerLocaleData } from '@angular/common';
 import { AuthGuard } from './guards/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
@@ -43,6 +43,7 @@ registerLocaleData(localeRu);
   ],
   imports: [
     AppRoutingModule,
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     EffectsModule.forRoot([]),
