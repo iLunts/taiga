@@ -6,6 +6,7 @@ import {
   TuiButtonModule,
   TuiDataListModule,
   TuiGroupModule,
+  TuiHostedDropdownModule,
   TuiLabelModule,
   TuiLoaderModule,
   TuiTableModeModule
@@ -18,7 +19,7 @@ import {
   TuiInputNumberModule,
   TuiSelectModule
 } from '@taiga-ui/kit';
-import { TuiTableModule } from '@taiga-ui/addon-table';
+import { TuiReorderModule, TuiTableModule } from '@taiga-ui/addon-table';
 import { TuiMoneyModule } from '@taiga-ui/addon-commerce';
 
 import { ServicePanelComponent } from './service-panel/service-panel.component';
@@ -44,7 +45,9 @@ import { ServiceTableComponent } from './service-table/service-table.component';
     TuiSelectModule,
     TuiTableModeModule,
     TuiTableModule,
-    TuiMoneyModule
+    TuiMoneyModule,
+    TuiHostedDropdownModule,
+    TuiReorderModule
   ],
   exports: [ServicePanelComponent, ServiceTableComponent]
 })

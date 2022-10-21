@@ -1,0 +1,37 @@
+.home {
+  position: relative;
+  height: 100vh;
+  padding: 0 10vw;
+
+  & &__content {
+    display: flex;
+    flex-direction: column;
+    // width: 75%;
+    height: 100vh;
+    justify-content: center;
+
+    max-width: 1400px;
+    margin: 0 auto;
+
+    &-tag {
+      font-size: 1rem;
+      // color: var(--tui-support-02);
+      color: #5051ac;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+    }
+
+    &-title {
+      color: #1e1e2a;
+      font: var(--tui-font-heading-1);
+      margin: 0 0 2rem 0;
+    }
+
+    &-desc {
+      margin: 0;
+      font: var(--tui-font-text-xl);
+      color: #5f606b;
+      max-width: 600px;
+    }
+  }
+}

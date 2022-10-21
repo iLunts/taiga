@@ -21,20 +21,27 @@
 
   & &__menu {
     height: calc(100vh - var(--page-header-height));
+    padding-top: 1rem;
     // background: #f4f7ff;
 
     &-item {
-      margin: 0 15px;
+      margin: 0 11px;
 
       &._active {
         button {
           background: var(--color-graphite);
+          color: var(--color-menu-icon);
         }
       }
 
       button {
         display: flex;
         width: 100%;
+
+        & tui-wrapper[data-appearance='icon'] {
+          color: var(--color-menu-icon);
+        }
+        // & tui-wrapper[data-appearance='icon'][data-state='pressed']
       }
     }
 
@@ -96,4 +103,10 @@
 :host {
   display: block;
   width: 100%;
+}
+
+:host ::ng-deep {
+  tui-wrapper[data-appearance='icon'] {
+    color: var(--color-menu-icon);
+  }
 }

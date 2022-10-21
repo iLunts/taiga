@@ -3,6 +3,22 @@
   [formGroup]="form"
   *tuiLet="serviceListData$ | async as services"
 >
+  <div class="table-filters">
+    <tui-hosted-dropdown [content]="dropdown" [canOpen]="false">
+      <button tuiButton size="s" [iconRight]="arrow" [disabled]="true">
+        Колонки
+      </button>
+      <ng-template #dropdown>
+        <tui-reorder
+          class="columns"
+          [enabled]="enabled"
+          [(items)]="columns"
+          (enabledChange)="onEnabled($event)"
+        ></tui-reorder>
+      </ng-template>
+    </tui-hosted-dropdown>
+  </div>
+
   <div class="table" formArrayName="tableRowArray">
     <div
       tuiGroup

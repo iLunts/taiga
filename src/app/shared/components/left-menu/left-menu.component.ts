@@ -29,7 +29,7 @@ export class LeftMenuComponent implements OnInit {
     //   name: 'Услуги',
     //   url: environment.routing.admin.contractor.list,
     //   icon: 'tuiIconFileLarge',
-    //   type: 'menu',
+    //   type: 'menu',22
     //   disabled: true
     // },
     // {

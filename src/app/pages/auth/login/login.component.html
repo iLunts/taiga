@@ -1,4 +1,4 @@
-<div class="tui-container tui-container_adaptive tui-container_example">
+<!-- <div class="tui-container tui-container_adaptive tui-container_example">
     <div class="tui-row tui-row_adaptive">
       <div class="tui-col_xs-12 tui-col_s-12 tui-col_sm-12 tui-col_md-12 tui-col_lg-12">
 
@@ -28,15 +28,63 @@
         </form>
 
         <div>
-          <!-- <button
+          <button
             tuiButton
             type="button"
             class="tui-space_top-3 tui-space_bottom-3"
             appearance="flat"
             (click)="authGoogle()">
             Google
-          </button> -->
+          </button>
         </div>
       </div>
     </div>
+</div> -->
+
+<div class="login-content">
+  <h1 class="login-content__title">Login</h1>
+  <p class="login-content__text">Hi, Welcome back</p>
+
+  <button
+    tuiButton
+    type="button"
+    class="tui-space_bottom-3"
+    appearance="outline"
+    size="m"
+    [disabled]="true"
+  >
+    Login with Google
+  </button>
+
+  <div class="login-content__split">
+    <span class="login-content__split-text">or Login with Email</span>
+  </div>
+
+  <form [formGroup]="form">
+    <tui-input formControlName="email"> Email </tui-input>
+    <tui-input-password class="tui-space_top-6" formControlName="password">
+      Password
+    </tui-input-password>
+    <button
+      tuiButton
+      type="button"
+      class="tui-space_top-6 tui-space_bottom-3"
+      [disabled]="form.invalid"
+      (click)="send()"
+    >
+      Login
+    </button>
+
+    <p class="login-content__registration">
+      Not registered yet?
+      <a
+        class="tui-space_left-3"
+        tuiLink
+        routerLink="/auth/registration"
+        icon="tuiIconArrowUpRight"
+      >
+        Create an account
+      </a>
+    </p>
+  </form>
 </div>

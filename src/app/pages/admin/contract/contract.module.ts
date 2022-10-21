@@ -29,6 +29,7 @@ import { ContractorModule } from 'src/app/shared/components/contractor/contracto
 import { ContractRoutingModule } from './contract-routing.module';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TuiTableModule } from '@taiga-ui/addon-table';
 
 @NgModule({
   declarations: [ContractCreateComponent, ContractListComponent],
@@ -54,6 +55,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiLetModule,
     TuiLoaderModule,
     TuiScrollbarModule,
+    TuiTableModule,
     TuiTabsModule,
     TuiTextAreaModule
   ]

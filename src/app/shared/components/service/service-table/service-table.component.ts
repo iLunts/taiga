@@ -15,11 +15,22 @@ import {
   takeUntil
 } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Service } from 'src/app/models/service.model';
-import { ServicesService } from 'src/app/services/services.service';
 import { TuiDay, TuiDestroyService } from '@taiga-ui/cdk';
+import { TUI_ARROW } from '@taiga-ui/kit';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+
+import { ServicesService } from 'src/app/services/services.service';
+import { Service } from 'src/app/models/service.model';
+
+type Key = 'Name' | 'Date' | 'Weight' | 'Price' | 'Tax';
+const KEYS: Record<string, Key> = {
+  name: `Name`,
+  date: `Date`,
+  w: `Weight`,
+  price: `Price`,
+  tax: `Tax`
+};
 
 @Component({
   selector: 'app-service-table',
@@ -41,7 +52,10 @@ export class ServiceTableComponent implements OnInit {
 
   routing = environment.routing;
   form: FormGroup;
-  columns: ['name', 'date', 'w', 'price'];
+  columns = ['Name', 'Date', 'Weight', 'Price'];
+  initial = ['Name', 'Date', 'Weight', 'Price', 'Tax'];
+  readonly arrow = TUI_ARROW;
+
   serviceListData$: Observable<Service[]>;
 
   constructor(
@@ -82,7 +96,7 @@ export class ServiceTableComponent implements OnInit {
       });
 
     this.serviceListData$
-      .pipe(filter((data) => !!data))
+      .pipe(filter((data) => !data))
       .subscribe((data) => this.groupService(data));
   }
 
@@ -323,5 +337,12 @@ export class ServiceTableComponent implements OnInit {
     }, {});
 
     return Object.entries(groupedByGroupName);
+  }
+
+  onEnabled(enabled: readonly string[]): void {
+    // this.enabled = enabled;
+    this.columns = this.initial
+      .filter((column) => enabled.includes(column))
+      .map((column) => KEYS[column]);
   }
 }
