@@ -5,8 +5,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { TaigaModule } from 'src/app/shared/taiga.module';
-import { TuiLinkModule } from '@taiga-ui/core';
+import { TuiLinkModule, TuiNotificationModule } from '@taiga-ui/core';
 
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent],
@@ -14,8 +13,8 @@ import { TuiLinkModule } from '@taiga-ui/core';
     CommonModule,
     AuthRoutingModule,
     SharedModule,
-    // TaigaModule,
-    TuiLinkModule
+    TuiLinkModule,
+    TuiNotificationModule
   ]
 })
 export class AuthModule {}

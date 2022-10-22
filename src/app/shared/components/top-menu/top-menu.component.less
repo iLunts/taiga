@@ -3,11 +3,12 @@
   top: 0;
   left: 0;
   right: 0;
+  background-color: #f9f9fb;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 90px;
+  height: var(--top-menu-height);
   padding: 0 40px;
   max-width: 1400px;
   margin: 0 auto;
@@ -20,6 +21,9 @@
   }
 
   & &__auth {
+    display: inline-flex;
+    align-items: center;
+
     &-btn {
       padding: 10px 20px;
       border-radius: 20px;
