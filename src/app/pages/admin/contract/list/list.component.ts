@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Inject,
@@ -34,10 +35,11 @@ import { TemplatePdfService } from 'src/app/services/template-pdf.service';
   styleUrls: ['./list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContractListComponent implements OnInit, OnDestroy {
+export class ContractListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly columns = ['number', 'date', 'status', 'dateCreation', 'action'];
   contractStatuses: ContractStatus[] = [];
   isLoaded: boolean;
+  isViewInit: boolean;
   routing = environment.routing;
   selectedContract: Contract;
   tabs: TabItem[] = [
@@ -78,6 +80,10 @@ export class ContractListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.isViewInit = true;
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next(null);

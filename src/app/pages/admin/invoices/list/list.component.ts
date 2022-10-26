@@ -1,4 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -27,11 +33,12 @@ import { StatusHelper } from 'src/app/utils/status.helper';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less']
 })
-export class InvoicesListComponent implements OnInit, OnDestroy {
+export class InvoicesListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly routing = environment.routing;
   readonly columns = ['number', 'date', 'status', 'price', 'action'];
   invoiceStatuses: InvoiceStatus[] = [];
   isLoaded: boolean;
+  isViewInit: boolean;
   selectedInvoice: Invoice;
   tabs: TabItem[] = [
     {
@@ -71,6 +78,10 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.isViewInit = true;
+  }
 
   ngOnDestroy(): void {
     this.destroySubject.next(null);

@@ -1,5 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
 import { Observable, Subject } from 'rxjs';
 import {
@@ -20,20 +25,36 @@ import { environment } from 'src/environments/environment';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { Status } from 'src/app/models/status.model';
 import { StatusHelper } from 'src/app/utils/status.helper';
+import { TabItem } from 'src/app/models/tabs.model';
 
 @Component({
   selector: 'app-act-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less']
 })
-export class ActListComponent implements OnInit, OnDestroy {
+export class ActListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly columns = ['number', 'date', 'status', 'sum', 'action'];
   actStatuses: ActStatus[] = [];
   isLoaded: boolean;
+  isViewInit: boolean;
   routing = environment.routing;
-  tabActive: ActStatus;
   selectedAct: Act;
   lastIndex$: Observable<Act>;
+  tabs: TabItem[] = [
+    {
+      name: 'Все',
+      disabled: false
+    },
+    {
+      name: 'Отправленные',
+      disabled: true
+    },
+    {
+      name: 'Подписанные',
+      disabled: true
+    }
+  ];
+  tabActive: TabItem = this.tabs[0];
 
   private readonly destroy$ = new Subject();
   acts$: Observable<any>;
@@ -44,7 +65,6 @@ export class ActListComponent implements OnInit, OnDestroy {
     private actService: ActService,
     private templatePdfService: TemplatePdfService,
     private storeService: StoreService,
-    private router: Router,
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
   ) {
     this.fetch();
@@ -57,19 +77,21 @@ export class ActListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
+  ngAfterViewInit(): void {
+    this.isViewInit = true;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }
 
   get getTabActiveIndex(): number {
-    return this.actStatuses.findIndex(
-      (status: ActStatus) => status._id === this.tabActive._id
-    );
+    return this.tabs.findIndex((item: TabItem) => item === this.tabActive);
   }
 
-  selectTab(status: ActStatus): void {
-    this.tabActive = status;
+  selectTab(activeElement: TabItem): void {
+    this.tabActive = activeElement;
   }
 
   fetch(): void {
@@ -80,14 +102,6 @@ export class ActListComponent implements OnInit, OnDestroy {
         this.actService.getAllByContractorId$(contractor._id)
       ),
       shareReplay()
-    );
-  }
-
-  fetchFilterByStatus(): void {
-    this.acts$ = this.actService.getAll$().pipe(
-      filter((invoices) => {
-        return invoices.filter((x) => x.status._id === this.tabActive._id);
-      })
     );
   }
 

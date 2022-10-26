@@ -48,7 +48,6 @@ export class FluidHeightDirective implements AfterViewInit {
       const rect = this.domElement.getBoundingClientRect();
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
-
       return rect.top + scrollTop;
     } catch (e) {
       return 0;
