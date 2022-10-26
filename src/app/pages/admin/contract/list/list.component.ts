@@ -28,6 +28,7 @@ import { StatusHelper } from 'src/app/utils/status.helper';
 import { StoreService } from 'src/app/services/store.service';
 import { TabItem } from 'src/app/models/tabs.model';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
+import { swallowErrors } from 'src/app/utils/rxjs.helper';
 
 @Component({
   selector: 'app-contract-list',
@@ -103,7 +104,9 @@ export class ContractListComponent implements OnInit, AfterViewInit, OnDestroy {
       filter((contractor) => !!contractor),
       distinctUntilChanged(),
       switchMap((contractor) =>
-        this.contractService.getAllByContractorId$(contractor._id)
+        this.contractService
+          .getAllByContractorId$(contractor._id)
+          .pipe(swallowErrors())
       ),
       shareReplay()
     );

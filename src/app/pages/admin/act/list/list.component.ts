@@ -26,6 +26,7 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { Status } from 'src/app/models/status.model';
 import { StatusHelper } from 'src/app/utils/status.helper';
 import { TabItem } from 'src/app/models/tabs.model';
+import { swallowErrors } from 'src/app/utils/rxjs.helper';
 
 @Component({
   selector: 'app-act-list',
@@ -99,7 +100,9 @@ export class ActListComponent implements OnInit, AfterViewInit, OnDestroy {
       filter((contractor) => !!contractor),
       distinctUntilChanged(),
       switchMap((contractor) =>
-        this.actService.getAllByContractorId$(contractor._id)
+        this.actService
+          .getAllByContractorId$(contractor._id)
+          .pipe(swallowErrors())
       ),
       shareReplay()
     );

@@ -1,5 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
@@ -21,13 +26,16 @@ import { Status } from 'src/app/models/status.model';
 import { StatusHelper } from 'src/app/utils/status.helper';
 import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
+import { TabItem } from 'src/app/models/tabs.model';
 
 @Component({
   selector: 'app-rental-certificate-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.less']
 })
-export class RentalCertificateListComponent implements OnInit, OnDestroy {
+export class RentalCertificateListComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private readonly destroy$ = new Subject();
   rentalCertificates$: Observable<any>;
   rentalCertificateStatuses$: Observable<any>;
@@ -37,20 +45,39 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
   rentalCertificateStatuses: RentalCertificateStatus[] = [];
   selectedRentalCertificate: RentalCertificate;
   isLoaded: boolean;
+  isViewInit: boolean;
   routing = environment.routing;
-  tabActive: RentalCertificateStatus;
+
+  tabs: TabItem[] = [
+    {
+      name: 'Все',
+      disabled: false
+    },
+    {
+      name: 'Отправленные',
+      disabled: true
+    },
+    {
+      name: 'Подписанные',
+      disabled: true
+    }
+  ];
+  tabActive: TabItem = this.tabs[0];
 
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     private rentalCertificateService: RentalCertificateService,
     private templatePdfService: TemplatePdfService,
-    private storeService: StoreService,
-    private router: Router
+    private storeService: StoreService
   ) {
     this.fetch();
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.isViewInit = true;
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next(null);
@@ -58,12 +85,10 @@ export class RentalCertificateListComponent implements OnInit, OnDestroy {
   }
 
   get getTabActiveIndex(): number {
-    return this.rentalCertificateStatuses.findIndex(
-      (status: RentalCertificateStatus) => status._id === this.tabActive._id
-    );
+    return this.tabs.findIndex((item: TabItem) => item === this.tabActive);
   }
 
-  selectTab(activeElement: RentalCertificateStatus): void {
+  selectTab(activeElement: TabItem): void {
     this.tabActive = activeElement;
   }
 
