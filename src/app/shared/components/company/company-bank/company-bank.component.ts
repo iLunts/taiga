@@ -30,8 +30,10 @@ import { CompanyService } from 'src/app/services/company.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanyBankComponent implements OnInit, OnDestroy {
-  @Input() set company(company: Company) {
-    this.companySubject.next(company);
+  @Input() set company(value: Company) {
+    if (value) {
+      this.companySubject.next(value);
+    }
   }
 
   @Output() onChange = new EventEmitter<BankAccount>();

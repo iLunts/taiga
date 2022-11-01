@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 
+// import  auth  from 'firebase/app';
+import firebase from 'firebase/app';
+
 // import { auth } from 'firebase/app';
 // import { AngularFirestore } from '@angular/fire/firestore';
 // import { AngularFireAuth } from 'angularfire2/auth';
@@ -19,16 +22,17 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  routing = environment.routing;
   userData: User;
   userSubject = new Subject<User>();
 
   constructor(
-    private _fa: AngularFireAuth,
+    private afAuth: AngularFireAuth,
     // private _fs: AngularFirestore,
-    private _router: Router,
+    private router: Router,
     public _ngZone: NgZone
   ) {
-    this._fa.authState.subscribe((user) => {
+    this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.setUserData(user);
         this.authStateChanged();
@@ -39,25 +43,25 @@ export class AuthService {
   }
 
   signIn(email, password): Promise<any> {
-    return this._fa.signInWithEmailAndPassword(email, password);
+    return this.afAuth.signInWithEmailAndPassword(email, password);
     // return this._fa.auth.signInWithEmailAndPassword(email, password);
   }
 
   // Register user with email/password
   registerUser(email, password): any {
-    return this._fa.createUserWithEmailAndPassword(email, password);
+    return this.afAuth.createUserWithEmailAndPassword(email, password);
   }
 
   // Email verification when new user register
   // sendVerificationMail() {
   //   return this._fa.currentUser.sendEmailVerification().then(() => {
-  //     // this._router.navigate(['verify-email']);
+  //     // this.router.navigate(['verify-email']);
   //   });
   // }
 
   // Recover password
   passwordRecover(passwordResetEmail): any {
-    return this._fa
+    return this.afAuth
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
         window.alert(
@@ -70,11 +74,11 @@ export class AuthService {
   }
 
   authStateChanged(): void {
-    this._fa.onAuthStateChanged((user) => {
+    this.afAuth.onAuthStateChanged((user) => {
       if (user) {
         this.setUserData(user);
       } else {
-        this._fa.signOut();
+        this.afAuth.signOut();
       }
     });
   }
@@ -106,19 +110,20 @@ export class AuthService {
     }
   }
 
-  authLogin(provider): any {
-    return this._fa
-      .signInWithPopup(provider)
-      .then((result) => {
-        this._ngZone.run(() => {
-          this._router.navigate(['invoice']);
-        });
-        this.setUserData(result.user);
-      })
-      .catch((error) => {
-        window.alert(error);
-      });
-  }
+  // authLogin(provider): any {
+  //   return this.afAuth
+  //     .signInWithPopup(provider)
+  //     .then((result) => {
+  //       this._ngZone.run(() => {
+  //         // TODO: Need check this router
+  //         this.router.navigate(['invoice']);
+  //       });
+  //       this.setUserData(result.user);
+  //     })
+  //     .catch((error) => {
+  //       window.alert(error);
+  //     });
+  // }
 
   // Store user in localStorage and subject
   setUserData(user): void {
@@ -138,9 +143,9 @@ export class AuthService {
   }
 
   signOut(): any {
-    return this._fa.signOut().then(() => {
+    return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this._router.navigate([environment.routing.auth.login]);
+      this.router.navigate([environment.routing.auth.login]);
     });
   }
 
@@ -183,12 +188,26 @@ export class AuthService {
 
   // async loginWithGoogle() {
   //   await this._fa.signInWithPopup(new auth.GoogleAuthProvider());
-  //   this._router.navigate([environment.routing.home]);
+  //   this.router.navigate([environment.routing.home]);
   // }
 
   async logout() {
-    await this._fa.signOut();
+    await this.afAuth.signOut();
     localStorage.removeItem('user');
-    this._router.navigate([environment.routing.auth.login]);
+    this.router.navigate([environment.routing.auth.login]);
+  }
+
+  loginWithGooglePopup(returnUrl = '/'): Promise<any> {
+    return this.afAuth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then((response) => {
+        if (response.user) {
+          debugger;
+          this.setUserData(response.user);
+          returnUrl == '/'
+            ? this.router.navigate([this.routing.admin.dashboard])
+            : this.router.navigateByUrl(returnUrl);
+        }
+      });
   }
 }

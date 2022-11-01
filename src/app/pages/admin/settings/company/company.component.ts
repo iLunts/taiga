@@ -7,7 +7,7 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, iif, Observable, Subject } from 'rxjs';
 import * as _ from 'lodash';
 
 import { Company, CompanyInfo } from 'src/app/models/company.model';
@@ -35,6 +35,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.company$ = this.companyStorageService.company$;
+    // this.company$ = of(new Company());
 
     this.route.queryParams
       .pipe(filter((params) => params.cannotBeEmpty))
@@ -46,9 +47,16 @@ export class CompanyComponent implements OnInit, OnDestroy {
       .pipe(
         withLatestFrom(this.company$),
         filter((company) => !!company),
-        switchMap(([, company]) =>
-          this.companyStorageService.update$(company._id, company)
+        map(([, company]) => company),
+        switchMap((company: Company) =>
+          iif(
+            () => !!company._id,
+            this.companyStorageService.add$(company),
+            this.companyStorageService.update$(company)
+          )
         ),
+        // iif((company) => {})
+        // switchMap((company) => this.companyStorageService.update$(company)),
         takeUntil(this.destroySubject)
       )
       .subscribe();

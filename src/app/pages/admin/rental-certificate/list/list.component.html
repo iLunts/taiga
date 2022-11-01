@@ -10,7 +10,7 @@
       icon="tuiIconPlus"
       title="Создать новый"
       [routerLink]="[routing.admin.rentalCertificate.create]"
-      [disabled]="(indicator$ | async)?.loading"
+      [disabled]="(indicator$ | async)?.loading || !(contractor$ | async)"
     >
       Создать новую
     </button>
@@ -31,7 +31,7 @@
     *tuiLet="rentalCertificates$ | async as rentalCertificates"
   >
     <app-empty-panel
-      [link]="routing.admin.act.create"
+      [link]="(contractor$ | async) ? routing.admin.act.create : ''"
       *ngIf="!rentalCertificates?.length"
     ></app-empty-panel>
 

@@ -22,6 +22,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { ResponsiblePersonComponent } from './tabs/responsible-person/responsible-person.component';
 import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-person/responsible-person.module';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ResponsiblePersonModule } from 'src/app/shared/components/responsible-p
     TuiIslandModule,
     TuiMarkerIconModule,
     TuiNotificationModule,
-    TuiScrollbarModule
+    TuiScrollbarModule,
+    TuiLetModule
   ],
   exports: [CompanyComponent]
 })

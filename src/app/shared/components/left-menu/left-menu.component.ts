@@ -79,7 +79,7 @@ export class LeftMenuComponent implements OnInit {
     },
     {
       name: 'Настройки',
-      url: environment.routing.admin.settings.main,
+      url: environment.routing.admin.settings.company,
       icon: 'tuiIconSettingsLarge',
       type: 'menu'
     }

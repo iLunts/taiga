@@ -42,6 +42,7 @@ export class CompanyStorageService implements OnDestroy {
         .pipe(
           first(),
           map((company: Company[]) => company[0]),
+          filter((company) => !!company),
           takeUntil(this.destroySubject)
         )
         .subscribe((company: Company) => this.companySubject.next(company));
@@ -65,11 +66,26 @@ export class CompanyStorageService implements OnDestroy {
     this.companySubject.next(company);
   }
 
-  update$(_id: string, company: any): Observable<void> {
+  add$(company: Company): Observable<void> {
+    company._id = this.afs.createId();
+    company._userId = this.authService.getUserId();
+
     return from(
       this.afs
         .collection(this.dbPath)
-        .doc(_id)
+        .doc(company._id)
+        .set(JSON.parse(JSON.stringify(company)))
+        .then(() => {
+          this.notificationService.success('Компания успешно добавлена');
+        })
+    );
+  }
+
+  update$(company: Company): Observable<void> {
+    return from(
+      this.afs
+        .collection(this.dbPath)
+        .doc(company._id)
         .update(JSON.parse(JSON.stringify(company)))
         .then(() => {
           this.notificationService.success('Компания успешно обнавлена');

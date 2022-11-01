@@ -27,6 +27,7 @@ import { StatusHelper } from 'src/app/utils/status.helper';
 import { indicate, IndicatorBehaviorSubject } from 'ngx-ready-set-go';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { TabItem } from 'src/app/models/tabs.model';
+import { Contractor } from 'src/app/models/company.model';
 
 @Component({
   selector: 'app-rental-certificate-list',
@@ -40,6 +41,7 @@ export class RentalCertificateListComponent
   rentalCertificates$: Observable<any>;
   rentalCertificateStatuses$: Observable<any>;
   indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
+  contractor$: Observable<Contractor>;
 
   readonly columns = ['date', 'status', 'sum', 'action'];
   rentalCertificateStatuses: RentalCertificateStatus[] = [];
@@ -71,12 +73,16 @@ export class RentalCertificateListComponent
     private storeService: StoreService
   ) {
     this.fetch();
+
+    this.contractor$ = this.storeService.getContractor$();
   }
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.isViewInit = true;
+    setTimeout(() => {
+      this.isViewInit = true;
+    }, 0);
   }
 
   ngOnDestroy(): void {

@@ -7,7 +7,7 @@ import {
   Output
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { BankAccount } from 'src/app/models/bank.model';
 
 import { Company } from 'src/app/models/company.model';
@@ -19,8 +19,10 @@ import { CompanyService } from 'src/app/services/company.service';
   styleUrls: ['./banks.component.less']
 })
 export class BanksComponent implements OnInit, OnDestroy {
-  @Input() set company(company: Company) {
-    this.companySubject.next(company);
+  @Input() set company(value: Company) {
+    if (value) {
+      this.companySubject.next(value);
+    }
   }
   @Output() onChange = new EventEmitter<BankAccount>();
 

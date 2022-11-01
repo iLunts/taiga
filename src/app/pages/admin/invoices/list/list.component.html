@@ -11,7 +11,7 @@
       title="Создать новый"
       [routerLink]="[routing.admin.invoice.create]"
       [queryParams]="{ lastIndex: (lastIndex$ | async)?.number }"
-      [disabled]="(indicator$ | async)?.loading"
+      [disabled]="(indicator$ | async)?.loading || !(contractor$ | async)"
     >
       Создать новый
     </button>
@@ -32,8 +32,8 @@
     *tuiLet="invoices$ | async as invoices"
   >
     <app-empty-panel
+      [link]="(contractor$ | async) ? routing.admin.invoice.create : ''"
       *ngIf="!invoices?.length"
-      [link]="routing.admin.invoice.create"
     ></app-empty-panel>
 
     <tui-scrollbar *ngIf="invoices?.length">

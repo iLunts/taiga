@@ -11,7 +11,7 @@
       title="Создать новый"
       [routerLink]="[routing.admin.act.create]"
       [queryParams]="{ lastIndex: (lastIndex$ | async)?.number }"
-      [disabled]="(indicator$ | async)?.loading"
+      [disabled]="(indicator$ | async)?.loading || !(contractor$ | async)"
     >
       Создать новый
     </button>
@@ -28,7 +28,7 @@
 <ng-container *ngIf="isViewInit">
   <section class="page-body" fluidHeight *tuiLet="acts$ | async as acts">
     <app-empty-panel
-      [link]="routing.admin.act.create"
+      [link]="(contractor$ | async) ? routing.admin.act.create : ''"
       *ngIf="!acts?.length"
     ></app-empty-panel>
 

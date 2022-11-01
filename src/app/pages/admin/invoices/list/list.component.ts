@@ -27,6 +27,7 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { TabItem } from 'src/app/models/tabs.model';
 import { Status } from 'src/app/models/status.model';
 import { StatusHelper } from 'src/app/utils/status.helper';
+import { Contractor } from 'src/app/models/company.model';
 
 @Component({
   selector: 'app-invoices-list',
@@ -61,6 +62,7 @@ export class InvoicesListComponent implements OnInit, AfterViewInit, OnDestroy {
   invoiceStatuses$: Observable<any>;
   lastIndex$: Observable<Invoice>;
   indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
+  contractor$: Observable<Contractor>;
 
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
@@ -71,6 +73,8 @@ export class InvoicesListComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.fetch();
 
+    this.contractor$ = this.storeService.getContractor$();
+
     this.lastIndex$ = this.invoices$.pipe(
       filter((contracts) => !!contracts),
       map((contracts) => _.maxBy(contracts, (c) => c.number))
@@ -80,7 +84,9 @@ export class InvoicesListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.isViewInit = true;
+    setTimeout(() => {
+      this.isViewInit = true;
+    }, 0);
   }
 
   ngOnDestroy(): void {

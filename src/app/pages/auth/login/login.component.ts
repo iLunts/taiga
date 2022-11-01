@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
+  routing = environment.routing;
   returnUrl: string;
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -21,9 +22,9 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(
-    private _auth: AuthService,
-    private _router: Router,
-    private _route: ActivatedRoute
+    private authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   get f(): any {
@@ -31,11 +32,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._auth.isLoggedIn) {
-      this._router.navigate([environment.routing.admin.dashboard]);
+    if (this.authService.isLoggedIn) {
+      this.router.navigate([this.routing.admin.dashboard]);
     } else {
-      this._auth.logout();
-      this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+      this.authService.logout();
+      this.returnUrl =
+        this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
     }
   }
 
@@ -44,14 +46,19 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this._auth
+    this.authService
       .signIn(this.f.email.value, this.f.password.value)
       .then((response) => {
         if (response.user) {
-          this._auth.setUserData(response.user);
-          // this._router.navigate([environment.routing.admin.dashboard]);
-          this._router.navigateByUrl(this.returnUrl);
+          this.authService.setUserData(response.user);
+          this.returnUrl == '/'
+            ? this.router.navigate([this.routing.admin.dashboard])
+            : this.router.navigateByUrl(this.returnUrl);
         }
       });
+  }
+
+  loginWithGoogle(): void {
+    this.authService.loginWithGooglePopup(this.returnUrl);
   }
 }

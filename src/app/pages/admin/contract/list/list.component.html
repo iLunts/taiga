@@ -11,7 +11,7 @@
       title="Создать новый"
       [routerLink]="[routing.admin.contract.create]"
       [queryParams]="{ lastIndex: (lastIndex$ | async)?.number }"
-      [disabled]="(indicator$ | async)?.loading"
+      [disabled]="(indicator$ | async)?.loading || !(contractor$ | async)"
     >
       Создать новый
     </button>
@@ -31,15 +31,8 @@
     fluidHeight
     *tuiLet="contracts$ | async as contracts"
   >
-    <!-- <tui-loader
-      [showLoader]="!contracts"
-      [overlay]="true"
-      [inheritColor]="true"
-      textContent="Загружается..."
-      size="l"
-    > -->
     <app-empty-panel
-      [link]="routing.admin.contract.create"
+      [link]="(contractor$ | async) ? routing.admin.contract.create : ''"
       *ngIf="!contracts?.length"
     ></app-empty-panel>
 

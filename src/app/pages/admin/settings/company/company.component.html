@@ -1,6 +1,7 @@
 <app-header-create title="Настройка компании"></app-header-create>
 
-<ng-container *ngIf="company$ | async; let company">
+<!-- <ng-container *ngIf="company$ | async; let company"> -->
+<ng-container *tuiLet="company$ | async as company">
   <tui-scrollbar class="page-body page-body--header-footer">
     <section class="tui-container tui-container_full">
       <tui-notification
@@ -41,7 +42,7 @@
       appearance="primary"
       (click)="save()"
     >
-      {{ company._id ? 'Обновить' : 'Сохранить' }}
+      {{ company?._id ? 'Обновить' : 'Сохранить' }}
     </button>
   </footer>
 </ng-container>

@@ -29,6 +29,7 @@ import { StoreService } from 'src/app/services/store.service';
 import { TabItem } from 'src/app/models/tabs.model';
 import { TemplatePdfService } from 'src/app/services/template-pdf.service';
 import { swallowErrors } from 'src/app/utils/rxjs.helper';
+import { Contractor } from 'src/app/models/company.model';
 
 @Component({
   selector: 'app-contract-list',
@@ -64,6 +65,7 @@ export class ContractListComponent implements OnInit, AfterViewInit, OnDestroy {
   contractStatuses$: Observable<ContractStatus[]>;
   lastIndex$: Observable<Contract>;
   indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
+  contractor$: Observable<Contractor>;
 
   constructor(
     private contractService: ContractService,
@@ -74,6 +76,8 @@ export class ContractListComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.fetch();
 
+    this.contractor$ = this.storeService.getContractor$();
+
     this.lastIndex$ = this.contracts$.pipe(
       filter((contracts) => !!contracts),
       map((contracts) => _.maxBy(contracts, (c) => c.number))
@@ -83,7 +87,9 @@ export class ContractListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.isViewInit = true;
+    setTimeout(() => {
+      this.isViewInit = true;
+    }, 0);
   }
 
   ngOnDestroy(): void {

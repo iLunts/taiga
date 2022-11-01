@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -11,8 +11,9 @@ import { environment } from 'src/environments/environment';
   templateUrl: './services-list.component.html',
   styleUrls: ['./services-list.component.less']
 })
-export class ServicesListComponent implements OnInit {
+export class ServicesListComponent implements OnInit, AfterViewInit {
   routing = environment.routing;
+  isViewInit: boolean;
   services$: Observable<Service[]>;
   readonly columns = ['name', 'desc', 'count', 'price', 'action'];
   // tabsList = ['Товары', 'Группы'];
@@ -22,6 +23,12 @@ export class ServicesListComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.isViewInit = true;
+    }, 0);
+  }
 
   edit(service: Service): void {
     this.router.navigate([
