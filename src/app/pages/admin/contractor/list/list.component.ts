@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { filter, shareReplay, tap } from 'rxjs/operators';
+import { IndicatorBehaviorSubject } from 'ngx-ready-set-go';
 
 import { Company } from 'src/app/models/company.model';
 import { ContractorService } from 'src/app/services/contractor.service';
+import { StoreService } from 'src/app/services/store.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,36 +12,21 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./list.component.less']
 })
 export class ContractorListComponent implements OnInit {
+  indicator$: IndicatorBehaviorSubject = new IndicatorBehaviorSubject();
+
   readonly columns = ['unp', 'name', 'action'];
   routing = environment.routing;
   isOpenAsideContractorView: boolean;
-  private stateInProgressSubject = new BehaviorSubject<boolean>(false);
-  stateInProgress$ = this.stateInProgressSubject.asObservable();
 
-  constructor(private contractorService: ContractorService) {
-    this.stateInProgress$.pipe(
-      filter((data) => !!data),
-      tap((data) => console.log('Data: ', data)),
-      shareReplay()
-    );
-  }
+  constructor(
+    private contractorService: ContractorService,
+    private storeService: StoreService
+  ) {}
 
   ngOnInit(): void {}
 
   toggleAsideContractorView(contractor: Company): void {
     this.isOpenAsideContractorView = !this.isOpenAsideContractorView;
     this.contractorService.setContractor(contractor);
-  }
-
-  // getTestSubject$(): Observable<boolean> {
-  //   return this.stateInProgressSubject.asObservable();
-  // }
-
-  test(): void {
-    this.stateInProgressSubject.next(true);
-
-    setTimeout(() => {
-      this.stateInProgressSubject.next(false);
-    }, 5000);
   }
 }

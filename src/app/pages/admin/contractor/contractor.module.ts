@@ -17,6 +17,7 @@ import {
   TuiButtonModule,
   TuiHintControllerModule,
   TuiLoaderModule,
+  TuiNotificationModule,
   TuiScrollbarModule
 } from '@taiga-ui/core';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -47,7 +48,8 @@ import { HeaderModule } from 'src/app/shared/components/header/header.module';
     TuiLetModule,
     TuiLoaderModule,
     TuiScrollbarModule,
-    TuiToggleModule
+    TuiToggleModule,
+    TuiNotificationModule
   ]
 })
 export class ContractorModule {}
