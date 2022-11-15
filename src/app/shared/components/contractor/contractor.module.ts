@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiLoaderModule,
-  TuiScrollbarModule
-} from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiLoaderModule, TuiScrollbarModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import {
   TuiAvatarModule,
   TuiBadgedContentModule,
@@ -36,8 +31,9 @@ import { ContractorAsideComponent } from './contractor-aside/contractor-aside.co
     TuiSelectModule,
     TuiBadgeModule,
     TuiScrollbarModule,
-    TuiBadgedContentModule
-  ],
+    TuiBadgedContentModule,
+      TuiTextfieldControllerModule
+],
   exports: [ContractorPanelComponent, ContractorAsideComponent]
 })
 export class ContractorModule {}

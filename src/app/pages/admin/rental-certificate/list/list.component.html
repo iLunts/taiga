@@ -1,4 +1,4 @@
-<app-page-header
+<!-- TODO: (Taiga UI migration) tuiFormatNumber pipe has new API. See https://taiga-ui.dev/pipes/format-number --><app-page-header
   title="Справки аренды"
   description="Создавайте справки аренды с различными шаблонами для разных контрагентов"
 >
@@ -47,7 +47,7 @@
             >
               <ng-container *ngFor="let tab of tabs">
                 <button
-                  *tuiTab
+                  *tuiItem
                   tuiTab
                   (click)="selectTab(tab)"
                   [disabled]="tab.disabled"
@@ -155,7 +155,7 @@
                         icon="tuiIconMoreVer"
                         type="button"
                         shape="rounded"
-                        [pseudoHovered]="dropdown.open || null"
+                        [pseudoHover]="dropdown.open || null"
                       ></button>
                     </tui-hosted-dropdown>
                     <ng-template #content let-activeZone>

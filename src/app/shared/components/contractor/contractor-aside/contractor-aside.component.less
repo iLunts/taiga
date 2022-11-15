@@ -100,7 +100,8 @@
 }
 
 :host ::ng-deep {
-  tui-wrapper[data-appearance='textfield'][data-appearance='textfield'],
+  // TODO: (Taiga UI migration): use mixins to customize tuiWrapper. See https://taiga-ui.dev/wrapper
+[tuiWrapper][data-appearance='textfield'][data-appearance='textfield'],
   tui-wrapper[data-appearance='textfield'] {
     box-shadow: none;
     border-radius: 0;

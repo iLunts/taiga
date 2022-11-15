@@ -1,4 +1,4 @@
-<app-page-header
+<!-- TODO: (Taiga UI migration) tuiFormatNumber pipe has new API. See https://taiga-ui.dev/pipes/format-number --><app-page-header
   title="Акты"
   description="Создавайте акты с различными товарами или услугами для разнличных контрагентов"
 >
@@ -44,7 +44,7 @@
             >
               <ng-container *ngFor="let tab of tabs">
                 <button
-                  *tuiTab
+                  *tuiItem
                   tuiTab
                   (click)="selectTab(tab)"
                   [disabled]="tab.disabled"

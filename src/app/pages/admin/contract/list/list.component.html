@@ -48,7 +48,7 @@
             >
               <ng-container *ngFor="let tab of tabs">
                 <button
-                  *tuiTab
+                  *tuiItem
                   tuiTab
                   (click)="selectTab(tab)"
                   [disabled]="tab.disabled"
@@ -160,7 +160,7 @@
                         icon="tuiIconMoreVer"
                         type="button"
                         shape="rounded"
-                        [pseudoHovered]="dropdown.open || null"
+                        [pseudoHover]="dropdown.open || null"
                         [disabled]="(indicator | async)?.loading"
                       ></button>
                     </tui-hosted-dropdown>

@@ -17,6 +17,7 @@ import {
   defaultEditorExtensions,
   tiptapEditorStyles,
   TUI_EDITOR_EXTENSIONS,
+// TODO: (Taiga UI migration) TUI_EDITOR_STYLES token has been deleted in 3.0, please use global styles to override default editor styles
   TUI_EDITOR_STYLES
 } from '@taiga-ui/addon-editor';
 import {

@@ -29,7 +29,8 @@ button {
       animation: loading-bar-spinner 700ms linear infinite;
     }
 
-    tui-wrapper[data-appearance='primary'] {
+    // TODO: (Taiga UI migration): use mixins to customize tuiWrapper. See https://taiga-ui.dev/wrapper
+[tuiWrapper][data-appearance='primary'] {
       background: #eee;
       color: #eee;
     }
@@ -49,11 +50,11 @@ tui-wrapper[data-appearance='accent'] {
   background: var(--tui-accent);
   color: var(--tui-accent-text);
 
-  &[data-state='hovered'] {
+  &[data-state='hover'] {
     background: var(--tui-accent-hover);
   }
 
-  &[data-state='pressed'] {
+  &[data-state='active'] {
     background: var(--tui-accent-active);
   }
 

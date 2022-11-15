@@ -2,15 +2,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { TextMaskModule } from 'angular2-text-mask';
-import { TuiAvatarModule } from '@taiga-ui/kit/components/avatar';
-import { TuiButtonModule } from '@taiga-ui/core/components/button';
+import { TuiAvatarModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiErrorModule } from '@taiga-ui/core';
 import {
   TuiCheckboxBlockModule,
-  TuiFieldErrorModule,
   TuiInputModule,
   TuiInputPhoneModule
 } from '@taiga-ui/kit';
-import { TuiLoaderModule } from '@taiga-ui/core/components/loader';
+import { TuiLoaderModule } from '@taiga-ui/core';
 
 import { CompanyAddressComponent } from './company-address/company-address.component';
 import { CompanyPanelComponent } from './company-panel/company-panel.component';
@@ -44,15 +43,16 @@ import { CompanyAddressFieldsComponent } from './company-address-fields/company-
     TuiButtonModule,
     TuiCheckboxBlockModule,
     TuiExpandModule,
-    TuiFieldErrorModule,
+    TuiFieldErrorPipeModule,
     TuiInputModule,
     TuiLetModule,
     TuiLoaderModule,
     TuiNotificationModule,
     TuiTooltipModule,
     TuiInputPhoneModule,
-    TuiHintModule
-  ],
+    TuiHintModule,
+      TuiErrorModule
+],
   exports: [
     CompanyPanelComponent,
     CompanyUnpComponent,

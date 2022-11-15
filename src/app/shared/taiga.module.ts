@@ -1,17 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  TuiNotificationsModule,
-  TuiDialogModule,
-  TuiRootModule,
-  TuiButtonModule,
-  TuiSvgModule,
-  TuiCalendarModule,
-  TuiDataListModule,
-  TuiThemeNightModule,
-  TuiModeModule,
-  TuiScrollbarModule
-} from '@taiga-ui/core';
+import { TuiDialogModule, TuiRootModule, TuiButtonModule, TuiSvgModule, TuiCalendarModule, TuiDataListModule, TuiThemeNightModule, TuiModeModule, TuiScrollbarModule, TuiAlertModule } from '@taiga-ui/core';
 import {
   TuiAccordionModule,
   TuiAvatarModule,
@@ -45,7 +34,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TuiIslandModule,
     TuiModeModule,
     TuiMoneyModule,
-    TuiNotificationsModule,
+    TuiAlertModule,
     TuiRootModule,
     TuiSvgModule,
     TuiTableModule,
@@ -71,7 +60,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TuiIslandModule,
     TuiModeModule,
     TuiMoneyModule,
-    TuiNotificationsModule,
+    TuiAlertModule,
     TuiRootModule,
     TuiSvgModule,
     TuiTableModule,

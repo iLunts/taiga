@@ -6,23 +6,8 @@ import { InvoicesCreateComponent } from './create/create.component';
 import { InvoicesListComponent } from './list/list.component';
 import { InvoicesRoutingModule } from './invoices-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import {
-  TuiAvatarModule,
-  TuiBadgeModule,
-  TuiInputDateRangeModule,
-  TuiInputFileModule,
-  TuiInputInlineModule,
-  TuiInputNumberModule,
-  TuiTabsModule,
-  TuiTextAreaModule
-} from '@taiga-ui/kit';
-import {
-  TuiButtonModule,
-  TuiFormatNumberPipeModule,
-  TuiHintControllerModule,
-  TuiHostedDropdownModule,
-  TuiScrollbarModule
-} from '@taiga-ui/core';
+import { TuiAvatarModule, TuiBadgeModule, TuiInputDateRangeModule, TuiInputInlineModule, TuiInputNumberModule, TuiTabsModule, TuiTextAreaModule, TuiInputFilesModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiFormatNumberPipeModule, TuiHostedDropdownModule, TuiScrollbarModule, TuiHintModule } from '@taiga-ui/core';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { HeaderModule } from 'src/app/shared/components/header/header.module';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
@@ -42,10 +27,10 @@ import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcr
     TuiButtonModule,
     TuiCurrencyPipeModule,
     TuiFormatNumberPipeModule,
-    TuiHintControllerModule,
+    TuiHintModule,
     TuiHostedDropdownModule,
     TuiInputDateRangeModule,
-    TuiInputFileModule,
+    TuiInputFilesModule,
     TuiInputInlineModule,
     TuiInputNumberModule,
     TuiLetModule,

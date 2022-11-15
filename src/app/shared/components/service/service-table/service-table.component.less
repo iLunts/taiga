@@ -78,7 +78,8 @@
   margin-bottom: 0.5rem;
 }
 
-:host ::ng-deep ._isEditable tui-wrapper[data-appearance='table'] .input {
+:host ::ng-deep ._isEditable // TODO: (Taiga UI migration): use mixins to customize tuiWrapper. See https://taiga-ui.dev/wrapper
+[tuiWrapper][data-appearance='table'] .input {
   font-weight: 600;
 }
 

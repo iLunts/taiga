@@ -19,6 +19,6 @@
     >
       Расчетный счет (SWIFT)
     </tui-input>
-    <tui-field-error [formControl]="swiftControl"></tui-field-error>
+    <tui-error [error]="[] | tuiFieldError | async" [formControl]="swiftControl"></tui-error>
   </section>
 </ng-container>

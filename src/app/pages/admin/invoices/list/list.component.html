@@ -1,4 +1,4 @@
-<app-page-header
+<!-- TODO: (Taiga UI migration) tuiFormatNumber pipe has new API. See https://taiga-ui.dev/pipes/format-number --><app-page-header
   title="Счета и платежи"
   description="Просматривайте все свои счета и платежи и убедитесь, что вы получаете оплату счетов вовремя."
 >
@@ -48,7 +48,7 @@
             >
               <ng-container *ngFor="let tab of tabs">
                 <button
-                  *tuiTab
+                  *tuiItem
                   tuiTab
                   (click)="selectTab(tab)"
                   [disabled]="tab.disabled"
@@ -175,7 +175,7 @@
                         type="button"
                         shape="rounded"
                         [disabled]="(indicator$ | async)?.loading"
-                        [pseudoHovered]="dropdown.open || null"
+                        [pseudoHover]="dropdown.open || null"
                       ></button>
                     </tui-hosted-dropdown>
                     <ng-template #content let-activeZone>

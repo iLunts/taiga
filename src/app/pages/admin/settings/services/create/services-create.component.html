@@ -13,7 +13,7 @@
       </div>
       <div class="tui-form__multi-field form-group__item">
         <tui-input formControlName="name"> Наименование </tui-input>
-        <tui-field-error formControlName="name"></tui-field-error>
+        <tui-error [error]="[] | tuiFieldError | async" formControlName="name"></tui-error>
       </div>
     </div>
 
@@ -28,7 +28,7 @@
       </div>
       <div class="tui-form__multi-field form-group__item">
         <tui-text-area formControlName="desc"> Описание </tui-text-area>
-        <tui-field-error formControlName="desc"></tui-field-error>
+        <tui-error [error]="[] | tuiFieldError | async" formControlName="desc"></tui-error>
       </div>
     </div>
 
@@ -68,10 +68,10 @@
           <tui-input class="tui-space_bottom-4" formControlName="name">
             Название
           </tui-input>
-          <tui-field-error
+          <tui-error [error]="[] | tuiFieldError | async"
             class="tui-space_bottom-4"
             formControlName="name"
-          ></tui-field-error>
+          ></tui-error>
 
           <tui-text-area
             tuiTextfieldSize="m"
@@ -119,7 +119,7 @@
         >
           <div class="tui-form__multi-field">
             <tui-input-number formControlName="amount"> Цена </tui-input-number>
-            <tui-field-error formControlName="amount"></tui-field-error>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="amount"></tui-error>
             <!-- <tui-checkbox-labeled
               class="tui-space_top-3"
               formControlName="isFreePrice"
@@ -143,7 +143,7 @@
                 [itemContent]="currencyContent"
               ></tui-data-list-wrapper>
             </tui-select>
-            <tui-field-error formControlName="currency"></tui-field-error>
+            <tui-error [error]="[] | tuiFieldError | async" formControlName="currency"></tui-error>
 
             <ng-template #currencyContent let-item>
               {{ item.code }} - <small>{{ item.fullName }}</small>

@@ -38,7 +38,8 @@
         display: flex;
         width: 100%;
 
-        & tui-wrapper[data-appearance='icon'] {
+        & // TODO: (Taiga UI migration): use mixins to customize tuiWrapper. See https://taiga-ui.dev/wrapper
+[tuiWrapper][data-appearance='icon'] {
           color: var(--color-menu-icon);
         }
         // & tui-wrapper[data-appearance='icon'][data-state='pressed']
@@ -77,7 +78,7 @@
     color: #bfc6cd;
   }
 
-  &[data-state='hovered'] {
+  &[data-state='hover'] {
     background: #f1f3f9;
     color: #3558c7;
 
@@ -86,7 +87,7 @@
     }
   }
 
-  &[data-state='pressed'] {
+  &[data-state='active'] {
     background: #3558c7;
     color: #fff;
 

@@ -1,25 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiHintControllerModule,
-  TuiHostedDropdownModule,
-  TuiLoaderModule,
-  TuiScrollbarModule
-} from '@taiga-ui/core';
-import {
-  TuiAvatarModule,
-  TuiBadgeModule,
-  TuiCheckboxLabeledModule,
-  TuiInputDateModule,
-  TuiInputDateRangeModule,
-  TuiInputFileModule,
-  TuiInputInlineModule,
-  TuiInputNumberModule,
-  TuiTabsModule,
-  TuiTextAreaModule
-} from '@taiga-ui/kit';
+import { TuiButtonModule, TuiDataListModule, TuiHostedDropdownModule, TuiLoaderModule, TuiScrollbarModule, TuiHintModule } from '@taiga-ui/core';
+import { TuiAvatarModule, TuiBadgeModule, TuiCheckboxLabeledModule, TuiInputDateModule, TuiInputDateRangeModule, TuiInputInlineModule, TuiInputNumberModule, TuiTabsModule, TuiTextAreaModule, TuiInputFilesModule } from '@taiga-ui/kit';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { TuiEditorModule } from '@taiga-ui/addon-editor';
 
@@ -45,11 +27,11 @@ import { TuiTableModule } from '@taiga-ui/addon-table';
     TuiCheckboxLabeledModule,
     TuiDataListModule,
     TuiEditorModule,
-    TuiHintControllerModule,
+    TuiHintModule,
     TuiHostedDropdownModule,
     TuiInputDateModule,
     TuiInputDateRangeModule,
-    TuiInputFileModule,
+    TuiInputFilesModule,
     TuiInputInlineModule,
     TuiInputNumberModule,
     TuiLetModule,

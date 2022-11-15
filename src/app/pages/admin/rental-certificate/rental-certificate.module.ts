@@ -1,24 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiLetModule } from '@taiga-ui/cdk';
-import {
-  TuiButtonModule,
-  TuiFormatNumberPipeModule,
-  TuiHintControllerModule,
-  TuiHostedDropdownModule,
-  TuiNotificationModule,
-  TuiScrollbarModule
-} from '@taiga-ui/core';
-import {
-  TuiAvatarModule,
-  TuiBadgeModule,
-  TuiInputDateRangeModule,
-  TuiInputFileModule,
-  TuiInputInlineModule,
-  TuiInputNumberModule,
-  TuiTabsModule,
-  TuiTextAreaModule
-} from '@taiga-ui/kit';
+import { TuiButtonModule, TuiFormatNumberPipeModule, TuiHostedDropdownModule, TuiNotificationModule, TuiScrollbarModule, TuiHintModule } from '@taiga-ui/core';
+import { TuiAvatarModule, TuiBadgeModule, TuiInputDateRangeModule, TuiInputInlineModule, TuiInputNumberModule, TuiTabsModule, TuiTextAreaModule, TuiInputFilesModule } from '@taiga-ui/kit';
 
 import { ContractModule } from 'src/app/shared/components/contract/contract.module';
 import { ContractorModule } from 'src/app/shared/components/contractor/contractor.module';
@@ -49,10 +33,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TuiButtonModule,
     TuiCurrencyPipeModule,
     TuiFormatNumberPipeModule,
-    TuiHintControllerModule,
+    TuiHintModule,
     TuiHostedDropdownModule,
     TuiInputDateRangeModule,
-    TuiInputFileModule,
+    TuiInputFilesModule,
     TuiInputInlineModule,
     TuiInputNumberModule,
     TuiLetModule,

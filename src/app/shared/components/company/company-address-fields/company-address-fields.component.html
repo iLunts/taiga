@@ -2,25 +2,25 @@
   <div class="tui-form__row tui-form__row_multi-fields">
     <div class="tui-form__multi-field">
       <tui-input
-        tuiTextfieldExampleText="220000"
+        
         formControlName="zipCode"
         tuiHintContent="Почтовый индекс, обычно состоит из 6 цифр"
       >
         Индекс
         <span class="tui-required"></span>
-      </tui-input>
-      <tui-field-error formControlName="zipCode"></tui-field-error>
+      <input tuiTextfield placeholder="220000"/> </tui-input>
+      <tui-error [error]="[] | tuiFieldError | async" formControlName="zipCode"></tui-error>
     </div>
     <div class="tui-form__multi-field">
       <tui-input
-        tuiTextfieldExampleText="Беларусь"
+        
         formControlName="country"
         tuiHintContent="Почтовый индекс, обычно состоит из 6 цифр"
       >
         Страна
         <span class="tui-required"></span>
-      </tui-input>
-      <tui-field-error formControlName="country"></tui-field-error>
+      <input tuiTextfield placeholder="Беларусь"/> </tui-input>
+      <tui-error [error]="[] | tuiFieldError | async" formControlName="country"></tui-error>
     </div>
   </div>
 
@@ -48,7 +48,7 @@
       >
         Телефон
       </tui-input-phone>
-      <tui-field-error formControlName="phone"></tui-field-error>
+      <tui-error [error]="[] | tuiFieldError | async" formControlName="phone"></tui-error>
     </div>
   </div>
 </form>

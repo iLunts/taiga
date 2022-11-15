@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
 import { HttpClientModule } from '@angular/common/http';
-import { iconsPathFactory, TUI_ICONS_PATH } from '@taiga-ui/core';
+import { tuiIconsPathFactory, TUI_ICONS_PATH } from '@taiga-ui/core';
 import { LayoutsModule } from './layouts/layouts.module';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
@@ -64,7 +64,7 @@ registerLocaleData(localeRu);
     AsyncPipe,
     {
       provide: TUI_ICONS_PATH,
-      useValue: iconsPathFactory('assets/taiga-ui/icons/')
+      useValue: tuiIconsPathFactory('assets/taiga-ui/icons/')
     },
     {
       provide: DefaultDataServiceConfig,

@@ -1,26 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import {
-  TuiButtonModule,
-  TuiDataListModule,
-  TuiHintControllerModule,
-  TuiHostedDropdownModule,
-  TuiLinkModule
-} from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiHostedDropdownModule, TuiLinkModule, TuiHintModule } from '@taiga-ui/core';
 import { TuiTableModule } from '@taiga-ui/addon-table';
-import {
-  TuiCheckboxLabeledModule,
-  TuiDataListWrapperModule,
-  TuiFieldErrorModule,
-  TuiFilterModule,
-  TuiInputCountModule,
-  TuiInputModule,
-  TuiInputNumberModule,
-  TuiSelectModule,
-  TuiTabsModule,
-  TuiTextAreaModule
-} from '@taiga-ui/kit';
+import { TuiCheckboxLabeledModule, TuiDataListWrapperModule, TuiFilterModule, TuiInputCountModule, TuiInputModule, TuiInputNumberModule, TuiSelectModule, TuiTabsModule, TuiTextAreaModule, TuiFieldErrorPipeModule } from '@taiga-ui/kit';
 import { TuiCurrencyPipeModule } from '@taiga-ui/addon-commerce';
 
 import { EmptyModule } from 'src/app/shared/components/empty/empty.module';
@@ -44,9 +27,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TuiCurrencyPipeModule,
     TuiDataListModule,
     TuiDataListWrapperModule,
-    TuiFieldErrorModule,
+    TuiFieldErrorPipeModule,
     TuiFilterModule,
-    TuiHintControllerModule,
+    TuiHintModule,
     TuiHostedDropdownModule,
     TuiInputCountModule,
     TuiInputModule,

@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@angular/core';
-import { TuiNotification, TuiNotificationsService } from '@taiga-ui/core';
+import { TuiNotification, TuiAlertService } from '@taiga-ui/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
   constructor(
-    @Inject(TuiNotificationsService)
-    private readonly notificationsService: TuiNotificationsService
+    @Inject(TuiAlertService)
+    private readonly notificationsService: TuiAlertService
   ) {}
 
   success(message?: string, title?: string): void {
     this.notificationsService
-      .show(message || '', {
+      .open(message || '', {
         label: title || 'Успешно',
         status: TuiNotification.Success,
         autoClose: true,
@@ -23,7 +23,7 @@ export class NotificationService {
 
   error(message?: string, title?: string): void {
     this.notificationsService
-      .show(message || '', {
+      .open(message || '', {
         label: title || 'Ошибка',
         status: TuiNotification.Error,
         autoClose: true,
@@ -34,7 +34,7 @@ export class NotificationService {
 
   info(message?: string, title?: string): void {
     this.notificationsService
-      .show(message || '', {
+      .open(message || '', {
         label: title || 'Информация',
         status: TuiNotification.Info,
         autoClose: true,
@@ -45,7 +45,7 @@ export class NotificationService {
 
   warning(message?: string, title?: string): void {
     this.notificationsService
-      .show(message || '', {
+      .open(message || '', {
         label: title || 'Предупреждение',
         status: TuiNotification.Warning,
         autoClose: true,

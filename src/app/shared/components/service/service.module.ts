@@ -9,6 +9,7 @@ import {
   TuiHostedDropdownModule,
   TuiLabelModule,
   TuiLoaderModule,
+// TODO: (Taiga UI migration) TuiTableModeModule has been deleted in 3.0, please use @taiga-ui/addon-table
   TuiTableModeModule
 } from '@taiga-ui/core';
 import {

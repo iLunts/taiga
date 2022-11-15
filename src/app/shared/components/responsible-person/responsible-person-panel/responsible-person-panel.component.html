@@ -3,17 +3,17 @@
     Тип ответственного лица
     <span class="tui-required"></span>
   </tui-input>
-  <tui-field-error formControlName="type"></tui-field-error>
+  <tui-error [error]="[] | tuiFieldError | async" formControlName="type"></tui-error>
 
   <tui-input class="tui-space_top-5" formControlName="fullName">
     ФИО ответственного лица
     <span class="tui-required"></span>
   </tui-input>
-  <tui-field-error formControlName="fullName"></tui-field-error>
+  <tui-error [error]="[] | tuiFieldError | async" formControlName="fullName"></tui-error>
 
   <tui-input class="tui-space_top-5" formControlName="basis">
     На основании...
     <span class="tui-required"></span>
   </tui-input>
-  <tui-field-error formControlName="basis"></tui-field-error>
+  <tui-error [error]="[] | tuiFieldError | async" formControlName="basis"></tui-error>
 </form>
