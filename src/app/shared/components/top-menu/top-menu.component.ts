@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-top-menu',
@@ -6,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top-menu.component.less']
 })
 export class TopMenuComponent implements OnInit {
-  constructor() {}
+  isLoggedIn: boolean;
+  user: User;
+
+  constructor(private authService: AuthService) {
+    this.isLoggedIn = this.authService.isLoggedIn;
+    this.user = this.authService.getUser();
+  }
 
   ngOnInit(): void {}
 }

@@ -18,7 +18,7 @@ export const environment = {
 
   routing: {
     default: {
-      home: '/home'
+      home: '/'
     },
     auth: {
       login: '/auth/login',

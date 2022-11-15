@@ -143,9 +143,10 @@ export class AuthService {
   }
 
   signOut(): any {
+    // TODO: Need to check why this function called every time when user not Auth
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate([environment.routing.auth.login]);
+      this.router.navigate([environment.routing.default.home]);
     });
   }
 
@@ -202,7 +203,6 @@ export class AuthService {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((response) => {
         if (response.user) {
-          debugger;
           this.setUserData(response.user);
           returnUrl == '/'
             ? this.router.navigate([this.routing.admin.dashboard])
