@@ -4,16 +4,12 @@ import { AsyncPipe, CommonModule, registerLocaleData } from '@angular/common';
 import { AuthGuard } from './guards/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
 import { HttpClientModule } from '@angular/common/http';
 import { tuiIconsPathFactory, TUI_ICONS_PATH } from '@taiga-ui/core';
 import { LayoutsModule } from './layouts/layouts.module';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
 import { TaigaModule } from './shared/taiga.module';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from '@taiga-ui/i18n';
 import localeRu from '@angular/common/locales/ru';
 
@@ -25,11 +21,6 @@ import { CompanyGuard } from './guards/company.guard';
 import { entityConfig } from './entity-metadata';
 import { environment } from '../environments/environment';
 import { of } from 'rxjs';
-
-const defaultDataServiceConfig: DefaultDataServiceConfig = {
-  root: 'https://invoices-244bd.firebaseio.com/',
-  timeout: 3000 // request timeout
-};
 
 registerLocaleData(localeRu);
 
@@ -51,12 +42,7 @@ registerLocaleData(localeRu);
     HttpClientModule,
     LayoutsModule,
     SharedModule,
-    StoreModule.forRoot({}, {}),
     TaigaModule,
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production
-    })
   ],
   providers: [
     AuthGuard,
@@ -66,11 +52,6 @@ registerLocaleData(localeRu);
       provide: TUI_ICONS_PATH,
       useValue: tuiIconsPathFactory('assets/taiga-ui/icons/')
     },
-    {
-      provide: DefaultDataServiceConfig,
-      useValue: defaultDataServiceConfig
-    },
-    { provide: LOCALE_ID, useValue: 'ru' },
     {
       provide: TUI_LANGUAGE,
       useValue: of(TUI_RUSSIAN_LANGUAGE)

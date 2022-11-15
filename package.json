@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open --port 4500",
-    "build": "ng build --prod; zip -r invoices/invoices.zip invoices;",
+    "build": "ng build --configuration production; zip -r invoices/invoices.zip invoices;",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -22,11 +22,6 @@
     "@angular/platform-browser": "~13.3.11",
     "@angular/platform-browser-dynamic": "~13.3.11",
     "@angular/router": "~13.3.11",
-    "@ngrx/data": "^11.1.1",
-    "@ngrx/effects": "^11.1.1",
-    "@ngrx/entity": "^11.1.1",
-    "@ngrx/store": "^11.1.1",
-    "@ngrx/store-devtools": "^11.1.1",
     "@taiga-ui/addon-commerce": "^3.9.0",
     "@taiga-ui/addon-editor": "^3.9.0",
     "@taiga-ui/addon-mobile": "^3.9.0",
@@ -51,12 +46,12 @@
     "pdfmake": "^0.1.71",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.8"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "0.1102.14",
-    "@angular-devkit/build-angular": "~0.1102.14",
-    "@angular/cli": "~11.2.14",
+    "@angular-devkit/architect": "0.1202.18",
+    "@angular-devkit/build-angular": "~12.2.18",
+    "@angular/cli": "~12.2.18",
     "@angular/compiler-cli": "~13.3.11",
     "@angular/localize": "^13.3.11",
     "@ngrx/schematics": "^12.4.0",
