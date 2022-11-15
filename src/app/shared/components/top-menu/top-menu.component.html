@@ -12,34 +12,49 @@
     </li>
   </ul> -->
 
+  <!-- <button
+    tuiButton
+    type="button"
+    (click)="toggle(true)"
+    (tuiActiveZoneChange)="toggle($event)"
+  >
+    Show sidebar
+    <div *tuiSidebar="isOpenSidebar">Content</div>
+  </button> -->
+
   <div class="top-menu__auth" *ngIf="!isLoggedIn">
     <a class="top-menu__auth-btn" tuiLink routerLink="/auth/login"> Login </a>
     <button
-    tuiButton
-    shape="rounded"
-    appearance="outline"
-    size="m"
-    routerLink="/auth/registration"
+      tuiButton
+      shape="rounded"
+      appearance="outline"
+      size="m"
+      routerLink="/auth/registration"
     >
-    Sign-in
-  </button>
-</div>
+      Sign-in
+    </button>
+  </div>
 
-<div class="top-menu__auth" *ngIf="isLoggedIn">
-    <a class="top-menu__auth-btn tui-space_right-5" tuiLink routerLink="/auth/login"> Открыть кабинет </a>
+  <div class="top-menu__auth" *ngIf="isLoggedIn">
+    <a
+      class="top-menu__auth-btn tui-space_right-5"
+      tuiLink
+      routerLink="/auth/login"
+    >
+      Открыть кабинет
+    </a>
     <a class="top-menu__auth-user user" tuiLink routerLink="/admin">
-      	<tui-avatar
-          [text]="user.displayName || user.email"
-          [avatarUrl]="user.photoURL"
-          size="s"
-          class="user__avatar"
-          [rounded]="true"
+      <tui-avatar
+        [text]="user.displayName || user.email"
+        [avatarUrl]="user.photoURL"
+        size="s"
+        class="user__avatar"
+        [rounded]="true"
       ></tui-avatar>
       <div class="user__content">
-        <div class="user__name">{{user.displayName}}</div>
-        <div class="user__email">{{user.email}}</div>
+        <div class="user__name">{{ user.displayName }}</div>
+        <div class="user__email">{{ user.email }}</div>
       </div>
     </a>
   </div>
 </nav>
-

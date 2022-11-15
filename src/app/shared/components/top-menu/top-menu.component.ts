@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class TopMenuComponent implements OnInit {
   isLoggedIn: boolean;
   user: User;
+  isOpenSidebar = false;
 
   constructor(private authService: AuthService) {
     this.isLoggedIn = this.authService.isLoggedIn;
@@ -17,4 +18,8 @@ export class TopMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  toggle(state: boolean) {
+    this.isOpenSidebar = state;
+  }
 }
