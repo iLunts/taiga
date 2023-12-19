@@ -11,7 +11,6 @@ import { LeftMenuModule } from './left-menu/left-menu.module';
 import { PagesModule } from '../pages/pages.module';
 import { ServiceModule } from './service/service.module';
 import { StatusModule } from './status/status.module';
-import { UploaderModule } from './uploader/uploader.module';
 import { UploadImageModule } from './upload-image/upload-image.module';
 
 @NgModule({
@@ -28,7 +27,6 @@ import { UploadImageModule } from './upload-image/upload-image.module';
     RouterModule,
     ServiceModule,
     StatusModule,
-    UploaderModule,
     UploadImageModule
   ],
   exports: [
@@ -42,7 +40,6 @@ import { UploadImageModule } from './upload-image/upload-image.module';
     RouterModule,
     ServiceModule,
     StatusModule,
-    UploaderModule,
     UploadImageModule
   ]
 })

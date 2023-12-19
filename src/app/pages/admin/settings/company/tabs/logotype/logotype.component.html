@@ -21,7 +21,7 @@
   <div class="tui-form__multi-field form-group__item">
     <ng-container *ngIf="!(uploadedFiles$ | async)?.length; else logotypeImage">
       <!-- <app-upload-image></app-upload-image> -->
-      <app-uploader></app-uploader>
+      <!-- <app-uploader></app-uploader> -->
     </ng-container>
     <ng-template #logotypeImage>
       <img

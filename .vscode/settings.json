@@ -1,5 +1,12 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["datetime", "адрес", "Плательщик", "Получатель", "статус"],
+  "cSpell.words": [
+    "datetime",
+    "firestore",
+    "адрес",
+    "Плательщик",
+    "Получатель",
+    "статус"
+  ],
   "angular.enable-strict-mode-prompt": false
 }

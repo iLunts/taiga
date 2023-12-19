@@ -18,8 +18,6 @@ import { ContractorAsideLayoutComponent } from './layouts/contractor-aside-layou
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { CompanyGuard } from './guards/company.guard';
-import { entityConfig } from './entity-metadata';
-import { environment } from '../environments/environment';
 import { of } from 'rxjs';
 
 registerLocaleData(localeRu);
@@ -37,12 +35,10 @@ registerLocaleData(localeRu);
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    EffectsModule.forRoot([]),
-    EntityDataModule.forRoot(entityConfig),
     HttpClientModule,
     LayoutsModule,
     SharedModule,
-    TaigaModule,
+    TaigaModule
   ],
   providers: [
     AuthGuard,

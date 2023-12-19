@@ -8,9 +8,9 @@ import {
   TuiGroupModule,
   TuiHostedDropdownModule,
   TuiLabelModule,
-  TuiLoaderModule,
-// TODO: (Taiga UI migration) TuiTableModeModule has been deleted in 3.0, please use @taiga-ui/addon-table
-  TuiTableModeModule
+  TuiLoaderModule
+  // TODO: (Taiga UI migration) TuiTableModeModule has been deleted in 3.0, please use @taiga-ui/addon-table
+  // TuiTableModeModule
 } from '@taiga-ui/core';
 import {
   TuiDataListWrapperModule,
@@ -44,7 +44,7 @@ import { ServiceTableComponent } from './service-table/service-table.component';
     TuiLetModule,
     TuiLoaderModule,
     TuiSelectModule,
-    TuiTableModeModule,
+    // TuiTableModeModule,
     TuiTableModule,
     TuiMoneyModule,
     TuiHostedDropdownModule,

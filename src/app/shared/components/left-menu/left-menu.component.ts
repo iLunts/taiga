@@ -16,7 +16,7 @@ export class LeftMenuComponent implements OnInit {
     {
       name: 'Домашняя',
       url: environment.routing.admin.dashboard,
-      icon: 'tuiIconDesktopLarge',
+      icon: 'tuiIconMonitorLarge',
       type: 'menu'
     },
     {

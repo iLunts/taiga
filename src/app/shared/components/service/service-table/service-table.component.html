@@ -105,9 +105,9 @@
         <tui-input-count
           class="cell cell_price"
           [class._isEditable]="getFormArray(i)?.isFreePrice?.value"
+          [readOnly]="getFormArray(i)?.isFreePrice?.value != true"
           tuiTextfieldSize="m"
           formControlName="amount"
-          [readOnly]="getFormArray(i)?.isFreePrice?.value != true"
           (ngModelChange)="calculateSum(itemRow, i)"
         >
           Цена
